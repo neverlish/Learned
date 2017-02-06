@@ -4,7 +4,7 @@ import './App.css';
 import {TodoForm, TodoList, Footer} from './components/todo';
 import {addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo, filterTodos} from './lib/todoHelpers';
 import {pipe, partial} from './lib/utils';
-import {loadTodos} from './lib/todoService';
+import {loadTodos, createTodo} from './lib/todoService';
 
 class App extends Component {
   state = {
@@ -47,6 +47,13 @@ class App extends Component {
       currentTodo: '',
       errorMessage: ''
     })
+    createTodo(newTodo)
+      .then(() => this.showTempMessage('Todo added'))
+  }
+
+  showTempMessage = (msg) => {
+    this.setState({message: msg})
+    setTimeout(() => this.setState({message: ''}), 2500)
   }
 
   handleEmptySubmit = (evt) => {
@@ -73,6 +80,7 @@ class App extends Component {
         </div>
         <div className='Todo-App'>
           {this.state.errorMessage && <span className='error'>{this.state.errorMessage}</span>}
+          {this.state.message && <span className='success'>{this.state.message}</span>}
           <TodoForm
             handleInputChange={this.handleInputChange}
             currentTodo={this.state.currentTodo}
