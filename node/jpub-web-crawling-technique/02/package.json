@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/neverlish/neverlish#readme",
   "dependencies": {
+    "cheerio-httpcli": "^0.6.11",
     "fs": "0.0.1-security",
     "http": "0.0.0"
   }
