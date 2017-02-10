@@ -19,6 +19,7 @@
   "dependencies": {
     "cheerio-httpcli": "^0.6.11",
     "fs": "0.0.1-security",
-    "http": "0.0.0"
+    "http": "0.0.0",
+    "xml2js": "^0.4.17"
   }
 }
