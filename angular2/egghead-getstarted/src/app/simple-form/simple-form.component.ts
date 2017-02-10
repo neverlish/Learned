@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  // encapsulation: ViewEncapsulation.Native,
   selector: 'app-simple-form',
   template: `
     <input
@@ -12,7 +13,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
       (mouseup)="isMousedown = true"
       (mouseleave)="isMousedown = false"
     >
-    <button (click)="update.emit({text: message})">Click me!</button>
+    <button
+      class="white bg-black code"
+      (click)="update.emit({text: message})">
+      Click me!
+    </button>
   `,
   styles: [`
     :host{
