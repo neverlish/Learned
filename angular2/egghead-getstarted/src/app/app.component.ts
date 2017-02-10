@@ -5,18 +5,25 @@ import { Component, Inject } from '@angular/core';
   template: `
     <div>
       <ul>
+        <li *ngFor="let message of mail.messages">
+          {{message.text}}
+        </li>
+      </ul>
         <app-simple-form
           *ngFor="let message of mail.messages"
-          [message]="message"
+          [message]="message.text"
+          (update)="onUpdate(message.id, $event.text)"
         >
 
         </app-simple-form>
-      </ul>
     </div>
   `
 })
 export class AppComponent {
-  title = "Let's get started!";
+
+  onUpdate(id, text) {
+    this.mail.update(id, text);
+  }
 
   constructor(
     @Inject('mail') private mail
