@@ -1,0 +1,3 @@
+rootProject.name = 'egghead_todo'
+
+include ':app'
