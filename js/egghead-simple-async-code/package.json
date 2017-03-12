@@ -1,0 +1,16 @@
+{
+  "name": "egghead-simple-async-code",
+  "version": "1.0.0",
+  "description": "Lecture : https://egghead.io/courses/write-simple-asynchronous-code-with-javascript-generators",
+  "main": "01.js",
+  "dependencies": {
+    "co": "^4.6.0",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
