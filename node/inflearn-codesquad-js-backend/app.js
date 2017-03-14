@@ -1,6 +1,17 @@
 var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
+var mysql = require('mysql')
+
+var connection = mysql.createConnection({
+	host: 'localhost',
+	port: 3306,
+	user: 'root',
+	password: 'asasas',
+	database: 'jsman'
+})
+
+connection.connect()
 
 app.listen(3000, function() {
 	console.log('Start! express server on port 3000');
