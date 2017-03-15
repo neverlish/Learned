@@ -2,8 +2,7 @@ import React from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch
+  Link
 } from 'react-router-dom'
 
 import './App.css'
@@ -12,8 +11,21 @@ const Links = () => (
   <nav>
     <Link to='/'>Home</Link>
     <Link to='/about'>About</Link>
-    <Link to='/contact'>Contact</Link>
+    <Header />
+    <Content />
   </nav>
+)
+
+const Header = ({match}) => (
+  <div className='header'>
+    <Route path='/:page' render={({match}) => (<h1>{match.params.page} header</h1>)} />
+  </div>
+)
+
+const Content = ({match}) => (
+  <div className='content'>
+    <Route path='/:page' render={({match}) => (<p>{match.params.page} content</p>)} />
+  </div>
 )
 
 class App extends React.Component {
@@ -21,13 +33,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Links/>
-          <Switch>
-            <Route exact path='/' render={() => <h1>Home</h1>} />
-            <Route path='/about' render={() => <h1>About</h1>} />
-            <Route path='/contact' render={() => <h1>Contact</h1>} />
-            <Route path='/:itemid' render={({match}) => <h1>Item: {match.params.itemid}</h1>} />
-          </Switch>
+          <Links />
         </div>
       </Router>
     )
