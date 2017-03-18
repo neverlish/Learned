@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
-import { MyPage } from '../my-page/my-page';
-import { YourPage } from '../your-page/your-page';
+import { Cat } from '../cat/cat';
 
 @Component({
   selector: 'page-home',
   template: `
-    <button ion-button (click)="onClick()">My Page</button>
-    <button ion-button (click)="onClickYourPage()">Your Page</button>
+    <h1>Hello world!</h1>
+    <button (click)="onClickCat()">Cat</button>
   `
 })
 export class HomePage {
@@ -16,12 +14,7 @@ export class HomePage {
   constructor(public navCtrl: NavController) {
 
   }
-  onClick() {
-    this.navCtrl.push( MyPage );
+  onClickCat() {
+    this.navCtrl.push(Cat);
   }
-
-  onClickYourPage() {
-    this.navCtrl.push( YourPage );
-  }
-
 }
