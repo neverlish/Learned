@@ -1,23 +1,17 @@
-var a = 1;
-let b = 2;
+let a: number = 1;
+let b: string = 'banana';
+let c: boolean = true;
 
-console.log(a);
-console.log(b);
+a = 'apple';
 
-if (true) {
-  let c = 3;
-}
+console.log(a)
+// apple을 출력. tsc에 에러가 있어도 컴파일을 함.
 
-console.log(c);
+let arr: number[] = [1,2,3];
+let arrstr: string[] = ['a','b','c'];
+let arrBool: boolean[] = [true, false];
 
-const d = 4;
-console.log(d);
+// number[] = Array<number>. number[] 보다는 Array<number> 사용. generic 때문.
 
-d = 5;
-console.log(d);
+let arrNum: Array<number> = [1,2,3];
 
-/*
-var 는 전체 영역에서 사용 가능한 변수
-let은 해당 영역 또는 블럭, 함수 내에서만 사용 가능한 변수
-const는 변경이 불가한 값을 지정하는 변수
-*/
