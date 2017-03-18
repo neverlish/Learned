@@ -1,8 +1,8 @@
-let a: any;
-// any 타입으로 지정하면 autocompletion이 되지 않음. 
-// 타입에 해당하는 메소드 에러 검출도 하지 않음
+let strVar;
 
-a = 'apple';
-// 선언 후 a 는 any 타입이 아니라 문자열 타입이 됨
+strVar = 1234;
 
+(<string> strVar).length;
+// 이걸 더 많이 씀
 
+(strVar as string).length;
