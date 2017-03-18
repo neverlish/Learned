@@ -1,11 +1,17 @@
-let a: [number, string];
-a[0] = 1234;
-a[1] = 'abc';
+enum Days {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
 
-a[0] = true;
-// 숫자가 들어갈 자리에 boolean 을 넣어서 에러
+console.log(Days.Sunday);
+// 0
+console.log(Days.Monday);
+// 1
 
-a[2] = 123;
-a[2] = 'www.ionickorea.com'
-a[2] = true;
-// 3번째 항목에 들어갈 값이 정해지지 않았음. 이런 때에는 선언된 유형인 number나 string만 가능.
+enum Days {Sunday = 1, Monday=3, Tuesday=5, Wednesday, Thursday, Friday, Saturday};
+
+console.log(Days.Sunday);
+// 1
+console.log(Days.Tuesday);
+// 5
+console.log(Days.Wednesday)
+// 6
+console.log(Days[5])
+// Tuesday
