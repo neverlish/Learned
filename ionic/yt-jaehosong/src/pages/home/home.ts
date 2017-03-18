@@ -9,7 +9,7 @@ import { NavController } from 'ionic-angular';
 export class HomePage {
 
   constructor(public navCtrl: NavController) {
-    
+    console.log('HomePage::constructor()')
   }
 
 }
