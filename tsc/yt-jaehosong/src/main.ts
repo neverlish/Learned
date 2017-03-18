@@ -1,17 +1,8 @@
-enum Days {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+let a: any;
+// any 타입으로 지정하면 autocompletion이 되지 않음. 
+// 타입에 해당하는 메소드 에러 검출도 하지 않음
 
-console.log(Days.Sunday);
-// 0
-console.log(Days.Monday);
-// 1
+a = 'apple';
+// 선언 후 a 는 any 타입이 아니라 문자열 타입이 됨
 
-enum Days {Sunday = 1, Monday=3, Tuesday=5, Wednesday, Thursday, Friday, Saturday};
 
-console.log(Days.Sunday);
-// 1
-console.log(Days.Tuesday);
-// 5
-console.log(Days.Wednesday)
-// 6
-console.log(Days[5])
-// Tuesday
