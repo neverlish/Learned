@@ -6,32 +6,19 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  myPets = [
-    {
-      kind: 'Cat',
-      name: 'Nabi',
-      color: 'white'
-    },
-    {
-      kind: 'Dog',
-      name: 'Happy',
-      color: 'brown'
-    }
+  urlFall: string = 'assets/fall.png';
+  urlImages: Array<string> = [
+    'assets/fall.png',
+    'assets/fall.jpg'
   ]
-  myPets2 = {
-    nabi: {
-      kind: 'Cat',
-      color: 'white'
-    },
-    happy : {
-      kind: 'Dog',
-      color: 'brown'
-    }
-  }
   constructor(public navCtrl: NavController) {
-
-  }
-  get pets() {
-    return Object.keys(this.myPets2);
+    // setTimeout(() =>
+    //   this.urlFall = 'assets/fall.jpg'
+    // , 1000);
+    let index = 0;
+    setInterval(() => {
+      index = index == 0 ? 1 : 0;
+      this.urlFall = this.urlImages[index];
+    }, 1000);
   }
 }
