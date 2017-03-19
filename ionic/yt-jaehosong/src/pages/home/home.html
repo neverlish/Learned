@@ -7,7 +7,21 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf = "show">
-    Hello World!
+  <div *ngFor = 'let pet of myPets; let i = index'>
+    나의 {{ i + 1 }} 번째 애완 동물<br/>
+    <b>종류</b>: {{ pet.kind }}<br/>
+    <b>이름</b>: {{ pet.name }}<br/>
+    <b>색깔</b>: {{ pet.color }}<br/>
+  </div>
+  <!--
+    <div *ngFor = 'let pet2 of myPets2'>
+      myPets2 는 iterable하지 않아서 에러가 발생
+    </div>
+  -->
+  <div *ngFor='let name of pets; let i = index'>
+    나의 {{ i + 1 }} 번째 애완 동물<br/>
+    <b>종류</b>: {{ myPets2[name].kind }}<br/>
+    <b>이름</b>: {{ name }}<br/>
+    <b>색깔</b>: {{ myPets2[name].color }}<br/>
   </div>
 </ion-content>
