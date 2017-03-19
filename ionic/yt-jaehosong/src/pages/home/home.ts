@@ -4,17 +4,12 @@ import { Cat } from '../cat/cat';
 
 @Component({
   selector: 'page-home',
-  template: `
-    <h1>Hello world!</h1>
-    <button (click)="onClickCat()">Cat</button>
-  `
+  templateUrl: 'home.html'
 })
 export class HomePage {
-
+  myName: string = "Jinho Hyeon";
+  myAge: number = 30;
   constructor(public navCtrl: NavController) {
 
-  }
-  onClickCat() {
-    this.navCtrl.push(Cat);
   }
 }
