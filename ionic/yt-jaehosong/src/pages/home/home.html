@@ -2,29 +2,12 @@
   <ion-navbar>
     <ion-title>
       Ionic Blank
-      <button ion-button (click)="onClickScroll(myContent)">Scroll</button>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content #myContent padding>
-  <h1 *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
-    Count: {{ i }}
+  <h1 highlight>
+    Hello World
   </h1>
 </ion-content>
-
-
-<!--<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-      <button ion-button (click)="onClickScroll()">Scroll</button>
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  <h1 *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
-    Count: {{ i }}
-  </h1>
-</ion-content>-->
