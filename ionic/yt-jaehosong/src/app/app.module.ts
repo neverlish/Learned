@@ -2,13 +2,13 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { Highlight } from '../components/highlight';
+import { ChildCat } from '../components/child-cat/child-cat';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    Highlight
+    ChildCat
   ],
   imports: [
     IonicModule.forRoot(MyApp)
