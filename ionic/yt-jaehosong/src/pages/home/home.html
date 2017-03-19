@@ -7,5 +7,12 @@
 </ion-header>
 
 <ion-content padding>
-  <img [src]='urlFall'>
+  <ion-list>
+    <ion-item>
+      <ion-input #message (keyup.enter)='messages.push(message.value); message.value=""'></ion-input>
+    </ion-item>
+    <ion-item *ngFor = 'let msg of messages.reverse()'>
+      {{ msg }}
+    </ion-item>
+  </ion-list>
 </ion-content>
