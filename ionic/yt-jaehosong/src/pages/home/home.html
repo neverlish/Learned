@@ -7,9 +7,7 @@
 </ion-header>
 
 <ion-content padding>
-  <!--
-    <div [속성] = "Template Expression"> -- property binding
-    <div (이벤트) = "Template Statement"> -- event binding
-  -->
-  <div (click) = "onClick()">asd</div>
+  <div *ngIf = "show">
+    Hello World!
+  </div>
 </ion-content>
