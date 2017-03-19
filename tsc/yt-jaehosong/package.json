@@ -1,0 +1,28 @@
+{
+  "name": "yt-jaehosong",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neverlish/neverlish.git"
+  },
+  "author": "neverlish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neverlish/neverlish/issues"
+  },
+  "homepage": "https://github.com/neverlish/neverlish#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-typescript": "^3.1.6",
+    "gulp-webserver": "^0.9.1",
+    "typescript": "^2.2.1"
+  }
+}
