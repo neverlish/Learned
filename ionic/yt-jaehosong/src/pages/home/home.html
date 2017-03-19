@@ -7,7 +7,9 @@
 </ion-header>
 
 <ion-content padding>
-  {{ Animal?.Cat }}
-  {{ myPets }}
-  <!--그냥 변수의 경우에는 ?를 붙이지 않아도 에러를 반환하지 않음. 그냥 빈 문자열만 표시-->
+  <!--
+    <div [속성] = "Template Expression"> -- property binding
+    <div (이벤트) = "Template Statement"> -- event binding
+  -->
+  <div (click) = "onClick()">asd</div>
 </ion-content>

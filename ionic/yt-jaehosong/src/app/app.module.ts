@@ -4,15 +4,13 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MyPage } from '../pages/my-page/my-page';
 import { YourPage } from '../pages/your-page/your-page';
-import { Cat } from '../pages/cat/cat';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     MyPage,
-    YourPage,
-    Cat
+    YourPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -22,8 +20,7 @@ import { Cat } from '../pages/cat/cat';
     MyApp,
     HomePage,
     MyPage,
-    YourPage,
-    Cat
+    YourPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
