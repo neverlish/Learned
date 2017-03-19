@@ -7,8 +7,9 @@ import { Cat } from '../cat/cat';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  myName: string = "Jinho Hyeon";
-  myAge: number = 30;
+  Animal = {
+    Cat: 2
+  };
   constructor(public navCtrl: NavController) {
 
   }
