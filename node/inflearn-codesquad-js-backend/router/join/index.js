@@ -20,7 +20,15 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+	var body = req.body;
+	var email = body.email;
+	var name = body.name;
+	var passwd = body.password;
 
+	var query = connection.query(`INSERT INTO user (email, name, pw) values ("${email}","${name}","${passwd}")`, function(err, rows) {
+		if(err) {throw err};
+		console.log('ok db insert');
+	})
 })
 
 module.exports = router;
