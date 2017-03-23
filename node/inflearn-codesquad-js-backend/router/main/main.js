@@ -3,8 +3,9 @@ var router = express.Router();
 var path = require('path')
 
 router.get('/', function(req, res) {
-	console.log('main is loaded')
-	res.sendFile(path.join(__dirname, '../../public/main.html'))
+	console.log('main is loaded', req.user)
+	var id = req.user
+	res.render('main.ejs', {'id': id})
 })
 
 module.exports = router;
