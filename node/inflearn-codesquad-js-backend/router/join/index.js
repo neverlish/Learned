@@ -16,7 +16,7 @@ connection.connect()
 // ROUTER!!
 router.get('/', function(req, res) {
   console.log('get join url')
-	res.sendFile(path.join(__dirname, '../../public/join.html'))
+	res.render('join.ejs')
 });
 
 router.post('/', function(req, res) {
