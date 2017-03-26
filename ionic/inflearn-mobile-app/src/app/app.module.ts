@@ -20,6 +20,7 @@ import { PopoverPage, PopoverDetailPage } from '../pages/popovers/popovers';
 import { RangePage } from '../pages/range/range';
 import { SearchbarPage } from '../pages/searchbar/searchbar';
 import { SlidePage } from '../pages/slides/slides';
+import { ToastPage } from '../pages/toast/toast';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -47,6 +48,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RangePage,
     SearchbarPage,
     SlidePage,
+    ToastPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -74,6 +76,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RangePage,
     SearchbarPage,
     SlidePage,
+    ToastPage,
   ],
   providers: [
     StatusBar,
