@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Person } from '../../models/person';
+import { NavController } from 'ionic-angular';
+import { DetailPage } from './detail/detail';
 
 @Component({
   templateUrl: 'list.html',
@@ -15,6 +17,10 @@ export class ListPage {
   }
 
   openDetailPage(person) {
-
+    this.navCtrl.push(DetailPage, {
+      profileImage: person.avatar,
+      name: person.name,
+      detail: person.detail,
+    });
   }
 }
