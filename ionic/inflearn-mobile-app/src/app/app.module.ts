@@ -14,6 +14,7 @@ import { InputsPage } from '../pages/inputs/inputs';
 import { SuccessPage } from '../pages/inputs/success/success';
 import { ListPage } from '../pages/list/list';
 import { DetailPage } from '../pages/list/detail/detail';
+import { LoadingPage } from '../pages/loading/loading';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,6 +34,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
       SuccessPage,
     ListPage,
       DetailPage,
+    LoadingPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -52,6 +54,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
       SuccessPage,
     ListPage,
       DetailPage,
+    LoadingPage,
   ],
   providers: [
     StatusBar,

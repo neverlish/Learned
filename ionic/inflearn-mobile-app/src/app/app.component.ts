@@ -11,6 +11,7 @@ import { DatetimePage } from '../pages/datetime/datetime';
 import { FabPage } from '../pages/fab/fab';
 import { InputsPage } from '../pages/inputs/inputs';
 import { ListPage } from '../pages/list/list';
+import { LoadingPage } from '../pages/loading/loading';
 
 @Component({
   templateUrl: 'app.html'
@@ -35,6 +36,7 @@ export class MyApp {
       { title: 'Fab', component: FabPage },
       { title: 'Inputs', component: InputsPage },
       { title: 'List', component: ListPage },
+      { title: 'Loading', component: LoadingPage },
     ];
 
   }
