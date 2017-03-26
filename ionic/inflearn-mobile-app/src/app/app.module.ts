@@ -17,6 +17,7 @@ import { DetailPage } from '../pages/list/detail/detail';
 import { LoadingPage } from '../pages/loading/loading';
 import { ModalsPage, ModalDetailPage } from '../pages/modals/modals';
 import { PopoverPage, PopoverDetailPage } from '../pages/popovers/popovers';
+import { RangePage } from '../pages/range/range';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -41,6 +42,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
       ModalDetailPage,
     PopoverPage,
       PopoverDetailPage,
+    RangePage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -65,6 +67,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
       ModalDetailPage,
     PopoverPage,
       PopoverDetailPage,
+    RangePage,
   ],
   providers: [
     StatusBar,
