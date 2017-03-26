@@ -8,6 +8,7 @@ import { ButtonsPage } from '../pages/buttons/buttons';
 import { CardsPage } from '../pages/cards/cards';
 import { BackgroundImageCardsPage } from '../pages/cards/bg-cards/bg-cards';
 import { SocialCardsPage } from '../pages/cards/social-cards/social-cards';
+import { DatetimePage } from '../pages/datetime/datetime';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -21,6 +22,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     CardsPage,
       BackgroundImageCardsPage,
       SocialCardsPage,
+    DatetimePage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -34,6 +36,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     CardsPage,
       BackgroundImageCardsPage,
       SocialCardsPage,
+    DatetimePage,
   ],
   providers: [
     StatusBar,
