@@ -12,6 +12,7 @@ import { DatetimePage } from '../pages/datetime/datetime';
 import { FabPage } from '../pages/fab/fab';
 import { InputsPage } from '../pages/inputs/inputs';
 import { SuccessPage } from '../pages/inputs/success/success';
+import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -29,6 +30,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FabPage,
     InputsPage,
       SuccessPage,
+    ListPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -46,6 +48,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FabPage,
     InputsPage,
       SuccessPage,
+    ListPage,
   ],
   providers: [
     StatusBar,
