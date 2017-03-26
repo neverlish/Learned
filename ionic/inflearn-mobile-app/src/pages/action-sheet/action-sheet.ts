@@ -6,6 +6,7 @@ import { ActionSheetController } from 'ionic-angular';
 })
 
 export class ActionSheetPage {
+  name: string = '';
   constructor(public actionSheetCtrl: ActionSheetController) {
 
   }

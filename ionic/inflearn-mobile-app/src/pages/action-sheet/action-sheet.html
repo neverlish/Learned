@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content padding>
+  <input [(ngModel)]='name'/>
+  <p>Hello, {{name}}</p>
+  <p *ngIf="name != ''">Welcome</p>
   <button ion-button block (click)='presentActionSheet()'>
     Show Action Sheet
   </button>
