@@ -12,6 +12,7 @@ import { FabPage } from '../pages/fab/fab';
 import { InputsPage } from '../pages/inputs/inputs';
 import { ListPage } from '../pages/list/list';
 import { LoadingPage } from '../pages/loading/loading';
+import { ModalsPage } from '../pages/modals/modals';
 
 @Component({
   templateUrl: 'app.html'
@@ -37,6 +38,7 @@ export class MyApp {
       { title: 'Inputs', component: InputsPage },
       { title: 'List', component: ListPage },
       { title: 'Loading', component: LoadingPage },
+      { title: 'Modals', component: ModalsPage },
     ];
 
   }
