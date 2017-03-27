@@ -19,6 +19,7 @@
   "homepage": "https://github.com/neverlish/neverlish#readme",
   "dependencies": {
     "react": "^15.4.2",
+    "react-addons-update": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
