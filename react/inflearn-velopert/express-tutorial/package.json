@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/neverlish/neverlish#readme",
   "dependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1"
   }
 }
