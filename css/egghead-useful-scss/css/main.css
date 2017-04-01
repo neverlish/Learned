@@ -1,17 +1,59 @@
-.old-light-dark {
-  background-image: linear-gradient(#db6e57, #a83b24, #150705); }
-
-.wolverine {
+.character {
   text-align: center;
-  background-image: linear-gradient(rgba(168, 59, 36, 0.5), #a83b24, #914a3b); }
-  .wolverine:hover {
-    background-image: linear-gradient(#57c4db, #2491a8, #051215); }
-    .wolverine:hover .wolverine-text {
-      color: rgba(190, 108, 27, 0.8); }
-  .wolverine-text {
+  width: 15rem;
+  display: inline-block;
+  margin: 0.5rem; }
+  .character p {
     font-size: 1.5rem;
-    padding-bottom: 1rem;
-    color: #e9ce09; }
-  .wolverine img {
+    padding-bottom: 1rem; }
+  .character img {
     margin-top: 3rem;
     border-radius: 50%; }
+
+.wolverine {
+  background-image: linear-gradient(#cdf481, #a8eb24, #3b5508);
+  border: 5px solid brown; }
+  .wolverine:hover {
+    background-image: linear-gradient(#a881f4, #6724eb, #220855); }
+  .wolverine:hover .wolverine-text {
+    color: rgba(190, 224, 78, 0.8); }
+  .wolverine-text {
+    color: #e9fa09; }
+  .wolverine img {
+    transition: margin 1s, border-radius 1s, border 1s, transform 1s; }
+    .wolverine img:hover {
+      margin-top: 5rem;
+      border-radius: 50%;
+      border: 10px solid green;
+      transform: rotate3d(10, 0, 0, 360deg); }
+
+.rogue {
+  background-image: linear-gradient(#30f3a2, #0ab36d, #010a06);
+  border: 5px solid green; }
+  .rogue:hover {
+    background-image: linear-gradient(#f33081, #b30a50, #0a0104); }
+  .rogue:hover .rogue-text {
+    color: rgba(71, 198, 116, 0.8); }
+  .rogue-text {
+    color: #c2ec1b; }
+
+.firestar {
+  background-image: linear-gradient(#ea7a89, #DB233B, #410a12); }
+  .firestar:hover {
+    background-image: linear-gradient(#7aeadb, #23dbc3, #0a413a); }
+  .firestar:hover .firestar-text {
+    color: rgba(221, 90, 44, 0.8); }
+  .firestar-text {
+    color: #f6c80f; }
+  @media screen and (min-width: 800px) {
+    .firestar {
+      display: none; } }
+
+.nightcrawler {
+  background-image: linear-gradient(#4094db, #1d6098, #000102); }
+  .nightcrawler:hover {
+    background-image: linear-gradient(#db8740, #98551d, #020100); }
+  .nightcrawler:hover .nightcrawler-text {
+    color: rgba(86, 124, 176, 0.8); }
+  .nightcrawler-text {
+    color: #c7d726; }
