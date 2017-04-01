@@ -1,5 +1,15 @@
+@import url(../css/other.css);
 .red {
   color: red; }
 
 .red-dark {
   color: #990000; }
+
+.blue {
+  color: #b3b3ff; }
+
+.blue {
+  color: yellow; }
+
+.cool {
+  color: rebeccapurple; }
