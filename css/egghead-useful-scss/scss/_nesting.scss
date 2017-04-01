@@ -1,0 +1,35 @@
+.spiderman {
+  padding: 1rem 2rem;
+  transition: transform .8s ease-in-out;
+  
+  &-container:hover & {transform: rotate(180deg);}
+  &-container {background-color: #dbbebe;}
+
+  &::before {
+    display: block;
+    content: url('http://downloadicons.net/sites/default/files/spider-icon-46071.png')
+  }
+
+  img {
+    transition: transform .8s ease-in-out;
+    &:hover {transform: rotate(360deg);}
+  }
+
+  .description {
+    color: darkred;
+    text-align: center;
+    margin-top: 1rem;
+
+    .header { font-size: 2rem; }
+  }
+
+  .description-link {
+    text-decoration: none;
+
+    &::after {
+      content: url('http://i2.kym-cdn.com/photos/images/original/000/307/686/60e.png');
+      display: inline-block;
+      vertical-align: middle
+    }
+  }
+}

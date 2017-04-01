@@ -1,15 +1,26 @@
-@import url(../css/other.css);
-.red {
-  color: red; }
-
-.red-dark {
-  color: #990000; }
-
-.blue {
-  color: #b3b3ff; }
-
-.blue {
-  color: yellow; }
-
-.cool {
-  color: rebeccapurple; }
+.spiderman {
+  padding: 1rem 2rem;
+  transition: transform .8s ease-in-out; }
+  .spiderman-container:hover .spiderman {
+    transform: rotate(180deg); }
+  .spiderman-container {
+    background-color: #dbbebe; }
+  .spiderman::before {
+    display: block;
+    content: url("http://downloadicons.net/sites/default/files/spider-icon-46071.png"); }
+  .spiderman img {
+    transition: transform .8s ease-in-out; }
+    .spiderman img:hover {
+      transform: rotate(360deg); }
+  .spiderman .description {
+    color: darkred;
+    text-align: center;
+    margin-top: 1rem; }
+    .spiderman .description .header {
+      font-size: 2rem; }
+  .spiderman .description-link {
+    text-decoration: none; }
+    .spiderman .description-link::after {
+      content: url("http://i2.kym-cdn.com/photos/images/original/000/307/686/60e.png");
+      display: inline-block;
+      vertical-align: middle; }
