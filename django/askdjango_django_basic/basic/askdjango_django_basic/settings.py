@@ -25,7 +25,9 @@ SECRET_KEY = '#)xiyh)h*gcwww8)zb$6wj6%a!aqlt=4q0#n758texjb%smls3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*' # '8cc63353.ngrok.io' : ./ngrok http 8000 실행 후 얻는 도메인. 매번 바뀌기 때문에 *로 지정
+]
 
 
 # Application definition
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 ]
 
 MIDDLEWARE = [
