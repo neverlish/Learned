@@ -1,19 +1,17 @@
-.women-of-the-marvel-universe {
-  content: "women-of-the-marvel-universe"; }
+.old-light-dark {
+  background-image: linear-gradient(#db6e57, #a83b24, #150705); }
 
-.text {
-  color: #989898; }
-
-.cape {
-  background-color: #8465D9; }
-
-img {
-  border: 1px dotted red; }
-
-.elektra {
-  color: blue;
-  border: 1px solid purple;
-  font-size: 36px; }
-
-.fancy {
-  color: red; }
+.wolverine {
+  text-align: center;
+  background-image: linear-gradient(rgba(168, 59, 36, 0.5), #a83b24, #914a3b); }
+  .wolverine:hover {
+    background-image: linear-gradient(#57c4db, #2491a8, #051215); }
+    .wolverine:hover .wolverine-text {
+      color: rgba(190, 108, 27, 0.8); }
+  .wolverine-text {
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+    color: #e9ce09; }
+  .wolverine img {
+    margin-top: 3rem;
+    border-radius: 50%; }
