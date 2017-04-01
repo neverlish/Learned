@@ -1,0 +1,23 @@
+{
+  "name": "egghead-useful-scss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node-sass -o css scss"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neverlish/neverlish.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neverlish/neverlish/issues"
+  },
+  "homepage": "https://github.com/neverlish/neverlish#readme",
+  "devDependencies": {
+    "node-sass": "^4.5.2"
+  }
+}
