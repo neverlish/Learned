@@ -1,0 +1,24 @@
+@mixin light-color-class($color, $color-name, $i) {
+  $color-value: if($i == 1, $color, lighten($color, 3% * $i));
+
+  .#{$color-name}#{$i} {
+    color: $color-value;
+  }
+};
+
+@for $i from 1 to 10 {
+  $value: .5 * $i;
+  // $has-decimal: floor($value) != $value;
+  // $class-name: if($has-decimal, #{$value - .5}pt5, $value);
+  // .mt-#{$class-name} {
+  //   margin-top: #{$value}rem;
+  // }
+
+  // [class~="mt-#{$value}"] {
+  //   margin-top: #{$value}rem;
+  // }
+
+  @include light-color-class(#BA0000, passion, $i);
+  @include light-color-class(rebeccapurple, empathy, $i);
+  @include light-color-class(blue, cool-kid, $i);
+}

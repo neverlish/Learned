@@ -1,34 +1,80 @@
-.captain-america .stuff, .medusa .stuff, .she-hulk .stuff {
-  background: linear-gradient(red, white, blue); }
+.passion1 {
+  color: #BA0000; }
 
-.doc-ock, .cheetah, .enchantress {
-  background: darkred; }
+.empathy1 {
+  color: rebeccapurple; }
 
-.doc-ock {
-  height: 20px;
-  width: 20px;
-  border: 1px solid green; }
+.cool-kid1 {
+  color: blue; }
 
-.cheetah {
-  height: 20px;
-  width: 20px; }
+.passion2 {
+  color: #d90000; }
 
-.enchantress {
-  height: 20px;
-  width: 20px; }
+.empathy2 {
+  color: #753bb0; }
 
-.captain-america {
-  height: 20px;
-  width: 20px; }
+.cool-kid2 {
+  color: #1f1fff; }
 
-.medusa {
-  height: 20px;
-  width: 20px; }
+.passion3 {
+  color: #e80000; }
 
-.she-hulk {
-  height: 20px;
-  width: 20px; }
+.empathy3 {
+  color: #7d3ebb; }
 
-@media screen and (min-width: 800px) {
-  .buddy {
-    color: purple; } }
+.cool-kid3 {
+  color: #2e2eff; }
+
+.passion4 {
+  color: #f70000; }
+
+.empathy4 {
+  color: #8547c2; }
+
+.cool-kid4 {
+  color: #3d3dff; }
+
+.passion5 {
+  color: #ff0808; }
+
+.empathy5 {
+  color: #8c53c6; }
+
+.cool-kid5 {
+  color: #4d4dff; }
+
+.passion6 {
+  color: #ff1717; }
+
+.empathy6 {
+  color: #945ec9; }
+
+.cool-kid6 {
+  color: #5c5cff; }
+
+.passion7 {
+  color: #ff2626; }
+
+.empathy7 {
+  color: #9c6acd; }
+
+.cool-kid7 {
+  color: #6b6bff; }
+
+.passion8 {
+  color: #ff3535; }
+
+.empathy8 {
+  color: #a375d1; }
+
+.cool-kid8 {
+  color: #7a7aff; }
+
+.passion9 {
+  color: #ff4545; }
+
+.empathy9 {
+  color: #ab81d5; }
+
+.cool-kid9 {
+  color: #8a8aff; }
