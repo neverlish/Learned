@@ -1,80 +1,50 @@
-.passion1 {
-  color: #BA0000; }
+.container {
+  border: 2px solid red;
+  margin: 0.5rem auto;
+  font-size: 2rem;
+  transition: background-color 1s, width 1s; }
 
-.empathy1 {
-  color: rebeccapurple; }
+.logo {
+  height: 250px;
+  width: 250px;
+  margin: 0.5rem auto; }
 
-.cool-kid1 {
-  color: blue; }
+.wonder-woman-logo {
+  background-image: url("../images/wonder-woman-logo.gif"); }
 
-.passion2 {
-  color: #d90000; }
+.spiderman-logo {
+  background-image: url("../images/spiderman-logo.gif"); }
 
-.empathy2 {
-  color: #753bb0; }
+.batman-logo {
+  background-image: url("../images/batman-logo.gif"); }
 
-.cool-kid2 {
-  color: #1f1fff; }
+.superman-logo {
+  background-image: url("../images/superman-logo.gif"); }
 
-.passion3 {
-  color: #e80000; }
+@media only screen and (min-width: 375px) {
+  .container-width {
+    width: 250px; } }
 
-.empathy3 {
-  color: #7d3ebb; }
+@media only screen and (min-width: 768px) {
+  .container-width {
+    width: 500px; } }
 
-.cool-kid3 {
-  color: #2e2eff; }
+@media only screen and (min-width: 1200px) {
+  .container-width {
+    width: 750px; } }
 
-.passion4 {
-  color: #f70000; }
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+  .wonder-woman {
+    background-color: crimson; } }
 
-.empathy4 {
-  color: #8547c2; }
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
+  .spiderman {
+    background-color: darkred; } }
 
-.cool-kid4 {
-  color: #3d3dff; }
+@media only screen and (min-width: 1200px) and (max-width: 1400px) {
+  .batman {
+    background-color: grey; } }
 
-.passion5 {
-  color: #ff0808; }
-
-.empathy5 {
-  color: #8c53c6; }
-
-.cool-kid5 {
-  color: #4d4dff; }
-
-.passion6 {
-  color: #ff1717; }
-
-.empathy6 {
-  color: #945ec9; }
-
-.cool-kid6 {
-  color: #5c5cff; }
-
-.passion7 {
-  color: #ff2626; }
-
-.empathy7 {
-  color: #9c6acd; }
-
-.cool-kid7 {
-  color: #6b6bff; }
-
-.passion8 {
-  color: #ff3535; }
-
-.empathy8 {
-  color: #a375d1; }
-
-.cool-kid8 {
-  color: #7a7aff; }
-
-.passion9 {
-  color: #ff4545; }
-
-.empathy9 {
-  color: #ab81d5; }
-
-.cool-kid9 {
-  color: #8a8aff; }
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+  .superman {
+    background-color: blue; } }
