@@ -8,6 +8,7 @@ def lnglat_validator(value):
     raise ValidationError('Invalid LngLat Type')
 
 class Post(models.Model):
+  author = models.CharField(max_length=20)
   title = models.CharField(max_length=100, verbose_name='제목', help_text='포스팅 제목을 입력해주세요. 최대 100자 내외.')
   content = models.TextField()
   tags = models.CharField(max_length=100, blank=True)
