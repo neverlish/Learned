@@ -1,50 +1,32 @@
-.container {
-  border: 2px solid red;
-  margin: 0.5rem auto;
-  font-size: 2rem;
-  transition: background-color 1s, width 1s; }
+.mad {
+  background: red; }
 
-.logo {
-  height: 250px;
-  width: 250px;
-  margin: 0.5rem auto; }
+.undecided {
+  background: background; }
 
-.wonder-woman-logo {
-  background-image: url("../images/wonder-woman-logo.gif"); }
+.unicorn {
+  background: rgba(192, 192, 192, 0.5) url("../images/unicorn.jpg"); }
 
-.spiderman-logo {
-  background-image: url("../images/spiderman-logo.gif"); }
+.magic {
+  background: rgba(192, 192, 192, 0.5) url("../images/magic.jpg") center fixed; }
 
-.batman-logo {
-  background-image: url("../images/batman-logo.gif"); }
+.stuff {
+  font-size: 41.80378px; }
 
-.superman-logo {
-  background-image: url("../images/superman-logo.gif"); }
+h1 {
+  font-size: 159.46875px; }
 
-@media only screen and (min-width: 375px) {
-  .container-width {
-    width: 250px; } }
+h2 {
+  font-size: 106.3125px; }
 
-@media only screen and (min-width: 768px) {
-  .container-width {
-    width: 500px; } }
+h3 {
+  font-size: 70.875px; }
 
-@media only screen and (min-width: 1200px) {
-  .container-width {
-    width: 750px; } }
+h4 {
+  font-size: 47.25px; }
 
-@media only screen and (min-width: 375px) and (max-width: 768px) {
-  .wonder-woman {
-    background-color: crimson; } }
+h5 {
+  font-size: 31.5px; }
 
-@media only screen and (min-width: 768px) and (max-width: 1000px) {
-  .spiderman {
-    background-color: darkred; } }
-
-@media only screen and (min-width: 1200px) and (max-width: 1400px) {
-  .batman {
-    background-color: grey; } }
-
-@media only screen and (min-width: 768px) and (max-width: 1200px) {
-  .superman {
-    background-color: blue; } }
+h6 {
+  font-size: 21px; }
