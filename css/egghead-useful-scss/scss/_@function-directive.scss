@@ -1,0 +1,28 @@
+$translucent-color: rgba(silver, 0.5);
+
+@function background($color: $translucent-color, $img: null, $xtra-values...) {
+  $url: if($img, url('../images/#{$img}.jpg'), null);
+  @return $color $url $xtra-values;
+}
+
+.mad { background: background(red); }
+.undecided { background: background; }
+.unicorn { background: background($img: unicorn); }
+.magic { background: background($translucent-color, magic, center fixed); }
+
+@function font-scale($exponent, $base-font-size:14px, $ratio: 1.2) {
+  $value: 1;
+
+  @for $i from 1 through $exponent {
+    $value: $value * $ratio;
+  }
+  @return if($exponent > 0, $base-font-size * $value, $base-font-size);
+}
+
+.stuff { font-size: font-scale(6)}
+
+@for $i from 1 through 6 {
+  $exponent: 7 - $i;
+
+  h#{$i} { font-size: font-scale($exponent, $ratio: 1.5); }
+}

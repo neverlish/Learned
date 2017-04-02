@@ -1,0 +1,32 @@
+.mad {
+  background: red; }
+
+.undecided {
+  background: background; }
+
+.unicorn {
+  background: rgba(192, 192, 192, 0.5) url("../images/unicorn.jpg"); }
+
+.magic {
+  background: rgba(192, 192, 192, 0.5) url("../images/magic.jpg") center fixed; }
+
+.stuff {
+  font-size: 41.80378px; }
+
+h1 {
+  font-size: 159.46875px; }
+
+h2 {
+  font-size: 106.3125px; }
+
+h3 {
+  font-size: 70.875px; }
+
+h4 {
+  font-size: 47.25px; }
+
+h5 {
+  font-size: 31.5px; }
+
+h6 {
+  font-size: 21px; }
