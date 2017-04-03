@@ -46,4 +46,21 @@ router.post('/', function(req, res) {
   })
 })
 
+router.get('/:title', function(req, res) {
+  var title = req.params.title
+  console.log('title =>', title);
+  var responseData = {};
+
+  var query = connection.query('select * from movie where title=?', [title], function(err, rows) {
+    if (err) throw err;
+    if (rows[0]) {
+      responseData.result = 1;
+      responseData.data = rows;
+    } else {
+      responseData.result = 0;
+    }
+    res.json(responseData)
+  })
+})
+
 module.exports = router;
