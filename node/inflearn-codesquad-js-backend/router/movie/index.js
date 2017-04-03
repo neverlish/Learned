@@ -33,4 +33,17 @@ router.get('/', function(req, res) {
   })
 })
 
+router.post('/', function(req, res) {
+  var title = req.body.title;
+  var type = req.body.type;
+  var grade = req.body.grade;
+  var actor = req.body.actor;
+
+  var sql = {title, type, grade, actor}
+  var query = connection.query('insert into movie set ?', sql, function(err, rows) {
+    if (err) throw err
+    return res.json({'result': 1});
+  })
+})
+
 module.exports = router;
