@@ -113,7 +113,9 @@
           method = 'DELETE';
           fn = function(result) {
             if (result.result === 1) {
-              showResult.innerHTML = '선택한 영화가 잘 삭제됐습니다.';
+              showResult.innerHTML = '선택한 영화 ' + result.data + '가 잘 삭제됐습니다.';
+            } else {
+              showResult.innerText = '해당영화가 없습니다.'
             }
           }
           break;
