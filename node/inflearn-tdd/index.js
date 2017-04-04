@@ -1,21 +1,18 @@
-const express = require('express');
-const morgan = require('morgan');
+const express = require('express'); 
 const app = express();
 
-function logger(req, res, next) {
-  console.log('i am logger');
-  next();
-  // next를 주석처리하면 여기에서 멈춤
+function commonmw(req, res, next) {
+  console.log('commonmw');
+  next(new Error('error occured'));
 }
 
-function logger2(req, res, next) {
-  console.log('i am logger2');
+function errormw(err, req, res, next) {
+  console.log(err.message);
   next();
 }
 
-app.use(logger);
-app.use(logger2);
-app.use(morgan('dev'));
+app.use(commonmw);
+app.use(errormw);
 
 app.listen(3000, function() {
   console.log('Server is running');
