@@ -1,0 +1,31 @@
+{
+  "name": "inflearn-codesquad-js-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neverlish/neverlish.git"
+  },
+  "author": "neverlish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neverlish/neverlish/issues"
+  },
+  "homepage": "https://github.com/neverlish/neverlish#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "mysql": "^2.13.0"
+  },
+  "devDependencies": {
+    "connect-flash": "^0.1.1",
+    "express-session": "^1.15.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}
