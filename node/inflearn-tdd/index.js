@@ -47,6 +47,14 @@ app.post('/users', (req, res) => {
   res.status(201).json(user);
 })
 
+app.put('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const name = req.body.name;
+  const user = users.filter(user => user.id === id)[0];
+  user.name = name;
+  res.json(user);
+})
+
 app.listen(3000, function() {
   console.log('Server is running ion port 3000!');
 });
