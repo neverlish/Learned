@@ -102,4 +102,20 @@ describe('POST /users', () => {
       body.should.have.property('name', name);
     })
   })
+  describe('실패시', () => {
+    it('name 파라미터 누락시 400을 반환한다', (done) => {
+      request(app)
+        .post('/users')
+        .send({})
+        .expect(400)
+        .end(done)
+    })
+    it('name이 중복일 경우 409를 반환한다', (done) => {
+      request(app)
+        .post('/users')
+        .send({name: 'bek'})
+        .expect(409)
+        .end(done)
+    })
+  })
 })
