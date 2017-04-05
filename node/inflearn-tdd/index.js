@@ -1,19 +1,18 @@
 const express = require('express'); 
 const app = express();
+const morgan = require('morgan');
+var users = [
+  {id: 1, name: 'alice'},
+  {id: 2, name: 'bek'},
+  {id: 3, name: 'cris'}
+];
 
-function commonmw(req, res, next) {
-  console.log('commonmw');
-  next(new Error('error occured'));
-}
+app.use(morgan('dev'));
 
-function errormw(err, req, res, next) {
-  console.log(err.message);
-  next();
-}
-
-app.use(commonmw);
-app.use(errormw);
+app.get('/users', function (req, res) {
+  res.json(users);
+});
 
 app.listen(3000, function() {
-  console.log('Server is running');
+  console.log('Server is running ion port 3000!');
 });
