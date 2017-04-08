@@ -35,8 +35,12 @@ const show = function(req, res) {
 const destroy = (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (Number.isNaN(id)) return res.status(400).end();
-  users = users.filter(user => user.id !== id);
-  res.status(204).end();
+
+  models.User.destroy({
+    where: {id}
+  }).then(() => {
+    res.status(204).end();
+  })
 }
 
 const create = (req, res) => {
