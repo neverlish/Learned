@@ -1,5 +1,8 @@
 const models = require('../models');
 
 module.exports = () => {
-  return models.sequelize.sync({force: true});
+  const optiosn = {
+    force: process.env.NODE_ENV === 'test' ? true : false
+  }
+  return models.sequelize.sync(options);
 }
