@@ -20,7 +20,9 @@
             <li>템플릿 경로를 blog/templates/post_list.html 경로가 아닌 blog/templates/blog/post.html 경로로 쓰는 지에 대한 이유는, 후에 Template Loader에서 설명합니다.</li>
           </ul>
         </div>
-         
+        
+        <a href="{% url 'blog:post_new' %}" class='btn btn-primary pull-right'>New Post</a>
+
         <p>
           <form action="" method='get'>
             <input type="text" name='q' value="{{ q }}">
