@@ -1,3 +1,22 @@
-.home h1 {
-  color: darkseagreen;
+
+/* global style */
+.buttons form{
+ display: inline-block;
+}
+
+/* home style */
+.home h1{
+ color: darkseagreen;
+}
+
+/* post style */
+.post h2 {
+ color: tomato;
+ text-align: center;
+}
+.post .post-body{
+ white-space: pre-line; /* 1 */
+}
+.post .posts .date{
+ width: 100px;
 }
