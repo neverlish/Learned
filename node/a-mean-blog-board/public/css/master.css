@@ -70,6 +70,12 @@ form .form-group{
  padding: 6px 15px;
 }
 
+.home-login{ /* 1 */
+ max-width: 330px;
+ font-family: 'Open Sans', sans-serif;
+ font-size: 12px;
+}
+
 /* home style */
 .home h1{
  color: darkseagreen;
