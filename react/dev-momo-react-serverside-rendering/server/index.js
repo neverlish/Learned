@@ -5,9 +5,12 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import App from '../client/App'
 import Html from './Html'
+import WDM from './WDM'
 
 const app = express();
 const port = 3000;
+
+app.use(WDM);
 
 app.get('/', function(req, res, next) {
 
