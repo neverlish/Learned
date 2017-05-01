@@ -76,6 +76,14 @@ form .form-group{
  font-size: 12px;
 }
 
+.ellipsis {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+ }
+
 /* home style */
 .home h1{
  color: darkseagreen;
@@ -117,6 +125,7 @@ form .form-group{
 .post-index .posts{
  border-top: 1px solid #ccc;
  border-bottom: 1px solid #ccc;
+ table-layout: fixed;
 }
 .post .posts th,
 .post .posts td
@@ -145,6 +154,10 @@ form .form-group{
  text-align: center;
  width: 100px;
  padding-right: 15px;
+}
+.post .posts .author{
+ text-align: center;
+ width: 80px;
 }
 .post-new,
 .post-edit{
