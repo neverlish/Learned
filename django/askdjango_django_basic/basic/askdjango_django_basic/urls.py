@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^dojo/', include('dojo.urls', namespace='dojo')),
     url(r'^shop/', include('shop.urls', namespace='shop')),
+    url(r'^accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
