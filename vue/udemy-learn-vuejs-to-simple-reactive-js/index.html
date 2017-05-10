@@ -7,16 +7,28 @@
 
 <body>
   <div id="myApp">
-    {{ output }}
+    <h1>{{ output }}</h1>
+    <div>{{ err }}</div>
+    <div>{{ $data | json }}</div>
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
   <script>
-    var myData = { output: 'Hello World'}
-    new Vue ({
+    var vm = new Vue ({
       el: '#myApp',
-      data: myData
+      data: {
+        output: 'Hello World',
+        err: 'Wrong input'
+      },
+      created: function() {
+        console.log('Instance Created ' + this.output);
+      },
+      ready: function() {
+        console.log('Instance ready ' + this.output);
+      }
     })
+
+    vm.output = 'new content';
   </script>
 </body>
 
