@@ -5,7 +5,8 @@
 <head>
   <title>Learning Vue Js</title>
   <style>
-    div {
+    .btn {
+      display: block;
       padding: 10px;
       border: 1px solid black;
     }
@@ -17,8 +18,8 @@
     <h1>Searching for {{ searchme }}</h1>
     <input v-model='searchme'/>
     <div v-for='index in items | filterBy searchme'>{{ index.todo }}</div>
-
-    <pre>{{ $data | json }}</pre>
+    <a v-on:click='toggleData' class='btn'>click me</a>
+    <pre v-show='preview'>{{ $data | json }}</pre>
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
@@ -27,6 +28,7 @@
       el: '#myApp',
       data: {
         searchme: '',
+        preview: false,
         items: [{
           todo: 'create website'
         }, {
@@ -34,6 +36,11 @@
         }, {
           todo: 'promote website'
         }]
+      },
+      methods: {
+        toggleData: function() {
+          this.preview ^= true;
+        }
       }
     })
   </script>
