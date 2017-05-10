@@ -3,12 +3,21 @@
 
 <head>
   <title>Learning Vue Js</title>
+  <style>
+    .red-4 {
+      background-color: red;
+    }
+
+    .red-5 {
+      background-color: firebrick;
+    }
+  </style>
 </head>
 
 <body>
   <div id="myApp">
-    <h1>{{ output }}</h1>
-    <div>{{ err }}</div>
+    <h1>{{{ output }}}</h1>
+    <div class='red-{{count}}'>{{ count+1 }}</div>
     <div>{{ $data | json }}</div>
   </div>
 
@@ -18,9 +27,11 @@
       el: '#myApp',
       data: {
         output: 'Hello World',
-        err: 'Wrong input'
+        err: 'Wrong input',
+        count: 4
       },
       created: function() {
+        this.count++;
         console.log('Instance Created ' + this.output);
       },
       ready: function() {
@@ -28,7 +39,7 @@
       }
     })
 
-    vm.output = 'new content';
+    vm.output = 'new <br>content';
   </script>
 </body>
 
