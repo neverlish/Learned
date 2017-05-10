@@ -16,8 +16,13 @@
 
 <body>
   <div id="myApp">
-    <h1>{{{ output }}}</h1>
+    <h1>{{{ output | uppercase }}}</h1>
     <div class='red-{{count}}'>{{ count+1 }}</div>
+    <input v-model='searchme' />
+    <div>Searching for {{ searchme }}</div>
+    <ul>
+      <li v-for="index in items | filterBy searchme">{{ index.todo }}</li>
+    </ul>
     <div>{{ $data | json }}</div>
   </div>
 
@@ -27,8 +32,15 @@
       el: '#myApp',
       data: {
         output: 'Hello World',
-        err: 'Wrong input',
-        count: 4
+        searchme: 'nothing yet',
+        count: 4,
+        items: [{
+          todo: 'write code'
+        }, {
+          todo: 'create website'
+        }, {
+          todo: 'load content'
+        }]
       },
       created: function() {
         this.count++;
