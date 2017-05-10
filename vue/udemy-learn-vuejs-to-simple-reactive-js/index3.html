@@ -1,0 +1,42 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    div {
+      padding: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <h1>Searching for {{ searchme }}</h1>
+    <input v-model='searchme'/>
+    <div v-for='index in items | filterBy searchme'>{{ index.todo }}</div>
+
+    <pre>{{ $data | json }}</pre>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        searchme: '',
+        items: [{
+          todo: 'create website'
+        }, {
+          todo: 'upload content'
+        }, {
+          todo: 'promote website'
+        }]
+      }
+    })
+  </script>
+</body>
+
+</html>
