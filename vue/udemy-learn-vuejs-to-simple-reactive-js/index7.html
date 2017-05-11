@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    .btn {
+      display: block;
+      margin-top: 35px;
+      padding: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <mycar :make='make' :model='model' :message='message' :count='count'></mycar>
+    <mycar :make='make' :model='model' :message='message' :count='count'></mycar>
+    <mycar :make='make' :model='model' :message='message' :count='count'></mycar>
+    <pre>{{ $data | json }}</pre>
+  </div>
+
+  <template id='car-template'>
+    <h1>{{ make }}</h1>
+    <h4>{{ model }}</h4>
+    <div>Hello World {{ message }}</div>
+    <div>Count: {{ count }}</div>
+    <button type="button" @click='addValue' class='btn'>Vote for me</button>
+  </template>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    Vue.component('mycar', {
+      template: '#car-template',
+      props: ['make','model','message', 'count'],
+      methods: {
+        addValue: function(event) {
+          this.count++;
+        }
+      }
+    });
+
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        make: 'Ford',
+        model: 'Mustang',
+        message: 'Buy this car',
+        count: 0
+      }
+    })
+  </script>
+</body>
+
+</html>

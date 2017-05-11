@@ -1,0 +1,38 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <input type="number" v-model='myVala'> + 
+    <input type="number" v-model='myValb'>
+    = {{ myCal }}
+    <pre>{{ $data | json }}</pre>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        myVala: 0,
+        myValb: 0,
+        preview: false
+      }, 
+      computed: {
+        myCal: function() {
+          return parseInt(this.myVala) * parseInt(this.myValb);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

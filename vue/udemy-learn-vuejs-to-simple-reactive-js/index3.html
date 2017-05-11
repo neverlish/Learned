@@ -1,0 +1,73 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    .btn {
+      display: block;
+      padding: 10px;
+      border: 1px solid black;
+    }
+    img {
+      display: block;
+    }
+    #newdiv {
+      height: 200px;
+      width: 200px;
+      background-color: aqua;
+    }
+    .transition-transition {
+      transition: all .5s ease;
+      height: 20px;
+      background-color: yellow;
+    }
+    .transition-enter, 
+    .transition-leave {
+      background-color: green;
+      height: 0px;
+      opacity: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <h1>Searching for {{ searchme }}</h1>
+    <img v-bind:src='imgPath'>
+    <img :src='imgPath'>
+    <input v-model='searchme'/>
+    <div v-for='index in items | filterBy searchme'>{{ index.todo }}</div>
+    <a @click='toggleData' class='btn'>click me</a>
+    <pre v-show='preview'>{{ $data | json }}</pre>
+
+    <div v-if='preview' id='newdiv' transition='transition'>some content</div>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        imgPath: 'http://lorempixel.com/400/200/sports/1/',
+        searchme: '',
+        preview: false,
+        items: [{
+          todo: 'create website'
+        }, {
+          todo: 'upload content'
+        }, {
+          todo: 'promote website'
+        }]
+      },
+      methods: {
+        toggleData: function() {
+          this.preview ^= true;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
