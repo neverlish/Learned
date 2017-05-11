@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    .btn {
+      display: block;
+      margin-top: 35px;
+      padding: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <h1>Login</h1>
+    
+    <div v-if='preview'>Logged In
+      <a @click='login' class='btn'>login</a>
+    </div>
+    <div v-else>Logged Out
+      <a @click='login' class='btn'>logout</a>
+    </div>
+
+    <pre>{{ $data | json }}</pre>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        preview: false
+      },
+      methods: {
+        login: function() {
+          this.preview ^= true;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
