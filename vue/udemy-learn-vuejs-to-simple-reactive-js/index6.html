@@ -15,16 +15,19 @@
     <helloworld></helloworld>
     <helloworld></helloworld>
     <hworld></hworld>
-    <hworld></hworld>
-
+    <hworld message='Another Message'></hworld>
     <helloworld></helloworld>
+
+    <helloworld message='Another message'></helloworld>
+    <helloworld message='my new message'></helloworld>
     <pre>{{ $data | json }}</pre>
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
   <script>
     Vue.component('helloworld', {
-      template: '<div> Hello World 2</div>'
+      template: '<div> Hello World {{ message }}</div>',
+      props: ['message']
     });
 
     var vm = new Vue ({
@@ -34,7 +37,8 @@
       }, 
       components: {
         'hworld': {
-          template: '<div> Hello World</div>'
+          template: '<div> Hello World {{ message }}</div>',
+          props: ['message']
         }
       }
     })
