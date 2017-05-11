@@ -1,0 +1,44 @@
+
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>Learning Vue Js</title>
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <div id="myApp">
+    <hworld></hworld>
+    <helloworld></helloworld>
+    <helloworld></helloworld>
+    <hworld></hworld>
+    <hworld></hworld>
+
+    <helloworld></helloworld>
+    <pre>{{ $data | json }}</pre>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js'></script>
+  <script>
+    Vue.component('helloworld', {
+      template: '<div> Hello World 2</div>'
+    });
+
+    var vm = new Vue ({
+      el: '#myApp',
+      data: {
+        
+      }, 
+      components: {
+        'hworld': {
+          template: '<div> Hello World</div>'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
