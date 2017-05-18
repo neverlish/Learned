@@ -1,0 +1,30 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background-color: #ffd9e6;
+}
+
+hr {
+  height: 2px;
+  background-color: #666666;
+}
+
+h1 {
+  text-align: center;
+  color: #660000;
+  height: 50px;
+  font-size: 50px;
+  padding: 35px;
+}
+
+#container {
+  position: relative;
+  width: 300px;
+  border: 3px solid #666666;
+  margin: 30px auto;
+  border-radius: 5px;
+  background-color: #e1e1e1;
+}
