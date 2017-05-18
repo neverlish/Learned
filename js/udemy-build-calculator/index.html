@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>My first Calculator</title>
+  <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+
+<body>
+  <h1>A Basic Calculator</h1>
+  <hr/><br/>
+    <div id="container">
+      <form name='calc'>
+        <input type="text" name='output' placeholder='0'/>
+        <br/>
+
+        <input type="button" value=' 1 ' onclick="entries('1')"/>
+        <input type="button" value=' 2 ' onclick="entries('2')"/>
+        <input type="button" value=' 3 ' onclick="entries('3')"/>
+        <input type="button" value=' / ' onclick="entries('/')"/>
+        <br/>
+
+        <input type="button" value=' 4 ' onclick="entries('4')"/>
+        <input type="button" value=' 5 ' onclick="entries('5')"/>
+        <input type="button" value=' 6 ' onclick="entries('6')"/>
+        <input type="button" value=' X ' onclick="entries('*')"/>
+        <br/>
+
+        <input type="button" value=' 7 ' onclick="entries('7')"/>
+        <input type="button" value=' 8 ' onclick="entries('8')"/>
+        <input type="button" value=' 9 ' onclick="entries('9')"/>
+        <input type="button" value=' - ' onclick="entries('-')"/>
+        <br/>
+
+        <input type="button" value=' ( ' onclick="entries('(')"/>
+        <input type="button" value=' ) ' onclick="entries(')')"/>
+        <input type="button" value=' 0 ' onclick="entries('0')"/>
+        <input type="button" value=' + ' onclick="entries('+')"/>
+        <br/>
+
+        <input type="button" value=' c ' onclick="erase()"/>
+        <input type="button" value=' . ' onclick="entries('.')"/>
+        <input type="button" value=' = ' onclick="calculate()"/>
+        <input type="button" value=' % ' onclick="entries('%')"/>
+        <br/>
+      </form>
+    </div>
+  <br/><hr/>
+  <script type='text/javascript' src='script.js'></script>
+</body>
+
+</html>
