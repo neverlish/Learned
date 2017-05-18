@@ -28,3 +28,27 @@ h1 {
   border-radius: 5px;
   background-color: #e1e1e1;
 }
+
+input[type=text] {
+  position: relative;
+  display: block;
+  width: 90%;
+  margin: 12px auto 0 auto;
+  font-size: 20px;
+  /*border: 1px solid lightgrey;*/
+  background-color: #cccccc;
+}
+
+input[type=button] {
+  position: relative;
+  background-color: #b3b3b3;
+  width: 19%;
+  margin: 2%;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10%;
+}
+
+input[type=button]:hover {
+  background-color: #8c8c8c;
+}
