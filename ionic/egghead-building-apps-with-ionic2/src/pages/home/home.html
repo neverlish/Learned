@@ -3,18 +3,27 @@
     <ion-title>
       hello world
     </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)='toggleReorder()'>
+        Edit
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-avatar item-left>
-        <img [src]="person.picture.thumbnail" alt="">
-      </ion-avatar>
-      {{ person.name.first }} {{ person.name.last }}
-      <ion-note item-right>{{ person.phone }}</ion-note>
-    </ion-item>
+  <ion-list [reorder]="shouldReorder" (ionItemReorder)='$event.applyTo(people)'>
+    <ion-item-sliding *ngFor="let person of people">
+      <ion-item>
+        <ion-avatar item-left>
+          <img [src]="person.picture.thumbnail" alt="">
+        </ion-avatar>
+        {{ person.name.first }} {{ person.name.last }}
+        <ion-note item-right>{{ person.phone }}</ion-note>
+      </ion-item>
+      <ion-item-options side='right'>
+        <button ion-button>Hello</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
-  <pre>{{ person | json }}</pre>
 </ion-content>
