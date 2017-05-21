@@ -14,5 +14,29 @@
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-item>
+      {{ user.name.first }} {{ user.name.last }}
+      <ion-avatar item-left>
+        <img [src]='user.picture.large' alt=''>
+      </ion-avatar>
+    </ion-item>
+    <img src="https://unsplash.it/300/150/" alt="">
+    <ion-card-content>
+      <ion-item>
+        <h2>{{ user.location.street }}</h2>
+        <p>{{user.location.city}}, {{user.location.state}}</p>
+        <ion-icon name='home' item-left></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-icon name='call' item-left></ion-icon>
+        <p>{{user.phone}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-icon name='mail' item-left></ion-icon>
+        <p>{{user.email}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
   <pre>{{ user|json }}</pre>
 </ion-content>
