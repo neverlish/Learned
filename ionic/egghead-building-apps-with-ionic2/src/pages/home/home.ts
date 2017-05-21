@@ -7,10 +7,11 @@ import { PeopleProvider } from '../../providers/people/people';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public people = this.service.getPeople();
+  public people = [];
   public shouldReorder = false;
   constructor(public navCtrl: NavController, public service: PeopleProvider) {
-
+    this.service.getPeople()
+    .subscribe (data => this.people = data.results);
   }
   toggleReorder() {
     this.shouldReorder = !this.shouldReorder;
