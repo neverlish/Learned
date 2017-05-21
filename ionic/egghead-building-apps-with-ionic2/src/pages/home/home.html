@@ -27,8 +27,16 @@
         {{ person.name.first }} {{ person.name.last }}
         <ion-note item-right>{{ person.phone }}</ion-note>
       </ion-item>
+      <ion-item-options side='left'>
+        <button ion-button color='secondary' icon-only>
+          <ion-icon name='flag'></ion-icon>
+        </button>
+      </ion-item-options>
       <ion-item-options side='right'>
-        <button ion-button>Hello</button>
+        <!--<button ion-button>Hello</button>-->
+        <button ion-button color='danger' icon-only>
+          <ion-icon name='archive'></ion-icon>
+        </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
