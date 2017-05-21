@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      hello world
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)='toggleReorder()'>
+        Edit
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)='doRefresh($event)'>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list [reorder]="shouldReorder" (ionItemReorder)='$event.applyTo(people)'>
+    <ion-item-sliding
+      *ngFor="let person of people"
+      (click)='pushPage(person)'
+    >
+      <ion-item>
+        <ion-avatar item-left>
+          <img [src]="person.picture.thumbnail" alt="">
+        </ion-avatar>
+        {{ person.name.first }} {{ person.name.last }}
+        <ion-note item-right>{{ person.phone }}</ion-note>
+      </ion-item>
+      <ion-item-options side='left'>
+        <button ion-button color='secondary' icon-only>
+          <ion-icon name='flag'></ion-icon>
+        </button>
+      </ion-item-options>
+      <ion-item-options side='right'>
+        <!--<button ion-button>Hello</button>-->
+        <button ion-button color='danger' icon-only>
+          <ion-icon name='archive'></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)='doInfinite($event)'>
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
