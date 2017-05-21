@@ -34,6 +34,12 @@ export class HomePage {
     )
   }
   pushPage(user) {
-    this.navCtrl.push(DetailPage, user);
+    // this.navCtrl.push(DetailPage, user);
+    this.navCtrl.setPages([
+      {page: HomePage},
+      {page: DetailPage, params: this.people[5]},
+      {page: HomePage},
+      {page: DetailPage, params: user}
+    ])
   }
 }
