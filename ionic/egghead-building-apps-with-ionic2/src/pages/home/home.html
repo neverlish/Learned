@@ -16,7 +16,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list [reorder]="shouldReorder" (ionItemReorder)='$event.applyTo(people)'>
-    <ion-item-sliding *ngFor="let person of people">
+    <ion-item-sliding
+      *ngFor="let person of people"
+      (click)='pushPage(person)'
+    >
       <ion-item>
         <ion-avatar item-left>
           <img [src]="person.picture.thumbnail" alt="">

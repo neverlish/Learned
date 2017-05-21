@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { PeopleProvider } from '../../providers/people/people';
+import { DetailPage } from '../detail/detail';
 
 @Component({
   selector: 'page-home',
@@ -31,5 +32,8 @@ export class HomePage {
         err => console.log(err),
         () => e.complete()
     )
+  }
+  pushPage(user) {
+    this.navCtrl.push(DetailPage, user);
   }
 }
