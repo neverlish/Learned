@@ -1,3 +1,13 @@
+Lecture: https://egghead.io/courses/building-apps-with-ionic-2
+
+Pull Request: https://github.com/neverlish/neverlish/pull/25
+
+---------
+---------
+### IONIC START GUIDE
+---------
+---------
+
 This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
 ## How to use this template
