@@ -12,6 +12,9 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)='doRefresh($event)'>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list [reorder]="shouldReorder" (ionItemReorder)='$event.applyTo(people)'>
     <ion-item-sliding *ngFor="let person of people">
       <ion-item>
@@ -26,4 +29,7 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)='doInfinite($event)'>
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

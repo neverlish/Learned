@@ -16,4 +16,20 @@ export class HomePage {
   toggleReorder() {
     this.shouldReorder = !this.shouldReorder;
   }
+  doRefresh(e) {
+    this.service.getPeople()
+    .subscribe (
+      data => this.people.unshift(...data.results),
+        err => console.log(err),
+        () => e.complete()
+    )
+  }
+  doInfinite(e) {
+    this.service.getPeople()
+    .subscribe (
+      data => this.people.push(...data.results),
+        err => console.log(err),
+        () => e.complete()
+    )
+  }
 }

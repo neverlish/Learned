@@ -46,7 +46,7 @@ export class PeopleProvider {
     console.log('Hello PeopleProvider Provider');
   }
   getPeople() {
-    return this.http.get('https://randomuser.me/api/?results=3')
+    return this.http.get('https://randomuser.me/api/?results=50')
     .map (res => res.json());
   }
 
