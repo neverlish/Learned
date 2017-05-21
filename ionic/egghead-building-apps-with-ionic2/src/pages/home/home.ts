@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { PeopleProvider } from '../../providers/people/people';
 import { DetailPage } from '../detail/detail';
 
@@ -10,7 +10,11 @@ import { DetailPage } from '../detail/detail';
 export class HomePage {
   public people = [];
   public shouldReorder = false;
-  constructor(public navCtrl: NavController, public service: PeopleProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public service: PeopleProvider,
+    public modalCtrl: ModalController
+  ) {
     this.service.getPeople()
     .subscribe (data => this.people = data.results);
   }
@@ -34,12 +38,11 @@ export class HomePage {
     )
   }
   pushPage(user) {
+    this.modalCtrl.create(DetailPage, user).present();
     // this.navCtrl.push(DetailPage, user);
-    this.navCtrl.setPages([
-      {page: HomePage},
-      {page: DetailPage, params: this.people[5]},
-      {page: HomePage},
-      {page: DetailPage, params: user}
-    ])
+    // this.navCtrl.setPages([
+    //   {page: HomePage},
+    //   {page: DetailPage, params: user}
+    // ])
   }
 }
