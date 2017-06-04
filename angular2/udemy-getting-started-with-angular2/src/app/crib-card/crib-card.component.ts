@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Crib } from '../crib';
 
 @Component({
   selector: 'app-crib-card',
@@ -7,11 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CribCardComponent implements OnInit {
 
-  @Input('crib') crib: any;
+  @Input('crib') crib: Crib;
 
   constructor() { }
 
   ngOnInit() {
+    const bedrooms = this.crib.bedrooms;
+    // const kitchen = this.crib.kitchens; ## error 나옴
   }
 
 }
