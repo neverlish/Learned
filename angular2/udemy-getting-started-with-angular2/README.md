@@ -1,3 +1,10 @@
+Lecture : https://www.udemy.com/getting-started-with-angular-2/?start=0
+
+Pull Request : https://github.com/neverlish/neverlish/pull/28
+
+
+-------------
+
 # UdemyGettingStartedWithAngular2
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.28.3.
