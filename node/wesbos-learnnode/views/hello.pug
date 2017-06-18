@@ -1,7 +1,4 @@
 extends layout
 
 block content
-  p Hello
-
-block footer
-  p I love you
+  h2 Sale ends in #{h.moment().endOf('day').fromNow()}
