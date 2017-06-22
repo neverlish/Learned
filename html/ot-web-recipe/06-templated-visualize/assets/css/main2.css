@@ -10,6 +10,7 @@
 body {
 	background-image: url(../../images/bg.jpg);
 	background-size: cover;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
 }
 #header .avatar {
 	border-radius: 100%;
@@ -22,3 +23,18 @@ body {
 	border-radius: 100%;
 	display: block;
 }
+#header h1 {
+	font-size: 1.5rem;
+	color: rgba(255, 255, 255, 0.5);
+	font-weight: 200;
+}
+#header h1 strong {
+	color: white;
+	font-weight: 200;
+}
+#header h1 a {
+	color: rgba(255, 255, 255, 0.5);
+	text-decoration: none;
+	border-bottom: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
