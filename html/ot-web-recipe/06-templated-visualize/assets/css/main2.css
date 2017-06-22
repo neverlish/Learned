@@ -1,0 +1,13 @@
+#wrapper {
+	border: 5px solid red;
+}
+#wrapper > * {
+	border: 5px solid green;
+}
+#wrapper > * > * {
+	border: 5px solid blue;
+}
+body {
+	background-image: url(../../images/bg.jpg);
+	background-size: cover;
+}
