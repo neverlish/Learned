@@ -5,12 +5,17 @@
 	border: 5px solid green;
 }
 #wrapper > * > * {
-	border: 5px solid blue;
+	/*border: 5px solid blue;*/
 }
 body {
 	background-image: url(../../images/bg.jpg);
 	background-size: cover;
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+#header {
+	text-align: center;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
 }
 #header .avatar {
 	border-radius: 100%;
@@ -18,6 +23,7 @@ body {
 	padding: 0.5rem;
 	background-color: rgba(255, 255, 255, 0.05);
 	border: 1px solid rgba(255, 255, 255, 0.25);
+	margin-bottom: 1.5rem;
 }
 #header .avatar img {
 	border-radius: 100%;
@@ -27,6 +33,7 @@ body {
 	font-size: 1.5rem;
 	color: rgba(255, 255, 255, 0.5);
 	font-weight: 200;
+	margin-bottom: 1.5rem;
 }
 #header h1 strong {
 	color: white;
@@ -47,6 +54,7 @@ body {
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 1rem;
 }
 #header ul.icons li .label {
 	display: none;
