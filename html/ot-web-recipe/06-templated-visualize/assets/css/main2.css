@@ -12,6 +12,10 @@ body {
 	background-size: cover;
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
 }
+#wrapper {
+	max-width: 68rem;
+	margin: 5rem auto;
+}
 #header {
 	text-align: center;
 	padding-top: 2rem;
@@ -34,6 +38,7 @@ body {
 	color: rgba(255, 255, 255, 0.5);
 	font-weight: 200;
 	margin-bottom: 1.5rem;
+	line-height: 2.3rem;
 }
 #header h1 strong {
 	color: white;
@@ -55,6 +60,10 @@ body {
 	justify-content: center;
 	align-items: center;
 	margin-right: 1rem;
+}
+#header ul.icons li:hover {
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 #header ul.icons li .label {
 	display: none;
@@ -114,4 +123,9 @@ body {
 	margin: 2rem auto;
 	width: 10rem;
 	border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+@media(max-width:480px) {
+	#main .thumbnails {
+		display: block;
+	}
 }
