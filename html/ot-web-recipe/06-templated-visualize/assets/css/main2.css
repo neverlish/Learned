@@ -37,4 +37,21 @@ body {
 	text-decoration: none;
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.5);
 }
-
+#header ul.icons li {
+	display: inline-block;
+	border-radius: 100%;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background-color: rgba(255, 255, 255, 0.05);
+	width: 2rem;
+	height: 2rem;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+#header ul.icons li .label {
+	display: none;
+}
+#header ul.icons li a {
+	color: rgba(255, 255, 255, 0.5);
+	text-decoration: none
+}
