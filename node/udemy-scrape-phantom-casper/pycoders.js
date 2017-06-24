@@ -1,3 +1,7 @@
+/* http://pycoders.com/archive/
+* - get date, name, link
+* - generate HTML page with above in the table format
+*/
 var casper = require("casper").create({
   verbose: true,
   logLevel: 'debug',     // debug, info, warning, error
@@ -6,7 +10,7 @@ var casper = require("casper").create({
     loadPlugins: false,
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4'
   },
-  clientScripts: ["vendor/jquery.min.js"]
+  clientScripts: ["vendor/jquery.min.js", "vendor/lodash.js"]
 });
 
 var fs = require('fs');
@@ -16,9 +20,30 @@ var link = [];
 var title = [];
 var date = [];
 
+function getLink() {
+  var link = $('.campaign a');
+  return _.map(link, function(e) {
+    return e.getAttribute('href');
+  });
+};
+
+function getTitle() {
+  var title = $('.campaign a');
+  return _.map(title, function(e) {
+    return e.innerHTML;
+  });
+};
+
+function getDate() {
+  var date = $('.campaign');
+  return _.map(date, function(e) {
+    return e.innerText;
+  });
+};
+
 casper.start(url, function() {
   // do something
-})
+});
 
 casper.then(function() {
   link = this.evaluate(getLink);
@@ -34,8 +59,8 @@ casper.then(function() {
 
 casper.run(function() {
   this.echo(link.length + ' links found: ');
-  this.echo(' - ' + link.join('\n - '));
-  this.echo(' - ' + title.join('\n - '));
+  // this.echo(' - ' + link.join('\n - '));
+  // this.echo(' - ' + title.join('\n - '));
   this.echo(' - ' + date.join('\n - ')).exit();
 });
 
