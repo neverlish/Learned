@@ -29,3 +29,10 @@ console.log(age);
 age -= 10;
 console.log(age);
 */
+
+var myArray = ['Javascript', 50, 10, false, 'Course'];
+console.log(myArray[0]);
+myArray[1] = 1000;
+console.log(myArray.length);
+myArray.sort();
+console.log(myArray);
