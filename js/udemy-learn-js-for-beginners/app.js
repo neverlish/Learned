@@ -108,10 +108,11 @@ console.log(myArray);
 // var da = Date();
 // console.log(da);
 
+/*
 var a = 15;
 var b = 10;
 var c = 'testb';
-/*
+
 if (a > b) { 
   console.log('Condition is TRUE'); 
   console.log('Condition is TRUE'); 
@@ -123,7 +124,6 @@ if (a > b) {
 } else {
   console.log('Conditions are FALSE')
 }
-*/
 
 switch (a) {
   case 15:
@@ -157,4 +157,28 @@ switch (c) {
     break;  
   default:
     console.log('Conditions are FALSE');
+}
+*/
+
+var a = 1;
+while (a < 10) {
+  console.log('new number' + a);
+  a++;
+}
+
+do {
+  console.log('new number' + a);
+  a++;
+}
+while (a < 20);
+
+for (a = 1; a < 10; a++) {
+  console.log('new number' + a);
+}
+
+var myArr = ['zero', 'one', 'two', 3, 4, 5, 6, 'seven'];
+console.log(myArr.length);
+
+for (x = 0; x < myArr.length;  x++) {
+  console.log('Array Index [' + x + "] " + myArr[x]);
 }
