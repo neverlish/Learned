@@ -36,3 +36,11 @@ myArray[1] = 1000;
 console.log(myArray.length);
 myArray.sort();
 console.log(myArray);
+
+var a = 1;
+var myObj = {course1: 'Javascript1',course2: 'Javascript2', price: 200, title: 'Intro to Javascript'};
+console.log(myObj);
+console.log(myObj['course'+a]);
+a++;
+console.log(myObj['course'+a]);
+console.log(myObj.course1);
