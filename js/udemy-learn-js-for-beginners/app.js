@@ -86,24 +86,75 @@ console.log(myArray);
 */
 
 
-var myStr = 'JavaScript';
-console.log(myStr.length);
-console.log(myStr.slice(2,5));
-console.log(myStr.substr(2,7));
-var a = myStr.replace(/a/g, 'WWWWW');
-console.log(a);
-console.log(myStr.toLowerCase());
+// var myStr = 'JavaScript';
+// console.log(myStr.length);
+// console.log(myStr.slice(2,5));
+// console.log(myStr.substr(2,7));
+// var a = myStr.replace(/a/g, 'WWWWW');
+// console.log(a);
+// console.log(myStr.toLowerCase());
 
-var b = 5;
-console.log(b);
-console.log(b.toString());
+// var b = 5;
+// console.log(b);
+// console.log(b.toString());
 
-console.log(Math.round(5.2233));
-console.log(Math.ceil(5.2233));
-console.log(Math.floor(5.2233));
+// console.log(Math.round(5.2233));
+// console.log(Math.ceil(5.2233));
+// console.log(Math.floor(5.2233));
 
-console.log(Math.random());
-console.log(Math.ceil(Math.random() * 10));
+// console.log(Math.random());
+// console.log(Math.ceil(Math.random() * 10));
 
-var da = Date();
-console.log(da);
+// var da = Date();
+// console.log(da);
+
+var a = 15;
+var b = 10;
+var c = 'testb';
+/*
+if (a > b) { 
+  console.log('Condition is TRUE'); 
+  console.log('Condition is TRUE'); 
+  console.log('Condition is TRUE'); 
+  console.log('Condition is TRUE'); 
+  console.log('Condition is TRUE'); 
+} else if (a < 20) {
+  console.log('Second Condition is True');
+} else {
+  console.log('Conditions are FALSE')
+}
+*/
+
+switch (a) {
+  case 15:
+    console.log('Condition is case' + c);
+    break;
+  case 10:
+    console.log('Condition is case' + c);
+    break;
+  case 5:
+    console.log('Condition is case' + c);
+    break;
+  case 1:
+    console.log('Condition is case' + c);
+    break;  
+  default:
+    console.log('Conditions are FALSE');
+}
+
+switch (c) {
+  case 'testc':
+    console.log('Condition is case 15');
+    break;
+  case 'testb':
+    console.log('Condition is case 10');
+    break;
+  case 5:
+    console.log('Condition is case 5');
+    break;
+  case 1:
+    console.log('Condition is case 1');
+    break;  
+  default:
+    console.log('Conditions are FALSE');
+}
