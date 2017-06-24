@@ -44,3 +44,21 @@ console.log(myObj['course'+a]);
 a++;
 console.log(myObj['course'+a]);
 console.log(myObj.course1);
+
+var b = 10;
+var c = 1;
+
+function myFun(a=3) {
+  // contents of the Function
+  var c = 100;
+  // console.log(c);
+  // console.log((a * b) + ' function was run');
+  return (a * b);
+}
+
+var d = myFun(5); // setting it as 50
+console.log(d);
+d += myFun(6); // adding 60
+console.log(d);
+d += myFun(); // adding 30
+console.log(d);
