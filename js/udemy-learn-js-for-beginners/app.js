@@ -1,3 +1,4 @@
+/*
 var firstName = 'laurence'; // String
 var age = 10; // Integer
 var age2 = 5;
@@ -6,6 +7,7 @@ var fiv = '5';
 var boo = false; // Boolean
 
 console.log(age + fiv);
+*/
 
 /*
 console.log(firstName);
@@ -30,6 +32,7 @@ age -= 10;
 console.log(age);
 */
 
+/*
 var myArray = ['Javascript', 50, 10, false, 'Course'];
 console.log(myArray[0]);
 myArray[1] = 1000;
@@ -80,3 +83,27 @@ myArray.splice(0, 2);
 console.log(myArray);
 myArray.splice(3, 0, 'added 1', 'added 2');
 console.log(myArray);
+*/
+
+
+var myStr = 'JavaScript';
+console.log(myStr.length);
+console.log(myStr.slice(2,5));
+console.log(myStr.substr(2,7));
+var a = myStr.replace(/a/g, 'WWWWW');
+console.log(a);
+console.log(myStr.toLowerCase());
+
+var b = 5;
+console.log(b);
+console.log(b.toString());
+
+console.log(Math.round(5.2233));
+console.log(Math.ceil(5.2233));
+console.log(Math.floor(5.2233));
+
+console.log(Math.random());
+console.log(Math.ceil(Math.random() * 10));
+
+var da = Date();
+console.log(da);
