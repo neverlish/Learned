@@ -20,16 +20,16 @@ var names = [];
 var prices = [];
 
 function getNames() {
-  var link = $('.campaign a');
-  return _.map(link, function(e) {
-    return e.getAttribute('href');
+  var names = $('[data-selenium=hotel-name]');
+  return _.map(names, function(e) {
+    return e.innerHTML;
   });
 };
 
 function getPrices() {
-  var title = $('.campaign a');
-  return _.map(title, function(e) {
-    return e.innerHTML.replace(/\:.*$/g,'');
+  var prices = $('[data-selenium=display-price]');
+  return _.map(prices, function(e) {
+    return e.innerHTML;
   });
 };
 
