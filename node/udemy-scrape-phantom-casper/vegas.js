@@ -37,6 +37,15 @@ casper.start(url, function() {
   this.echo(this.getTitle())
 });
 
+casper.waitForSelector('.hotel-name', function() {
+  console.log('hotel-name selector is loaded');
+});
+
+casper.then(function() {
+  this.clickLabel('성급(5→1)', 'span');
+  console.log('click to filter ratings');
+});
+
 casper.then(function() {
   names = this.evaluate(getNames);
   prices = this.evaluate(getPrices);
