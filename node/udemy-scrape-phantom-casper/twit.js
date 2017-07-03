@@ -34,8 +34,22 @@ casper.then(function() {
   console.log('Authentication ok, new location is ' + this.getCurrentUrl());
 })
 
-casper.waitForSelector('.BVRRRatingContainerStar', function() {
-  console.log('rating loaded');
+casper.then(function() {
+  this.fill('form#global-nav-search', {
+    q: searchKey
+  }, true);
+});
+
+casper.waitForSelector('.trends-inner', function() {
+  console.log('search result loaded');
+});
+
+casper.then(function() {
+  this.emit('results.log');
+});
+
+casper.on('results.log', function() {
+  this.captureSelector('twitPic.png', 'div.stream-container');
 });
 
 casper.run();
