@@ -5,7 +5,7 @@
 */
 var casper = require("casper").create({
   verbose: true,
-  logLevel: 'debug',     // debug, info, warning, error
+  logLevel: 'error',     // debug, info, warning, error
   pageSettings: {
     loadImages: false,
     loadPlugins: false,
@@ -20,16 +20,16 @@ var ratings = [];
 var dates = [];
 
 function getRatings() {
-  var ratings = $('[data-selenium=hotel-name]');
+  var ratings = document.querySelectorAll('.BVRRRatingNormalImage img');
   return _.map(ratings, function(e) {
-    return e.innerHTML;
+    return e.getAttribute('title');
   });
 };
 
 function getDates() {
-  var dates = $('[data-selenium=display-price]');
+  var dates = document.querySelectorAll('.BVRRValue.BVRRReviewDate');
   return _.map(dates, function(e) {
-    return e.innerHTML;
+    return e.innerText;
   });
 };
 
@@ -42,13 +42,13 @@ casper.wait(2000, function() {
 });
 
 casper.then(function() {
-  this.clickLabel('성급(5→1)', 'span');
+  this.click('button[data-click-location="customerreviewstab"]');
   console.log('clicked reviews tab');
 });
 
 
-casper.waitForSelector('.hotel-name', function() {
-  console.log('hotel-name selector is loaded');
+casper.waitForSelector('.BVRRRatingContainerStar', function() {
+  console.log('rating loaded');
 });
 
 casper.then(function() {
