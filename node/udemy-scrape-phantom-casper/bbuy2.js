@@ -33,7 +33,23 @@ function startPageFn() {
 }
 
 var processPage = function() {
-  
+  casper.wait(1000, function() {
+    console.log('waited 1 second');
+  });
+  this.echo('capturing page ' + currentPage);
+  this.capture('drone-result-p' + currentPage + '.png');
+
+  if (currentPage > 4 || !this.exists('.BVRRRatingContainerStar')) {
+    return terminate.call(casper);
+  }
+
+  currentPage++;
+  this.echo('requesting new page:' + currentPage);
+  this.thenClick('span.BVRRPageLink.BVRRNextPage a').then(function() {
+    this.waitFor(function() {
+      return startPage != 1;
+    }, processPage, terminate);
+  });
 }
 
 casper.start(url, function() {
