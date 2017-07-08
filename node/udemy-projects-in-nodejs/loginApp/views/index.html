@@ -53,9 +53,23 @@
         <div id="logbox"  >
           <form id="signup" method="post">
             <h1>Create an Account</h1>
-            <input name="user[email]" type="email" placeholder="Email address" class="input pass"/>
-            <input name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass"/>
-            <input name="user[password2]" type="password" placeholder="Confirm password" required="required" class="input pass"/>
+            <input
+              name="username"
+              type="username"
+              placeholder="Username"
+              class="input name"/>
+            <input
+              name="email"
+              type="email"
+              placeholder="Email address"
+              required="required"
+              class="input email"/>
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              required="required"
+              class="input pass"/>
             <input type="submit" value="Sign me up!" class="inputButton"/>
           </form>
         </div>
