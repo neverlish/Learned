@@ -1,9 +1,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var memberNameValidator = [
+  function(val) {
+    return (val.length > 0 && val != '(Select Name)');
+  },
+  // custom error text
+  'Select a valid member name.'
+]
+
 var NoteSchema = new Schema({
   memberName: {
     type: String,
+    validate: memberNameValidator
   },
   project: {
     type: String,
