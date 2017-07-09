@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"/>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Virtual Notes</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/newnote">New Note</a></li>
+            <li><a href="/discuss">Discuss</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="text-center">
+        <h1>New Meeting Note</h1>
+        <p class="lead">Use this form to enter your daily meeting notes...</p>
+      </div>
+
+      <!-- Show Errors Here -->
+      {% if message.length > 0 %}
+        <div class="alert alert-danger alert-error">
+          {{ message }}
+        </div>
+      {% endif %}
+
+      <form class="form-horizontal" action="newnote" method="post">
+        <fieldset>
+          <!-- Form Name -->
+          <legend>Enter a Meeting Note</legend>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label">Name</label>
+            <div class="col-md-4">
+              <select id="memberName" name="memberName" class="form-control">
+              <option value="selectName">(Select Name)</option>
+                {% for user in users %}
+                  <option value="{{ user.username }}"
+                          name="memberName">{{ user.username }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="project">Current Project or Task</label>
+            <div class="col-md-4">
+              <select id="project" name="project" class="form-control">
+                <option value="None">(Select Project)</option>
+                <option value="matrix">Code Review</option>
+                <option value="trinity">Intelligent UI Feature</option>
+                <option value="morpheus">Data Set XO</option>
+              </select>
+            </div>
+          </div>
+          <!-- Textarea -->
+          <div class="form-group">
+            <label class="col-md-4 control-label"
+                   for="workYesterday">What did you work on yesterday?</label>
+            <div class="col-md-6">
+              <textarea class="form-control"
+                        id="workYesterday"
+                        name="workYesterday"
+                        placeholder="yesterday's work here"></textarea>
+            </div>
+          </div>
+          <!-- Textarea -->
+          <div class="form-group">
+            <label class="col-md-4 control-label"
+                   for="workToday">What will you work on today?</label>
+            <div class="col-md-6">
+              <textarea class="form-control"
+                        id="workToday"
+                        name="workToday"
+                        placeholder="today's scheduled work"></textarea>
+            </div>
+          </div>
+          <!-- Textarea -->
+          <div class="form-group">
+            <label class="col-md-4 control-label"
+                   for="impediment">Any Impediment(s)?</label>
+            <div class="col-md-6">
+              <textarea class="form-control"
+                        id="impediment"
+                        name="impediment"
+                        placeholder="list any impediments here"></textarea>
+            </div>
+          </div>
+          <!-- Button -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="btnSaveNote">Save Note</label>
+            <div class="col-md-4">
+              <button id="btnSaveNote" name="btnSaveNote" class="btn btn-primary" type="submit">Save</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div><!-- /.container -->
+  </body>
+</html>

@@ -5,4 +5,8 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
+router.get('/newnote', function(req, res) {
+  res.render('newnote');
+});
+
 module.exports = router;
