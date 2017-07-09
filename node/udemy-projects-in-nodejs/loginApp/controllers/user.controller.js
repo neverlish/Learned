@@ -10,6 +10,7 @@ exports.register = function(req, res) {
   newUser.save(function(err, user) {
     if(err) {
       console.log(err.message);
+      res.send('error registering user');
     } else {
       console.log(user);
       res.redirect('/signup.html');
