@@ -1,3 +1,10 @@
+Lecture: https://learnnode.com
+
+Pull Request: https://github.com/neverlish/neverlish/pull/32
+
+
+--------
+
 ## What is this?
 
 Just you wait folks!
