@@ -30,3 +30,14 @@ UserSchema.methods = {
 }
 
 module.exports = mongoose.model('User', UserSchema);
+
+module.exports.createUser = function(newUser, cb) {
+  bcrypt.hash(newUser.password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null, function(err, hash) {
+    if(err) throw err;
+    newUser.password = hash;
+    console.log('User is being saved');
+
+    // SAve user to the database
+    newUser.save(cb);
+  })
+}
