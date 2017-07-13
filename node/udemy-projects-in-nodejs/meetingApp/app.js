@@ -20,12 +20,12 @@ app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use('/', routes);
 
 app.listen(port, function() {
   console.log('app listening on port ' + port);
