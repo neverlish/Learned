@@ -1,0 +1,27 @@
+<div class="text-center">
+  <h1>Add a New Search Result</h1>
+  <p class="lead">Use this form to add your new result</p>
+</div>
+<div class="container">
+<form class="form-horizontal" ng-submit="addForm()">
+  <!-- Form Name -->
+  <div id="alertContainer"></div>
+
+  <legend>Enter a Website</legend>
+  <label>Title:</label>
+  <input type="text"
+         ng-model="title"
+         class="form-control"
+         placeholder="Enter title">
+  <label>URL:</label>
+  <input type="text"
+         ng-model="url"
+         class="form-control"
+         placeholder="Enter URL">
+  <label>Description</label>
+  <textarea ng-model="description" class="form-control" type="text"></textarea>
+  <br>
+  <button class="btn btn-primary" type="submit">Save</button>
+  <button class="btn btn-info" ui-sref="home">Back</button>
+</form>
+</div>

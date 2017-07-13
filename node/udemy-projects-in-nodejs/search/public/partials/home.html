@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="text-center">Mongoose Search</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <form ng-submit="getResults()">
+        <br>
+        <div class="col-md-9 col-md-offset-1">
+          <div class="row">
+            <div class="form-group searchBox">
+              <input class="form-control" type="text" placeholder="Search..." name="searchText" ng-model="searchText">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group goBtn">
+            <div class="col-md-2">
+              <input type="submit" value="GO" class="btn btn-primary btn-small">
+            </div>
+          </div>
+        </div>
+        <div class="row result">
+          <div class="col-md-9 col-md-offset-1">
+            <ul class="list-unstyled">
+              <li ng-repeat="(key, value) in site">
+                <a href="{{ value.url }}"><p class="url lead">{{ value.title }}</p></a>
+                <h4>{{ value.url }}</h4>
+                <p class="description">{{ value.description }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
