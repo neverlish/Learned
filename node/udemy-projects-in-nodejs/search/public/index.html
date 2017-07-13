@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+  <head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Mongoose Search Engine</title>
+  </head>
+  <body>
+  <div class="container">
+    <div ui-view></div>
+    <br>
+    <footer><p class="text-right"><a ui-sref="home">Home </a>| <a ui-sref="register">Signup </a>| <a ui-sref="login">Login </a>| <a ui-sref="add">Add Link</a></p></footer>
+  </div>
+    <!-- Vendor scripts -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+
+    <!-- Public Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/route_config.js"></script>
+
+    <!-- <script src="js/controllers/home.Ctrl.js"></script>
+    <script src="js/controllers/login.Ctrl.js"></script>
+    <script src="js/controllers/register.Ctrl.js"></script>
+    <script src="js/controllers/add.Ctrl.js"></script>
+
+    <script src="js/services/auth.srvc.js"></script>
+    <script src="js/services/results.srvc.js"></script> -->
+  </body>
+</html>
