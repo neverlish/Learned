@@ -1,0 +1,17 @@
+{
+  "name": "search",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Jinho Hyeon <neverlish@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/neverlish/neverlish",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
