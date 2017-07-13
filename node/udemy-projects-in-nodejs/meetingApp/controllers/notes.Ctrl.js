@@ -43,3 +43,25 @@ exports.createNote = function(req, res) {
     }
   });
 }
+
+// Filter by Name
+exports.noteByMember = function(req, res) {
+  var query = Note.find({});
+  var filter = req.body.memberName;
+
+  if (filter.length === 0) {
+    console.log('no notes found');
+  } else {
+    query.where({
+      memberName: filter
+    })
+    .sort({
+      createdOn: 'desc'
+    })
+    .exec(function(err, results) {
+      res.render('index', {
+        notes: results
+      });
+    });
+  }
+}
