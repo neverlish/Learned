@@ -4,10 +4,10 @@
   angular
     .module('app')
     .config(config)
-    .run(run)
+    // .run(run)
 
   config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider']
-  run.$inject = ['$rootScope', '$state', 'Auth']
+  // run.$inject = ['$rootScope', '$state', 'Auth']
 
   function config($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
@@ -36,12 +36,12 @@
     $locationProvider.html5Mode(true);
   }
 
-  function run($rootScope, $state, Auth) {
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      if(toState.restricted && Auth.isLoggedIn() === false) {
-        $state.go('login');
-        event.preventDefault();
-      }
-    });
-  }
+  // function run($rootScope, $state, Auth) {
+  //   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+  //     if(toState.restricted && Auth.isLoggedIn() === false) {
+  //       $state.go('login');
+  //       event.preventDefault();
+  //     }
+  //   });
+  // }
 })();
