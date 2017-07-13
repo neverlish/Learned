@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var notesCtrl = require('../controllers/notes.Ctrl');
+var asyncCtrl = require('../controllers/async.Ctrl');
 
-router.get('/', function(req, res) {
-  res.render('index');
-});
+router.get('/', asyncCtrl.homePage);
 
 router.get('/newnote', notesCtrl.allUsersNotes);
 router.post('/newnote', notesCtrl.createNote);
