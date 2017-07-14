@@ -1,0 +1,19 @@
+{
+  "name": "loginApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.1",
+    "mongoose-hidden": "^1.4.0",
+    "path": "^0.12.7"
+  }
+}

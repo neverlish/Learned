@@ -1,0 +1,59 @@
+body {
+	background:#f9f9f9;
+}
+
+h1 {
+	padding-top:15px;
+	padding-bottom:15px;
+}
+
+.searchBox {
+	padding-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.goBtn {
+	padding-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.result {
+	border-bottom:#ccc 1px dotted;
+	padding-top:15px;
+	padding-bottom:15px;
+      padding-left: 5px;
+}
+
+.result li{
+  padding-bottom: 15px;
+}
+
+.result:last-child {
+	border:0;
+}
+
+h4 {
+      color:green;
+	margin:0;
+}
+
+p.url {
+	margin:0;
+	padding:0;
+	color:#008cba;
+}
+
+p.description {
+	color:#666;
+	margin:0;
+}
+
+.alertContainer {
+  padding-right: 20px;
+  padding-bottom: 20px;
+  width: 50%;
+  position: fixed;
+  top: 5%;
+}

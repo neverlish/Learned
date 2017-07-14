@@ -1,0 +1,24 @@
+{
+  "name": "search",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Jinho Hyeon <neverlish@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/neverlish/neverlish",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-strap": "^2.3.12",
+    "angular-cookies": "^1.6.5",
+    "angular": "^1.6.5",
+    "bootstrap": "^3.3.7",
+    "angular-ui-router": "^1.0.5"
+  }
+}
