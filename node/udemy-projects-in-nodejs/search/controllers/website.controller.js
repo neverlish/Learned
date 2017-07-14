@@ -21,7 +21,9 @@ exports.searchResults = function(req, res) {
   var searchText = req.body.searchText;
 
   Website.search(searchText, {
-    title: 1
+    title: 1,
+    description: 1,
+    url: 1
   }, {
     conditions: {
       title: {
