@@ -11,6 +11,7 @@ var port = 8080;
 var db = 'mongodb://localhost:27017/search-app/'
 
 var users = require('./routes/user');
+var website = require('./routes/website');
 
 mongoose.connect(db);
 
@@ -32,6 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/users', users);
+app.use('/website', website);
 
 app.listen(port, function() {
   console.log('app listening on port ' + port);
