@@ -37,10 +37,11 @@
     function login(user) {
       return $http
         .post('/users/login', user)
-        .success(function(data) {
+        .then(function(data) {
           loggedIn = true;
+          return data.data;
         })
-        .error(function(data) {
+        .catch(function(data) {
           console.log('error occured');
           loggedIn = false;
         });
