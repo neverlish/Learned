@@ -42,3 +42,18 @@ function GetInfo(info: string = 'Happy') {
 }
 
 GetInfo('Very Happy');
+
+
+///////// Functions advanced
+
+// Anonymous function
+let StudentName = function(lName: string, fName: string) {
+  return fName + '...' + lName;
+}
+
+console.log(StudentName('KK', 'Karthik'))
+
+// Arrow Function
+let StudentFullName = (lName: string, fName: string) => { return fName + '...' + lName; }
+
+console.log(StudentFullName('KK', 'Prashanth'))
