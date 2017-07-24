@@ -1,13 +1,22 @@
+// Enum declaration
 enum LanguagesKnown { English, Hindi, Tamil }
 
-let student = {
+// Interface declaration
+interface StudentInfo {
+  Name: string,
+  Age: Number,
+  Phone: Number,
+  Language: string
+}
+
+let student: StudentInfo = {
   Name: 'Karthik',
   Age: 30,
   Phone: 2342342,
   Language: LanguagesKnown[LanguagesKnown.Tamil]
 }
 
-let studentsList = [
+let studentsList: StudentInfo[] = [
   {Name: 'Prashanth', Age: 26, Phone: 23423423, Language: LanguagesKnown[LanguagesKnown.English]},
   {Name: 'Shree', Age: 27, Phone: 2454545, Language: LanguagesKnown[LanguagesKnown.Hindi]}
 ]
@@ -19,7 +28,7 @@ studentsList.push(student)
 //   console.log('Age:' + element.Age + ' with Name ' + element.Name + ' has Phone:' + element.Phone + ' knows language:' + element.Language)
 // }
 
-function GetStudentsList(students: any[]) {
+function GetStudentsList(students: StudentInfo[]) {
   students.forEach(element => {
     console.log('Age:' + element.Age + ' with Name ' + element.Name + ' has Phone:' + element.Phone + ' knows language:' + element.Language)
   });
