@@ -1,5 +1,5 @@
 import {StudentInfo} from './IStudentInfo'
-import {Students} from './Student'
+import Stud from './Student'
 
 // Enum declaration
 enum LanguagesKnown { English, Hindi, Tamil }
@@ -65,7 +65,7 @@ console.log(StudentFullName('KK', 'Prashanth'))
 
 ///////// Classes
 
-let s = new Students('KK', 'Karthik');
+let s = new Stud('KK', 'Karthik');
 console.log(s.GetFullName());
 
 //////// Generics

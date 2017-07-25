@@ -1,4 +1,4 @@
-class Students {
+export default class Students {
   // private lName: string;
   // private fName: string;
 
@@ -16,4 +16,4 @@ class Students {
   }
 }
 
-export {Students}
+// export {Students}
