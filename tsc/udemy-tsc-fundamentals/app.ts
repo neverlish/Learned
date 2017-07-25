@@ -1,5 +1,6 @@
 import {StudentInfo} from './IStudentInfo'
-import Stud from './Student'
+// import Stud from './Student'
+import Stud = require('./Student')
 
 // Enum declaration
 enum LanguagesKnown { English, Hindi, Tamil }
@@ -82,3 +83,5 @@ function GetStudentsListGenerics(students: Array<StudentInfo>) {
 }
 
 GetStudentsListGenerics(studentsListG);
+
+
