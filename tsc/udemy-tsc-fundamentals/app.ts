@@ -89,3 +89,18 @@ class Students {
 
 let s = new Students('KK', 'Karthik');
 console.log(s.GetFullName());
+
+//////// Generics
+
+let studentsListG: Array<StudentInfo> = [
+  {Name: 'Prashanth', Age: 26, Phone: 23423423, Language: LanguagesKnown[LanguagesKnown.English]},
+  {Name: 'Shree', Age: 27, Phone: 2454545, Language: LanguagesKnown[LanguagesKnown.Hindi]}
+]
+
+function GetStudentsListGenerics(students: Array<StudentInfo>) {
+  students.forEach(element => {
+    console.log('Age:' + element.Age + ' with Name ' + element.Name + ' has Phone:' + element.Phone + ' knows language:' + element.Language)   
+  });
+}
+
+GetStudentsListGenerics(studentsListG);
