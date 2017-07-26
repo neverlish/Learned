@@ -8,3 +8,10 @@ in vscode
 - cd namespaceeg
 - tsc --target es6 app2.ts --outFile out.js
 - node out.js
+
+## 14 - Introduction to Type definitions
+- [DefinitelyTyped](http://definitelytyped.org)
+  - install [tsd](https://www.npmjs.com/package/tsd)
+- [typings](https://github.com/typings/typings)
+
+
