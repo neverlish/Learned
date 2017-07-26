@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "selenium-webdriver": "registry:npm/selenium-webdriver#3.0.0-beta-2+20160908165836"
+  }
+}

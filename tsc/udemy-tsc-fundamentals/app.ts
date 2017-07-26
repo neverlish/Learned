@@ -1,6 +1,11 @@
+/// <reference path="./typings/index.d.ts" />
+
 import {StudentInfo} from './IStudentInfo'
 // import Stud from './Student'
 import Stud = require('./Student')
+import * as Webdriver from "selenium-webdriver"
+
+// Webdriver.Browser.
 
 // Enum declaration
 enum LanguagesKnown { English, Hindi, Tamil }

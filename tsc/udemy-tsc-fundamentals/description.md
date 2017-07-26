@@ -14,4 +14,5 @@ in vscode
   - install [tsd](https://www.npmjs.com/package/tsd)
 - [typings](https://github.com/typings/typings)
 
-
+## 15 - Type definitions with Definitely typed and typings
+- typings install selenium-webdriver --save
