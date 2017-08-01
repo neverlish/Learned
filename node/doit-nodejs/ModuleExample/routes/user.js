@@ -22,9 +22,8 @@ var login = function(req, res) {
 	console.log('user 모듈 안에 있는 login 호출됨.');
 
 	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
-	
-	
+	checkDatabase(req);
+
 	var paramId = req.param('id');
 	var paramPassword = req.param('password');
 	
@@ -65,13 +64,12 @@ var adduser = function(req, res) {
 	console.log('user 모듈 안에 있는 adduser 호출됨.');
 
 	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
-	
+	checkDatabase(req);
 	
 	var paramId = req.param('id');
 	var paramPassword = req.param('password');
 	var paramName = req.param('name');
-	
+
 	if (database) {
 		addUser(database, paramId, paramPassword, paramName, function(err, result) {
 			if (err) {throw err;}
@@ -100,7 +98,7 @@ var listuser = function(req, res) {
 	console.log('user 모듈 안에 있는 listuser 호출됨.');
 
 	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
+	checkDatabase(req);
 	
 	
 	if (database) {
@@ -147,8 +145,8 @@ var checkDatabase = function(req) {
 		console.log('user 모듈에서 데이터베이스 객체를 참조합니다.');
 		
 		database = req.app.get('database');
-		UserSchema = req.app.get('UserSchema');
-		UserModel = req.app.get('UserModel');
+		UserSchema = database.UserSchema;
+		UserModel = database.UserModel;
 	} else {
 		console.log('user 모듈에서 데이터베이스 객체를 이미 참조했습니다.');
 	}
