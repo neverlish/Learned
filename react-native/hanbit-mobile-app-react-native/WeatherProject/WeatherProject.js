@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput
+  TextInput,
+  Image
 } from 'react-native';
 
 import Forecast from './Forecast';
@@ -29,17 +30,28 @@ export default class WeatherProject extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          You input {this.state.zip}.
-        </Text>
-        <Forecast
-          main={this.state.forecast.main}
-          description={this.state.forecast.description}
-          temp={this.state.forecast.temp}/>
-        <TextInput
-          style={styles.input}
-          returnKeyType='go'
-          onSubmitEditing={(event) => this._handleTextChange(event)}/>
+        <Image
+          source={require('./profile.png')}
+          resizeMode='cover'
+          style={styles.backdrop}>
+          <View style={styles.overlay}>
+            <View style={styles.row}>
+              <Text style={styles.mainText}>
+                Current weather for
+              </Text>
+              <View style={styles.zipContainer}>
+                <TextInput
+                  style={[styles.zipCode, styles.mainText]}
+                  returnKeyType='go'
+                  onSubmitEditing={(event) => this._handleTextChange(event)}/>
+              </View>
+            </View>
+            <Forecast
+              main={this.state.forecast.main}
+              description={this.state.forecast.description}
+              temp={this.state.forecast.temp}/>
+          </View>
+        </Image>
       </View>
     );
   }
@@ -61,5 +73,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderWidth: 2,
     height: 40
+  },
+  backdrop: {
+    flex: 1,
+    flexDirection: 'column'
   }
 });
