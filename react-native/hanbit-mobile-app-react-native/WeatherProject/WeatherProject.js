@@ -14,20 +14,37 @@ export default class WeatherProject extends Component {
     super(props);
     this.state = {
       zip: '',
-      forecast: {
-        main: 'Clouds',
-        description: 'few clouds',
-        temp: 45.7
-      }
+      forecast: null
     };
   }
   
   _handleTextChange(event) {
-    console.log(event.nativeEvent.text);
-    this.setState({zip: event.nativeEvent.text});
+    var zip = event.nativeEvent.text;
+    this.setState({zip:zip});
+    fetch('http://api.openweathermap.org/data/2.5/weather?q=' + zip + '&units=imperial&APPID=' + API_KEY)
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        this.setState({
+          forecast: {
+            main: responseJSON.weather[0].main,
+            description: responseJSON.weather[0].description,
+            temp: responseJSON.main.temp
+          }
+        })
+      })
+      .catch((error) => {
+        console.warn(error);
+      })
   }
 
   render() {
+    var content = null;
+    if (this.state.forecast !== null) {
+      content = <Forecast
+                  main={this.state.forecast.main}
+                  description={this.state.forecast.description}
+                  temp={this.state.forecast.temp}/>
+    }
     return (
       <View style={styles.container}>
         <Image
