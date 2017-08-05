@@ -26,9 +26,7 @@ class Forecast extends Component {
 }
 
 const styles = StyleSheet.create({
-  main: {
-    height: 300,
-  },
+  
   bigText: {
     flex: 2,
     fontSize: 20,

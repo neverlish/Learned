@@ -9,6 +9,8 @@ import {
 
 import Forecast from './Forecast';
 
+const API_KEY = 'bbeb34ebf60ad50f7893e7440a1e2b0b';
+
 export default class WeatherProject extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ export default class WeatherProject extends Component {
   _handleTextChange(event) {
     var zip = event.nativeEvent.text;
     this.setState({zip:zip});
-    fetch('http://api.openweathermap.org/data/2.5/weather?q=' + zip + '&units=imperial&APPID=' + API_KEY)
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + zip + '&units=imperial&APPID=' + API_KEY)
       .then((response) => response.json())
       .then((responseJSON) => {
         this.setState({
@@ -63,10 +65,7 @@ export default class WeatherProject extends Component {
                   onSubmitEditing={(event) => this._handleTextChange(event)}/>
               </View>
             </View>
-            <Forecast
-              main={this.state.forecast.main}
-              description={this.state.forecast.description}
-              temp={this.state.forecast.temp}/>
+            {content}
           </View>
         </Image>
       </View>
@@ -74,25 +73,45 @@ export default class WeatherProject extends Component {
   }
 }
 
+const baseFontSize = 16;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4D4D4D',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  input: {
-    fontSize: 20,
-    borderWidth: 2,
-    height: 40
+    paddingTop: 30,
   },
   backdrop: {
     flex: 1,
     flexDirection: 'column'
+  },
+  overlay: {
+    paddingTop: 5,
+    backgroundColor: '#000000',
+    opacity: 0.5,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'flex-start',
+    padding: 30
+  },
+  zipContainer: {
+    borderBottomColor: '#DDDDDD',
+    borderBottomWidth: 1,
+    marginLeft: 5,
+    marginTop: 3,
+  },
+  zipCode: {
+    
+    width: 50,
+    height: baseFontSize,
+    padding: 0
+  },
+  mainText: {
+    fontSize: baseFontSize,
+    color: '#FFFFFF'
   }
 });
