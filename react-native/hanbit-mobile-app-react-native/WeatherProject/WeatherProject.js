@@ -2,16 +2,31 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput
 } from 'react-native';
 
 export default class WeatherProject extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { zip: '' };
+  }
+  
+  _handleTextChange(event) {
+    console.log(event.nativeEvent.text);
+    this.setState({zip: event.nativeEvent.text});
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          You input {this.state.zip}.
         </Text>
+        <TextInput
+          style={styles.input}
+          returnKeyType='go'
+          onSubmitEditing={(event) => this._handleTextChange(event)}/>
       </View>
     );
   }
@@ -29,9 +44,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  input: {
+    fontSize: 20,
+    borderWidth: 2,
+    height: 40
+  }
 });
