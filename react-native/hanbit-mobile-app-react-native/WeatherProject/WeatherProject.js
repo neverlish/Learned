@@ -6,10 +6,19 @@ import {
   TextInput
 } from 'react-native';
 
+import Forecast from './Forecast';
+
 export default class WeatherProject extends Component {
   constructor(props) {
     super(props);
-    this.state = { zip: '' };
+    this.state = {
+      zip: '',
+      forecast: {
+        main: 'Clouds',
+        description: 'few clouds',
+        temp: 45.7
+      }
+    };
   }
   
   _handleTextChange(event) {
@@ -23,6 +32,10 @@ export default class WeatherProject extends Component {
         <Text style={styles.welcome}>
           You input {this.state.zip}.
         </Text>
+        <Forecast
+          main={this.state.forecast.main}
+          description={this.state.forecast.description}
+          temp={this.state.forecast.temp}/>
         <TextInput
           style={styles.input}
           returnKeyType='go'
@@ -37,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#4D4D4D',
   },
   welcome: {
     fontSize: 20,
