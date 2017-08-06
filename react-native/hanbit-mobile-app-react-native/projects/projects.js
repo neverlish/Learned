@@ -5,5 +5,6 @@ import BookList from './components/bestsellers/BookList'
 import BookListV2 from './components/bestsellers/BookListV2'
 import Newsflash from './components/crossplatform/Newsflash'
 import FlexDemo from './components/styles/FlexDemo'
+import Mondrian from './components/styles/Mondrian'
 
-export default FlexDemo;
+export default Mondrian;
