@@ -19,6 +19,12 @@ var app = express();
 var passport = require('passport');
 var flash = require('connect-flash');
 
+// socket.io 모듈 불러들이기
+var socketio = require('socket.io');
+
+// cors 사용 - 클라이언트에서 ajax로 요청하면 CORS 지원
+var cors = require('cors');
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
@@ -42,6 +48,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// cors를 미들웨어로 사용하도록 등록
+app.use(cors());
+
 // 패스포트 설정
 var configPassport = require('./config/passport');
 configPassport(app, passport);
@@ -63,10 +72,22 @@ var errorHandler = expressErrorHandler({
 app.use( expressErrorHandler.httpError(404) );
 app.use( errorHandler );
 
-
-//===== 서버 시작 =====//
-http.createServer(app).listen(app.get('port'), function(){
+// 시작된 서버 객체를 반환받습니다
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 
   database.init(app, config);
+});
+
+// socket.io 서버를 시작합니다
+var io = socketio.listen(server);
+console.log('socet.io 요청을 받아들일 준비가 되었습니다.');
+
+// 클라이언트가 연결했을 때의 이벤트 처리
+io.sockets.on('connection', function(socket) {
+  console.log('connection into : ', socket.request.connection._peername);
+
+  // 소켓 객체에 클라이언트 Host, Port 정보 속성으로 추가
+  socket.remoteAddress = socket.request.connection._peername.address;
+  socket.remotePort = socket.request.connection._peername.port;
 });
