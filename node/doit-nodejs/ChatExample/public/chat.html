@@ -12,6 +12,21 @@
     <input type='text' id='portInput' value='3000'>
     <input type='button' id='connectButton' value='연결하기'>
   </div>
+  <div>
+    <div>
+      <span>보내는 사람 아이디 : </span>
+      <input type='text' id='senderInput' value='test01'>
+    </div>
+    <div>
+      <span>받는 사람 아이디 : </span>
+      <input type='text' id='recepientInput' value='ALL'>
+    </div>
+    <div>
+      <span>메세지 데이터 : </span>
+      <input type='text' id='dataInput' value='안녕!'>
+    </div>
+    <br>
+    <input type='button' id='sendButton' value='전송'>
   <hr/>
   <p>결과 : </p>
   <div id='result'></div>
@@ -33,6 +48,23 @@
       });
     });
 
+    // 전송 버튼을 클릭하면 처리
+    $('#sendButton').bind('click', function(event) {
+      var sender = $('#senderInput').val();
+      var recepient = $('#recepientInput').val();
+      var data = $('#dataInput').val();
+
+      var output = {sender: sender, recepient: recepient, command: 'chat', type: 'text', data: data};
+      console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
+
+      if(socket == undefined) {
+        alert('서버에 연결되어 있지 않습니다. 먼저 서버에 연결하세요.');
+        return;
+      }
+
+      socket.emit('message', output);
+    })
+
     // 서버에 연결하는 함수 정의
     function connectToServer() {
       var options = {'forceNew': true};
@@ -41,6 +73,12 @@
 
       socket.on('connect', function() {
         println('웹 소켓 서버에 연결되었습니다. : ' + url);
+
+        socket.on('message', function(message) {
+          console.log(JSON.stringify(message));
+
+          println('<p>수신 메시지 : ' + message.sender + ', ' + message.recepient + ', ' + message.command + ', ' + message.type + ', ' + message.data + '</p>');
+        })
       });
 
       socket.on('disconnect', function() {
