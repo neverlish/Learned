@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>채팅 클라이언트 01</title>
+</head>
+<body>
+  <h3>채팅 클라이언트 01</h3>
+  <br>
+  <div>
+    <input type='text' id='hostInput' value='localhost'>
+    <input type='text' id='portInput' value='3000'>
+    <input type='button' id='connectButton' value='연결하기'>
+  </div>
+  <hr/>
+  <p>결과 : </p>
+  <div id='result'></div>
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'></script>
+  <script>
+    var host;
+    var port;
+    var socket;
+
+    // 문서 로딩 후 실행됨
+    $(function() {
+      $('#connectButton').bind('click', function(event) {
+        println('connectButton이 클릭되었습니다.');
+        host = $('#hostInput').val();
+        port = $('#portInput').val();
+
+        connectToServer();
+      });
+    });
+
+    // 서버에 연결하는 함수 정의
+    function connectToServer() {
+      var options = {'forceNew': true};
+      var url = 'http://' + host + ':' + port;
+      socket = io.connect(url, options);
+
+      socket.on('connect', function() {
+        println('웹 소켓 서버에 연결되었습니다. : ' + url);
+      });
+
+      socket.on('disconnect', function() {
+        println('웹 소켓 연결이 종료되었습니다.');
+      });
+    }
+
+    function println(data) {
+      console.log(data);
+      $('#result').append('<p>' + data + '</p>');
+    }
+  </script>
+</body>
+</html>
