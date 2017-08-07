@@ -52,4 +52,19 @@ module.exports = function(app, passport) {
     req.logout();
     res.redirect('/');
   })
+
+  // 패스포트 - 페이스북 인증 라우팅
+  app.get('/auth/facebook',
+    passport.authenticate('facebook', {
+      scope: 'email'
+    })
+  );
+
+  // 패스포트 - 페이스북 인증 콜백 라우팅
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+      successRedirect: '/profile',
+      failureRedirect: '/'
+    })
+  );
 }

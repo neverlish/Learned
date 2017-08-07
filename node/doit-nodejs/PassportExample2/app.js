@@ -3,7 +3,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
-var config = require('./config');
+var config = require('./config/config');
 var database = require('./database/database');
 var route_loader = require('./routes/route_loader');
 
