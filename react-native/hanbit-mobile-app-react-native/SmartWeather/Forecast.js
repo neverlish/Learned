@@ -28,15 +28,12 @@ class Forecast extends Component {
 const styles = StyleSheet.create({
   
   bigText: {
-    flex: 2,
-    fontSize: 20,
+    fontSize: 72,
     textAlign: 'center',
-    margin: 10,
     color: '#FFFFFF'
   },
   mainText: {
-    flex: 1,
-    fontSize: 16,
+    fontSize: 32,
     textAlign: 'center',
     color: '#FFFFFF'
   }
