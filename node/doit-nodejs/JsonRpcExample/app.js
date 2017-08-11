@@ -33,6 +33,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //===== body-parser, cookie-parser, express-session 사용 설정 =====//
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.use(cookieParser());
 app.use(expressSession({
