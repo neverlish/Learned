@@ -1,8 +1,12 @@
 import { h, Component } from 'preact';
+import { 
+  BrowserRouter as Router,
+  Route, 
+  Switch
+} from 'react-router-dom';
 import Home from './Home';
 import Profile from './Profile';
 import Error from './Error';
-import { Router } from 'preact-router';
 
 
 export class App extends Component {
@@ -10,9 +14,11 @@ export class App extends Component {
     return (
       <div class='app'>
         <Router>
-          <Home path='/'/>
-          <Profile path='/profile/:user' />
-          <Error default />
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/profile/:user' component={Profile} />
+            <Route component={Error} />
+          </Switch>
         </Router>
       </div>
     )

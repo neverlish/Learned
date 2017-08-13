@@ -16,6 +16,8 @@
     "babel-preset-stage-0": "^6.24.1",
     "linkstate": "^1.0.1",
     "preact": "^8.2.1",
-    "preact-router": "^2.5.5"
+    "preact-compat": "^3.17.0",
+    "preact-router": "^2.5.5",
+    "react-router-dom": "^4.1.2"
   }
 }
