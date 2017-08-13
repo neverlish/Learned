@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import User from './User';
+import linkState from 'linkstate';
 
 export class App extends Component {
   constructor(props) {
