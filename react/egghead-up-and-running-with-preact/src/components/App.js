@@ -25,14 +25,14 @@ export class App extends Component {
       .catch(err => console.error(err));
   }
 
-  render() {    
+  render({config}, {loading, user}) {    
     return (
       <div class='app'>
-        {this.state.loading 
-          ? <p>Please wait...</p>
+        {loading 
+          ? <p>Fetching {config.urls.user}</p>
           : <User
-              image={this.state.user.avatar_url}
-              name={this.state.user.name}/>
+              image={user.avatar_url}
+              name={user.name}/>
         }
       </div>
     )
