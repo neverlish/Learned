@@ -1,39 +1,19 @@
 import { h, Component } from 'preact';
-import linkState from 'linkstate';
+import Home from './Home';
+import Profile from './Profile';
+import Error from './Error';
+import { Router } from 'preact-router';
+
 
 export class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: null,
-      loading: true
-    }
-  }
-
-  componentDidMount() {
-    fetch(this.props.config.urls.user)
-      .then(resp => resp.json())
-      .then(user => {
-        setTimeout(() => {
-          this.setState({
-            user,
-            loading: false
-          })
-        }, 2000)
-      })
-      .catch(err => console.error(err));
-  }
-
-  render({config}, {loading, user}) {    
+  render() {    
     return (
       <div class='app'>
-        {loading 
-          ? <p>Fetching {config.urls.user}</p>
-          : <User
-              image={user.avatar_url}
-              name={user.name}/>
-        }
+        <Router>
+          <Home path='/'/>
+          <Profile path='/profile/:user' />
+          <Error default />
+        </Router>
       </div>
     )
   }
