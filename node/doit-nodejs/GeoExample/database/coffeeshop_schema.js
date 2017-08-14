@@ -49,6 +49,21 @@ Schema.createSchema = function(mongoose) {
     ).exec(callback);
   });
 
+  // 일정 반경 안의 커피숍 조회
+  CoffeeShopSchema.static('findCircle', function(center_longitude, center_latitude, radius, callback) {
+    console.log('coffeeShopSchema의 findCircle 호출됨.');
+
+    // change radian : 1/6371 -> 1km
+    this.find().where('geometry').within(
+      {
+        center: [parseFloat(center_longitude), parseFloat(center_latitude)],
+        radius: parseFloat(radius/6371000),
+        unique: true,
+        spherical: true
+      }
+    ).exec(callback);
+  });
+
   return CoffeeShopSchema;
 };
 

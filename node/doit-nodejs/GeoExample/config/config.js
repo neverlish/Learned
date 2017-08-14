@@ -9,7 +9,8 @@ module.exports = {
     {file: './coffeeshop', path: '/process/addcoffeeshop', method: 'add', type: 'post'},
     {file: './coffeeshop', path: '/process/listcoffeeshop', method: 'list', type: 'post'},
     {file: './coffeeshop', path: '/process/nearcoffeeshop', method: 'findNear', type: 'post'},
-    {file: './coffeeshop', path: '/process/withincoffeeshop', method: 'findWithin', type: 'post'}
+    {file: './coffeeshop', path: '/process/withincoffeeshop', method: 'findWithin', type: 'post'},
+    {file: './coffeeshop', path: '/process/circlecoffeeshop', method: 'findCircle', type: 'post'}
   ],
   facebook: {
     clientID: '1116768055126353',
