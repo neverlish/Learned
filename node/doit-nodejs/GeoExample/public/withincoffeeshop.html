@@ -1,0 +1,30 @@
+<body>
+  <h1>영역 안의 커피숍 찾기</h1>
+  <br/>
+  <h3>http://mygeoposition.com/에서 좌표를 확인하여 추가합니다.</h3>
+  <br/>
+  <p>삼성역 3번 출구와 4번 출구 부근의 영역(사각형 박스)</p>
+  <br/>
+  <form method='post' action='/process/withincoffeeshop'>
+    <table>
+      <tr>
+        <td><label>왼쪽 윗부분의 경도</label></td>
+        <td><input type='text' name='topleft_longitude' value='127.0617076'></td>
+      </tr>
+      <tr>
+        <td><label>왼쪽 윗부분의 위도</label></td>
+        <td><input type='text' name='topleft_latitude' value='37.5082076'></td>
+      </tr>
+      <tr>
+        <td><label>오른쪽 아랫부분의 경도</label></td>
+        <td><input type='text' name='bottomright_longitude' value='127.0638105'></td>
+      </tr>
+      <tr>
+        <td><label>오른쪽 아랫부분의 위도</label></td>
+        <td><input type='text' name='bottomright_latitude' value='37.5101226'></td>
+      </tr>
+    </table>
+    <input type='submit' value='전송' name=''>
+  </form>
+</body>
+  

@@ -36,6 +36,19 @@ Schema.createSchema = function(mongoose) {
     ).limit(1).exec(callback);
   });
 
+  // 일정 범위 안의 커피숍 조회
+  CoffeeShopSchema.static('findWithin', function(topleft_longitude, topleft_latitude, bottomright_longitude, bottomright_latitude, callback) {
+    console.log('CoffeeShop의 findWithin 호출됨.');
+    this.find().where('geometry').within(
+      {
+        box: [
+          [parseFloat(topleft_longitude), parseFloat(topleft_latitude)],
+          [parseFloat(bottomright_longitude), parseFloat(bottomright_latitude)]
+        ]
+      }
+    ).exec(callback);
+  });
+
   return CoffeeShopSchema;
 };
 
