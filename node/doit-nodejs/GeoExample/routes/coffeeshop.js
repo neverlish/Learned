@@ -97,5 +97,48 @@ var list = function(req, res) {
   }
 }
 
+var findNear = function(req, res) {
+  console.log('coffeeshop 모듈 안에 있는 findNear 호출됨.');
+
+  var paramLongitude = req.param('longitude');
+  var paramLatitude = req.param('latitude');
+  var maxDistance = 1000;
+  var database = req.app.get('database');
+
+  if (database.db) {
+    // 1. 가까운 커피숍 검색
+    database.CoffeeShopModel.findNear(paramLongitude, paramLatitude, maxDistance, function(err, results) {
+      if (err) {throw err;}
+      if (results) {
+        console.dir(results);
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<h2>가까운 커피숍</h2>');
+        res.write('<div><ul>')
+        
+        for (var i=0; i < results.length; i++) {
+          var curName = results[i]._doc.name;
+          var curAddress = results[i]._doc.address;
+          var curTel = results[i]._doc.tel;
+          var curLongitude = results[i]._doc.geometry.coordinates[0];
+          var curLatitude = results[i]._doc.geometry.coordinates[1];
+
+          res.write('  <li>#' + i + ' : ' + curName + ', ' + curAddress + ', ' + curTel + ', ' + curLongitude + ', ' + curLatitude + '</li>');
+        }
+        res.write('</ul></div>');
+        res.end();
+      } else {
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<h2>가까운 커피숍 조회 실패</h2>');
+        res.end();
+      }
+    });
+  } else {
+    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+    res.write('<h2>데이터베이스 연결 실패</h2>');
+    res.end();
+  }
+}
+
 module.exports.add = add;
 module.exports.list = list;
+module.exports.findNear = findNear;

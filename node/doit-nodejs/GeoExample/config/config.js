@@ -7,7 +7,8 @@ module.exports = {
   ],
   route_info: [
     {file: './coffeeshop', path: '/process/addcoffeeshop', method: 'add', type: 'post'},
-    {file: './coffeeshop', path: '/process/listcoffeeshop', method: 'list', type: 'post'}
+    {file: './coffeeshop', path: '/process/listcoffeeshop', method: 'list', type: 'post'},
+    {file: './coffeeshop', path: '/process/nearcoffeeshop', method: 'findNear', type: 'post'}
   ],
   facebook: {
     clientID: '1116768055126353',
