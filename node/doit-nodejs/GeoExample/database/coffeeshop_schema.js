@@ -14,7 +14,15 @@ Schema.createSchema = function(mongoose) {
     updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
   })
 
-  CoffeeShopSchema.index({geomtry: '2dsphere'});
+  CoffeeShopSchema.index({geometry: '2dsphere'});
+
+  // 스키마에 static() 메소드 추가
+  // 모든 커피숍 조회
+  CoffeeShopSchema.static('findAll', function(callback) {
+    return this.find({}, callback);
+  });
+
+  return CoffeeShopSchema;
 };
 
 module.exports = Schema;
