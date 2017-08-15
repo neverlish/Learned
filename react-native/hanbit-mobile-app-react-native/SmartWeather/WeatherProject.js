@@ -11,7 +11,7 @@ import {
 import Forecast from './Forecast';
 import LocationButton from './LocationButton';
 
-import PhotoBackdrop from './PhotoBackdrop/camera_roll_example';
+import PhotoBackdrop from './PhotoBackdrop';
 
 const WEATHER_API_KEY = 'bbeb34ebf60ad50f7893e7440a1e2b0b';
 const API_STEM = 'https://api.openweathermap.org/data/2.5/weather?';
