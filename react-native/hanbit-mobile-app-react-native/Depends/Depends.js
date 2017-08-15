@@ -7,11 +7,13 @@ import {
 
 var _ = require('lodash');
 import Video from 'react-native-video';
+import HelloWorld from './HelloWorld';
 
 export default class Depends extends Component {
   constructor() {
     super();
     console.log('Random number: ' + _.random(0, 5))
+    HelloWorld.greeting('Bonnie')
   }
   render() {
     return (
