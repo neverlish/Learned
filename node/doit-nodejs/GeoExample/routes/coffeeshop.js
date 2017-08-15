@@ -111,21 +111,18 @@ var findNear = function(req, res) {
       if (err) {throw err;}
       if (results) {
         console.dir(results);
-        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-        res.write('<h2>가까운 커피숍</h2>');
-        res.write('<div><ul>')
         
-        for (var i=0; i < results.length; i++) {
-          var curName = results[i]._doc.name;
-          var curAddress = results[i]._doc.address;
-          var curTel = results[i]._doc.tel;
-          var curLongitude = results[i]._doc.geometry.coordinates[0];
-          var curLatitude = results[i]._doc.geometry.coordinates[1];
-
-          res.write('  <li>#' + i + ' : ' + curName + ', ' + curAddress + ', ' + curTel + ', ' + curLongitude + ', ' + curLatitude + '</li>');
+        if (results.length > 0) {
+          res.render('findnear.ejs', {
+            result: results[0]._doc,
+            paramLatitude: paramLatitude,
+            paramLongitude: paramLongitude
+          });
+        } else {
+          res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+          res.write('<h2>가까운 커피숍 데이터가 없습니다.</h2>');
+          res.end();  
         }
-        res.write('</ul></div>');
-        res.end();
       } else {
         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
         res.write('<h2>가까운 커피숍 조회 실패</h2>');
