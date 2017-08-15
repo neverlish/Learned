@@ -13,6 +13,7 @@ import LocationButton from './LocationButton';
 
 import PhotoBackdrop from './PhotoBackdrop';
 
+const STORAGE_KEY = '@WeatherProject:zip';
 const WEATHER_API_KEY = 'bbeb34ebf60ad50f7893e7440a1e2b0b';
 const API_STEM = 'https://api.openweathermap.org/data/2.5/weather?';
 
@@ -29,6 +30,17 @@ export default class WeatherProject extends Component {
     this._getForecastForCoords = this._getForecastForCoords.bind(this);
     this._getForecast = this._getForecast.bind(this);
     this._handleTextChange = this._handleTextChange.bind(this);
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((value) => {
+        if (value !== null) {
+          this._getForecastForZip(value);
+        }
+      })
+      .catch((error) => console.log('AsyncStorage error: ' + errpr.message))
+      .done();
   }
   
   _getForecastForZip(zip) {
