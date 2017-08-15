@@ -11,6 +11,8 @@ import {
 import Forecast from './Forecast';
 import LocationButton from './LocationButton';
 
+import PhotoBackdrop from './PhotoBackdrop/camera_roll_example';
+
 const WEATHER_API_KEY = 'bbeb34ebf60ad50f7893e7440a1e2b0b';
 const API_STEM = 'https://api.openweathermap.org/data/2.5/weather?';
 
@@ -88,31 +90,26 @@ export default class WeatherProject extends Component {
                   temp={this.state.forecast.temp}/>
     }
     return (
-      <View style={styles.container}>
-        <Image
-          source={require('./profile.png')}
-          resizeMode='cover'
-          style={styles.backdrop}>
-          <View style={styles.overlay}>
-            <View style={styles.row}>
-              <Text style={styles.mainText}>
-                Current weather for
-              </Text>
-              <View style={styles.zipContainer}>
-                <TextInput
-                  style={[styles.zipCode, styles.mainText]}
-                  returnKeyType='go'
-                  onSubmitEditing={(event) => this._handleTextChange(event)}/>
-              </View>
+      <PhotoBackdrop>
+        <View style={styles.overlay}>
+          <View style={styles.row}>
+            <Text style={styles.mainText}>
+              Current weather for
+            </Text>
+            <View style={styles.zipContainer}>
+              <TextInput
+                style={[styles.zipCode, styles.mainText]}
+                returnKeyType='go'
+                onSubmitEditing={(event) => this._handleTextChange(event)}/>
             </View>
-
-            <View style={styles.row}>
-              <LocationButton onGetCoords={this._getForecastForCoords}/>
-            </View>
-            {content}
           </View>
-        </Image>
-      </View>
+
+          <View style={styles.row}>
+            <LocationButton onGetCoords={this._getForecastForCoords}/>
+          </View>
+          {content}
+        </View>
+      </PhotoBackdrop>
     );
   }
 }
@@ -120,11 +117,6 @@ export default class WeatherProject extends Component {
 const baseFontSize = 16;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    paddingTop: 30,
-  },
   backdrop: {
     flex: 1,
     flexDirection: 'column'
