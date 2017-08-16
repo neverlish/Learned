@@ -6,7 +6,9 @@ module.exports = {
     {file: './device_schema', collection: 'devices', schemaName: 'DeviceSchema', modelName: 'DeviceModel'}
   ],
   route_info: [
-    {file: './user', path: '/process/listuser', method: 'listuser', type: 'post'}
+    {file: './user', path: '/process/listuser', method: 'listuser', type: 'post'},
+    {file: './device', path: '/process/adddevice', method: 'adddevice', type: 'post'},
+    {file: './device', path: '/process/listdevice', method: 'listdevice', type: 'post'}
   ],
   facebook: {
     clientID: '1116768055126353',
