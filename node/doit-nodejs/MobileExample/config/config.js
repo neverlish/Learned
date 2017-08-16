@@ -5,6 +5,7 @@ module.exports = {
     {file: './user_schema', collection: 'users6', schemaName: 'UserSchema', modelName: 'UserModel'}
   ],
   route_info: [
+    {file: './user', path: '/process/listuser', method: 'listuser', type: 'post'}
   ],
   facebook: {
     clientID: '1116768055126353',
