@@ -1,3 +1,6 @@
+var gcm = require('node-gcm');
+var config = require('../config/config.js');
+
 var adddevice = function(req, res) {
   console.log('device 모듈 안에 있는 adddevice 호출됨.');
 
@@ -96,6 +99,50 @@ var register = function(req, res) {
 	}
 }
 
+var sendall = function(req, res) {
+  console.log('device 모듈 안에 있는 sendall 호출됨.');
+
+  var database = req.app.get('database');
+  var paramData = req.param('data');
+
+  if (database) {
+    // 1. 모든 단말 검색
+    database.DeviceModel.findAll(function(err, results) {
+      if(err) {throw err;}
+
+      if(results) {
+        console.dir(results);
+
+        // 등록 ID 만 추출
+        var regIds = [];
+        for (var i=0; i < results.length; i++) {
+          var curId = results[i]._doc.registrationId;
+          console.log('등록 ID #' + i + ' : ' + regIds.length);
+          regIds.push(curId);
+        }
+        console.log('전송 대상 단말 수 : ' + regIds.length);
+
+        // node-gcm을 사용해 전송
+        var message = new gcm.Message();
+        message.addData('command', 'show');
+        message.addData('type', 'text/plain');
+        message.addData('data', paramData);
+
+        var sender = new gcm.Sender(config.gcm_api_key);
+        sender.send(message, regIds, function(err, results) {
+          console.log(err);
+          if(err) {throw err;}
+          console.dir(results);
+          res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+          res.write('<h2>푸시 메시지 전송 성공</h2>');
+          res.end();
+        });
+      }
+    })
+  }
+}
+
 module.exports.adddevice = adddevice;
 module.exports.listdevice = listdevice;
 module.exports.register = register;
+module.exports.sendall = sendall;
