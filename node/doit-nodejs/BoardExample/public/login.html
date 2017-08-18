@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, height=device.height, initial-scale=1'>
+		<title>로그인 테스트</title>
+		<link href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css' rel='stylesheet'>
+		<script src='http://code.jquery.com/jquery-3.2.1.min.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js'></script>
+		<link href='./style/login.css' rel='stylesheet'>
+	</head>
+<body>
+	<div class='container'>
+		<div id='cardbox' class='ui blue fluid card'>
+			<div class='content'>
+				<div class='left floated author'>
+					<img id='iconImage' class='ui avatar image' src='./images/author.png'>
+				</div>
+				<div>
+					<div id='titleText' class='header'>로그인</div>
+					<div id='contentsText' class='description'>
+						아이디와 비밀번호를 입력하고 로그인하세요.
+					</div>
+				</div>
+			</div>
+			<form id='form1' method="post" action="/process/login">
+				<table>
+					<tr class='row'>
+						<td class='col1'><label id='contentsText'>아이디</label></td>
+						<td class='col2' colspan='2'>
+							<div class='ui input'>
+								<input class='inputbox' type="text" name="id" />
+							</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr class='row'>
+						<td class='col1'><label id='contentsText'>비밀번호</label></td>
+						<td class='col2' colspan='2'>
+							<div class='ui input'>
+								<input class='inputbox' type="password" name="password">
+							</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr valign='baseline'>
+						<td></td>
+						<td>
+							<div class='ui toggle checkbox'>
+								<input type='checkbox' name='saveOption'>
+								<label>아이디 저장</label>
+							</div>
+						</td>
+						<td id='buttonContainer' align='right'>
+							<input id='submitButton' class='ui primary button' type='submit' value='로그인' name=''>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		
+	</div>
+</body>
+</html>
