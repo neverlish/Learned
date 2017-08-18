@@ -60,5 +60,42 @@ var listdevice = function(req, res) {
   }
 }
 
+var register = function(req, res) {
+  console.log('device 모듈 안에 있는 register 호출됨.');
+
+  var database = req.app.get('database');
+  var paramMobile = req.param('mobile');
+  var paramRegistrationId = req.param('registrationId');
+
+  if (database) {
+
+    // 업데이트
+    database.DeviceModel.findOneAndUpdate({mobile: paramMobile}, {registrationId: paramRegistrationId}, {multi: true}, function(err, result) {
+      if(err) {throw err;}
+      
+      if(result) {
+        console.log("등록 ID 업데이트함.");
+				console.dir(result);
+				
+				res.writeHead('200', {'Content-Type':'application/json;charset=utf8'});
+				res.write("{code:'200', 'message':'등록 ID 업데이트 성공'}");
+				res.end();
+			} else {
+				console.log("등록 ID 업데이트 결과 데이터가 없음.");
+				
+				res.writeHead('200', {'Content-Type':'application/json;charset=utf8'});
+				res.write("{code:'400', 'message':'등록 ID 업데이트 결과 데이터가 없음'}");
+				res.end();
+			}
+		});
+
+	} else {
+		res.writeHead('200', {'Content-Type':'application/json;charset=utf8'});
+		res.write("{code:'400', 'message':'데이터베이스 연결 실패'}");
+		res.end();
+	}
+}
+
 module.exports.adddevice = adddevice;
 module.exports.listdevice = listdevice;
+module.exports.register = register;

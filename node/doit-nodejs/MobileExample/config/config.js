@@ -8,7 +8,8 @@ module.exports = {
   route_info: [
     {file: './user', path: '/process/listuser', method: 'listuser', type: 'post'},
     {file: './device', path: '/process/adddevice', method: 'adddevice', type: 'post'},
-    {file: './device', path: '/process/listdevice', method: 'listdevice', type: 'post'}
+    {file: './device', path: '/process/listdevice', method: 'listdevice', type: 'post'},
+    {file: './device', path: '/process/register', method: 'register', type: 'post'}
   ],
   facebook: {
     clientID: '1116768055126353',
