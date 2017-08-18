@@ -7,13 +7,13 @@ SchemaObj.createSchema = function(mongoose) {
   var PostSchema = mongoose.Schema({
     title: {type: String, trim: true, 'default': ''},
     contents: {type: String, trim: true, 'default': ''},
-    writer: {type: mongoose.Schema.ObjectId, ref: 'users'},
+    writer: {type: mongoose.Schema.ObjectId, ref: 'users6'},
     tags: {type: [], 'default': ''},
     created_at: {type: Date, index: {unique: false}, 'default': Date.now},
     updated_at: {type: Date, index: {unique: false}, 'default': Date.now},
     comments: [{
       contents: {type: String, trim: true, 'default': ''},
-      writer: {type: mongoose.Schema.ObjectId, ref: 'users'},
+      writer: {type: mongoose.Schema.ObjectId, ref: 'users6'},
       created_at: {type: Date, 'default': Date.now}
     }]
   });
@@ -58,7 +58,7 @@ SchemaObj.createSchema = function(mongoose) {
     load: function(id, callback) {
       this.findOne({_id: id})
           .populate('writer', 'id name email')
-          .populatE('comments.writer')
+          .populate('comments.writer')
           .exec(callback);
     },
 
