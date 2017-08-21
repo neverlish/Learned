@@ -77,5 +77,49 @@ var showpost = function(req, res) {
   }
 };
 
+var listpost = function(req, res) {
+  console.log('post 모듈 안에 있는 listpost 호출됨.');
+
+  var paramPage = req.param('page');
+  var paramPerPage = req.param('perPage');
+  var database = req.app.get('database');
+
+  if (database.db) {
+    // 1. 글 목록
+    var options = {
+      page: parseInt(paramPage),
+      perPage: parseInt(paramPerPage)
+    };
+
+    database.PostModel.list(options, function(err, results) {
+      if(err) {throw err;}
+      if(results) {
+        console.dir(results);
+
+        // 전체 문서 객체 수 확인
+        database.PostModel.count().exec(function(err, count) {
+          res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+
+          // 뷰 템플릿을 사용하여 렌더링한 후 전송
+          var context = {
+            title: '글 목록',
+            posts: results,
+            page: parseInt(paramPage),
+            pageCount: Math.ceil(count / paramPerPage),
+            perPage: parseInt(paramPerPage),
+            totalRecords: count,
+            size: paramPerPage
+          };
+          console.log(context);
+          req.app.render('listpost', context, function(err, html) {
+            res.end(html);
+          });
+        })
+      }
+    })
+  }
+}
+
 module.exports.addpost = addpost;
 module.exports.showpost = showpost;
+module.exports.listpost = listpost;
