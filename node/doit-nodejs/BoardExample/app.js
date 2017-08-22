@@ -65,8 +65,10 @@ app.use( errorHandler );
 
 
 //===== 서버 시작 =====//
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
+// 포트 정보 수정
+var server = http.createServer(app).listen(process.env.PORT || app.get('port'), function(){
+	console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 
-  database.init(app, config);
+	// 데이터베이스 초기화
+	database.init(app, config); 
 });
