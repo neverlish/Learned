@@ -1,0 +1,10 @@
+<!-- 06 Destructing - 4 Destructuring 활용_Event객체전달 -->
+
+<body>
+  <div>Lorem ipsum dolor sit amet, nihil latine ea mea. </div>
+  <script>
+    document.querySelector('div').addEventListener('click', function({type, target}) {
+      console.log(type, target.tagName);
+    });
+  </script>
+</body>
