@@ -8,6 +8,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^3.2.6",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "socket.io": "^2.0.3"
   }
 }

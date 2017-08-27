@@ -9,10 +9,12 @@ var express = require('express')
 
 var bodyParser = require('body-parser');
 
+var socketio = require('socket.io');
+
 var redis = require('redis');
-var store = redis.createClient();
-var pub = redis.createClient();
-var sub = redis.createClient();
+var store = redis.createClient(6379, '127.0.0.1');
+var pub = redis.createClient(6379, '127.0.0.1');
+var sub = redis.createClient(6379, '127.0.0.1');
 
 var app = express();
 
@@ -99,6 +101,17 @@ app.all('*', function(req, res) {
   res.send(404, '<h1>ERROR - 페이지를 찾을 수 없습니다.</h1>')
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+var io = socketio.listen(server);
+console.log('socket.io 요청을 받아들일 준비가 되었습니다.');
+
+// socket.io 서버에 redis 설정
+io.set('store', new socketio.RedisStore({
+  redis: redis,
+  redisPub: pub,
+  redisSub: sub,
+  redisClient: store
+}));
