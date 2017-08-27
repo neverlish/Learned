@@ -1,4 +1,4 @@
-// 03 The Basics - 17 Forms in React - Part 2
+// 03 The Basics - 18 Forms in React - Part 3
 
 import React, { Component } from 'react';
 import logo from '../logo.svg';
@@ -54,6 +54,8 @@ class Content extends Component {
         <h4>{this.state.myInputValue}</h4>
         <EssayComponent />
         <FlavorForm />
+        <hr/>
+        <Reservation />
       </div>
     );
   }
@@ -136,5 +138,59 @@ class FlavorForm extends Component {
   }
 }
 
+class Reservation extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange (e) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit(e) {
+    alert('I will be going : ' + this.state.isGoing + ', I will bring ' + this.state.numberOfGuests);
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Are you going for the party? :
+          <input
+            name='isGoing'
+            type='checkbox'
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br/>
+        <label>
+          How many guests will you bring? :
+          <input
+            name='numberOfGuests'
+            type='number'
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <input type='submit' value='Submit'></input>
+      </form>
+    );
+  }
+}
 
 export default App;
