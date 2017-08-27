@@ -11,6 +11,8 @@ var bodyParser = require('body-parser');
 
 var redis = require('redis');
 var store = redis.createClient();
+var pub = redis.createClient();
+var sub = redis.createClient();
 
 var app = express();
 
@@ -62,6 +64,36 @@ app.post('/process/getname', function(req, res) {
     }
   })
 })
+
+var channel_name = 'chat';
+
+sub.on('message', function(channel, dataStr) {
+  console.log('Redis subscriber received message on channel ' + channel);
+
+  // process JSON formatted string input
+  var data = JSON.parse(dataStr);
+  console.log('DATA : %j', data);
+});
+
+sub.subscribe(channel_name);
+console.log('redis에 subscribe 하였습니다. : ' + channel_name);
+
+app.post('/process/publish', function(req, res) {
+  console.log('/process/publish 처리함.');
+  var paramSender = req.body.receiver;
+  var paramReceiver = req.body.receiver;
+  var paramContents = req.body.contents;
+
+  var data = {sender: paramSender, receiver: paramReceiver, contents: paramContents};
+  var dataStr = JSON.stringify(data);
+  pub.publish('chat', dataStr);
+
+  res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+  res.write('<h1>서버에서 응답한 결과입니다.</h1>');
+  res.write('<div><p>redis로 publish 했습니다. 서버 로그를 확인하세요. : ' + dataStr + '</p></div>');
+  res.write("<br><br><a href='/public/publish.html'>처음으로 돌아가기</a>");
+  res.end();
+});
 
 app.all('*', function(req, res) {
   res.send(404, '<h1>ERROR - 페이지를 찾을 수 없습니다.</h1>')

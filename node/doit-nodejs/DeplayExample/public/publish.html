@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Redis publish 테스트</title>
+	</head>
+<body>
+	<h1>Redis publish</h1>
+	<br>
+	<form method="post" action="/process/publish">
+		<table>
+			<tr>
+				<td><label>보내는사람</label></td>
+				<td><input type="text" name="sender" ></td>
+			</tr>
+			<tr>
+				<td><label>받는사람</label></td>
+				<td><input type="text" name="receiver" ></td>
+			</tr>
+			<tr>
+				<td><label>내용</label></td>
+				<td><input type="text" name="contents" ></td>
+			</tr>
+		</table>
+		<input type="submit" value="전송">
+	</form>
+</body>
+</html>
