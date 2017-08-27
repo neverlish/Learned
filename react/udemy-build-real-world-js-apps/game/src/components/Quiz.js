@@ -16,13 +16,43 @@ class Quiz extends Component {
     return Math.floor(Math.random() * (max-min+1)) + min;
   }
 
+  generateRandomOptions(sum) {
+    let resultsArray = [];
+    let randomNumberArray = [];
+
+    while (randomNumberArray.length <= 3) {
+      let randomNumber = this.randomNumber(1, 19);
+      if (randomNumberArray.indexOf(randomNumber) > -1) continue;
+      randomNumberArray.push(randomNumber);
+    }
+
+    for (let i = 0; i < 3; i++) {
+      let addSubtract = this.randomNumber(0, 1);
+      let result = sum;
+      if(addSubtract === 1 )  {
+        // add the number to the result
+        result += randomNumberArray[i];
+        resultsArray.push(result);
+      } else {
+        // subtract the number from the result
+        result -= randomNumberArray[i];
+        resultsArray.push(result);
+      }
+    }
+
+    return resultsArray
+  }
+
   playGame() {
     let field1 = this.randomNumber(20, 50);
     let field2 = this.randomNumber(20, 50);
     let result = field1 + field2;
-
+    let resultsArray = this.generateRandomOptions(result);
+    resultsArray.push(result);
+    resultsArray.sort(function(a, b) { return 0.5 - Math.random()});
+    console.log(resultsArray);
     let riddle = {
-      resultsArray: [8, 9, 10, 11],
+      resultsArray: resultsArray,
       field1: field1,
       field2: field2,
       answer: result
