@@ -1,0 +1,184 @@
+[
+	{
+		"letter": "A",
+		"image": "http://i.imgur.com/5gNxsq4.png",
+		"word": "apple",
+		"letterSound": "https://a.clyp.it/1ska0kol.mp3",
+		"wordSound": "https://a.clyp.it/5lltdovf.mp3"
+	},
+	{
+		"letter": "B",
+		"image": "http://i.imgur.com/puLXcrq.png",
+		"word": "Banana",
+		"letterSound": "https://a.clyp.it/rdwccshr.mp3",
+		"wordSound": "https://a.clyp.it/w5mlonhu.mp3"
+	},
+	{
+		"letter": "C",
+		"image": "http://i.imgur.com/LuACTUl.png",
+		"word": "cat",
+		"letterSound": "https://a.clyp.it/mbrc0cnk.mp3",
+		"wordSound": "https://a.clyp.it/raqrjphw.mp3"
+	},
+	{
+		"letter": "D",
+		"image": "http://i.imgur.com/C7uaAMx.png",
+		"word": "dog",
+		"letterSound": "https://a.clyp.it/jjucvgut.mp3",
+		"wordSound": "https://a.clyp.it/jtvbwawd.mp3"
+	},
+	{
+		"letter": "E",
+		"image": "http://i.imgur.com/ozb76ky.png",
+		"word": "elephant",
+		"letterSound": "https://a.clyp.it/1cjs3zne.mp3",
+		"wordSound": "https://a.clyp.it/yfg3wkfo.mp3"
+	},
+	{
+		"letter": "F",
+		"image": "http://i.imgur.com/QOmdCjH.png",
+		"word": "Fish",
+		"letterSound": "https://a.clyp.it/twjeou4m.mp3",
+		"wordSound": "https://a.clyp.it/wi3yq1sb.mp3"
+	},
+	{
+		"letter": "G",
+		"image": "http://i.imgur.com/WIm4bMi.png",
+		"word": "Giraffe",
+		"letterSound": "https://a.clyp.it/lyjfwdmp.mp3",
+		"wordSound": "https://a.clyp.it/13rblxb5.mp3"
+	},
+	{
+		"letter": "H",
+		"image": "http://i.imgur.com/B41MaQP.png",
+		"word": "House",
+		"letterSound": "https://a.clyp.it/wbxata2k.mp3",
+		"wordSound": "https://a.clyp.it/3eskhmvf.mp3"
+	},
+	{
+		"letter": "I",
+		"image": "http://i.imgur.com/KdYJxEj.png",
+		"word": "Ice Cream",
+		"letterSound": "https://a.clyp.it/3nemoutg.mp3",
+		"wordSound": "https://a.clyp.it/dqumk35g.mp3"
+	},
+	{
+		"letter": "J",
+		"image": "http://i.imgur.com/LDeRx1c.png",
+		"word": "Jeans",
+		"letterSound": "https://a.clyp.it/bq2s42go.mp3",
+		"wordSound": "https://a.clyp.it/qkabivoz.mp3"
+	},
+	{
+		"letter": "K",
+		"image": "http://i.imgur.com/zyMpzKq.png",
+		"word": "Kite",
+		"letterSound": "https://a.clyp.it/1h01g14t.mp3",
+		"wordSound": "https://a.clyp.it/gorlsndp.mp3"
+	},
+	{
+		"letter": "L",
+		"image": "http://i.imgur.com/X7aEpub.png",
+		"word": "Lion",
+		"letterSound": "https://a.clyp.it/inmv011h.mp3",
+		"wordSound": "https://a.clyp.it/d2huuc1i.mp3"
+	},
+	{
+		"letter": "M",
+		"image": "http://i.imgur.com/Hpkv2up.png",
+		"word": "Monkey",
+		"letterSound": "https://a.clyp.it/ogzcw4br.mp3",
+		"wordSound": "https://a.clyp.it/c33evijs.mp3"
+	},
+	{
+		"letter": "N",
+		"image": "http://i.imgur.com/TXqMhbu.png",
+		"word": "Nest",
+		"letterSound": "https://a.clyp.it/jwif0wux.mp3",
+		"wordSound": "https://a.clyp.it/vd4hsjab.mp3"
+	},
+	{
+		"letter": "O",
+		"image": "http://i.imgur.com/okKXvpq.png",
+		"word": "Orange",
+		"letterSound": "https://a.clyp.it/hor3blj4.mp3",
+		"wordSound": "https://a.clyp.it/n5i2snpn.mp3"
+	},
+	{
+		"letter": "P",
+		"image": "http://i.imgur.com/NVWsB8t.png",
+		"word": "Pig",
+		"letterSound": "https://a.clyp.it/2lbfc2yw.mp3",
+		"wordSound": "https://a.clyp.it/lxfw5qjf.mp3"
+	},
+	{
+		"letter": "Q",
+		"image": "http://i.imgur.com/IgArUnV.png",
+		"word": "Queen",
+		"letterSound": "https://a.clyp.it/x2ud20nv.mp3",
+		"wordSound": "https://a.clyp.it/w1q5u1v0.mp3"
+	},
+	{
+		"letter": "R",
+		"image": "http://i.imgur.com/uaky4f7.png",
+		"word": "Rabbit",
+		"letterSound": "https://a.clyp.it/t3yvlzod.mp3",
+		"wordSound": "https://a.clyp.it/aaxdbuw2.mp3"
+	},
+	{
+		"letter": "S",
+		"image": "http://i.imgur.com/h7zUdF0.png",
+		"word": "Snake",
+		"letterSound": "https://a.clyp.it/1n12hddj.mp3",
+		"wordSound": "https://a.clyp.it/y0mtwicy.mp3"
+	},
+	{
+		"letter": "T",
+		"image": "http://i.imgur.com/ORLzuAx.gif",
+		"word": "Tree",
+		"letterSound": "https://a.clyp.it/juygj2dm.mp3",
+		"wordSound": "https://a.clyp.it/2jsbuovu.mp3"
+	},
+	{
+		"letter": "U",
+		"image": "http://i.imgur.com/sZEFTus.png",
+		"word": "Umbrella",
+		"letterSound": "https://a.clyp.it/kqkuyotb.mp3",
+		"wordSound": "https://a.clyp.it/iehqpzva.mp3"
+	},
+	{
+		"letter": "V",
+		"image": "http://i.imgur.com/op0yiJR.png",
+		"word": "Violin",
+		"letterSound": "https://a.clyp.it/cmoffq3a.mp3",
+		"wordSound": "https://a.clyp.it/zvlpfkby.mp3"
+	},
+	{
+		"letter": "W",
+		"image": "http://i.imgur.com/O8jk2c7.png",
+		"word": "Watch",
+		"letterSound": "https://a.clyp.it/vdrvjdrl.mp3",
+		"wordSound": "https://a.clyp.it/0wtlxrju.mp3"
+	},
+	{
+		"letter": "X",
+		"image": "http://i.imgur.com/N5ldZkA.png",
+		"word": "Xylophone",
+		"letterSound": "https://a.clyp.it/monkqdlo.mp3",
+		"wordSound": "https://a.clyp.it/kdgnowj5.mp3"
+	},
+	{
+		"letter": "Y",
+		"image": "http://i.imgur.com/RFJXzF0.png",
+		"word": "Yo Yo",
+		"letterSound": "https://a.clyp.it/ii2dzi3r.mp3",
+		"wordSound": "https://a.clyp.it/xfy2b45i.mp3"
+	},
+	{
+		"letter": "Z",
+		"image": "http://i.imgur.com/GiI6LFJ.png",
+		"word": "Zebra",
+		"letterSound": "https://a.clyp.it/5u4aqrst.mp3",
+		"wordSound": "https://a.clyp.it/svkeedbz.mp3"
+	}
+]
