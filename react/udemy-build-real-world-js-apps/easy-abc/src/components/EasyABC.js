@@ -13,15 +13,31 @@ class EasyABC extends Component {
     }
 
     this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
   }
 
   next() {
-    if (this.state.currentTick < 2) {
-      this.setState({currentTick: this.state.currentTick + 1});
+    if (this.state.currentPosition === this.state.alphabets.length - 1) {
+      if (this.state.currentTick < 2) {
+        this.setState({currentTick: this.state.currentTick + 1});
+      } else {
+        this.setState({currentPosition: 0, currentTick: 0})
+      }
     } else {
-      this.setState({currentPosition: this.state.currentPosition + 1, currentTick: 0});
+      if (this.state.currentTick < 2) {
+        this.setState({currentTick: this.state.currentTick + 1});
+      } else {
+        this.setState({currentPosition: this.state.currentPosition + 1, currentTick: 0});
+      }
     }
-    
+  }
+
+  prev() {
+    if (this.state.currentPosition > 0) {
+      this.setState({currentPosition: this.state.currentPosition - 1});
+    } else {
+      this.setState({currentPosition: this.state.alphabets.length - 1});
+    }
   }
 
   render() {
@@ -35,8 +51,10 @@ class EasyABC extends Component {
               {this.state.alphabets[this.state.currentPosition].letter}
             </div>
           </div>
+          Current Position: {this.state.currentPosition}<br/>
+          Current Tick: {this.state.currentTick}
           <div className='buttons'>
-            <a className='button prev'>Previous</a>
+            <a onClick={this.prev} className='button prev'>Previous</a>
             <a className='button sound'>Play Sound Again</a>
             <a onClick={this.next} className='button next'>Next</a>
           </div>
