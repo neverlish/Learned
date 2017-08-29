@@ -1,3 +1,16 @@
-export default function log(data) {
-  console.log(data);
+export default class MyLogger {
+  constructor(props) {
+    this.lectures = ['java', 'iOS'];
+  }
+  getLectures() {
+    return this.lectures;
+  }
+
+  getCurrentHour () {
+    return (new Date).getHours();
+  }
+
+  getTime()  {
+    return Date.now();
+  }
 }

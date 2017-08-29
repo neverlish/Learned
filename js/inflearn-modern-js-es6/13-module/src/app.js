@@ -1,6 +1,8 @@
-import log from './myLogger'
+import MyLogger from './myLogger'
+import _ from './utility';
 
-const root = document.querySelector('#root');
-root.innerHTML = '<p>Hello World!</p>';
+_.log('my first test data');
 
-log('my first test data');
+const logger = new MyLogger();
+_.log(`current hour is ${logger.getCurrentHour()}`);
+_.log(`lectures are ${logger.getLectures()}`);
