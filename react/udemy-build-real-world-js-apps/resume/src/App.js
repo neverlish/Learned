@@ -5,6 +5,7 @@ import Experience from './components/Experience';
 import Project from './components/Project';
 import Skill from './components/Skill';
 import Education from './components/Education';
+import Language from './components/Language';
 
 class App extends Component {
 
@@ -40,6 +41,22 @@ class App extends Component {
     return resultsArray;
   }
 
+  renderLanguages() {
+    let resultsArray = [];
+    resume.languages.map((item, i) => {
+      resultsArray.push(<Language item={item} key={i}/>);
+    });
+    return resultsArray;
+  }
+
+  renderInterests() {
+    let resultsArray = [];
+    resume.interests.map((item, i) => {
+      resultsArray.push(<li key={i}>{item}</li>);
+    });
+    return resultsArray;
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -66,18 +83,14 @@ class App extends Component {
           <div className="languages-container container-block">
             <h2 className="container-block-title">Languages</h2>
             <ul className="list-unstyled interests-list">
-              <li>English <span className="lang-desc">(Native)</span></li>
-              <li>French <span className="lang-desc">(Professional)</span></li>
-              <li>Spanish <span className="lang-desc">(Professional)</span></li>
+              {this.renderLanguages()}
             </ul>
           </div>
             
           <div className="interests-container container-block">
             <h2 className="container-block-title">Interests</h2>
             <ul className="list-unstyled interests-list">
-              <li>Climbing</li>
-              <li>Snowboarding</li>
-              <li>Cooking</li>
+              {this.renderInterests()}
             </ul>
           </div>
             
