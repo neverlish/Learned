@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 import resume from './resume.json';
+import Experience from './components/Experience';
 
 class App extends Component {
+
+  renderExperiences() {
+    let resultsArray = [];
+    resume.experiences.map((item, i) => {
+      resultsArray.push(<Experience item={item} key={i}/>);
+    });
+    return resultsArray;
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -15,12 +25,10 @@ class App extends Component {
             
           <div className="contact-container container-block">
             <ul className="list-unstyled contact-list">
-                <li className="email"><i className="fa fa-envelope"></i><a href="mailto: yourname@email.com">alan.doe@website.com</a></li>
-                <li className="phone"><i className="fa fa-phone"></i><a href="tel:0123 456 789">0123 456 789</a></li>
-                <li className="website"><i className="fa fa-globe"></i><a href="http://themes.3rdwavemedia.com/website-templates/free-responsive-website-template-for-developers/" target="_blank">portfoliosite.com</a></li>
-                <li className="linkedin"><i className="fa fa-linkedin"></i><a href="#" target="_blank">linkedin.com/in/alandoe</a></li>
-                <li className="github"><i className="fa fa-github"></i><a href="#" target="_blank">github.com/username</a></li>
-                <li className="twitter"><i className="fa fa-twitter"></i><a href="https://twitter.com/3rdwave_themes" target="_blank">@twittername</a></li>
+              <li className="email"><i className="fa fa-envelope"></i><a href="mailto: yourname@email.com">{resume.email}</a></li>
+              <li className="phone"><i className="fa fa-phone"></i><a href="tel:0123 456 789">{resume.phone}</a></li>
+              <li className="website"><i className="fa fa-globe"></i><a href={resume.website} target="_blank">{resume.website}</a></li>
+              <li className="twitter"><i className="fa fa-twitter"></i><a href={resume.twitterURL} target="_blank">{resume.twitter}</a></li>
             </ul>
           </div>
           <div className="education-container container-block">
@@ -69,46 +77,7 @@ class App extends Component {
           <section className="section experiences-section">
             <h2 className="section-title"><i className="fa fa-briefcase"></i>Experiences</h2>
             
-            <div className="item">
-              <div className="meta">
-                <div className="upper-row">
-                  <h3 className="job-title">Lead Developer</h3>
-                  <div className="time">2015 - Present</div>
-                </div>
-                <div className="company">Startup Hubs, San Francisco</div>
-              </div>
-              <div className="details">
-                <p>Describe your role here lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo.</p>  
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-              </div>
-            </div>
-            
-            <div className="item">
-              <div className="meta">
-                <div className="upper-row">
-                  <h3 className="job-title">Senior Software Engineer</h3>
-                  <div className="time">2014 - 2015</div>
-                </div>
-                <div className="company">Google, London</div>
-              </div>
-              <div className="details">
-                <p>Describe your role here lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>  
-                  
-              </div>
-            </div>
-            
-            <div className="item">
-              <div className="meta">
-                <div className="upper-row">
-                  <h3 className="job-title">UI Developer</h3>
-                  <div className="time">2012 - 2014</div>
-                </div>
-                <div className="company">Amazon, London</div>
-              </div>
-              <div className="details">
-                <p>Describe your role here lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>  
-              </div>
-            </div>
+            {this.renderExperiences()}
               
           </section>
           
