@@ -1,0 +1,366 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 60px;
+  padding: 10px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.easy-abc {
+  color: #f9bad0;
+}
+
+.game {
+  margin: 10px;
+  color: #ddd;
+  background-color: #ec1561;
+  padding: 20px;
+  width: auto;
+  min-height: 60%;
+  position: relative;
+}
+
+.fields {
+  display: flex;
+  padding: 12px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+}
+
+.field-block {
+  display: flex;
+  min-height: 240px;
+  padding: 1%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /*flex: 1 0 auto;*/
+  border-radius: 4px;
+  background-color: #f9bad0;
+  font-size: 12rem;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+.field-block span {
+  font-size: 3rem;
+  padding-left: 10px;
+}
+
+.field-block .word {
+  font-size: 4rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+}
+
+
+.field-block .placeholder-span {
+  font-size: 1rem;
+}
+
+.left-field {
+  /*background-color: red;*/
+  height: 100%;
+  width: 45%;
+}
+
+.right-field {
+  /*background-color: green;*/
+  height: 100%;
+  width: 45%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.letter-image {
+  width: 200px;
+  height: 200px;
+}
+
+.button {
+  display: flex;
+  height: 48px;
+  padding-right: 16px;
+  padding-left: 16px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  border-radius: 4px;
+  background-color: #2fcaaa;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .05), 0 2px 12px 0 rgba(0, 0, 0, .1);
+  transition: box-shadow 200ms ease-out;
+  color: #fff;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.sound {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.prev {
+  background-color: #47b04b;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.next {
+  background-color: #00a7f7;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.default {
+  background-color: #eef1f3;
+  color: #333;
+}
+
+.hide {
+  display: none !important;
+}
+
+.random-label {
+  font-size: 2rem;
+  margin-left: 20px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-bottom: -7px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Footer */
+footer {
+  font-size: 2rem;
+}
+
+/* Heart */
+
+.heart {
+  fill: red;
+  position: relative;
+  top: 5px;
+  width: 50px;
+  animation: pulse 1s ease infinite, 
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  
+  .game {
+    margin: 5px;
+    padding: 5px;
+  }
+  .random-label {
+    font-size: 1.4rem;
+  }
+  .switch {
+    width: 30px;
+    height: 17px;
+    margin-bottom: -5px;
+  }
+  .slider:before {
+    height: 13px;
+    width: 13px;
+    bottom: 2px;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 17px;
+  }
+  .field-block {
+    font-size: 3rem;
+    min-height: 100px;
+    padding: 0;
+  }
+  .App-header {
+    height: 40px;
+  }
+  .App-header h1 {
+    font-size: 1rem;
+  }
+  .button {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 0.9rem;
+  }
+  .prev, .next, .sound {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .letter-image {
+    width: 50px;
+    height: 50px;
+  }
+  .field-block .word {
+    font-size: 1.5rem;
+    padding-left: 5px;
+  }
+  footer {
+    font-size: 1rem;
+  }
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}
