@@ -22,3 +22,8 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.activeNav {
+  color: #555 !important;
+  background-color: #e7e7e7 !important;
+}
