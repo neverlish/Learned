@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import Ingredients from './Ingredients';
 import IngredientList from './IngredientList';
+import { browserHistory } from 'react-router';
 
 class Submit extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      recipies: JSON.parse(localStorage.getItem('recipies')) || [],
       newRecipe: {
         name: 'New Recipe',
         description: 'Description',
@@ -25,6 +27,13 @@ class Submit extends Component {
     newRecipe.description = this.description.value;
 
     this.setState({newRecipe});
+
+    let recipies = this.state.recipies;
+    recipies.push(newRecipe);
+    this.setState({recipies});
+
+    localStorage.setItem('recipies', JSON.stringify(recipies));
+    browserHistory.push('/')
   }
 
   addIngredient(quantity, ingredient) {

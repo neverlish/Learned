@@ -5,7 +5,7 @@ class IngredientList extends Component {
     let resultsArray = [];
 
     this.props.recipe.ingredients.map((item, i) => {
-      resultsArray.push(<li key={i}>{item.quantity} - {item.ingredient}</li>);
+      return resultsArray.push(<li key={i}>{item.quantity} - {item.ingredient}</li>);
     });
 
     return resultsArray;
