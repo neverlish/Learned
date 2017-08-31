@@ -11,6 +11,9 @@ class Ingredients extends Component {
   addIngredient() {
     console.log('Ingredient Added');
     console.log(this.quantity.value, this.ingredient.value);
+    this.props.addIngredient(this.quantity.value, this.ingredient.value);
+    this.quantity.value = '';
+    this.ingredient.value = '';
   }
 
   render() {
