@@ -16,9 +16,12 @@ class Home extends Component {
     this.state.recipies.map((recipe, i) => {
       return resultsArray.push(
         <div key={i} className='col-sm-4'>
-          {recipe.name}<br/>
-          {recipe.description}<br/>
-          <IngredientList recipe={recipe}/>
+          <div className='thumbnail'>
+            <img src={recipe.image} alt={recipe.name}/>
+            <h3>{recipe.name}</h3>
+            <p>{recipe.description}</p>
+            <IngredientList recipe={recipe}/>
+          </div>
         </div>
       );
     });

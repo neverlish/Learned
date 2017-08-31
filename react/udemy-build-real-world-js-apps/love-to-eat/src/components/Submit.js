@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
 import Ingredients from './Ingredients';
 import IngredientList from './IngredientList';
 import { browserHistory } from 'react-router';
+
+const CLOUDINARY_UPLOAD_PRESET = 'pyfihw0r';
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dabh8rc74/upload';
 
 class Submit extends Component {
   constructor(props) {
@@ -13,9 +18,11 @@ class Submit extends Component {
         name: 'New Recipe',
         description: 'Description',
         ingredients: []
-      }
+      },
+      uploadedFileCloudinaryUrl: ''
     };
     this.submitRecipe = this.submitRecipe.bind(this);
+    this.onImageDrop = this.onImageDrop.bind(this);
   }
 
   submitRecipe() {
@@ -25,6 +32,7 @@ class Submit extends Component {
     let newRecipe = this.state.newRecipe;
     newRecipe.name = this.name.value;
     newRecipe.description = this.description.value;
+    newRecipe.image = this.state.uploadedFileCloudinaryUrl;
 
     this.setState({newRecipe});
 
@@ -43,12 +51,52 @@ class Submit extends Component {
     this.setState({newRecipe: newRecipe});
   }
 
+  onImageDrop(files) {
+    console.log(123)
+    console.log(files)
+    this.setState({
+      uploadedFile: files[0]
+    });
+    this.handleImageUpload(files[0]);
+  }
+
+  handleImageUpload(file) {
+    let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                        .field('file', file);
+
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+
+      if (response.body.secure_url !== '') {
+        this.setState({
+          uploadedFileCloudinaryUrl: response.body.secure_url
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <div className='row'>
         <div className='col-xs-12 col-sm-12'>
           <h1>Submit</h1>
           <form>
+            <Dropzone
+              multiple={false}
+              accept='image/*'
+              onDrop={this.onImageDrop}>
+              <p>Drop an image or click to select a file to upload.</p>
+            </Dropzone>
+            <div>
+              {this.state.uploadedFileCloudinaryUrl === '' ? null :
+                <div>
+                  <p>{this.state.uploadedFile.name}</p>
+                  <img src={this.state.uploadedFileCloudinaryUrl} />
+                </div>}
+            </div>
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
