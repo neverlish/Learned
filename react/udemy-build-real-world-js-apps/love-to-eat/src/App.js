@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Link } from 'react-router';
 
 class App extends Component {
   render() {
@@ -19,12 +20,13 @@ class App extends Component {
             </div>
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
-                <li className="active"><a href="#">Home</a></li>
-                <li><a href="#">Submit a Recipe</a></li>
+                <li className="active"><Link href="/">Home</Link></li>
+                <li><Link href="/submit">Submit a Recipe</Link></li>
               </ul>
             </div>
           </div>
         </nav>
+        {this.props.children}
       </div>
     );
   }
