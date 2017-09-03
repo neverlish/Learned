@@ -8,7 +8,21 @@ module.exports = {
   },
   module: {
     rules: [{
-      
+      test: /\.js$/,
+      include: path.resolve(__dirname, 'src'),
+      use: {
+        loader: "babel-loader",
+        options: {
+          "presets": [
+            ["env", {
+              "targets": {
+                "browsers": ["last 2 versions", "ie 9"]
+              },
+              "debug": true
+            }]
+          ]
+        }
+      }
     }]
   }
 }
