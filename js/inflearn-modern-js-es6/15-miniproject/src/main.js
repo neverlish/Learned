@@ -1,11 +1,33 @@
 class Blog {
   constructor() {
+    this.setInitVariables();
+    this.registerEvents();
+    this.likedSet = new Set();
+  }
+
+  setInitVariables() {
+    this.blogList = document.querySelector('.blogList > ul');
+  }
+
+  registerEvents() {
+    const startBtn = document.querySelector('.start');
     const dataURL = 'https://tlhm20eugk.execute-api.ap-northeast-2.amazonaws.com/prod/lambda_get_blog_info';
-    this.setInitData(dataURL);
+
+    startBtn.addEventListener('click', () => {
+      this.setInitData(dataURL);
+    });
+
+    this.blogList.addEventListener('click', ({target}) => {
+      const targetClassName = target.className;
+      // classname이 like라면 내 찜 목록에 새로운 블로그제목을 추가한다그
+      if (targetClassName !== 'like') return;
+      const postTitle = target.previousElementSibling.textContent;
+      this.likedSet.add(postTitle);
+    });
   }
 
   setInitData(dataURL) {
-    this.getData(dataURL, this.insertPosts);
+    this.getData(dataURL, this.insertPosts.bind(this));
   }
 
   getData(dataURL, fn) {
@@ -20,9 +42,12 @@ class Blog {
   }
 
   insertPosts(list) {
-    const ul = document.querySelector('.blogList > ul');
     list.forEach((v) => {
-      ul.innerHTML += `<li><a href=${v.link}>${v.title}</a></li>`;
+      this.blogList.innerHTML += `
+        <li>
+          <a href=${v.link}>${v.title}</a>
+          <div class="like">찜하기</div>
+        </li>`;
     })
   }
 }
