@@ -19,11 +19,35 @@ class Blog {
 
     this.blogList.addEventListener('click', ({target}) => {
       const targetClassName = target.className;
-      // classname이 like라면 내 찜 목록에 새로운 블로그제목을 추가한다그
-      if (targetClassName !== 'like') return;
+      if (targetClassName !== 'like' && targetClassName !== 'unlike') return;
       const postTitle = target.previousElementSibling.textContent;
-      this.likedSet.add(postTitle);
+      
+      // 찜 취소를 클릭한 경우, 찜하기로 다시 변경하고, 찜 목록을 제고하고, 찜목록뷰를 렌더링한다.
+      if (targetClassName === 'unlike') {
+        target.className = 'like';
+        target.innerText = '찜하기';
+        this.likedSet.delete(postTitle);
+      } else {
+        target.className = 'unlike';
+        target.innerText = '찜취소';
+        this.likedSet.add(postTitle);
+      }
+
+      // 내 찜 목록 뷰에 추가
+      this.updateLikedList();
     });
+  }
+
+  updateLikedList() {
+    const ul = document.querySelector('.like-list > ul');
+    let likedSum = '';
+
+    // li 태그에 찜 리스트를 넣고 한번의 innerHTML을 사용한다.
+    this.likedSet.forEach((v) => {
+      likedSum += `<li>${v}</li>`
+    });
+
+    ul.innerHTML = likedSum;
   }
 
   setInitData(dataURL) {

@@ -46,4 +46,6 @@
 .blogList .unlike {
   cursor: pointer;
   position: absolute;
+  bottom: 0;
+  color: #d63838;
 }
