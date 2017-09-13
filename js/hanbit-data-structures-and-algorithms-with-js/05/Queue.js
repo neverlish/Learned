@@ -6,6 +6,7 @@ function Queue() {
 	this.back = back;
 	this.toString = toString;
 	this.empty = empty;
+	this.count = count;
 }
 
 function enqueue(element) {
@@ -38,6 +39,10 @@ function empty() {
 	} else {
 		return false;
 	}
+}
+
+function count() {
+	return this.dataStore.length;
 }
 
 module.exports.Queue = Queue;
