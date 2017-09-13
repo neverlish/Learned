@@ -11,3 +11,5 @@ pbook.showAll();
 Mike -> 123
 Cynthia -> 456
 */
+pbook.clear();
+console.log('Number of entries: ' + pbook.count()); // 0
