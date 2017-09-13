@@ -7,6 +7,8 @@ function Queue() {
 	this.toString = toString;
 	this.empty = empty;
 	this.count = count;
+	this.dequeue2 = dequeue2;
+	this.toString2 = toString2;
 }
 
 function enqueue(element) {
@@ -43,6 +45,26 @@ function empty() {
 
 function count() {
 	return this.dataStore.length;
+}
+
+
+
+function dequeue2() {
+	var entry = 0;
+	for (var i = 0; i < this.dataStore.length; ++i) {
+		if (this.dataStore[i].code < this.dataStore[entry].code) {
+			entry = i;
+			return this.dataStore.splice(entry, 1);
+		}
+	}
+}
+
+function toString2() {
+	var retStr = '';
+	for (var i = 0; i < this.dataStore.length; ++i) {
+		retStr += this.dataStore[i].name + ' code: ' + this.dataStore[i].code + '\n';
+	}
+	return retStr;
 }
 
 module.exports.Queue = Queue;
