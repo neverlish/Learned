@@ -21,7 +21,7 @@ function remove(key) {
 }
 
 function showAll() {
-	var keys = Object.keys(this.datastore)
+	var keys = Object.keys(this.datastore).sort();
 	for (var i = 0; i < keys.length; i++) {
 		console.log(keys[i] + ' -> ' + this.datastore[keys[i]]);
 	}
