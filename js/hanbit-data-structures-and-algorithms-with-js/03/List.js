@@ -50,14 +50,6 @@ function toString() {
 	return this.dataStore;
 }
 
-var list = new List();
-list.append('Cynthia');
-list.append('Raymond');
-list.append('Barbara');
-console.log(list.toString()); // [ 'Cynthia', 'Raymond', 'Barbara' ]
-list.remove('Raymond');
-console.log(list.toString()); // [ 'Cynthia', 'Raymond' ]
-
 function insert(element, after) {
 	var insertPos = this.find(after);
 	if (insertPos > -1) {
@@ -115,13 +107,4 @@ function getElement() {
 	return this.dataStore[this.pos];
 }
 
-var names = new List();
-names.append('Clayton');
-names.append('Raymond');
-names.append('Cynthia');
-names.append('Jennifer');
-names.append('Bryan');
-names.append('Danny');
-
-names.front();
-console.log(names.getElement()); // clayton
+module.exports.List = List;
