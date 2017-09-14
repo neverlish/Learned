@@ -14,7 +14,7 @@ g.showGraph();
 4 ->  2 
 */
 
-g.dfs(0);
+// g.dfs(0);
 /*
 Visited vertex: 0
 Visited vertex: 1
@@ -31,3 +31,15 @@ Visited vertex: 2
 Visited vertex: 3
 Visited vertex: 4
 */
+
+var vertex = 4;
+var paths = g.pathTo(vertex);
+var result = '';
+while (paths.length > 0) {
+	if (paths.length > 1) {
+		result += paths.pop() + '-';
+	} else {
+		result += paths.pop();
+	}
+}
+console.log(result); // 0-2-4
