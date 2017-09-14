@@ -8,6 +8,7 @@ function BST() {
   this.find = find;
   this.remove = remove;
   this.removeNode = removeNode;
+  this.update = update;
 }
 
 function insert(data) {
@@ -55,7 +56,7 @@ function getMax() {
 
 function find(data) {
   var current = this.root;
-  while (current.data != data) {
+  while (current && current.data != data) {
     if (data < current.data) {
       current = current.left;
     } else {
@@ -101,6 +102,12 @@ function removeNode(node, data) {
     node.right = removeNode(node.right, data);
     return node;
   }
+}
+
+function update(data) {
+  var grade = this.find(data);
+  grade.count++;
+  return grade;
 }
 
 module.exports.BST = BST;
