@@ -13,3 +13,21 @@ g.showGraph();
 3 ->  1 
 4 ->  2 
 */
+
+g.dfs(0);
+/*
+Visited vertex: 0
+Visited vertex: 1
+Visited vertex: 3
+Visited vertex: 2
+Visited vertex: 4
+*/
+
+g.bfs(0);
+/*
+Visited vertex: 0
+Visited vertex: 1
+Visited vertex: 2
+Visited vertex: 3
+Visited vertex: 4
+*/
