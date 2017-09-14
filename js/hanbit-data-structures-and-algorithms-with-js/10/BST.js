@@ -6,6 +6,8 @@ function BST() {
   this.getMin = getMin;
   this.getMax = getMax;
   this.find = find;
+  this.remove = remove;
+  this.removeNode = removeNode;
 }
 
 function insert(data) {
@@ -64,6 +66,41 @@ function find(data) {
     }
   }
   return current;
+}
+
+function remove(data) {
+  root = removeNode(this.root, data);
+}
+
+function removeNode(node, data) {
+  if (node == null) {
+    return null;
+  }
+  if (data == node.data) {
+    // 자식이 없는 노드
+    if (node.left == null && node.right == null) {
+      return null;
+    }
+    // 왼쪽 자식이 없는 노드
+    if (node.left == null) {
+      return node.right;
+    }
+    // 오른쪽 자식이 없는 노드
+    if (node.right == null) {
+      return node.left;
+    }
+    // 두 자식이 있는 노드
+    // var tempNode = getSmallest(node.right);
+    // node.data = tempNode.data;
+    // node.right = removeNode(node.right, tempNode.data);
+    return node;
+  } else if (data < node.data) {
+    node.left = removeNode(node.left, data);
+    return node;
+  } else {
+    node.right = removeNode(node.right, data);
+    return node;
+  }
 }
 
 module.exports.BST = BST;
