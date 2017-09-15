@@ -1,5 +1,6 @@
 function Graph(v) {
 	this.vertices = v;
+	this.vertexList = [];
 	this.edges = 0;
 	this.adj = [];
 	for (var i = 0; i < this.vertices; ++i) {
@@ -16,6 +17,8 @@ function Graph(v) {
 	this.bfs = bfs;
 	this.pathTo = pathTo;
 	this.hasPathTo = hasPathTo;
+	this.topSort = topSort;
+	this.topSortHelper = topSortHelper;
 }
 
 function addEdge(v, w) {
@@ -85,6 +88,35 @@ function pathTo(v) {
 
 function hasPathTo(v) {
 	return this.marked[v];
+}
+
+function topSort() {
+	var stack = [];
+	var visited = [];
+	for (var i = 0; i < this.vertices; i++) {
+		visited[i] = false;
+	}
+	for (var i = 0 ; i < this.vertices; i++) {
+		if (visited[i] == false) {
+			this.topSortHelper(i, visited, stack);
+		}
+	}
+	for (var i = 0; i < stack.length; i++) {
+		if (stack[i] != undefined && stack[i] != false) {
+			console.log(this.vertexList[stack[i]]);
+		}
+	}
+}
+
+function topSortHelper(v, visited, stack) {
+	visited[v] = true;
+	for (var i = 0; i < this.adj[v].length; ++i) {
+		if (!visited[this.adj[v][i]]) {
+			this.topSortHelper(this.adj[v][i], visited, stack);
+		}
+	}
+	console.log(v)
+	stack.push(v);
 }
 
 module.exports.Graph = Graph;
