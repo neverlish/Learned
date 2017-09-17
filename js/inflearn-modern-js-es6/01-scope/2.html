@@ -1,0 +1,24 @@
+<!-- 01 scope - 2 let과 closure -->
+<html>
+<head>
+  <meta charset='utf-8'>
+</head>
+<body>
+  <ul>
+    <li>javascript</li>
+    <li>java</li>
+    <li>python</li>
+    <li>django</li>
+  </ul>
+  <script>
+    var list = document.querySelectorAll('li');
+    
+    for (let i = 0; i < list.length; i++) {
+      list[i].addEventListener('click', function() {
+        console.log(i + '번째 리스트 입니다');
+        // var를 쓸 때는 4, 4, 4, 4 // let일 때는 0, 1, 2, 3
+      });
+    }
+  </script>
+</body>
+</html>
