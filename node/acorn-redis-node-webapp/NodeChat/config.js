@@ -4,7 +4,7 @@ var config = {
   redisUrl: 'redis://localhost',
   routes: {
     login: '/login',
-    logout: '/logout'/
+    logout: '/logout'
   }
 };
 
