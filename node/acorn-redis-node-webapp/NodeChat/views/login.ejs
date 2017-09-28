@@ -11,6 +11,7 @@
             <label for='password'>Password</label>
             <input type='password' class='form-control' id='password' placeholder="password" name='password'>
           </div>
+          <input type='hidden' name='_csrf' value="<%= token %>">
           <button class='btn btn-primary btn-block'>Login</button>
         </form>
       </div>
