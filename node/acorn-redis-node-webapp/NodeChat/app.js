@@ -3,11 +3,15 @@ var app = express();
 var routes = require('./routes');
 var errorHandlers = require('./middleware/errorhandlers');
 var log = require('./middleware/log');
+var partials = require('express-partials');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(log.logger);
 app.use(express.static(__dirname, '/static'));
+app.use(partials());
+app.set('view options', {defaultLayout: 'layout'});
+
 app.get('/', routes.index);
 app.get('/login', routes.login);
 app.post('/login', routes.loginProcess);
