@@ -1,5 +1,6 @@
 exports.index = function index(req, res) {
-  res.render('index', {layout: 'layout', title: 'Index'});
+  res.cookie('IndexCookie', 'This was set from Index');
+  res.render('index', {title: 'Index', cookie: JSON.stringify(req.cookies)});
 }
 
 function login(req, res) {

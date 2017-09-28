@@ -4,11 +4,13 @@ var routes = require('./routes');
 var errorHandlers = require('./middleware/errorhandlers');
 var log = require('./middleware/log');
 var partials = require('express-partials');
+var cookieParser = require('cookie-parser');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(log.logger);
 app.use(express.static(__dirname, '/static'));
+app.use(cookieParser());
 app.use(partials());
 app.set('view options', {defaultLayout: 'layout'});
 
