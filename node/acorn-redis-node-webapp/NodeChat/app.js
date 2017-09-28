@@ -7,6 +7,7 @@ var partials = require('express-partials');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
+var bodyParser = require('body-parser');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -19,6 +20,8 @@ app.use(session({
   resave: true,
   store: new RedisStore({url: 'redis://localhost'})
 }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(partials());
 app.set('view options', {defaultLayout: 'layout'});
 
