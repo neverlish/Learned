@@ -13,6 +13,7 @@ var util = require('./middleware/utilities');
 var flash = require('connect-flash');
 var config = require('./config');
 var io = require('./socket.io');
+var passport = require('./passport');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -25,6 +26,8 @@ app.use(session({
   resave: true,
   store: new RedisStore({url: config.redisUrl})
 }));
+app.use(passport.passport.initialize());
+app.use(passport.passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(csrf());
