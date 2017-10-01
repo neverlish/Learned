@@ -259,6 +259,81 @@ var sqrPost = condition1(
 
 var megaCheckedSqr = _.compose(partial(sqrPost, _.identity), checkedSqr);
 
+// ch6
+
+function cycle(times, ary) {
+  if (times <= 0)
+    return [];
+  else
+    return cat(ary, cycle(times - 1, ary));
+}
+
+function nexts(graph, node) {
+  if (_.isEmpty(graph)) return [];
+
+  var pair = _.first(graph);
+  var from = _.first(pair);
+  var to = pair[1];
+  var more = _.rest(graph);
+
+  if (_.isEqual(node, from))
+    return construct(to, nexts(more, node));
+  else
+    return nexts(more, node);
+}
+
+function deepClone(obj) {
+  if (!existy(obj) || !_.isObject(obj))
+    return obj;
+  
+  var temp = new obj.constructor();
+  
+  for (var key in obj)
+    if (obj.hasOwnProperty(key))
+      temp[key] = deepClone(obj[key]);
+  
+  return temp;
+}
+
+function visit(mapFun, resultFun, array) {
+  if (_.isArray(array))
+    return resultFun(_.map(array, mapFun));
+  else
+    return resultFun(array);
+}
+
+function rev(arr) {
+  return _.chain(arr).reverse().value();
+}
+
+function preDepth(fun, ary) {
+  return visit(partial1(preDepth, fun), fun, fun(ary));
+}
+
+function influencedWithStrategy(strategy, lang, graph) {
+  var results = [];
+
+  strategy(function(x) {
+    
+    if (_.isArray(x) && _.first(x) === lang)
+      results.push(x[1]);
+    
+    return x;
+  }, graph);
+
+  return results;
+}
+
+function trampoline(fun /* args */) {
+  var result = fun.apply(fun, _.rest(arguments));
+
+  while (_.isFunction(result)) {
+    result = result();
+  }
+
+  return result;
+}
+
 module.exports = {
   // ch1
   fail,
@@ -304,4 +379,13 @@ module.exports = {
   sqrPre,
   sqrPost,
   megaCheckedSqr,
+  // ch6
+  cycle,
+  nexts,
+  deepClone,
+  visit,
+  rev,
+  preDepth, 
+  influencedWithStrategy,
+  trampoline,
 };
