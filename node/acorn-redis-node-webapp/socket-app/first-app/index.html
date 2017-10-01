@@ -39,6 +39,10 @@
     socket.on('ping', function(data) {
       addLi(data.username + ' has pinged!');
     })
+
+    socket.on('userDisconnected', function(data) {
+      addLi(data.username + ' has left :(');
+    });
   </script>
 </body>
 </html>

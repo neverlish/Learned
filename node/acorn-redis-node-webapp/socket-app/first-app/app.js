@@ -9,4 +9,7 @@ io.sockets.on('connection', function(socket) {
     socket.broadcast.emit('ping', {username: socket.username});
     done('ack');
   });
+  socket.on('disconnect', function() {
+    socket.broadcast.emit('userDisconnect', {username: socket.username});
+  });
 });
