@@ -30,6 +30,64 @@ function doWhen(cond, action) {
     return undefined;
 }
 
+// ch2
+
+function div(x, y) { return x/y }
+
+function complement(pred) {
+  return function() {
+    return !pred.apply(null, _.toArray(arguments));
+  };
+}
+
+function cat() {
+  var head = _.first(arguments);
+  if (existy(head))
+    return head.concat.apply(head, _.rest(arguments));
+  else
+    return [];
+}
+
+function construct(head, tail) {
+  return cat([head], _.toArray(tail));
+}
+
+function mapcat(fun, coll) {
+  return cat.apply(null, _.map(coll, fun));
+}
+
+function as(table, newNames) {
+  return _.map(table, function(obj) {
+    return rename(obj, newNames);
+  });
+}
+
+function project(table, keys) {
+  return _.map(table, function(obj) {
+    return _.pick.apply(null, construct(obj, keys));
+  });
+}
+
+function rename(obj, newNames) {
+  return _.reduce(newNames, function(o, nu, old) {
+    if (_.has(obj, old)) {
+      o[nu] = obj[old];
+      return o;
+    } else {
+      return o;
+    }
+  }, _.omit.apply(null, construct(obj, _.keys(newNames))));
+}
+
+function restrict(table, pred) {
+  return _.reduce(table, function(newTable, obj) {
+    if (truthy(pred(obj)))
+      return newTable;
+    else  
+      return _.without(newTable, obj);
+  }, table)
+}
+
 module.exports = {
   // ch1
   fail,
@@ -39,4 +97,14 @@ module.exports = {
   nth,
   doWhen,
   second,
+  // ch2
+  div,
+  complement,
+  cat,
+  construct,
+  mapcat,
+  as,
+  project,
+  restrict,
+  rename,
 };
