@@ -25,5 +25,10 @@
       <%- body %>
     </div>
   </div>
+  <script type='text/javascript' src='static/js/socket.io.js'></script>
+  <script>
+    var socket = io.connect('http://localhost:3000/packtchat');
+    socket.on('message', function(d) { console.log(d)});
+  </script>
 </body>
 </html>

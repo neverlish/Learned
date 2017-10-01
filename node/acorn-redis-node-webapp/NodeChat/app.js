@@ -12,6 +12,7 @@ var csrf = require('csurf');
 var util = require('./middleware/utilities');
 var flash = require('connect-flash');
 var config = require('./config');
+var io = require('./socket.io');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -42,5 +43,6 @@ app.get(config.routes.logout, routes.logOut);
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);
 
-app.listen(config.port);
+var server = app.listen(config.port);
+io.startIo(server);
 console.log('App server running on port 3000');
