@@ -100,6 +100,76 @@ function plucker(FIELD) {
   };
 }
 
+// ch4
+
+function repeatedly(times, fun) {
+  return _.map(_.range(times), fun);
+}
+
+function always(VALUE) {
+  return function() {
+    return VALUE;
+  };
+}
+
+function doWhen(cond, action) {
+  if (truthy(cond))
+    return action();
+  else
+    return undefined;
+}
+
+function invoker (NAME, METHOD) {
+  return function(target /* 인자... */) {
+    if (!existy(target)) fail('Must provide a target');
+
+    var targetMethod = target[NAME];
+    var args = _.rest(arguments);
+
+    return doWhen(
+      (existy(targetMethod) && METHOD === targetMethod), 
+      function() {
+        return targetMethod.apply(target, args);
+      }
+    );
+  };
+}
+
+function checker(/* 검증자 */) {
+  var validators = _.toArray(arguments);
+
+  return function(obj) {
+    return _.reduce(validators, function(errs, check) {
+      if (check(obj))
+        return errs;
+      else
+        return _.chain(errs).push(check.message).value();
+    }, []);
+  };
+}
+
+function hasKeys() {
+  var KEYS = _.toArray(arguments);
+
+  var fun = function(obj) {
+    return _.every(KEYS, function(k) {
+      return _.has(obj, k);
+    });
+  };
+
+  fun.message = cat(['Must have values for keys:'], KEYS).join(' ');
+  return fun;
+}
+
+function validator(message, fun) {
+  var f = function(/* 인자 */) {
+    return fun.apply(fun, arguments);
+  };
+
+  f['message'] = message;
+  return f;
+}
+
 module.exports = {
   // ch1
   fail,
@@ -123,4 +193,12 @@ module.exports = {
   isEven,
   isOdd,
   plucker,
+  // ch4
+  repeatedly,
+  always,
+  doWhen,
+  invoker,
+  checker,
+  hasKeys,
+  validator,
 };
