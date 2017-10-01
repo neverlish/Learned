@@ -88,6 +88,18 @@ function restrict(table, pred) {
   }, table)
 }
 
+// ch3
+
+function isEven(n) { return (n % 2) === 0 }
+
+var isOdd = complement(isEven);
+
+function plucker(FIELD) {
+  return function(obj) {
+    return (obj && obj[FIELD]);
+  };
+}
+
 module.exports = {
   // ch1
   fail,
@@ -107,4 +119,8 @@ module.exports = {
   project,
   restrict,
   rename,
+  // ch3
+  isEven,
+  isOdd,
+  plucker,
 };
