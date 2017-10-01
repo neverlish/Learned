@@ -29,8 +29,13 @@ var socketAuth = function socketAuth (socket, next) {
 }
 
 var socketConnection = function socketConnection(socket) {
-  socket.emit('message', {message: 'Hey!'});
-  socket.emit('message', socket.user);
+  socket.on('GetME', function() {});
+  socket.on('GetUser', function(room) {});
+  socket.on('GetChat', function(data) {});
+  socket.on('AddChat', function(chat) {});
+  socket.on('GetRoom', function() {});
+  socket.on('AddRoom', function(r) {});
+  socket.on('disconnect', function() {});
 };
 
 exports.startIo = function startIo (server) {
