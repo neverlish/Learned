@@ -361,6 +361,44 @@ function Container(init) {
   this._value = init;
 }
 
+// ch8
+
+function pipeline(seed /* args */) {
+  return _.reduce(
+    _.rest(arguments),
+    function(l, r) {return r(l);},
+    seed
+  );
+}
+
+function actions(acts, done) {
+  return function (seed) {
+    var init = { values: [], state: seed };
+
+    var intermediate = _.reduce(acts, function (stateObj, action) {
+      var result = action(stateObj.state);
+      var values = cat(stateObj.values, [result.answer]);
+
+      return { values: values, state: result.state };
+    }, init);
+
+    var keep = _.filter(intermediate.values, existy);
+
+    return done(keep, intermediate.state);
+  }
+}
+
+var polyToString = dispatch(
+  function(s) { return _.isString(s) ? s : undefined; },
+  function(s) { return _.isArray(s) ? stringifyArray(s) : undefined; },
+  function(s) { return _.isObject(s) ? JSON.stringify(s) : undefined; },
+  function(s) { return s.toString(); }  
+)
+
+function stringifyArray(ary) {
+  return ['[', _.map(ary, polyToString).join(','), ']'].join('')
+}
+
 module.exports = {
   // ch1
   fail,
@@ -421,4 +459,9 @@ module.exports = {
   skipTake,
   SaferQueue,
   Container,
+  // ch8
+  pipeline,
+  actions,
+  polyToString,
+  stringifyArray,
 };
