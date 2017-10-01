@@ -8,6 +8,7 @@ var redisSession = new ConnectRedis({
   host: config.redisHost,
   port: config.redisPort
 })
+var redisAdapter = require('socket.io-redis');
 
 var socketAuth = function socketAuth (socket, next) {
   var handshakeData = socket.request;
@@ -40,6 +41,11 @@ var socketConnection = function socketConnection(socket) {
 
 exports.startIo = function startIo (server) {
   io = io.listen(server);
+  io.adapter(redisAdapter({
+    host: config.redisHost,
+    port: config.redisPort
+  }));
+  
   var packtchat = io.of('/packtchat');
 
   packtchat.use(socketAuth);

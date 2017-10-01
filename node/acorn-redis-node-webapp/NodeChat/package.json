@@ -18,6 +18,7 @@
     "express-partials": "0.2.0",
     "express-session": "^1.6.5",
     "redis": "0.10.1",
-    "socket.io": "^1.0.6"
+    "socket.io": "^1.0.6",
+    "socket.io-redis": "^0.1.3"
   }
 }
