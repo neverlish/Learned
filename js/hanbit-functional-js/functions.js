@@ -334,6 +334,33 @@ function trampoline(fun /* args */) {
   return result;
 }
 
+// ch7
+
+var rand = partial1(_.random, 1);
+
+function generateRandomCharacter() {
+  return rand(26).toString(36);
+}
+
+function skipTake(n, coll) {
+  var ret = [];
+  var sz = _.size(coll);
+
+  for (var index = 0; index < sz; index += n) {
+    ret.push(coll[index]);
+  }
+
+  return ret;
+}
+
+var SaferQueue = function(elems) {
+  this._q = _.clone(elems);
+}
+
+function Container(init) {
+  this._value = init;
+}
+
 module.exports = {
   // ch1
   fail,
@@ -388,4 +415,10 @@ module.exports = {
   preDepth, 
   influencedWithStrategy,
   trampoline,
+  // ch7
+  rand,
+  generateRandomCharacter,
+  skipTake,
+  SaferQueue,
+  Container,
 };

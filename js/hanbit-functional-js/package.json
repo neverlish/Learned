@@ -1,7 +1,14 @@
 {
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
   "dependencies": {
     "jquery": "^3.2.1",
     "jsdom": "^11.3.0",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "expect": "^21.2.1",
+    "mocha": "^3.5.3"
   }
 }
