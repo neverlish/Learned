@@ -6,7 +6,15 @@ var config = {
   redisHost: 'localhost',
   routes: {
     login: '/login',
-    logout: '/logout'
+    logout: '/logout',
+    chat: '/chat',
+    facebookAuth: '/auth/facebook',
+    facebookAuthCallback: '/auth/facebook/callback'
+  },
+  host: 'http://localhost:3000',
+  facebook: {
+    appID: process.env.FB_DEV_APP_ID,
+    appSecret: process.env.FB_DEV_APP_SECRET_CODE
   }
 };
 

@@ -6,9 +6,10 @@ module.exports.csrf = function csrf(req, res, next) {
 }
 
 module.exports.authenticated = function authenticated(req, res, next) {
+  req.session.isAuthenticated = req.session.passport.user != undefined;
   res.locals.isAuthenticated = req.session.isAuthenticated;
   if (req.session.isAuthenticated) {
-    res.locals.user = req.session.user;
+    res.locals.user = req.session.passport.user;
   }
   next();
 }
@@ -30,9 +31,9 @@ module.exports.auth = function auth(username, password, session) {
   return isAuth;
 }
 
-module.exports.logOut = function logOut(session) {
-  session.isAuthenticated = false;
-  delete session.user;
+module.exports.logOut = function logOut(req) {
+  req.session.isAuthenticated = false;
+  req.logout();
 }
 
 module.exports.templateRoutes = function templateRoutes(req, res, next) {

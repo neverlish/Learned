@@ -24,7 +24,7 @@ function chat(req, res) {
 }
 
 function logOut(req, res) {
-  util.logOut(req.session);
+  util.logOut(req);
   res.redirect('/');
 }
 

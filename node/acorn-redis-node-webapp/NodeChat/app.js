@@ -43,6 +43,7 @@ app.get(config.routes.login, routes.login);
 app.post(config.routes.login, routes.loginProcess);
 app.get('/chat', [util.requireAuthentication], routes.chat);
 app.get(config.routes.logout, routes.logOut);
+passport.routes(app);
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);
 
