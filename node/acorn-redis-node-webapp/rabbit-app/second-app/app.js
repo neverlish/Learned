@@ -17,3 +17,19 @@ rabbit.on('ready', function() {
     });
   });
 });
+
+function startServer(ex) {
+  app.get('/credit_charge', function(req, res) {
+    rabbit.queue('', {exclusive: true, autoDelete: true}, function(q) {
+      q.bind('credit_charge', q.name);
+      ex.publish('charge', {card: 'details'}, {replyTo: q.name});
+      q.subscribe(function(message) {
+        console.log(message);
+        q.destroy();
+        q.close();
+        res.send('Charged! Thanks!');
+      });
+    });
+  });
+  var server = app.listen(8002);
+}
