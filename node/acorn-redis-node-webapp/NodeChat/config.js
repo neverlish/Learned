@@ -6,12 +6,13 @@ var config = {
   redisHost: 'localhost',
   routes: {
     login: '/login',
-    logout: '/logout',
+    logout: '/account/logout',
     chat: '/chat',
     facebookAuth: '/auth/facebook',
     facebookAuthCallback: '/auth/facebook/callback',
     googleAuth: '/auth/google',
-    googleAuthCallback: '/auth/google/callback'
+    googleAuthCallback: '/auth/google/callback',
+    register: '/account/register'
   },
   host: 'http://localhost:3000',
   facebook: {
