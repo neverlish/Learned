@@ -4,6 +4,7 @@ var passport = require('passport'),
     local = require('passport-local').Strategy,
     passwordUtils = require('./password'),
     user = require('./user'),
+    log = require('../middleware/log'),
     config = require('../config');
 
 passport.use(
@@ -44,10 +45,12 @@ passport.use(
               }
               done(null, profile);
             } else {
+              log.debug({message: 'Wrong Username or Password', username: username});
               done(null, false, {message: 'Wrong Username or Password'});
             }
           });
         } else {
+          log.debug({message: 'Wrong Username or Password', username: username});
           done(null, false, {message: 'Wrong Username or Password'});
         }
       });    
