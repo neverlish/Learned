@@ -32,4 +32,22 @@ function startServer(ex) {
     });
   });
   var server = app.listen(8002);
+
+  io = io.listen(server);
+
+  io.on('connection', function(socket) {
+    rabbit.queue(socket.id, {exclusive: true, autoDelete: true}, function(q) {
+      q.bind('credit_charge', q.name);
+      q.subscribe(function(message, headers, delivery) {
+        socket.emit(headers.emitEvent);
+      });
+      socket.on('charge', function(data) {
+        ex.publish('charge', {card: 'details'}, {replyTo: q.name}, {headers: {emitEvent: 'charged'}});
+      });
+      socket.on('disconnect', function() {
+        q.destroy();
+        q.close();
+      });
+    });
+  })
 }
