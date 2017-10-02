@@ -21,6 +21,11 @@ var config = {
   google: {
     clientID: process.env.GOOGLE_DEV_CLIENT_ID,
     clientSecret: process.env.GOOGLE_DEV_CLIENT_SECRET_CODE
+  },
+  crypto: {
+    workFactor: 5000,
+    keylen: 32,
+    randomSize: 256
   }
 };
 

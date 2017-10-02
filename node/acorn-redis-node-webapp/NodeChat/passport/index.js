@@ -1,6 +1,9 @@
 var passport = require('passport'),
     facebook = require('passport-facebook').Strategy,
     google = require('passport-google-oauth').OAuth2Strategy,
+    local = require('passport-local').Strategy,
+    passwordUtils = require('./password'),
+    user = require('./user'),
     config = require('../config');
 
 passport.use(
@@ -28,6 +31,29 @@ passport.use(
     }
   )
 )
+
+passport.use(
+  new local(
+    function(username, password, done) {
+      user.findByUsername(username, function(err, profile) {
+        if (profile) {
+          passwordUtils.passwordCheck(password, profile.password, profile.salt, profile.work, function(err, isAuth) {
+            if (isAuth) {
+              if (profile.work < config.crypto.workFactor) {
+                user.updatePassword(username, password, config.crypto.workFactor);
+              }
+              done(null, profile);
+            } else {
+              done(null, false, {message: 'Wrong Username or Password'});
+            }
+          });
+        } else {
+          done(null, false, {message: 'Wrong Username or Password'});
+        }
+      });    
+    }
+  )
+);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -57,6 +83,13 @@ var routes = function routes(app) {
     config.routes.googleAuthCallback,
     passport.authenticate(
       'google',
+      {successRedirect: config.routes.chat, failureRedirect: config.routes.login, failureFlash: true}
+    )
+  );
+  app.post(
+    config.routes.login, 
+    passport.authenticate(
+      'local',
       {successRedirect: config.routes.chat, failureRedirect: config.routes.login, failureFlash: true}
     )
   );
