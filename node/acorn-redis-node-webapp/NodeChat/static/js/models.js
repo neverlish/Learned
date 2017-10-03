@@ -55,3 +55,6 @@ var User = Backbone.Model.extend({
     return 'http://graph.facebook.com/' + this.get('id') + '/picture/?height=' + size;
   }
 });
+
+var UserCollection = Backbone.Collection.extend({model: User});
+var RoomsCollection = Backbone.Collection.extend();
