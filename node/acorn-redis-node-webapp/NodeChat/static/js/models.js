@@ -58,3 +58,24 @@ var User = Backbone.Model.extend({
 
 var UserCollection = Backbone.Collection.extend({model: User});
 var RoomsCollection = Backbone.Collection.extend();
+var ChatCollection = Backbone.Collection.extend({
+  parse: function(data) {
+    if (Array.isArray(data)) {
+      return _.map(data, function(d) {
+        d.user = new User(d.user);
+        return d;
+      });
+    } else {
+      data.user = new User(data.user);
+      return data;
+    };
+  }
+});
+
+var Router = Backbone.Router.extend({
+  routes: {
+    '': 'RoomSelection',
+    'room/:room': 'JoinRoom',
+    '*default': 'Default'
+  }
+});
