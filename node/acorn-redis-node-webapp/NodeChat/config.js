@@ -1,9 +1,9 @@
 var config = {
-  port: 3000,
-  secret: 'secret',
+  port: process.env.NODECHAT_PORT,
+  secret: process.env.NODECHAT_SECRET,
   redisUrl: 'redis://localhost',
-  redisPort: 6379,
-  redisHost: 'localhost',
+  redisPort: process.env.NODECHAT_REDIS_PORT,
+  redisHost: process.env.NODECHAT_REDIS_HOST,
   routes: {
     login: '/login',
     logout: '/account/logout',
@@ -14,7 +14,7 @@ var config = {
     googleAuthCallback: '/auth/google/callback',
     register: '/account/register'
   },
-  host: 'http://localhost:3000',
+  host: process.env.NODECHAT_HOST,
   facebook: {
     appID: process.env.FB_DEV_APP_ID,
     appSecret: process.env.FB_DEV_APP_SECRET_CODE
@@ -29,8 +29,8 @@ var config = {
     randomSize: 256
   },
   rabbitMQ: {
-    URL: 'amqp://guest:guest@localhost:5672',
-    exchange: 'packtchat.log'
+    URL: process.env.NODECHAT_RABBITMQ_URL,
+    exchange: process.env.NODECHAT_RABBITMQ_EXCHANGE
   }
 };
 
