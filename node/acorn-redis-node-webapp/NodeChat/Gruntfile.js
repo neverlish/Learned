@@ -3,6 +3,15 @@ module.exports = function(grunt) {
     pgk: grunt.file.readJSON('package.json'),
     nodeunit: {
       all: ['tests/*.js']
+    },
+    preprocess: {
+      dist: {
+        files: {
+          'views/chat.ejs': 'views/chat.pre',
+          'views/layout.ejs': 'views/layout.pre',
+          'js_src/src/chat.js': 'js_src/src/chat.pre.js'
+        }
+      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -13,6 +22,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // 기본 태스크
-  grunt.registerTask('default', ['nodeunit']);
-  grunt.registerTask('prep', ['nodeunit']);
+  grunt.registerTask('default', ['nodeunit', 'preprocess']);
+  grunt.registerTask('prep', ['nodeunit', 'preprocess']);
 }

@@ -8,7 +8,13 @@
   <link rel='stylesheet' href='static/css/style.css'>
   <script type="text/javascript" src="static/js/socket.io.js"></script>
 
-    <script type="text/javascript" src="http://localhost:3000/js/Frameworks.js"></script>
+  <!-- @if NODE_ENV='production' -->
+    <script type="text/javascript" src="<!--@echo STATIC_URL -->/js/Frameworks.<!-- @echo GIT_HEAD -->.min.js"></script>
+  <!-- @endif -->
+
+  <!-- @if NODE_ENV!='production' -->
+    <script type="text/javascript" src="<!--@echo STATIC_URL -->/js/Frameworks.js"></script>
+  <!-- @endif -->
 </head>
 <body>
   <div class='container'>
@@ -29,7 +35,7 @@
     </div>
   </div>
   <div class='container'>
-    <small>Commit: 2d345fa456cbc1becc0e73d974657891e390f133</small>
+    <small>Commit: <!-- @echo GIT_HEAD --></small>
   </div>
 </body>
 </html>
