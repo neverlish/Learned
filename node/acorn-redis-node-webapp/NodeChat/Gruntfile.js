@@ -1,6 +1,9 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    pgk: grunt.file.readJSON('package.json')
+    pgk: grunt.file.readJSON('package.json'),
+    nodeunit: {
+      all: ['tests/*.js']
+    }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -10,6 +13,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // 기본 태스크
-  grunt.registerTask('default', []);
-  grunt.registerTask('prep', []);
+  grunt.registerTask('default', ['nodeunit']);
+  grunt.registerTask('prep', ['nodeunit']);
 }
