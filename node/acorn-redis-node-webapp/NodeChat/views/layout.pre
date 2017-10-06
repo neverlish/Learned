@@ -6,7 +6,7 @@
   <link rel='stylesheet' href='//bootswatch.com/assets/css/custom.min.css'>
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
   <link rel='stylesheet' href='static/css/style.css'>
-  <script type="text/javascript" src="static/js/socket.io.js"></script>
+  <script type="text/javascript" src="static/socket.io.js"></script>
 
   <!-- @if NODE_ENV='production' -->
     <script type="text/javascript" src="<!--@echo STATIC_URL -->/js/Frameworks.<!-- @echo GIT_HEAD -->.min.js"></script>

@@ -12,6 +12,11 @@ module.exports = function(grunt) {
           'js_src/src/chat.js': 'js_src/src/chat.pre.js'
         }
       }
+    },
+    clean: {
+      dist: {
+        src: ['static/js/*.js']
+      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -22,6 +27,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // 기본 태스크
-  grunt.registerTask('default', ['nodeunit', 'preprocess']);
+  grunt.registerTask('default', ['nodeunit', 'preprocess', 'clean']);
   grunt.registerTask('prep', ['nodeunit', 'preprocess']);
 }
