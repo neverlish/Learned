@@ -22,6 +22,30 @@ module.exports = function(grunt) {
       dist: {
         src: ['js_src/src/*.js', '!js_src/src/md5.js']
       }
+    },
+    concat: {
+      app: {
+        src: [
+          'js_src/src/md5.js', 
+          'js_src/src/components.js', 
+          'js_src/src/models.js', 
+          'js_src/src/chat.js'
+        ],
+        dest: 'static/js/ChatPage.js'
+      },
+      frameworks: {
+        src: [
+          'bower_components/jquery/dist/jquery.js', 
+          'bower_components/underscore/underscore.js',
+          'bower_components/backbone/backbone.js',
+          'bower_components/react/react.js',
+          'bower_components/conduitjs/lib/conduit.js',
+          'bower_components/lodash/dist/lodash.js',
+          'bower_components/postal.js/lib/postal.js',
+          'bower_components/momentjs/moment.js'
+        ],
+        dest: 'static/js/Frameworks.js'
+      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -32,6 +56,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // 기본 태스크
-  grunt.registerTask('default', ['nodeunit', 'preprocess', 'clean', 'jshint']);
+  grunt.registerTask('default', ['nodeunit', 'preprocess', 'clean', 'jshint', 'concat:app', 'concat:frameworks']);
   grunt.registerTask('prep', ['nodeunit', 'preprocess']);
 }

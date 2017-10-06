@@ -18,7 +18,7 @@ var passport = require('./passport');
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(log.logger);
-app.use(express.static(__dirname, '/static'));
+app.use(express.static(__dirname + '/static'));
 app.use(express.static(__dirname + '/bower_components'));
 app.use(cookieParser(config.secret));
 app.use(session({
