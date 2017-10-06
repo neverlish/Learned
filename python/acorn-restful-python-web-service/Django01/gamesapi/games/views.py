@@ -43,3 +43,13 @@ class PlayerScoreDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = PlayerScore.objects.all()
     serializer_class = PlayerScoreSerializer
     name = 'playerscore-detail'
+
+class ApiRoot(generics.GenericAPIView):
+    name = 'api-root'
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'players': reverse(PlayerList.name, request=request),
+            'game-categories': reverse(GameCategoryList.name, request=request),
+            'games': reverse(GameList.name, request=request),
+            'scores': reverse(PlayerScoreList.name, request=request)
+        })
