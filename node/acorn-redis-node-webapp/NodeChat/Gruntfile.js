@@ -17,6 +17,11 @@ module.exports = function(grunt) {
       dist: {
         src: ['static/js/*.js']
       }
+    },
+    jshint: {
+      dist: {
+        src: ['js_src/src/*.js', '!js_src/src/md5.js']
+      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -27,6 +32,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // 기본 태스크
-  grunt.registerTask('default', ['nodeunit', 'preprocess', 'clean']);
+  grunt.registerTask('default', ['nodeunit', 'preprocess', 'clean', 'jshint']);
   grunt.registerTask('prep', ['nodeunit', 'preprocess']);
 }

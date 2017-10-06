@@ -57,9 +57,9 @@ var ChatMessage = React.createClass({
   render: function() {
     var pull;
     if (this.props.me.id === this.props.chat.get('user').id)
-      pull = 'pull-right'
+      pull = 'pull-right';
     else
-      pull = 'pull-left'
+      pull = 'pull-left';
     var timeAgo = moment(this.props.chat.get('ts')).fromNow();
     return React.DOM.li(
       null,

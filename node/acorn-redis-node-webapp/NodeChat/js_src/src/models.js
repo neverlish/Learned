@@ -32,20 +32,17 @@ var SocketSync = function SocketListener(method, model, options) {
       read(model, options, this.noun);
       break;
   }
-}
+};
 
 var User = Backbone.Model.extend({
   image: function(size) {
     switch (this.get('type')) {
       case 'local':
-        return this.gravatar(size)
-        break;
+        return this.gravatar(size);
       case 'facebook':
         return this.facebook(size);
-        break;
       case 'google':
         return this.gravatar(size);
-        break;
     }
   },
   gravatar: function gravatar(size){
@@ -68,7 +65,7 @@ var ChatCollection = Backbone.Collection.extend({
     } else {
       data.user = new User(data.user);
       return data;
-    };
+    }
   }
 });
 
