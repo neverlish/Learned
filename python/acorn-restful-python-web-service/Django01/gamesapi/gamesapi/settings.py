@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'games.apps.GamesConfig',
     # 크리스피 양식
     'crispy_forms',
+    # 장고 nose
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,14 @@ REST_FRAMEWORK = {
         'game-categories': '30/hour',
     }
 }
+
+# nose를 사용해 모든 테스트를 실행할 것이다.
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# nose가 게임 앱에 대한 커버리지를 측정할 것이다.
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-erase',
+    '--cover-inclusive',
+    '--cover-package=games',
+]
