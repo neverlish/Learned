@@ -11,3 +11,5 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://{DB_USER}:{DB_PASS}@{DB_ADDR}/{DB_NAME}'
     DB_ADDR='127.0.0.1',
     DB_NAME='messages')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+PAGINATION_PAGE_SIZE = 5
+PAGINATION_PAGE_ARGUMENT_NAME = 'page'
