@@ -14,5 +14,7 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://{DB_USER}:{DB_PASS}@{DB_ADDR}/{DB_NAME}'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 TESTING = True
 SERVER_NAME = '127.0.0.1:5000'
+PAGINATION_PAGE_SIZE = 5
+PAGINATION_PAGE_ARGUMENT_NAME = 'page'
 # 테스트 구성에서는 CSRF 방어를 끈다.
 WTF_CSRF_ENABLED = False
