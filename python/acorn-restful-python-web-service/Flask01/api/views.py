@@ -3,6 +3,7 @@ from flask_restful import Api, Resource
 from models import db, Category, CategorySchema, Message, MessageSchema
 from sqlalchemy.exc import SQLAlchemyError
 import status
+from helpers import PaginationHelper
 
 api_bp = Blueprint('api', __name__)
 category_schema = CategorySchema()
@@ -59,8 +60,13 @@ class MessageResource(Resource):
 
 class MessageListResource(Resource):
     def get(self):
-        messages = Message.query.all()
-        result = message_schema.dump(messages, many=True).data
+        pagination_helper = PaginationHelper(
+            request,
+            query = Message.query,
+            resource_for_url = 'api.messagelistresource',
+            key_name = 'results',
+            schema = message_schema)
+        result = pagination_helper.paginate_query()
         return result
 
     def post(self):
