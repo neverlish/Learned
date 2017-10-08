@@ -1,6 +1,7 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, g
 from flask_restful import Api, Resource
-from models import db, Category, CategorySchema, Message, MessageSchema
+from flask_httpauth import HTTPBasicAuth
+from models import db, Category, CategorySchema, Message, MessageSchema, User, UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 import status
 from helpers import PaginationHelper
@@ -9,8 +10,20 @@ api_bp = Blueprint('api', __name__)
 category_schema = CategorySchema()
 message_schema = MessageSchema()
 api = Api(api_bp)
+auth = HTTPBasicAuth()
 
-class MessageResource(Resource):
+@auth.verify_password
+def verify_user_password(name, password):
+    user = User.query.filter_by(name=name).first()
+    if not user or not user.verify_password(password):
+        return False
+    g.user = user
+    return True
+
+class AuthRequiredResource(Resource):
+    method_decorators = [auth.login_required]
+
+class MessageResource(AuthRequiredResource):
     def get(self, id):
         message = Message.query.get_or_404(id)
         result = message_schema.dump(message).data
@@ -58,7 +71,7 @@ class MessageResource(Resource):
             resp = jsonify({'error': str(e)})
             return resp, status.HTTP_401_UNAUTHORIZED
 
-class MessageListResource(Resource):
+class MessageListResource(AuthRequiredResource):
     def get(self):
         pagination_helper = PaginationHelper(
             request,
@@ -102,7 +115,7 @@ class MessageListResource(Resource):
             resp = jsonify({'error': str(e)})
             return resp, status.HTTP_400_BAD_REQUEST
 
-class CategoryResource(Resource):
+class CategoryResource(AuthRequiredResource):
     def get(self, id):
         category = Category.query.get_or_404(id)
         result = category_schema.dump(category).data
@@ -143,7 +156,7 @@ class CategoryResource(Resource):
             resp = jsonify({'error': str(e)})
             return resp, status.HTTP_400_BAD_REQUEST
 
-class CategoryListResource(Resource):
+class CategoryListResource(AuthRequiredResource):
     def get(self):
         categories = Category.query.all()
         result = category_schema.dump(categories, many=True).data
@@ -171,6 +184,7 @@ class CategoryListResource(Resource):
             db.session.rollback()
             resp = jsonify({'error': str(e)})
             return resp, status.HTTP_400_BAD_REQUEST
+
 
 api.add_resource(CategoryListResource, '/categories/')
 api.add_resource(CategoryResource, '/categories/<int:id>')
