@@ -91,3 +91,11 @@ class MessageList(Resource):
         )
         message_manager.insert_message(message)
         return message, status.HTTP_201_CREATED
+
+app = Flask(__name__)
+api = Api(app)
+api.add_resource(MessageList, '/api/messages/')
+api.add_resource(Message, '/api/messages/<int:id>', endpoint='message_endpoint')
+
+if __name__ == '__main__':
+    app.run(debug=True)
