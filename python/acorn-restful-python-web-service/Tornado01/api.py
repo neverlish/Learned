@@ -106,3 +106,15 @@ class AltimeterHandler(web.RequestHandler):
         response = {'altitude': altitude}
         self.set_status(status.HTTP_200_OK)
         self.write(response)
+
+application = web.Application([
+    (r'/hexacopters/([0-9]+)', HexacopterHandler),
+    (r'/leds/([0-9]+)', LedHandler),
+    (r'/altimeters/([0-9]+)', AltimeterHandler),
+], debug=True)
+
+if __name__ == '__main__':
+    port = 8888
+    print("Listening at port {0}".format(port))
+    application.listen(port)
+    ioloop.IOLoop.instance().start()
