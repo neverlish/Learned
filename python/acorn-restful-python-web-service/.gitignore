@@ -1,0 +1,7 @@
+*.pyc
+.idea/
+bin/
+__pycache__/
+lib/
+.coverage
+migrations
