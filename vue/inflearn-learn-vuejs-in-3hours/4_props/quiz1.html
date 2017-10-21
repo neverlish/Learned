@@ -1,0 +1,21 @@
+<!-- Props 퀴즈 -->
+<html>
+<head>
+  <title>Vue Sample</title>
+</head>
+<body>
+  <div id="app">
+    <!-- passedData (props) equals to be passed-data -->
+    <!-- read the bind property from right to left (from bottom to top in js) -->
+    <child-component v-bind:passed-data='message'></child-component>
+
+    <!-- 할일 #3 -->
+    <!-- sibling-component 등록 -->
+    <!-- props 명 = 상위 컴포넌트의 데이터 -->
+    <sibling-component v-bind:passed-message='anotherMessage'></sibling-component>
+  </div>
+
+  <script src="https://unpkg.com/vue@2.3.3"></script>
+  <script src='./quiz1.js'></script>
+</body>
+</html>

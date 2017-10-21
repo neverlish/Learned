@@ -1,0 +1,23 @@
+<!-- Nested 라우터 설명 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Nested Router Sample</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Hello Vue Nested Router!</h1>
+      <p>
+        <router-link to="/login">Go to Login</router-link>
+        <router-link to="/list">Go to List</router-link>
+      </p>
+      <router-view></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.3.3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.js"></script>
+    <script src="./nested-router.js"></script>
+  </body>
+</html>
