@@ -4,7 +4,8 @@
   "description": "",
   "main": "meadowlark.js",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {
