@@ -3,7 +3,17 @@ var express = require('express');
 var app = express();
 
 // 핸들바 뷰 엔진 설정
-var handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
+var handlebars = require('express-handlebars').create({ 
+	defaultLayout: 'main',
+	helpers: {
+		section: function(name, options) {
+			if (!this._sections) this._sections = {};
+			this._sections[name] = options.fn(this);
+			return null;
+		}
+	}
+});
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -71,6 +81,10 @@ app.get('/tours/oregon-coast', function(req, res){
 
 app.get('/tours/request-group-rate', function(req, res){
 	res.render('tours/request-group-rate');
+});
+
+app.get('/jquery-test', function(req, res){
+	res.render('jquery-test');
 });
 
 app.get('/headers', function(req, res) {
