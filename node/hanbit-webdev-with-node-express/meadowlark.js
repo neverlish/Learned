@@ -67,11 +67,13 @@ app.get('/newsletter', function(req, res) {
 });
 
 app.post('/process', function(req, res) {
-	console.log('Form (from querystring): ' + req.query.form);
-	console.log('CSRF token (from hidden form field): ' + req.body._csrf);
-	console.log('Name (from visible fom field): ' + req.body.name);
-	console.log('Email (from visible fom field): ' + req.body.email);
-	res.redirect(303, '/thank-you');
+	if (req.xhr || req.accepts('json, html') === 'json') {
+		res.send({ success: true });
+		// 에러가 있다면 { error: 'error desription '} 을 보냅니다.
+	} else {
+		res.redirect(303, '/thank-you');
+		// 에러가 있다면 에러 페이지로 리다이렉트 합니다.
+	}
 });
 
 app.get('/', function(req, res) {
