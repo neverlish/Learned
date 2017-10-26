@@ -7,10 +7,21 @@
 	{{/if}}
 	{{{_sections.head}}}
 	
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
 </head>
 <body>
 	<header><img src='/img/logo.png' alt='Meadowlark Travel Logo'></header>
-	{{{body}}}
+
+	<div class='container'>
+		{{#if flash}}
+			<div class="alert alert-dismissible alert-{{flash.type}}">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>{{flash.intro}}</strong> {{{flash.message}}}
+			</div>
+		{{/if}}
+
+		{{{body}}}
+	</div>
 
 	{{# if showTests}}
 		<div id='mocha'></div>
@@ -28,5 +39,6 @@
 	{{/if}}
 	<script src='//code.jquery.com/jquery-2.0.2.min.js'></script>
 	{{{_sections.jquery}}}
+	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 </body>
 </html>

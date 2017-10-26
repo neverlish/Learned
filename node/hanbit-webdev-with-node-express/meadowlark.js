@@ -86,8 +86,67 @@ app.use('/upload', function(req, res, next) {
 
 app.use(require('body-parser').urlencoded({ extended: true }));
 
+app.use(function(req, res, next) {
+	// 플래시 메시지가 있다면 콘텍스트에 전달한 다음 지웁니다.
+	res.locals.flash = req.session.flash;
+	delete req.session.flash;
+	next();
+});
+
 app.get('/newsletter', function(req, res) {
 	res.render('newsletter', { csrf: 'CSRF token goes here' });
+});
+
+function NewsletterSignup(){
+}
+NewsletterSignup.prototype.save = function(cb){
+	cb();
+};
+
+var VALID_EMAIL_REGEX = new RegExp(
+	'^[a-zA-Z0-9.!#$%&\'*+\/=?_^{|}~-]+@' +
+	'[a-zA-Z0-9](?:[a-zA-Z0-9]{0,61}[a-zA-Z0-9])?' +
+	'(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$'
+);
+
+app.post('/newsletter', function(req, res) {
+	var name = req.body.name || '', email = req.body.email || '';
+	// 입력 유효성 검사
+	if (!email.match(VALID_EMAIL_REGEX)) {
+		if (req.xhr) return res.json({ error: 'Invalid name email address.' });
+		req.session.flash = {
+			type: 'danger',
+			intro: 'Validation error!',
+			message: 'The email address you entered was not valid.',
+		};
+		return res.redirect(303, '/newsletter/archive');
+	}
+
+	// NewsletterSignup은 독자 여러분이 만들게 될 객체 예제입니다.
+	// 프로젝트에 따라 정확한 구현 내용이나 인터페이스는 모두 달라질 테고 그건 여러분의 몫입니다.
+	// 일반적인 익스프레스 프로그램이 어떤 모양인지 참고만 하십시오.
+	new NewsletterSignup({name: name, email: email}).save(function(err) {
+		if(err) {
+			if(req.xhr) return res.json({ error: 'Database error.' });
+			req.session.flash = {
+				type: 'danger',
+				intro: 'Database error!',
+				message: 'There was a database error; please try again later.',
+			};
+			return res.redirect(303, '/newsletter/archive');
+		}
+		if(req.xhr) return res.json({ success: true });
+		req.session.flash = {
+			type: 'success',
+			intro: 'Thank you!',
+			message: 'You have now been signed up for the newsletter.',
+		};
+		return res.redirect(303, '/newsletter/archive');
+	});
+});
+
+app.get('/newsletter/archive', function(req, res){
+	res.render('newsletter/archive');
 });
 
 app.post('/process', function(req, res) {
