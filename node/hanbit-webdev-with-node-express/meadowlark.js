@@ -15,6 +15,7 @@ var handlebars = require('express-handlebars').create({
 });
 
 var formidable = require('formidable');
+var jqupload = require('jquery-file-upload-middleware');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -61,6 +62,18 @@ app.use(function(req, res, next) {
 	res.locals.partials.weatherContext = getWeatherData();
 	next();
 })
+
+app.use('/upload', function(req, res, next) {
+	var now = Date.now();
+	jqupload.fileHandler({
+		uploadDir: function() {
+			return __dirname + '/public/uploads/' + now;
+		},
+		uploadUrl: function() {
+			return '/uploads/' + now;
+		},
+	})(req, res, next);
+});
 
 app.use(require('body-parser').urlencoded({ extended: true }));
 
@@ -130,6 +143,7 @@ app.get('/contest/vacation-photo', function(req, res) {
 });
 
 app.post('/contest/vacation-photo/:year/:month', function(req, res) {
+	console.log('POST!!!!')
 	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
 		if (err) return res.redirect(303, '/error');
