@@ -17,6 +17,8 @@ var handlebars = require('express-handlebars').create({
 var formidable = require('formidable');
 var jqupload = require('jquery-file-upload-middleware');
 
+var credentials = require('./credentials');
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
