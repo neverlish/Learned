@@ -24,6 +24,8 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
+app.use(require('cookie-parser')(credentials.cookieSecret));
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res, next) {
