@@ -164,6 +164,39 @@ app.post('/process', function(req, res) {
 	}
 });
 
+app.get('/cart/checkout', function(req, res, next) {
+	var cart = req.session.cart || (req.session.cart = { items: [] });
+	if (!cart) next();
+	res.render('cart-checkout');
+});
+
+app.post('/cart/checkout', function(req, res, next) {
+	var cart = req.session.cart || (req.session.cart = { items: [] });
+	if (!cart) next(new Error('Cart does not exist'));
+	var name = req.body.name || '', email = req.body.email || '';
+	// 유효성 검사
+	if (!email.match(VALID_EMAIL_REGEX))
+		return nes.next(new Error('Invalid email address.'));
+	// 랜덤한 장바구니 ID를 부여합니다. 실무라면 데이터베이스 ID를 썼을 겁니다.
+	cart.number = Math.random().toString().replace(/^0\.0*/, '');
+	cart.billing = {
+		name: name,
+		email: email,
+	};
+	res.render('email/cart-thank-you', {layout: null, cart: cart}, function(err, html) {
+		if (err) console.log('error in email template');
+		mailTransport.sendMail({
+			from: '"Meadowlark Travel": info@meadowlarktravel.com',
+			to: cart.billing.email,
+			subject: 'Thank You for Book your Trip with Meadowlark',
+			html: html,
+			generateTextFromHtml: true
+		}, function(err) {
+			if (err) console.log('Unable to send confirmation: ' + err.stack);
+		});
+	});
+	res.render('cart-thank-you', {cart: cart});
+});
 
 app.get('/', function(req, res) {
 	res.render('home');
