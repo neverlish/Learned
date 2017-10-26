@@ -93,6 +93,11 @@ app.use(function(req, res, next) {
 	next();
 });
 
+var cartValidation = require('./lib/cartValidation.js')
+
+app.use(cartValidation.checkWaivers);
+app.use(cartValidation.checkGuestCounts);
+
 app.get('/newsletter', function(req, res) {
 	res.render('newsletter', { csrf: 'CSRF token goes here' });
 });
@@ -158,6 +163,7 @@ app.post('/process', function(req, res) {
 		// 에러가 있다면 에러 페이지로 리다이렉트 합니다.
 	}
 });
+
 
 app.get('/', function(req, res) {
 	res.render('home');
