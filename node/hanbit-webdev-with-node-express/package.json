@@ -12,6 +12,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.1.1",
     "jquery-file-upload-middleware": "^0.1.8",
+    "loadtest": "^2.3.0",
     "morgan": "^1.9.0",
     "nodemailer": "^0.7.1"
   },
