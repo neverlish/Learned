@@ -85,6 +85,12 @@ app.use(function(req, res, next) {
 	next();
 })
 
+app.use(function(req, res, next) {
+	var cluster = require('cluster');
+	if (cluster.isWorker) console.log('Worker %d received request', cluster.worker.id);
+	next();
+});
+
 app.use('/upload', function(req, res, next) {
 	var now = Date.now();
 	jqupload.fileHandler({
@@ -287,6 +293,17 @@ app.use(function(err, req, res, next) {
 	res.render('500');
 });
 
-app.listen(app.get('port'), function() { 
-	console.log('Express started in ' + app.get('env') + ' mode on http://localhost:' + app.get('port') + '; press Ctrl + C to terminate');
-});
+function startServer() {
+	app.listen(app.get('port'), function() { 
+		console.log('Express started in ' + app.get('env') + ' mode on http://localhost:' + app.get('port') + '; press Ctrl + C to terminate');
+	});
+}
+
+if (require.main === module) {
+	// 애플리케이션은 앱 서버를 시동해 직접 실행됩니다.
+	startServer();
+} else {
+	// require를 통해 애플리케이션을 모듈처럼 가져옵니다.
+	// 함수를 반환해서 서버를 생성합니다.
+	module.exports = startServer;
+}
