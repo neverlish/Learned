@@ -19,6 +19,8 @@ var jqupload = require('jquery-file-upload-middleware');
 
 var credentials = require('./credentials');
 
+var emailService = require('./lib/email.js')(credentials);
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -185,15 +187,7 @@ app.post('/cart/checkout', function(req, res, next) {
 	};
 	res.render('email/cart-thank-you', {layout: null, cart: cart}, function(err, html) {
 		if (err) console.log('error in email template');
-		mailTransport.sendMail({
-			from: '"Meadowlark Travel": info@meadowlarktravel.com',
-			to: cart.billing.email,
-			subject: 'Thank You for Book your Trip with Meadowlark',
-			html: html,
-			generateTextFromHtml: true
-		}, function(err) {
-			if (err) console.log('Unable to send confirmation: ' + err.stack);
-		});
+		emailService.send('neverlish@gmail.com', 'Hood River tours on sale today!', 'Get \'em while they\'re hot!');
 	});
 	res.render('cart-thank-you', {cart: cart});
 });
