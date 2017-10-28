@@ -37,6 +37,49 @@ switch(app.get('env')) {
 		break;
 }
 
+app.use(function(req, res, next) {
+	// 이 요청을 처리할 도메인 생성
+	var domain = require('domain').create();
+	// 도메인에서 일어난 에러 처리
+	domain.on('error', function(err) {
+		console.error('DOMAIN ERROR CAUGHT\n', err.stack);
+		try {
+			// 5초 후에 안전한 셧다운
+			setTimeout(function() {
+				console.error('Failsafe shutdown');
+				process.exit(1);
+			}, 5000);
+
+			// 클러스터 연결 해제
+			var worker = require('cluster').worker;
+			if (worker) worker.disconnect();
+
+			// 요청을 받는 것을 중지
+			server.close();
+			try {
+				// 익스프레스의 에러 라우트 시도
+				next(err);
+			} catch (err) {
+				// 익스프레스의 에러 라우트가 실패하면
+				// 일반 노드 응답 사용
+				console.error('Express error mechanism failed.\n', err.stack);
+				res.statusCode = 500;
+				res.setHeader('content-type', 'text/plain');
+				res.end('Server error.');
+			}
+		} catch(err) {
+			console.error('Unable to send 500 response.\n', err.stack);
+		}
+	});
+
+	// 도메인에 요청과 응답 객체 추가
+	domain.add(req);
+	domain.add(res);
+
+	// 나머지 요청 체인을 도메인에서 처리
+	domain.run(next);
+});
+
 app.use(require('cookie-parser')(credentials.cookieSecret));
 app.use(require('express-session')({
 	resave: false,
@@ -280,6 +323,12 @@ app.get('/headers', function(req, res) {
 	res.send(s);
 });
 
+app.get('/epic-fail', function(req, res){
+	process.nextTick(function(){
+			throw new Error('Kaboom!');
+	});
+});
+
 // 404 폴백 핸들러 (미들웨어)
 app.use(function(req, res) {
 	res.status(404);
@@ -293,8 +342,10 @@ app.use(function(err, req, res, next) {
 	res.render('500');
 });
 
+var server;
+
 function startServer() {
-	app.listen(app.get('port'), function() { 
+	server = app.listen(app.get('port'), function() { 
 		console.log('Express started in ' + app.get('env') + ' mode on http://localhost:' + app.get('port') + '; press Ctrl + C to terminate');
 	});
 }
