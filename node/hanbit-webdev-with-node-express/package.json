@@ -20,6 +20,7 @@
     "nodemailer": "^0.7.1",
     "q": "^1.5.1",
     "session-mongoose": "^0.5.2",
+    "underscore": "^1.8.3",
     "vhost": "^3.0.2"
   },
   "devDependencies": {
