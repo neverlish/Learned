@@ -133,6 +133,20 @@ app.use(function(req, res, next) {
 	next();
 })
 
+var vhost = require('vhost');
+// admin 서브도메인을 만듭니다. 이 코드는 다른 라우트보다 앞에 있어야 합니다.
+var admin = express.Router();
+app.use(vhost('admin.*', admin));
+
+// admin 라우트를 만듭니다. 이 코드의 위치는 상관없습니다.
+admin.get('/', function(req, res) {
+	res.render('admin/home');
+});
+
+admin.get('/users', function(req, res) {
+	res.render('admin/users');
+});
+
 app.use(function(req, res, next) {
 	var cluster = require('cluster');
 	if (cluster.isWorker) console.log('Worker %d received request', cluster.worker.id);
