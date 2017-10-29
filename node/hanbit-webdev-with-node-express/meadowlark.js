@@ -81,11 +81,15 @@ app.use(function(req, res, next) {
 	domain.run(next);
 });
 
+var MongoSessionStore = require('session-mongoose')(require('connect'));
+var sessionStore = new MongoSessionStore({url: credentials.mongo[app.get('env')].connectionString});
+
 app.use(require('cookie-parser')(credentials.cookieSecret));
 app.use(require('express-session')({
 	resave: false,
 	saveUninitialized: false,
-	secret: credentials.cookieSecret
+	secret: credentials.cookieSecret,
+	store: sessionStore
 }));
 
 app.use(express.static(__dirname + '/public'));
@@ -413,19 +417,40 @@ app.get('/contest/vacation-photo/entries', function(req, res){
 	res.render('contest/vacation-photo/entries');
 });
 
+app.get('/set-currency/:currency', function(req, res) {
+	req.session.currency = req.params.currency;
+	return res.redirect(303, '/vacations');
+});
+
+function convertFromUSD(value, currency) {
+	switch (currency) {
+		case 'USD': return value * 1;
+		case 'GBP': return value * 0.6;
+		case 'BTC': return value * 0.0023707918444761;
+		default: return NaN;
+	}
+}
+
 app.get('/vacations', function(req, res) {
 	Vacation.find({available: true}, function(err, vacations) {
+		var currency = req.session.currency || 'USD';
 		var context = {
 			vacations: vacations.map(function(vacation) {
 				return {
 					sku: vacation.sku,
 					name: vacation.name,
 					description: vacation.description,
-					price: vacation.getDisplayPrice(),
+					price: convertFromUSD(vacation.priceInCents/100, currency),
 					inSeason: vacation.inSeason,
+					qty: vacation.qty,
 				}
 			})
 		};
+		switch (currency) {
+			case 'USD': context.currencyUSD = 'selected'; break;
+			case 'GBP': context.currencyGBP = 'selected'; break;
+			case 'BTC': context.currencyBTC = 'selected'; break;
+		}
 		res.render('vacations', context);
 	});
 });
