@@ -226,6 +226,20 @@ app.use(function(req, res, next) {
 
 require('./routes.js')(app);
 
+var autoViews = {};
+app.use(function(req, res, next) {
+	var path = req.path.toLowerCase();
+	// 캐시가 있으면 뷰를 렌더링합니다.
+	if (autoViews[path]) return res.render(autoViews[path]);
+	// 캐시가 없다면 일치하는 .handlebars 파일이 있는지 확인합니다.
+	if (fs.existsSync(__dirname + '/views' + path + '.handlebars')) {
+		autoViews[path] = path.replace(/^\//, '');
+		return res.render(autoViews[path]);
+	}
+	// 뷰를 찾을 수 없으므로 404 핸들러에 넘깁니다.
+	next();
+})
+
 // 404 폴백 핸들러 (미들웨어)
 app.use(function(req, res) {
 	res.status(404);
