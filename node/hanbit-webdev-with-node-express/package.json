@@ -32,6 +32,7 @@
     "grunt-contrib-uglify": "^3.1.0",
     "grunt-exec": "^3.0.0",
     "grunt-hashres": "^0.4.1",
+    "grunt-lint-pattern": "^0.1.4",
     "mocha": "^4.0.1",
     "restler": "^3.4.0",
     "zombie": "^5.0.7"

@@ -9,7 +9,8 @@ module.exports = function(grunt) {
 		'grunt-contrib-less',
 		'grunt-contrib-uglify',
 		'grunt-contrib-cssmin',
-		'grunt-hashres'
+		'grunt-hashres',
+		'grunt-lint-pattern',
 	].forEach(function(task) {
 		grunt.loadNpmTasks(task);
 	});
@@ -73,11 +74,51 @@ module.exports = function(grunt) {
 					'config.js',
 				]
 			},
+		},
+		link_pattern: {
+			view_statics: {
+				options: {
+					rules: [
+						{
+							pattern: /<link [^>]*href=]"'(?!\{\}static )/,
+							message: 'Un-mapped static resouce found in <link>.',
+						},
+						{
+							pattern: /<script [^>]*src=["'](?!\{\}static )/,
+							message: 'Un-mapped static resouce found in <script>.',
+						},
+						{
+							pattern: /<img [^>]*src=["'](?!\{\}static )/,
+							message: 'Un-mapped static resouce found in <img>',
+						}
+					]
+				},
+				files: {
+					src: [
+						'views/**/*.handlebars'
+					]
+				}
+			},
+			css_statics: {
+				options: {
+					rules: [
+						{
+							pattern: /url\(/,
+							message: 'Un-mapped static found in LESS property',
+						}
+					]
+				},
+				files: {
+					src: [
+						'less/**/*.less'
+					]
+				}
+			}
 		}
 	});
 
 	// 작업 등록
-	grunt.registerTask('default', ['cafemocha', 'jshint', 'exec']);
+	grunt.registerTask('default', ['cafemocha', 'jshint', 'exec','lint_pattern']);
 	// grunt static
 	grunt.registerTask('static', ['less', 'cssmin', 'uglify', 'hashres']);
 }

@@ -28,7 +28,7 @@ app.set('port', process.env.PORT || 3000);
 
 switch(app.get('env')) {
 	case 'development':
-		app.use(require('morgan')('dev'))
+		app.use(require('morgan')('dev'));
 		break;
 	case 'production':
 		app.use(require('express-logger')({
@@ -133,14 +133,14 @@ function getWeatherData() {
         temp: '55.0 F (12.8 C)',
       },
     ],
-	}
-};
+	};
+}
 
 app.use(function(req, res, next) {
 	if (!res.locals.partials) res.locals.partials = {};
 	res.locals.partials.weatherContext = getWeatherData();
 	next();
-})
+});
 
 var vhost = require('vhost');
 // admin 서브도메인을 만듭니다. 이 코드는 다른 라우트보다 앞에 있어야 합니다.
@@ -230,7 +230,7 @@ Vacation.find(function(err, vacations) {
 		packagesSold: 0,
 		notes: 'The tour guide is currently recovering from a skiiing accident',
 	}).save();
-})
+});
 
 app.use(function(req, res, next) {
 	// 플래시 메시지가 있다면 콘텍스트에 전달한 다음 지웁니다.
@@ -254,7 +254,7 @@ rest.get('/attractions', function(req, content, cb) {
 				id: a._id,
 				description: a.description,
 				location: a.location,
-			}
+			};
 		}));
 	});
 });
@@ -321,7 +321,7 @@ app.use(function(req, res, next) {
 	}
 	// 뷰를 찾을 수 없으므로 404 핸들러에 넘깁니다.
 	next();
-})
+});
 
 // 404 폴백 핸들러 (미들웨어)
 app.use(function(req, res) {
