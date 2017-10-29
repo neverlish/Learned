@@ -226,13 +226,14 @@ app.use(function(req, res, next) {
 
 require('./routes.js')(app);
 
-app.use('/api', require('cors')());
-
 var Attraction = require('./models/attraction.js');
-app.get('/api/attractions', function(req, res) {
+
+var rest = require('connect-rest');
+
+rest.get('/attractions', function(req, content, cb) {
 	Attraction.find({approved: true}, function(err, attractions) {
-		if(err) return res.status(500).send('Error occured: database error.');
-		res.json(attractions.map(function(a) {
+		if(err) return cb({ error: 'Internal error.' });
+		cb(null, attractions.map(function(a) {
 			return {
 				name: a.name,
 				id: a._id,
@@ -243,7 +244,7 @@ app.get('/api/attractions', function(req, res) {
 	});
 });
 
-app.post('/api/attraction', function(req, res) {
+rest.post('/attraction', function(req, content, cb) {
 	var a = new Attraction({
 		name: req.body.name,
 		description: req.body.description,
@@ -256,15 +257,15 @@ app.post('/api/attraction', function(req, res) {
 		approved: false,
 	});
 	a.save(function(er, a) {
-		if(err) return res.status(500).send('Error occured: database error.');
-		res.json({id: a._id});
+		if(err) return cb({ error: 'Unable to add attraction.' });
+		cb(null, { id: a._id });
 	});
 });
 
-app.get('/api/attraction/:id', function(req, res) {
+rest.get('/attraction/:id', function(req, content, cb) {
 	Attraction.findById(req.params.id, function(err, a) {
-		if(err) return res.status(500).send('Error occured: database error.');
-		res.json({
+		if(err) return cb({ error: 'Unable to retrieve attraction.' });
+		cb(null, {
 			name: a.name,
 			id: a._id,
 			description: a.description,
@@ -272,6 +273,26 @@ app.get('/api/attraction/:id', function(req, res) {
 		});
 	});
 });
+
+// API 설정
+var apiOptions = {
+	context: '/api',
+	domain: require('domain').create(),
+};
+
+apiOptions.domain.on('error', function(err) {
+	console.log('API domain error.\n', err.stack);
+	setTimeout(function() {
+		console.log('Server shutting down after API domain error.');
+		process.exit(1);
+	}, 5000);
+	server.close();
+	var worker = require('cluster').worker;
+	if (worker) worker.disconnect();
+});
+
+// API를 파이프라인에 연결합니다.
+app.use(rest.rester(apiOptions));
 
 var autoViews = {};
 app.use(function(req, res, next) {
