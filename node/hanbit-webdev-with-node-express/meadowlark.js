@@ -332,10 +332,41 @@ auth.init();
 // 이제 인증 라우트를 사용할 수 있습니다.
 auth.registerRoutes();
 
-app.get('/account', function(req, res) {
-	if(!req.user)
-		return res.redirect(303, '/unauthorized');
+function customerOnly(req, res, next) {
+	if(req.user && req.user.role === 'customer') return next();
+	// 고객 전용 페이지를 만들어, 로그인해야함을 알리고 싶습니다.
+	res.redirect(303, '/unauthorized');
+}
+
+function employeeOnly(req, res, next) {
+	if(req.user && req.user.role === 'employee') return next();
+	// 직원 전용 승인에 실패했다는 결과를 숨겨서, 잠재적 해커가 그런 페이지가 존재한다는 사실조차 모르게 하고 싶습니다.
+	next('route');
+}
+
+function allow(roles) {
+	return function(req, res, next) {
+		if(req.user && roles.split(',').indexOf(req.user.role) !== -1)
+			return next();
+		res.redirect(303, '/unauthorized');
+	}
+}
+
+app.get('/account', allow('customer,employee'), function(req, res) {
 	res.render('account', { username: req.user.name });
+});
+
+app.get('/account/order-history', customerOnly, function(req, res) {
+	res.render('account/order-history');
+});
+
+app.get('/account/email-prefs', customerOnly, function(req, res) {
+	res.render('account/email-prefs');
+});
+
+// 직원용 라우트
+app.get('/sales', employeeOnly, function(req, res) {
+	res.render('sales');
 });
 
 // '인증되지 않음' 페이지도 필요합니다.
