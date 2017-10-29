@@ -224,12 +224,6 @@ app.use(function(req, res, next) {
 	next();
 });
 
-// 디렉터리가 존재하는지 확인하고 없으면 만듭니다.
-var dataDir = __dirname + '/data';
-var vacationPhotoDir = dataDir + '/vacation-photo';
-fs.existsSync(dataDir) || fs.mkdirSync(dataDir);
-fs.existsSync(vacationPhotoDir) || fs.mkdirSync(vacationPhotoDir);
-
 require('./routes.js')(app);
 
 // 404 폴백 핸들러 (미들웨어)
