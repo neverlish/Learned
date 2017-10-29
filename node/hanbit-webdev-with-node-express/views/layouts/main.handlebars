@@ -8,7 +8,9 @@
 	{{{_sections.head}}}
 	
 	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-	<link rel="stylesheet" href='{{static "/css/meadowlark.min.css"}}'>
+	{{#each _bundles.css}}
+		<link rel="stylesheet" href="{{static .}}">
+	{{/each}}
 </head>
 <body>
 	<header>
@@ -41,6 +43,8 @@
 		{{{body}}}
 	</div>
 
+	<script src='//code.jquery.com/jquery-2.0.2.min.js'></script>
+	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 	<script>
 		var IMG_CART_EMPTY = '{{static '/img/shop/cart_empty.png'}}';
 		var IMG_CART_FULL = '{{static '/img/shop/cart_full.png'}}';
@@ -83,8 +87,9 @@
 		{{/if}}
 		<script>mocha.run();</script>
 	{{/if}}
-	<script src='//code.jquery.com/jquery-2.0.2.min.js'></script>
-	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-	<script src='{{static "js/meadowlark.min.js"}}'></script>
+	
+	{{#each _bundles.js.head}}
+		<script src="{{static .}}"></script>
+	{{/each}}
 </body>
 </html>

@@ -70,7 +70,7 @@ module.exports = function(grunt) {
 					'public/css/meadowlark.min.css',
 				],
 				dest: [
-					'views/layouts/main.handlebars',
+					'config.js',
 				]
 			},
 		}

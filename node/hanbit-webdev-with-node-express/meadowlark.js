@@ -17,6 +17,8 @@ var handlebars = require('express-handlebars').create({
 	}
 });
 
+var config = require('./config.js');
+
 var credentials = require('./credentials');
 
 app.engine('handlebars', handlebars.engine);
