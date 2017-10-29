@@ -7,6 +7,9 @@ module.exports = function(grunt) {
 		'grunt-contrib-jshint',
 		'grunt-exec',
 		'grunt-contrib-less',
+		'grunt-contrib-uglify',
+		'grunt-contrib-cssmin',
+		'grunt-hashres'
 	].forEach(function(task) {
 		grunt.loadNpmTasks(task);
 	});
@@ -35,11 +38,46 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'public/css/main.css': 'less/main.less',
+					'public/css/cart.css': 'less/cart.less',
 				}
 			}
+		},
+		uglify: {
+			all: {
+				files: {
+					'public/js/meadowlark.min.js': ['public/js/**/*.js']
+				}
+			}
+		},
+		cssmin: {
+			combine: {
+				files: {
+					'public/css/meadowlark.css': ['public/css/**/*.css', '!public/css/meadowlark*.css']
+				}
+			},
+			minify: {
+				src: 'public/css/meadowlark.css',
+				dest: 'public/css/meadowlark.min.css',
+			}
+		},
+		hashres: {
+			options: {
+				fileNameFormat: '${name}.${hash}.${ext}'
+			},
+			all: {
+				src: [
+					'public/js/meadowlark.min.js',
+					'public/css/meadowlark.min.css',
+				],
+				dest: [
+					'views/layouts/main.handlebars',
+				]
+			},
 		}
 	});
 
 	// 작업 등록
 	grunt.registerTask('default', ['cafemocha', 'jshint', 'exec']);
+	// grunt static
+	grunt.registerTask('static', ['less', 'cssmin', 'uglify', 'hashres']);
 }

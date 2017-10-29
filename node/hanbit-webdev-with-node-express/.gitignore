@@ -2,3 +2,5 @@ node_modules
 log
 data
 public/uploads
+public/js
+public/css
