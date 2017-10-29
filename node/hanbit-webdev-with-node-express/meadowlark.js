@@ -430,6 +430,37 @@ app.get('/vacations', function(req, res) {
 	});
 });
 
+var VacationInSeasonListener = require('./models/vacationInSeasonListener.js');
+
+app.get('/notify-me-when-in-season', function(req, res) {
+	res.render('notify-me-when-in-season', {sku: req.query.sku})
+});
+
+app.post('/notify-me-when-in-season', function(req, res) {
+	VacationInSeasonListener.update(
+		{email: req.body.email},
+		{$push: {skus: req.body.sku}},
+		{upsert: true},
+		function(err) {
+			if (err) {
+				console.error(err.stack);
+				req.session.flash = {
+					type: 'danger',
+					intro: 'Ooops!',
+					message: 'There was an error processing your request.',
+				};
+				return res.redirect(303, '/vacations');
+			}
+			req.session.flash = {
+				type: 'success',
+				intro: 'Thank you!',
+				message: 'You will be notified when this vacation is in season.',
+			};
+			return res.redirect(303, '/vacations');
+		}
+	)
+})
+
 app.get('/headers', function(req, res) {
 	res.set('Content-Type', 'text/plain');
 	var s = '';
