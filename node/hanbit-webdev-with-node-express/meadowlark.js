@@ -149,6 +149,24 @@ app.use('/upload', function(req, res, next) {
 
 app.use(require('body-parser').urlencoded({ extended: true }));
 
+var mongoose = require('mongoose');
+var opts = {
+	server: {
+		socketOptions: { keepAlive: 1}
+	}
+};
+
+switch(app.get('env')) {
+	case 'development':
+		mongoose.connect(credentials.mongo.development.connectionString, opts);
+		break;
+	case 'production':
+		mongoose.connect(credentials.mongo.production.connectionString, opts);
+		break;
+	default:
+		throw new Error('Unknown execution environment: ' + app.get('env'));
+}
+
 app.use(function(req, res, next) {
 	// 플래시 메시지가 있다면 콘텍스트에 전달한 다음 지웁니다.
 	res.locals.flash = req.session.flash;
