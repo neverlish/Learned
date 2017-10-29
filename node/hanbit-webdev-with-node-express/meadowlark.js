@@ -226,6 +226,8 @@ app.use(function(req, res, next) {
 
 require('./routes.js')(app);
 
+app.use('/api', require('cors')());
+
 var autoViews = {};
 app.use(function(req, res, next) {
 	var path = req.path.toLowerCase();
