@@ -276,7 +276,7 @@ rest.get('/attraction/:id', function(req, content, cb) {
 
 // API 설정
 var apiOptions = {
-	context: '/api',
+	context: '/',
 	domain: require('domain').create(),
 };
 
@@ -292,7 +292,7 @@ apiOptions.domain.on('error', function(err) {
 });
 
 // API를 파이프라인에 연결합니다.
-app.use(rest.rester(apiOptions));
+app.use(vhost('api.*', rest.rester(apiOptions)));
 
 var autoViews = {};
 app.use(function(req, res, next) {
