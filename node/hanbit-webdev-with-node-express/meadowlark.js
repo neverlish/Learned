@@ -315,6 +315,34 @@ apiOptions.domain.on('error', function(err) {
 // API를 파이프라인에 연결합니다.
 app.use(vhost('api.*', rest.rester(apiOptions)));
 
+var auth = require('./lib/auth.js')(app, {
+	// baseUrl은 옵션이며, 생략할 경우 기본 값은 localhost 입니다.
+	// 로컬에서 작업하지 않을 때는 baseUrl이 유용한데 
+	// 예를 들어 스테이징 서버가 있다면 BASE_URL 환경 변수를 
+	// https://staging.meadowlark.com 으로 설정하면 됩니다.
+	baseUrl: process.env.BASE_URL,
+	providers: credentials.authProviders,
+	successRedirect: '/account',
+	failureRedirect: '/unauthorized',
+});
+
+// auth.init()는 패스포트 미들웨어를 연결합니다.
+auth.init();
+
+// 이제 인증 라우트를 사용할 수 있습니다.
+auth.registerRoutes();
+
+app.get('/account', function(req, res) {
+	if(!req.user)
+		return res.redirect(303, '/unauthorized');
+	res.render('account', { username: req.user.name });
+});
+
+// '인증되지 않음' 페이지도 필요합니다.
+app.get('/unauthorized', function(req, res) {
+	res.status(403).render('unauthorized');
+});
+
 var autoViews = {};
 app.use(function(req, res, next) {
 	var path = req.path.toLowerCase();

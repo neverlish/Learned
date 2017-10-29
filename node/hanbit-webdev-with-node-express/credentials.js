@@ -11,5 +11,13 @@ module.exports = {
 		production: {
 			connectionString: process.env.MLAB
 		}
+	},
+	authProviders: {
+		facebook: {
+			development: {
+				appId: process.env.FB_DEV_APP_ID,
+				appSecret: process.env.FB_DEV_APP_SECRET_CODE,
+			}
+		}
 	}
 };
