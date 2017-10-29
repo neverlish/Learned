@@ -413,6 +413,23 @@ app.get('/contest/vacation-photo/entries', function(req, res){
 	res.render('contest/vacation-photo/entries');
 });
 
+app.get('/vacations', function(req, res) {
+	Vacation.find({available: true}, function(err, vacations) {
+		var context = {
+			vacations: vacations.map(function(vacation) {
+				return {
+					sku: vacation.sku,
+					name: vacation.name,
+					description: vacation.description,
+					price: vacation.getDisplayPrice(),
+					inSeason: vacation.inSeason,
+				}
+			})
+		};
+		res.render('vacations', context);
+	});
+});
+
 app.get('/headers', function(req, res) {
 	res.set('Content-Type', 'text/plain');
 	var s = '';
