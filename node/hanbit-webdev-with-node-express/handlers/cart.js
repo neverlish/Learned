@@ -35,7 +35,7 @@ exports.middleware = function(req, res, next){
 };
 
 function addToCart(sku, guests, req, res, next){
-  var cart = req.session.cart || (req.session.cart = { items: [] });
+  var cart = req.session.cart;
   Vacation.findOne({ sku: sku }, function(err, vacation){
     if(err) return next(err);
     if(!vacation) return next(new Error('Unknown vacation SKU: ' + sku));
@@ -60,7 +60,7 @@ exports.home = function(req, res, next){
 };
 
 exports.checkout = function(req, res, next){
-  var cart = req.session.cart || (req.session.cart = { items: [] });
+  var cart = req.session.cart;
   if(!cart) next();
   res.render('cart-checkout');
 };
@@ -74,7 +74,7 @@ exports.emailThankYou = function(req, res){
 };
 
 exports.checkoutProcessPost = function(req, res){
-  var cart = req.session.cart || (req.session.cart = { items: [] });
+  var cart = req.session.cart;
   if(!cart) next(new Error('Cart does not exist.'));
   var name = req.body.name || '', email = req.body.email || '';
   // input validation
