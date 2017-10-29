@@ -94,6 +94,7 @@ app.use(function(req, res, next) {
 var MongoSessionStore = require('session-mongoose')(require('connect'));
 var sessionStore = new MongoSessionStore({url: credentials.mongo[app.get('env')].connectionString});
 
+app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('cookie-parser')(credentials.cookieSecret));
 app.use(require('express-session')({
 	resave: false,
@@ -101,6 +102,12 @@ app.use(require('express-session')({
 	secret: credentials.cookieSecret,
 	store: sessionStore
 }));
+
+app.use(require('csurf')());
+app.use(function(req, res, next) {
+	res.locals._csrfToken = req.csrfToken();
+	next();
+});
 
 app.use(express.static(__dirname + '/public'));
 
@@ -162,8 +169,6 @@ app.use(function(req, res, next) {
 	if (cluster.isWorker) console.log('Worker %d received request', cluster.worker.id);
 	next();
 });
-
-app.use(require('body-parser').urlencoded({ extended: true }));
 
 var mongoose = require('mongoose');
 var opts = {
