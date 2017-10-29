@@ -1,3 +1,4 @@
+var https = require('https');
 var express = require('express');
 var fs = require('fs');
 var app = express();
@@ -339,8 +340,12 @@ app.use(function(err, req, res, next) {
 var server;
 
 function startServer() {
-	server = app.listen(app.get('port'), function() { 
-		console.log('Express started in ' + app.get('env') + ' mode on http://localhost:' + app.get('port') + '; press Ctrl + C to terminate');
+	var options = {
+		key: fs.readFileSync(__dirname + '/ssl/meadowlark.pem'),
+		cert: fs.readFileSync(__dirname + '/ssl/meadowlark.crt')
+	};
+	server = https.createServer(options, app).listen(app.get('port'), function() {
+		console.log('Express started in ' + app.get('env') + ' mode on port' + app.get('port') + ' using HTTPS.');
 	});
 }
 
