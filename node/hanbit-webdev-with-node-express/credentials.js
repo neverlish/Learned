@@ -25,5 +25,9 @@ module.exports = {
 				clientSecret: process.env.GOOGLE_DEV_CLIENT_SECRET_CODE,
 			}
 		}
+	},
+	twitter: {
+		consumerKey: process.env.TWITTER_APP_KEY,
+		consumerSecret: process.env.TWITTER_APP_SECRET,
 	}
 };

@@ -22,6 +22,11 @@ var config = require('./config.js');
 
 var credentials = require('./credentials');
 
+var twitter = require('./lib/twitter')({
+	consumerKey: credentials.twitter.consumerKey,
+	consumerSecret: credentials.twitter.consumerSecret,
+});
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -149,6 +154,10 @@ app.use(function(req, res, next) {
 	res.locals.partials.weatherContext = getWeatherData();
 	next();
 });
+
+twitter.search('#meadowlarktravel', 10, function(result) {
+	// 트윗은 result.statuses에 들어가게 됩니다.
+})
 
 var vhost = require('vhost');
 // admin 서브도메인을 만듭니다. 이 코드는 다른 라우트보다 앞에 있어야 합니다.
