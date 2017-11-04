@@ -29,5 +29,8 @@ module.exports = {
 	twitter: {
 		consumerKey: process.env.TWITTER_APP_KEY,
 		consumerSecret: process.env.TWITTER_APP_SECRET,
+	},
+	WeatherUnderground: {
+		ApiKey: 'f8ee47a76cb65454'
 	}
 };
