@@ -1,0 +1,56 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9ycobB5RiavbXpJBo0Muz2komaqqvGv0&sensor=false"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+
+<script id="dealerTemplate" type="text/x-handlebars-template">
+  \{{#each dealers}}
+    <div class="dealer">
+      <h3>\{{name}}</h3>
+      \{{address1}}<br>
+      \{{#if address2}}\{{address2}}<br>\{{/if}}
+      \{{city}}, \{{state}} \{{zip}}<br>
+      \{{#if country}}\{{country}}<br>\{{/if}}
+      \{{#if phone}}\{{phone}}<br>\{{/if}}
+      \{{#if website}}<a href="{{website}}">\{{website}}</a><br>\{{/if}}
+    </div>
+  \{{/each}}
+</script>
+
+<div class="dealers">
+  <div id="map"></div>
+  <div id="dealerList"></div>
+</div>
+
+{{#section 'jquery'}}
+	<script src="{{static '/js/dealers-googleMapMarkers.js'}}"></script>
+	<script>
+		var map;
+		var dealerTemplate = Handlebars.compile($('#dealerTemplate').html());
+		$(document).ready(function(){
+
+			// center map on US, set zoom to show whole country
+			var mapOptions = {
+				center: new google.maps.LatLng(38.2562, -96.0650),
+				zoom: 4,
+			};
+
+			// initialize map
+			map = new google.maps.Map(
+				document.getElementById('map'),
+				mapOptions);
+
+			addMarkers(map);
+
+			// fetch JSON
+			$.getJSON('/dealers.json', function(dealers){
+
+				// update dealer list using Handlebars -- probably want to render this on the
+				// serverside as well, for performance
+				$('#dealerList').html(dealerTemplate({ dealers: dealers }));
+
+			});
+
+		});
+	</script>
+{{/section}}
+
+
