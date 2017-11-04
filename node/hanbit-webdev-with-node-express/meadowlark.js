@@ -379,6 +379,24 @@ function geocodeDealer(dealer) {
 	});
 }
 
+function dealersToGoogleMaps(dealers){
+	var js = 'function addMarkers(map){\n' +
+		'var markers = [];\n' +
+		'var Marker = google.maps.Marker;\n' +
+		'var LatLng = google.maps.LatLng;\n';
+	dealers.forEach(function(d){
+		var name = d.name.replace(/'/, '\\\'').replace(/\\/, '\\\\');
+		js += 'markers.push(new Marker({\n' +
+					'\tposition: new LatLng(' +
+					d.lat + ', ' + d.lng + '),\n' +
+					'\tmap: map,\n' +
+					'\ttitle: \'' + name.replace(/'/, '\\') + '\',\n' +
+					'}));\n';
+		});
+	js += '}';
+	return js;
+}
+
 dealerCache.refresh = function(cb) {
 	if(Date.now() > dealerCache.lastRefreshed + dealerCache.refreshInterval){
 		// 캐시를 업데이트 해야 합니다.
@@ -391,6 +409,8 @@ dealerCache.refresh = function(cb) {
 
 			// 판매자 정보를 모두 JSON 파일에 기록합니다.
 			fs.writeFileSync(dealerCache.jsonFile, JSON.stringify(dealers));
+
+			fs.writeFileSync(__dirname + '/public/js/dealers-googleMapMarkers.js', dealersToGoogleMaps(dealers));
 
 			// 다 끝났으니 콜백을 실행합니다.
 			cb();
