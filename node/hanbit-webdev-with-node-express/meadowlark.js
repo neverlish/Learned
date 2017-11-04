@@ -283,6 +283,133 @@ Vacation.find(function(err, vacations) {
 	}).save();
 });
 
+var Dealer = require('./models/dealer.js');
+
+Dealer.find({}, function(err, dealers) {
+	if (dealers.length) return;
+
+	new Dealer({
+		name: 'Oregon Novelties',
+		address1: '912 NW Davis St',
+		city: 'Portland',
+		state: 'OR',
+		zip: '97209',
+		country: 'US',
+		phone: '503-555-1212',
+		active: true,
+	}).save();
+
+	new Dealer({
+		name: 'Bruce\'s Bric-a-Brac',
+		address1: '159 Beeswax Ln',
+		city: 'Manzanita',
+		state: 'OR',
+		zip: '97209',
+		country: 'US',
+		phone: '503-555-1212',
+		active: true,
+	}).save();
+
+	new Dealer({
+		name: 'Aunt Beru\'s Oregon Souveniers',
+		address1: '544 NE Emerson Ave',
+		city: 'Bend',
+		state: 'OR',
+		zip: '97701',
+		country: 'US',
+		phone: '503-555-1212',
+		active: true,
+	}).save();
+
+	new Dealer({
+		name: 'Oregon Goodies',
+		address1: '1353 NW Beca Ave',
+		city: 'Corvallis',
+		state: 'OR',
+		zip: '97330',
+		country: 'US',
+		phone: '503-555-1212',
+		active: true,
+	}).save();
+
+	new Dealer({
+		name: 'Oregon Grab-n-Fly',
+		address1: '7000 NE Airport Way',
+		city: 'Portland',
+		state: 'OR',
+		zip: '97219',
+		country: 'US',
+		phone: '503-555-1212',
+		active: true,
+	}).save();
+});
+
+var dealerCache = {
+	lastRefreshed: 0,
+	refreshInterval: 60 * 60 * 1000,
+	jsonUrl: '/dealers.json',
+	geocodeLimit: 2000,
+	geocodeCount: 0,
+	geocodeBegin: 0,
+}
+
+dealerCache.jsonFile = __dirname + '/public' + dealerCache.jsonUrl;
+
+function geocodeDealer(dealer) {
+	var addr = dealer.getAddress(' ');
+	if (addr === dealer.geocodedAddress) return;
+
+	if (dealerCache.geocodeCount >= dealerCache.geocodeLimit) {
+		// 마지막으로 지오코딩한 지 24시간이 지났는지?
+		if (Date.now() > dealerCache.geocodeCount + 24 * 60 * 60 * 1000) {
+			dealerCache.geocodeBegin = Date.now();
+			dealerCache.geocodeCount = 0;
+		} else {
+			// 사용 제한을 초과했으므로 지금은 사용할 수 없음
+			return;
+		}
+	}
+
+	var geocode = require('./lib/geocode.js');
+	geocode(addr, function(err, coords) {
+		if (err) return console.log('Geocoding failure for ' + addr);
+		dealer.lat = coords.lat;
+		dealer.lng = coords.lng;
+		dealer.save();
+	});
+}
+
+dealerCache.refresh = function(cb) {
+	if(Date.now() > dealerCache.lastRefreshed + dealerCache.refreshInterval){
+		// 캐시를 업데이트 해야 합니다.
+		Dealer.find({ active: true }, function(err, dealers){
+			
+			if(err) return console.log('Error fetching dealers: '+ err);
+			
+			// 좌표가 최신 상태라면 geocodeDealer는 아무 일도 하지 않습니다.
+			dealers.forEach(geocodeDealer);
+
+			// 판매자 정보를 모두 JSON 파일에 기록합니다.
+			fs.writeFileSync(dealerCache.jsonFile, JSON.stringify(dealers));
+
+			// 다 끝났으니 콜백을 실행합니다.
+			cb();
+		});
+	}
+}
+
+function refreshDealerCacheForever(){
+	dealerCache.refresh(function(){
+		// 업데이트 주기가 끝나면 스스로를 호출
+		setTimeout(refreshDealerCacheForever,dealerCache.refreshInterval);
+	});
+}
+
+// 캐시가 없다면 빈 캐시를 만들어서 404 에러를 막습니다.
+if(!fs.existsSync(dealerCache.jsonFile)) fs.writeFileSync(JSON.stringify([]));
+// 캐시 업데이트 시작
+refreshDealerCacheForever();
+
 app.use(function(req, res, next) {
 	// 플래시 메시지가 있다면 콘텍스트에 전달한 다음 지웁니다.
 	res.locals.flash = req.session.flash;
