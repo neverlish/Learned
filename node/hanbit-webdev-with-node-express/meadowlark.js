@@ -2,6 +2,7 @@ var https = require('https');
 var express = require('express');
 var fs = require('fs');
 var app = express();
+var Q = require('q');
 
 // 핸들바 뷰 엔진 설정
 var handlebars = require('express-handlebars').create({ 
@@ -155,9 +156,44 @@ app.use(function(req, res, next) {
 	next();
 });
 
-twitter.search('#meadowlarktravel', 10, function(result) {
-	// 트윗은 result.statuses에 들어가게 됩니다.
-})
+
+var topTweets = {
+	count: 10,
+	lastRefreshed: 0,
+	refreshInterval: 15 * 60 * 1000,
+	tweets: []
+};
+
+function getTopTweets(cb) {
+	if (Date.now() < topTweets.lastRefreshed + topTweets.refreshInterval)
+		return cb(topTweets.tweets);
+	
+	twitter.search('#meadowlarktravel', topTweets.count, function(result) {
+		var formattedTweets = [];
+		var promises = [];
+		var embedOpts = { omit_script: 1 };
+		result.statuses.forEach(function(status) {
+			var deferred = Q.defer();
+			twitter.embed(status.id_str, embedOpts, function(embed) {
+				formattedTweets.push(embed.html);
+				deferred.resolve();
+			});
+			promises.push(deferred.promise);
+		});
+		Q.all(promises).then(function() {
+			topTweets.lastRefreshed = Date.now();
+			cb(topTweets.tweets = formattedTweets);
+		});
+	})
+}
+
+app.use(function(req, res, next) {
+	getTopTweets(function(tweets) {
+		res.locals.topTweets = tweets;
+		next();
+	});
+});
+
 
 var vhost = require('vhost');
 // admin 서브도메인을 만듭니다. 이 코드는 다른 라우트보다 앞에 있어야 합니다.
