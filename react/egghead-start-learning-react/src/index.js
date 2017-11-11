@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './03';
+import App from './04';
 
 ReactDOM.render(
-  <App />, 
+  <App cat={5}/>, 
   document.getElementById('root')
 );
