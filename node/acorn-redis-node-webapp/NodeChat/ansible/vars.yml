@@ -1,0 +1,5 @@
+project_name: nodechat
+project_path: /var/node/chat
+project_repo: https://github.com/neverlish/nodechat
+project_user: nodechat
+project_exec: app.js
