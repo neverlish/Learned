@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import GuessNumbers
 from .forms import PostForm
 
@@ -7,5 +7,13 @@ def index(request):
   return render(request, 'lotto/default.html', {'lottos': lottos})
 
 def post(request):
-  form = PostForm()
-  return render(request, 'lotto/form.html', {'form': form})
+  if request.method == 'POST':
+    # save data
+    form = PostForm(request.POST)
+    if form.is_valid():
+      lotto = form.save(commit = False)
+      lotto.generate()
+      return redirect('index')
+  else:
+    form = PostForm()
+    return render(request, 'lotto/form.html', {'form': form})
