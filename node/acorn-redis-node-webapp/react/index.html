@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>React</title>
+  <script src='/bower_components/react/react.js'></script>
+  <script src='/bower_components/lodash/dist/lodash.js'></script>
+  <script src='/bower_components/conduitjs/src/conduit.js'></script>
+  <script src='/bower_components/postal.js/lib/postal.js'></script>
+</head>
+<body>
+  <h1>React!</h1>
+  <div id='react-root'></div>
+  <script>
+    var Hello = React.createClass({
+      componentWillMount: function() {
+        this.channel = postal.channel();
+      },
+      removeClick: function() {
+        this.channel.publish('Name.Remove', {name: this.props.name});
+      },
+      render: function () {
+        return React.DOM.li(
+          {className: 'name'},
+          'Hello There, ' + this.props.name + '!',
+          React.DOM.button({onClick: this.removeClick}, 'Remove Me')
+        );
+      }
+    });
+
+    var AddNameForm = React.createClass({
+      componentWillMount: function() {
+        this.channel = postal.channel();
+      },
+      handleSubmit: function(e) {
+        e.preventDefault();
+        var newName = this.refs.name.getDOMNode().value.trim();
+        this.channel.publish('Name.Add', {name: newName});
+        this.refs.name.getDOMNode().value = '';
+      },
+      render: function() {
+        return React.DOM.form(
+          {onSubmit: this.handleSubmit},
+          React.DOM.input({type: 'text', placeholder: 'Name', ref: 'name'}),
+          React.DOM.button(null, 'Submit')
+        );
+      }
+    });
+
+    var HelloList = React.createClass({
+      componentWillMount: function() {
+        var channel = postal.channel();
+        this.addSub = channel.subscribe('Name.Add', this.addName);
+        this.removeSub = channel.subscribe('Name.Remove', this.removeName);
+      },
+      getInitialState: function() {
+        // 비동기식 로딩
+        setTimeout(function() {
+          // state를 변경할 수 없는 것으로 다룬다
+          var copy = this.state.namesList.slice();
+          copy.push('Test');
+          this.setState({namesList: copy});
+        }.bind(this), 3000)
+        return {namesList: ['Josh', 'Brian']};
+      },
+      addName: function(data) {
+        var copy = this.state.namesList.slice();
+        copy.push(data.name);
+        this.setState({namesList: copy});
+      },
+      removeName: function(data) {
+        var copy = this.state.namesList.slice();
+        copy.splice(copy.indexOf(data.name), 1);
+        this.setState({namesList: copy});
+      },
+      render: function() {
+        return React.DOM.ul(
+          {className: 'name-ul'},
+          this.state.namesList.map(function(name) {
+            return Hello({name: name});
+          }),
+          AddNameForm()
+        );
+      },
+      componentWillUnmount: function() {
+        this.addSub.unsubscribe();
+        this.removeSub.unsubscribe();
+      }
+    });
+
+    var root = React.renderComponent(
+      HelloList(), 
+      document.getElementById('react-root')
+    );
+  </script>
+</body>
+</html>

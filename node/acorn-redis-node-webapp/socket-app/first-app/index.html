@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ping Pong</title>
+  <script type='text/javascript' src='socket.io.js'></script>
+  <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js'></script>
+</head>
+<body>
+  <input type='text' id='username'>
+  <button id='ping'>Ping</button>
+  <div id='sent'></div>
+  <ul id='info'></ul>
+  <script>
+    var socket = io.connect('http://localhost:4000');
+    var $username = $('#username'), $ping = $('#ping'), $info = $('#info'), $sent = $('#sent');
+    var pingSent = 0;
+
+    function addLi(message) {
+      $info.append('<li>' + message + '</li>');
+    };
+
+    $username.on('change', function() {
+      socket.emit('join', {username: $username.val()});
+    });
+
+    socket.on('userJoined', function(data) {
+      addLi(data.username + ' has joined');
+    });
+
+    $ping.on('click', function() {
+      socket.emit('ping', null, function(message) {
+        if (message === 'ack') {
+          pingSent++;
+          $sent.html('Ping sent: ' + pingSent);
+        }
+      });
+    });
+
+    socket.on('ping', function(data) {
+      addLi(data.username + ' has pinged!');
+    })
+
+    socket.on('userDisconnected', function(data) {
+      addLi(data.username + ' has left :(');
+    });
+  </script>
+</body>
+</html>
