@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/static'));
 
 app.get('/', function(req, res){
   res.set('Important-Header', 'test-value');
-  res.send('hello world<script src="/debug.js"></script>');
+  res.send('hello world<script src="/feleak.js"></script>');
 });
 
 server.listen(3000);
