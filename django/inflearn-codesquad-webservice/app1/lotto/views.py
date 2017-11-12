@@ -17,3 +17,7 @@ def post(request):
   else:
     form = PostForm()
     return render(request, 'lotto/form.html', {'form': form})
+
+def detail(request, lottokey):
+  lotto = GuessNumbers.objects.get(pk = lottokey)
+  return render(request, 'lotto/detail.html', {'lotto': lotto})
