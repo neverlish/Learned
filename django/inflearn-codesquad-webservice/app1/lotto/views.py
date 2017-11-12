@@ -1,6 +1,6 @@
 from django.shortcuts import render
-
-# Create your views here.
+from .models import GuessNumbers
 
 def index(request):
-  return render(request, 'lotto/default.html', {})
+  lottos = GuessNumbers.objects.all()
+  return render(request, 'lotto/default.html', {'lottos': lottos})
