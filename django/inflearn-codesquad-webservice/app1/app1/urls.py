@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^lotto/$', views.index, name='lotto'),
     url(r'^$', views.index, name='index'),
+    url(r'^lotto/new/$', views.post, name='new_lotto'),
 ]
