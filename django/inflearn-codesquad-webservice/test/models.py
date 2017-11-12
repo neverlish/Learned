@@ -5,6 +5,9 @@ class Text:
   def __str__(self):
     return 'Text: ' + self.text
 
+  def getLength(self):
+    return len(self.text)
+
 class User:
   numUsers = 0
   def __init__(self, name):
@@ -20,10 +23,18 @@ class User:
   def __str__(self):
     return 'User : %s %s' % (self.name, self.articles)
 
-t = Text('This is some text.')
-t2 = Text('This is some text2')
+class Article(Text):
+  def __init__(self, title, text):
+    self.title = title
+    self.text = text
+
+  def __str__(self):
+    return 'Article %s %s' % (self.title, self.text)
+
+t = Article('hello','This is some text')
+t2 = Article('world','This is some text2')
 user = User('Honux')
 user.write(t2)
 user.write(t2)
-print(t) # Text: This is some text.
-print(user, user.numArticle) # # User : Honux [<__main__.Text object at 0x10d9ae6a0>, <__main__.Text object at 0x10d9ae6a0>] 2
+print(t, t.getLength()) # Text: This is some text 17
+print(user, user.numArticle) # User : Honux [<__main__.Article object at 0x1102fe898>, <__main__.Article object at 0x1102fe898>] 2
