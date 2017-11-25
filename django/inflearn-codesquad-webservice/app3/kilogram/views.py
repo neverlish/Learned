@@ -3,6 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
 
 from .forms import CreateUserForm, UploadForm
 
@@ -20,8 +21,13 @@ def upload(request):
   form = UploadForm
   return render(request, 'kilogram/upload.html', {'form': form})
 
-class IndexView(TemplateView):
-  template_name = 'kilogram/index.html'
+class IndexView(ListView):
+  context_object_name = 'user_photo_list'
+  paginate_by = 2
+
+  def get_queryset(self):
+    user = self.request.user
+    return user.photo_set.all().order_by('-pub_date')
 
 class CreateUserView(CreateView):
   template_name = 'registration/signup.html'
