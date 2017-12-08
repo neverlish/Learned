@@ -26,10 +26,14 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     }
     const posts = result.data.allMarkdownRemark.edges
 
-    posts.forEach(({node}) => {
+    posts.forEach(({node}, index) => {
       createPage({
         path: node.frontmatter.path,
-        component: blogPostTemplate
+        component: blogPostTemplate,
+        context: {
+          prev: index === 0 ? null : posts[index - 1].node,
+          next: index === (posts.length - 1) ? null : posts[index + 1].node
+        }
       })
     })
   })
