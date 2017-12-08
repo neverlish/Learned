@@ -1,3 +1,9 @@
+Lecture: https://egghead.io/courses/build-a-blog-with-react-and-markdown-using-gatsby
+
+Pull Request: https://github.com/neverlish/neverlish/pull/57
+
+///////
+
 # gatsby-starter-default
 The default Gatsby starter
 
