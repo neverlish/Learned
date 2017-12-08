@@ -1,0 +1,68 @@
+<!-- 08 Style React Components -->
+
+<div id='root'></div>
+<script src='https://unpkg.com/react@16.0.0-rc.3/umd/react.development.js'></script>
+<script src='https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.development.js'></script>
+<script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+<style>
+	.box {
+		border: 1px solid black;
+	}
+	.box--large {
+		width: 180px;
+		height: 180px;
+	}
+	.box--medium {
+		width: 120px;
+		height: 120px;
+	}
+
+	.box--small {
+		width: 60px;
+		height: 60px;
+	}
+</style>
+<script type='text/babel'>
+	function Box({
+		style,
+		size,
+		className = '',
+		...rest
+	}) {
+		const sizeClassName = size ? `box--${size}` : ''
+		return (
+			<div
+				className={`box ${className} ${sizeClassName }`}
+				style={{paddingLeft: 20, ...style}}
+				{...rest}
+			/>
+		)
+	}
+	const element = (
+		<div>
+			<Box
+				size='small'
+				style={{backgroundColor: 'lightblue'}}
+			>
+				small box
+			</Box>
+			<Box
+				size='medium'
+				style={{backgroundColor: 'pink'}}
+			>
+				small box
+			</Box>
+			<Box
+				size='large'
+				style={{backgroundColor: 'orange'}}
+			>
+				small box
+			</Box>
+		</div>
+	)
+	
+	ReactDOM.render(
+		element, 
+		document.getElementById('root')
+	)
+</script>
