@@ -1,0 +1,51 @@
+<!-- 05 Validate Custom React Component Props with PropTypes -->
+
+<div id='root'></div>
+<script src='https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js'></script>
+<script src='https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js'></script>
+<script src='https://unpkg.com/prop-types@15.6.0/prop-types.js'></script>
+<script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+<script type='text/babel'>
+	function SayHelloAsFunction(props) {
+		const {firstName, lastName} = this.props
+		return (
+			<div>
+				Hello {firstName} {lastName}!
+			</div>
+		)
+	}
+
+	/* const PropTypes = {
+		string(props, propName, componentName) {
+			if (typeof props[propName] !== 'string') {
+				return new Error(`Hey, you should pass a string for ${propName} in ${componentName} but you passed a ${typeof props[propName]}!`)
+			}
+		}
+	} */
+
+	SayHelloAsFunction.propTypes = {
+		firstName: PropTypes.string.isRequired,
+		lastName: PropTypes.string.isRequired,
+	}
+
+	class SayHelloAsClass extends React.Component {
+		static propTypes = {
+			firstName: PropTypes.string.isRequired,
+			lastName: PropTypes.string.isRequired,
+		}
+		render() {
+			const {firstName, lastName} = this.props
+			return (
+				<div>
+					Hello {firstName} {lastName}!
+				</div>
+			)
+		}
+		
+	}
+	
+	ReactDOM.render(
+		<SayHelloAsClass firstName={true} lastName={false}/>,
+		document.getElementById('root')
+	)
+</script>
