@@ -1,0 +1,28 @@
+<!-- 06 Conditionally Render A React Component -->
+
+<div id='root'></div>
+<script src='https://unpkg.com/react@16.0.0-rc.3/umd/react.development.js'></script>
+<script src='https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.development.js'></script>
+<script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+<script type='text/babel'>
+	function Message({message}) {
+		/* return message 
+			? React.createElement('div', null, message) 
+			: React.createElement('div', null, 'No Message') */
+
+		return (
+			<div>
+				{message
+					? <div>{message}</div>
+					: <div>No Message</div>
+				}
+			</div>
+		)
+		
+	}
+	
+	ReactDOM.render(
+		<Message message={null}/>, 
+		document.getElementById('root')
+	)
+</script>
