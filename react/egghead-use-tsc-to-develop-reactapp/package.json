@@ -1,0 +1,20 @@
+{
+  "name": "bootstrap",
+  "version": "0.0.0",
+  "license": "MIT",
+  "repository": {},
+  "scripts": {
+    "build": "webpack ./webpack.config.js",
+    "start": "webpack-dev-server ./webpack.config.js --content-base ./public"
+  },
+  "dependencies": {
+    "@types/react": "^15.6.10",
+    "@types/react-dom": "^16.0.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  }
+}
