@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import {render} from 'react-dom'
 
 render(
