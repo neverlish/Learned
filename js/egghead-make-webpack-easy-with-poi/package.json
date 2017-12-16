@@ -1,0 +1,27 @@
+{
+  "name": "egghead-make-webpack-easy-with-poi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "rxjs": "^5.5.5"
+  },
+  "devDependencies": {
+    "babel-plugin-react-require": "^3.0.0",
+    "babel-preset-react-app": "^3.1.0",
+    "node-sass": "^4.7.2",
+    "poi-preset-svelte": "^9.0.1",
+    "react-markdown-loader": "^1.1.14",
+    "sass-loader": "^6.0.6",
+    "tailwindcss": "^0.4.0",
+    "webpack-bundle-analyzer": "^2.9.1"
+  }
+}
