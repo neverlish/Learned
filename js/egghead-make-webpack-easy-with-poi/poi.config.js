@@ -1,5 +1,13 @@
-module.exports = {
+const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = options => ({
   webpack(config) {
+    if (options.analyze) {
+      config.plugins.push(
+        new BundleAnalyzer()
+      )
+    }
+    
     config.module.rules.push({
       test: /\.md$/,
       loaders: [
@@ -9,4 +17,4 @@ module.exports = {
     })
     return config
   }
-}
+})
