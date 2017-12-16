@@ -1,8 +1,6 @@
-import './styles.scss'
-import {render} from 'react-dom'
-import Page from './page.md'
+import App from './App.html'
 
-render(
-  <Page/>, 
-  document.getElementById('app')
-)
+new App({
+  target: document.querySelector('#app'),
+  data: {message: 'Hello from Poi'}
+})
