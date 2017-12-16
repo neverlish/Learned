@@ -21,6 +21,7 @@
     "poi-preset-svelte": "^9.0.1",
     "react-markdown-loader": "^1.1.14",
     "sass-loader": "^6.0.6",
+    "tailwindcss": "^0.4.0",
     "webpack-bundle-analyzer": "^2.9.1"
   }
 }

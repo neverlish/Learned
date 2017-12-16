@@ -12,7 +12,7 @@ module.exports = options => ({
       test: /\.md$/,
       loaders: [
         'babel-loader',
-        'react-markdown-loader'
+        'react-markdown-loader',
       ]
     })
     return config

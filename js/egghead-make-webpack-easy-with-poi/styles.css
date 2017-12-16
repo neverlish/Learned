@@ -1,0 +1,7 @@
+@tailwind preflight;
+
+.hello {
+  @apply .text-white .bg-grey;
+}
+
+@tailwind utilities;

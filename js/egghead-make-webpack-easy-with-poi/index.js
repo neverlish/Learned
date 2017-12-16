@@ -1,6 +1,7 @@
-import App from './App.html'
+import './styles.css'
 
-new App({
-  target: document.querySelector('#app'),
-  data: {message: 'Hello from Poi'}
-})
+document.querySelector('#app').innerHTML = `
+  <div class='hello'>
+    Hello Tailwind
+  </div>
+`
