@@ -1,8 +1,8 @@
 import './styles.scss'
-
 import {render} from 'react-dom'
+import Page from './page.md'
 
 render(
-  <div>React</div>, 
+  <Page/>, 
   document.getElementById('app')
 )

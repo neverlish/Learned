@@ -1,9 +1,12 @@
 module.exports = {
-  html: {
-    title: "My Amazing App",
-    description: "my description",
-    template: './index.ejs',
-    course: 'Poi Lessons',
-    contributors: ["Mindy", "Joh"]
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.md$/,
+      loaders: [
+        'babel-loader',
+        'react-markdown-loader'
+      ]
+    })
+    return config
   }
 }
