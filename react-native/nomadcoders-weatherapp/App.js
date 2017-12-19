@@ -6,12 +6,26 @@ export default class App extends React.Component {
   state = {
     isLoaded: true
   }
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({
+          isLoaded: true
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
   render() {
     const { isLoaded } = this.state;
     return (
       <View style={styles.container}>
       <StatusBar hidden={true}/>
-        {isLoaded ? <Weather/> : (
+        {isLoaded ? (
+          <Weather/> 
+        ) : (
           <View style={styles.loading}>
             <Text style={styles.loadingText}>Getting the fucking weather</Text>
           </View>
