@@ -31,7 +31,7 @@ function addSecond() {
 const TIMER_DURATION = 1500;
 
 const initialState = {
-  isPlaying: true,
+  isPlaying: false,
   elapsedTime: 0,
   timerDuration: TIMER_DURATION
 }
@@ -87,6 +87,8 @@ const actionCreators = {
   restartTimer,
   addSecond
 }
+
+export { actionCreators };
 
 // Export Reducer
 
