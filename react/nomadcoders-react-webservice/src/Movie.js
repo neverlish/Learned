@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Movie extends Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    poster: PropTypes.string
+  }
+
   render() {
     return (
       <div>
