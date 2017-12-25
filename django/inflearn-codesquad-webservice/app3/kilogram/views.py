@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 
 from .forms import UploadForm, UserForm, ProfileForm
@@ -27,10 +26,12 @@ class IndexView(ListView):
     user = self.request.user
     return user.photo_set.all().order_by('-pub_date')
 
-class ProfileView(DetailView):
-  context_object_name = 'profile_user'
-  model = User
-  template_name = 'kilogram/profile.html'
+@login_required
+def profile(request, pk):
+  user = get_object_or_404(User, pk=pk)
+  photos = user.photo_set.filter(is_public=True)[:20]
+  context = {'profile_user': user, 'photos': photos}
+  return render(request, 'kilogram/profile.html', context)
 
 class ProfileUpdateView(View):
   def get(self, request):
