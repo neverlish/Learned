@@ -17,3 +17,8 @@ class Photo(models.Model):
   thumbnail_image = models.ImageField(blank = True)
   comment = models.CharField(max_length = 255)
   pub_date = models.DateTimeField(auto_now_add = True)
+
+class Profile(models.Model):
+  user = models.OneToOneField(settings.AUTH_USER_MODEL)
+  profile_photo = models.ImageField(blank = True)
+  nickname = models.CharField(max_length = 64)
