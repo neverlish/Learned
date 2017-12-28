@@ -76,6 +76,45 @@ function _go(arg) {
 
 var _mapr = _curryr(_map), _filterr = _curryr(_filter);
 
+function _is_object(obj) {
+  return typeof obj == 'object' && !!obj;
+}
+
+function _keys(obj) {
+  return _is_object(obj) ? Object.keys(obj) : [];
+}
+
+function _identity(val) { return val; }
+
+// function _values(data) {
+//   // return _mapr(data, function(val) { return val;})
+//   return _mapr(data, _identity);
+// }
+
+var _values = _mapr(_identity)
+
+function _find(list, predi) {
+  var keys = _keys(list);
+  for (var i = 0, len = keys.length; i < len; i++) {
+    var val = list[keys[i]];
+    if (predi(val)) return val;
+  }
+}
+
+function _negate(func) {
+  return function(val) {
+    return !func(val);
+  }
+}
+
+
+function _reject(data, predi) {
+  // return _filterr(data, function(val) {
+  //   return !predi(val);
+  // });
+  return _filterr(data, _negate(predi));
+}
+
 module.exports = {
   _filter,
   _map,
@@ -89,4 +128,10 @@ module.exports = {
   _go,
   _mapr,
   _filterr,
+  _keys,
+  _identity,
+  _values,
+  _find,
+  _negate,
+  _reject
 }
