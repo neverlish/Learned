@@ -1,0 +1,17 @@
+<!-- 2 자바스크립트의 스코프와 클로저 - 1 스코프 - 01 스코프의 생성 -->
+<!-- with 구문을 활용한 문제 해결 -->
+<!-- 이슈 있던 소스를 with 구문으로 해결하기 -->
+
+<div id='divWith0'>Click me! DIV 0</div>
+<div id='divWith1'>Click me! DIV 1</div>
+<div id='divWith2'>Click me! DIV 2</div>
+<script>
+	var i, len = 3;
+	for (var i = 0; i < len; i++) {
+		with({num: i}) {
+			document.getElementById('divWith' + num).addEventListener('click', function() {
+				alert('You clicked div #' + num);
+			}, false);
+		}
+	}
+</script>

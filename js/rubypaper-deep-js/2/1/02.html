@@ -1,0 +1,43 @@
+<!-- 2 자바스크립트의 스코프와 클로저 - 1 스코프 - 02 스코프의 지속성 -->
+
+<!-- 함수를 이용한 문제 해결 -->
+<!-- 함수로 이슈 해결하기 -->
+
+<div id='divScope0'>Click me! DIV Scope 0</div>
+<div id='divScope1'>Click me! DIV Scope 1</div>
+<div id='divScope2'>Click me! DIV Scope 2</div>
+<script>
+	function setDivClick(index) {
+		document.getElementById('divScope' + index).addEventListener('click', function() {
+			alert('You clicked div #' + index);
+		}, false);
+	}
+	var i, len = 3;
+	for (i = 0; i < len; i++) {
+		setDivClick(i);
+	}
+</script>
+
+<!-- 클로저를 활용한 문제 해결 -->
+<!-- IIFE로 이슈 해결하기 -->
+
+<div id='divIIFE0'>Click me! DIV IIFE 0</div>
+<div id='divIIFE1'>Click me! DIV IIFE 1</div>
+<div id='divIIFE2'>Click me! DIV IIFE 2</div>
+<script>
+	function setDivClick(index) {
+		document.getElementById('divIIFE' + index).addEventListener('click', function() {
+			alert('You clicked div #' + index);
+		}, false);
+	}
+	var i, len = 3;
+	for (i = 0; i < len; i++) {
+		document.getElementById('divIIFE' + i).addEventListener('click', 
+			(function(index) {
+				return function() {
+					alert('You clicked div #' + index);
+				};
+			}(i)),
+		false);
+	}
+</script>
