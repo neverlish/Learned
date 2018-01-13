@@ -1,0 +1,40 @@
+<!-- 2 자바스크립트의 스코프와 클로저 - 2 클로저란? - 01 클로저 쉽게 이해하기 -->
+
+<button id='btnToggle'>Toggle Pending</button>
+<div id='divPending'>Pending</div>
+<script>
+  // 클로저의 기본적인 예
+  function sum(base) {
+    var inClosure = base;
+    return function (adder) {
+      return inClosure + adder;
+    };
+  };
+
+  var fiveAdder = sum(5);
+  console.log(fiveAdder(3)); // 8
+  var threeAdder = sum(3);
+
+  // setInterval() 함수를 통한 클로저 발생
+  (function() {
+    var pendingInterval = false,
+        div = document.getElementById('divPending'),
+        btn = document.getElementById('btnToggle');
+
+    function startPending() {
+      if (div.innerHTML.length > 13) {
+        div.innerHTML = 'Pending';
+      }
+      div.innerHTML += '.';
+    };
+
+    btn.addEventListener('click', function() {
+      if (!pendingInterval) {
+        pendingInterval = setInterval(startPending, 500);
+      } else {
+        clearInterval(pendingInterval);
+        pendingInterval = false;
+      }
+    })
+  }());
+</script>
