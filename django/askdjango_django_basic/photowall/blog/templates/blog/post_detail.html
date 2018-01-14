@@ -7,7 +7,33 @@
     .post_photo {
       max-width: 100%;
     }
+    .post-map {
+      width: 300px;
+      height: 300px;
+    }
   </style>
+  {% if post.lnglat %}
+    <script>
+      $(function() {
+        var lat = {{ post.lat }};
+        var lng = {{ post.lng }};
+        var myLatLng = {lat: lat, lng: lng};
+        var container = $('.post-map')[0];
+
+        var map = new google.maps.Map(container, {
+          zoom: 13,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      });
+    </script>
+  {% endif %}
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,11 +48,13 @@
           {% if post.photo %}
             <img src='{{ post.photo.url }}' class='post_photo'/>
           {% endif %}
+          <hr/>
+          <div class='post-map'>
+          </div>
           {{ post.content|linebreaks }}
         </div>
         <div class="panel-footer">
           <a href='{% url "blog:index" %}' class='btn btn-default'>목록으로</a>
-          
         </div>
       </div>
     </div>
