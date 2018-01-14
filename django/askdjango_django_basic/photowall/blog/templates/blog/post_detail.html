@@ -1,0 +1,35 @@
+{% extends "blog/layout.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_head %}
+  <style>
+    .post_photo {
+      max-width: 100%;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-12'>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{ post.title }}
+        </div>
+        <div class="panel-body">
+          {% if post.photo %}
+            <img src='{{ post.photo.url }}' class='post_photo'/>
+          {% endif %}
+          {{ post.content|linebreaks }}
+        </div>
+        <div class="panel-footer">
+          <a href='{% url "blog:index" %}' class='btn btn-default'>목록으로</a>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+{% endblock %}
