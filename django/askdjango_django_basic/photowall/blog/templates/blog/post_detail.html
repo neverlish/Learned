@@ -52,9 +52,30 @@
           <div class='post-map'>
           </div>
           {{ post.content|linebreaks }}
+
+          <hr/>
+          <ul>
+            {% for comment in post.comment_set.all %}
+              <li>
+                {{ comment.message }}
+                by {{ comment.author }}
+                at {{ comment.created_at }}
+                {% if comment.author == request.user %}
+                  <a href='{{ comment.get_edit_url }}'>
+                    수정
+                  </a>
+                  <a href='{{ comment.get_delete_url }}' class='text-danger'>
+                    삭제
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+          
         </div>
         <div class="panel-footer">
           <a href='{% url "blog:index" %}' class='btn btn-default'>목록으로</a>
+          <a href='{% url "blog:comment_new" post.pk %}' class='btn btn-primary'>댓글 쓰기</a>
         </div>
       </div>
     </div>
