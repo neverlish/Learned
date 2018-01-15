@@ -1,0 +1,26 @@
+{% load bootstrap3 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1>Post Form</h1>
+      <form action="" method='post'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class='btn btn-primary'>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('.form-group label').addClass('col-sm-2');
+    $('.form-group input, .form-group textarea').addClass('form-control');
+  });
+  var dom = document.getElementById('{{ form.user_agent.id_for_label }}');
+  dom.value = navigator.userAgent;
+</script>

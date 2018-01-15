@@ -1,0 +1,43 @@
+{% extends 'blog/layout.html' %}
+{% load imagekit %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+    <div class='row'>
+      <div class='col-sm-12'>
+        <h2>{{ post.title }}</h2>
+        <!--<img src='/media/{{ post.photo }}' style='max-width: 100%'>-->
+        {% if post.photo %}
+          <img src='{{ post.photo.url }}' style='max-width: 100%;'>
+
+          {% thumbnail '100x100' post.photo %}
+
+          {% thumbnail '100x100' post.photo as thumb%}
+          <img src='{{ thumb.url }}' width='{{ thumb.width }}' height='{{ thumb.height }}' />
+
+          {% thumbnail '100x100' post.photo -- style='' onclick='' class='' %}
+        {% endif %}
+        {{ post.content|linebreaks }}
+        <hr/>
+        <h3>Comments</h3>
+        <ul>
+          {% for comment in  post.comment_set.all %}
+            <li>  
+              {{ comment.message }}
+              <small>by {{ comment.author }}</small>
+              <small>at {{ comment.updated_at }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <hr/>
+        <a href='{% url "blog:post_list" %}' class='btn btn-primary'>글 목록</a>
+        <a href='{% url "blog:post_edit" post.id %}' class='btn btn-default'>글 수정</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

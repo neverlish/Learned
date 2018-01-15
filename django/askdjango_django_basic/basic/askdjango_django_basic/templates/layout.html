@@ -1,0 +1,78 @@
+{% load static %}
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'>
+  <title>{% block title %}AskDjango{% endblock %}</title>
+  <!-- 기본 bootstrap -->
+  <!--<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' />-->
+  <!--<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css'>-->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css">
+  <!-- bootstrap: cosmo theme -->
+  <!-- <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css' /> -->
+
+  <!--<link rel="stylesheet" href="/static/style.css">-->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  <script src='//code.jquery.com/jquery-2.2.4.min.js'></script>
+  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src='//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js'></script>
+  <script src='//oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>
+  <![endif]-->
+</head>
+<body>
+  <nav class='navbar navbar-default'>
+    <div class='container'>
+      <div class='navbar-header'>
+        <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar'>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </button>
+        <a href='#' class='navbar-brand'>AskDjango</a>
+      </div>
+      <div id='navbar' class='collapse navbar-collapse'>
+        <ul class='nav navbar-nav'>
+          <li class='active'><a href='{% url "root" %}'>Home</a></li>
+          <li><a href='#'>About</a></li>
+          <li><a href='#'>Contact {{ current_datetime }}</a></li>
+        </ul>
+        <ul class='nav navbar-nav navbar-right'>
+          {% if not user.is_authenticated %}
+            <li><a href='{% url "signup" %}'>회원가입</a></li>
+            <li><a href='{% url "login" %}?next={{ request.path }}'>로그인</a></li>
+          {% else %}
+            <li><a href='{% url "profile" %}'>프로필</a></li>
+            <li><a href='{% url "logout" %}?next={{ request.path }}'>로그아웃</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  {% if messages %}
+    <div class='container'>
+      {% for message in messages %}
+        <div class='alert alert-{{ message.tags }}'>
+          [{{ message.tags }}] {# 메시지 level #}
+          {{ message.message }} {# 실제 메시지 내용 #}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% block content %}
+  {% endblock %}
+
+  <div id='page-footer'>
+    <div class='container'>
+      <p class='text-muted'>
+        &copy; AskDjango
+        여러분의 파이썬/장고 페이스메이커가 되겠습니다.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
