@@ -29,4 +29,41 @@
     </div>
   </div>
 </div>
+<div class='modal fade' id='createBand' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <form action='/bands' method='post'>
+        <div class='modal-header'>
+          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+          <h4 class='modal-title' id='myModalLabel'>Insert an Album</h4>
+        </div>
+        <div class='modal-body'>
+          <fieldset class='form-grooup'>
+            <label for='inputname'>Band Name</label>
+            <input type='text' id='inputname' name='name' class='form-control' placeholder='Band name' required=''>
+          </fieldset>
+          <fieldset class='form-group'>
+            <label for='inputdescription'>Description</label>
+            <textarea id='inputdescription' name='description' rows='8' cols='40' class='form-control' placeholder='Description' required=''></textarea>
+          </fieldset>
+          <fieldset class='form-group'>
+            <label for='inputalbum'>Best Album</label>
+            <input type='text' id='inputalbum' name='album' class='form-control' placeholder='Link to Album cover' required=''>
+          </fieldset>
+          <fieldset class='form-group'>
+            <label for='inputyear'>Release Year</label>
+            <input type='text' id='inputyear' name='year' class='form-control' placeholder='Year' required=''>
+          </fieldset>
+        </div>
+
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+          <button type='submit' class='btn btn-primary'>Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
