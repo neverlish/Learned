@@ -11,6 +11,7 @@ var users = require('./routes/users');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'views/pages'));
 var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
