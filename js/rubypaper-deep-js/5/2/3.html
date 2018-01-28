@@ -1,0 +1,64 @@
+<!-- 5 디자인 패턴 실용 - 2 이벤트 델리게이션 패턴 -->
+<!-- 이벤트 델리게이션 패턴의 실용 예 - 이벤트리스너를 할당해야 하는 DOM 예 -->
+<div id="tableWrapper">
+  <div id="row0">
+    <div id="cell0000">00,00</div>
+    <div id="cell0001">00,01</div>
+    <!-- 생략 -->
+    <div id="cell0098">00,98</div>
+    <div id="cell0099">00,99</div>
+  </div>
+  <!-- 생략 -->
+  <div id="row99">
+    <div id="cell9900">99,00</div>
+    <div id="cell9901">99,01</div>
+    <!-- 생략 -->
+    <div id="cell9998">99,98</div>
+    <div id="cell9999">99,99</div>
+  </div>
+</div>
+
+<script>
+  // 이벤트 델리게이션 패턴의 실용 예 - 이벤트리스너를 각각 할당하는 예
+  /*
+  (function() {
+    var x, y, cell;
+    for (x = 0; x < 100; x++) {
+      for (y = 0; y < 100; y++) {
+        cell = document.getElementById('cell' + ('0' + x).substring(-2) + ('0' + y).substring(-2));
+        if (cell) {
+          cell.onmouseover = function() {
+            this.style.backgroundColor =  '#EEEEEE';
+          };
+          cell.onmouseout = function() {
+            this.style.backgroundColor =  '#FFFFFF';
+          };
+          cell.onclick = function() {
+            alert(this.innerHTML);
+          }
+        }
+      }
+    }
+  }());
+  */
+
+  // 이벤트 델리게이션 패턴의 실용 예 - 이벤트 델리게이션 패턴을 활용하는 예
+  (function() {
+    var wrapper = document.getElementById('tableWrapper');
+    wrapper.addEventListener('mouseover', function() {
+      if (this.id && this.id.indexOf('cell') > -1) {
+        this.style.backgroundColor = '#EEEEEE';
+      }
+    }, true);
+    wrapper.addEventListener('mouseout', function() {
+      if (this.id && this.id.indexOf('cell') > -1) {
+        this.style.backgroundColor = '#FFFFFF';
+      }
+    }, true);
+    wrapper.addEventListener('click', function() {
+      if (this.id && this.id.indexOf('cell') > -1) {
+        alert(this.innerHTML);
+      }
+    }, true);
+  }());
+</script>
