@@ -1,0 +1,66 @@
+<!-- 5 디자인 패턴 실용 - 3 프락시 패턴 -->
+<!-- 한꺼번에 요청 보내기 - 프락시 패턴을 이용한 비동기 요청/응답 처리 이슈 해소 예 -->
+
+<html>
+<head>
+	<style>
+		#chatlog {
+			border: 1px solid black;
+			width: 200px;
+			height: 200px;
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+<body>
+	<div id="chatLog"></div>
+	<form id="formChat">
+		<input id="inputChat" type='text'></input>
+		<input type='submit' value='send'></input>
+	</form>
+	<script>
+		(function() {
+			var divChatLog = document.getElementById('chatLog'),
+					formChat = document.getElementById('formChat'),
+					inputChat = document.getElementById('inputChat'),
+					isPending = false,
+					requestChat = [];
+
+			formChat.addEventListener('submit', function() {
+				proxySendChat(inputChat.value);
+				inputChat.value = '';
+
+				event.returnValue = false;
+				return false;
+			});
+
+			function proxySendChat(chat) {
+				if (isPending === true) {
+					requestChat.push(chat);
+				} else {
+					sendChatRequest([chat]);
+				}
+			}
+
+			function sendChatRequest(chats) {
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', './send_chat.php', true);
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				isPending = true;
+				xhr.onload = function() {
+					var pChat = document.createElement('p');
+					pChat.innerHTML = xhr.responseText;
+					divChatLog.appendChild(pChat);
+					if (requestChat.length > 0) {
+						sendChatRequest(requestChat);
+						requestChat = [];
+					} else {
+						isPending = false;
+					}
+				};
+				xhr.send('chats=' + encodeURIComponent(JSON.stringify(chats)));
+			}
+		}());
+	</script>
+</body>
+</html>
