@@ -15,3 +15,11 @@
 #card div {
   padding: 15px;
 }
+
+#card li {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  margin: 5px 12px;
+  list-style-type: none;
+  padding: 3px;
+}

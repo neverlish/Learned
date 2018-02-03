@@ -1,0 +1,48 @@
+<!-- 02 Create a List Component in Vue.js -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}</header>
+    <div>
+      <input id='itemForm' v-on:keypress.enter='addItem'/>
+      <button v-on:click='addItem'>Add Dinosaur</button>
+    </div>
+    <li v-for='(item, index) in items'>
+      <button v-on:click='deleteItem(index)'>X</button>
+      {{ item.text }}
+    </li>
+  </div>
+  <script>
+    var card = new Vue({
+      el: "#card",
+      data: {
+        title: "Dinosaurs",
+        items: [
+          { text: 'Velociraptor' },
+          { text: 'Triceratops' },
+          { text: 'Stegosaurus' }
+        ]
+      },
+      methods: {
+        addItem: function() {
+          var input = document.getElementById('itemForm');
+          if (input.value !== '') {
+            this.items.push({
+              text: input.value
+            })
+            input.value = ''
+          }
+        },
+        deleteItem: function(index) {
+          this.items.splice(index, 1)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
