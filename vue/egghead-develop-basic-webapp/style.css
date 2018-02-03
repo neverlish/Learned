@@ -1,0 +1,17 @@
+#card {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+#card header {
+  background-color: orange;
+  color: white;
+  height: 20px;
+  padding: 12px;
+  font-size: 20px;
+}
+
+#card div {
+  padding: 15px;
+}
