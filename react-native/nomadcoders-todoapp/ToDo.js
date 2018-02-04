@@ -55,6 +55,7 @@ export default class ToDo extends Component {
               onChangeText={this._controlInput}
               returnKeyType={'done'}
               onBlur={this._finishEditing}
+              underlineColorAndroid={'trantparent'}
             />
           ) : (
             <Text

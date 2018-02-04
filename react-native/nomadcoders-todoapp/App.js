@@ -43,6 +43,7 @@ export default class App extends React.Component {
             returnKeyType={'done'}
             autoCorrect={false}
             onSubmitEditing={this._addToDo}
+            underlineColorAndroid={'trantparent'}
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos)
@@ -72,7 +73,7 @@ export default class App extends React.Component {
       const toDos = await AsyncStorage.getItem('toDos');
       this.setState({ 
         loadedToDos: true,
-        toDos: JSON.parse(toDos)
+        toDos: JSON.parse(toDos) || {}
       })
     } catch (err) {
       console.log(err)
