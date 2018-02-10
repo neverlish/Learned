@@ -1,0 +1,22 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 2 requestAnimationFrame() 함수 -->
+<!-- 브라우저 호환을 위한 requestAnimationFrame() 함수 전처리 -->
+
+<script>
+(function() {
+  var firstTimestamp = Date.now();
+  window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+    function(callback) {
+      if (callback instanceof Function) {
+        return setTimeout(function() {
+          callback.call(this, Date.now() - firstTimestamp);
+        }, 1000 / 60);
+      } else {
+        return setTimeout(callback, 1000 / 60);
+      }
+    };
+  window.cancelAnimationFrame = window.cancelAnimationFrame || window.cancelRequestAnimationFrame || window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelAnimationFrame || window.mozCancelRequestAnimationFrame ||
+    function (timeId) {
+      clearTimeout(timeId);
+    };
+}());
+</script>

@@ -1,0 +1,24 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 2 requestAnimationFrame() 함수 -->
+<!-- Nesting level 5 이상 최소 타임아웃 확인 -->
+
+<input type="button" id='buttonStart' value='Start'/>
+<script>
+  (function() {
+    var lastTime,
+        i = 0;
+
+    document.getElementById('buttonStart').onclick = function() {
+      lastTime = Date.now();
+      repeatedTimeout();
+    };
+
+    function repeatedTimeout() {
+      var currentTime = Date.now();
+      console.log('NestingLevel[' + ++i + ']: ' + (currentTime - lastTime) + 'ms');
+      if (i < 10) {
+        setTimeout(repeatedTimeout);
+      }
+      lastTime = Date.now();
+    }
+  }());
+</script>
