@@ -1,0 +1,21 @@
+<!-- 7 자바스크립트 성능과 사용자 경험 개선 - 1 <script> 태그 위치와 레이지 로드 -->
+<!-- 자바스크립트로 인하여 생성되는 DOM 구조 -->
+<style>
+  .my_table {
+    border: 1px solid black;
+  }
+</style>
+<script>
+  (function() {
+    document.write('<table class=\"my_table\">');
+  }());
+</script>
+<tr>
+  <td>My Table</td>
+  <td>Table tag written by javascript</td>
+</tr>
+<script>
+  (function() {
+    document.write('</table>');
+  }());
+</script>

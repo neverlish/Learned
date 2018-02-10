@@ -1,0 +1,33 @@
+<!-- 7 자바스크립트 성능과 사용자 경험 개선 - 1 <script> 태그 위치와 레이지 로드 -->
+<!-- <img> 태그의 레이지 로드 적용 예 -->
+
+<img width='640' height='480' class='lazyload' data-src='./large_image.jpg' />
+<img width='64' height='64' class='lazyload' data-src='./not_important_image.jpg' />
+
+<script>
+  (function() {
+    var previousOnload;
+    if (window.addEventListener) {
+      window.addEventListener('load', lazyloadImages);
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', lazyloadImages);
+    } else if (window.onload) {
+      previousOnload = window.onload;
+      window.onload = function() {
+        previousOnload.call();
+        lazyloadImages();
+      }
+    } else {
+      window.onload = lazyloadImages;
+    }
+    function lazyloadImages() {
+      var imgList = document.getElementsByClassName('lazyload'),
+          length = imgList.length,
+          i;
+
+      for (i = 0; i < length; i++) {
+        imgList[i].src = imgList[i].getAttribute('data-src');
+      }
+    }
+  }());
+</script>
