@@ -1,0 +1,26 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 4 웹 워커 -->
+<!-- 웹 워커 사용 예 -->
+
+<html>
+<body>
+  <select id="doWorker">
+    <option>-- SELECT --</option>
+    <option>doLargeLoop</option>
+  </select>
+  <script>
+    (function() {
+      var worker = new Worker('worker.js'),
+          selectWorker = document.getElementById('doWorker');
+      
+      selectWorker.addEventListener('change', function() {
+        console.log('Main thread: sending message - ' + this.value);
+        worker.postMessage(this.value);
+      });
+
+      worker.onmessage = function(msg) {
+        console.log('Main thread: ' + msg.data);
+      }
+    }());
+  </script>
+</body>
+</html>

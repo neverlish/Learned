@@ -1,0 +1,28 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 4 웹 워커 -->
+<!-- Shared worker 예 -->
+
+<html>
+<body>
+  <select id="doWorker">
+    <option>-- SELECT --</option>
+    <option>doLargeLoop</option>
+    <option>getConnection</option>
+  </select>
+  <script>
+    (function() {
+      var sharedWorker = new SharedWorker('sharedWorker.js'),
+          selectWorker = document.getElementById('doWorker');
+
+      sharedWorker.port.start();
+      sharedWorker.port.onmessage = function(msg) {
+        console.log('Main thread: ' + msg.data);
+      }
+
+      selectWorker.addEventListener('change', function() {
+        console.log('Main thread: sending message - ' + this.value);
+        sharedWorker.port.postMessage(this.value);
+      });
+    }());
+  </script>
+</body>
+</html>
