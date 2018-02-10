@@ -1,0 +1,31 @@
+<!-- 5 디자인 패턴 - 6 Self-defining function 패턴 -->
+<!-- 인증 중복 요청 방지 예 -->
+
+<script>
+(function() {
+  var requestAuthentication = function(information) {
+    var _requestAuthentication = requestAuthentication;
+    requestAuthentication = function(information) {
+      alert('Already requesting');
+    }
+    sendRequest(information);
+
+    function sendRequest(information) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/auth');
+      xhr.onload = function() {
+        alert('Authorized');
+        requestAuthentication = _requestAuthentication;
+      };
+      xhr.onerror = function() {
+        if (confirm('Error occured, send again?')) {
+          sendRequest(information);
+        }
+      }
+      xhr.send(information);
+    }
+  }
+
+  requestAuthentication('name=hello&password=world');
+}());
+</script>
