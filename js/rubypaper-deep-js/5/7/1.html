@@ -1,0 +1,34 @@
+<!-- 5 디자인 패턴 - 7 메모이제이션 패턴 -->
+<!-- 메모이제이션 패턴을 이용한 캐시 구현 -->
+
+<html>
+<body>
+  <input type='text' id='itemId'></input>
+  <button id='search'>Search</button>
+  <script>
+  (function() {
+    var inputItemId = document.getElementById('itemId');
+    function searchItem(id) {
+      var xhr;
+
+      if (searchItem.cache.hasOwnProperty(id)) {
+        return searchItem.cache[id];
+      }
+
+      xhr = new XMLHttpRequest();
+      xhr.open('GET', '/searchItem');
+      xhr.onload = function() {
+        var item = JSON.parse(xhr.responseText);
+        searchItem.cache[item.id] = item;
+      }
+      xhr.send();
+    }
+    searchItem.cache = {};
+
+    document.getElementById('search').addEventListener('click', function() {
+      searchItem(searchItem.value);
+    })
+  }());
+  </script>
+</body>
+</html>
