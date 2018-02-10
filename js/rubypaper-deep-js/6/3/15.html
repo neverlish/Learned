@@ -1,0 +1,40 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 3 DOM 탐색 횟수 최소화를 통한 성능 개선 -->
+<!-- DOM 변수 생성 후 캐시로 보관하는 예 -->
+
+<div id="container">
+</div>
+
+<script>
+  (function() {
+    var itemList = ['Javascript', 'Java', 'C', 'C++', 'Python', 'Ruby'],
+        divItem,
+        divItemList = [],
+        divContainer = document.getElementById('container'),
+        i,
+        length = itemList.length;
+    
+    for (i = 0; i < length; i++) {
+      divItem = document.createElement('div');
+      divItem.appendChild(document.createTextNode(itemList[i]));
+      divItem.addEventListener('click', function(name) {
+        return function() {
+          var divClickedItem = divItemList[name],
+              datasetClickedItem = divClickedItem.dataset,
+              styleClickedItem = divClickedItem.style;
+
+          if (datasetClickedItem.selected === 'true') {
+            styleClickedItem.backgroundColor = '#FFFFFF';
+            styleClickedItem.color = '#000000';
+            datasetClickedItem.selected = 'false';
+          } else {
+            styleClickedItem.backgroundColor = '#000000';
+            styleClickedItem.color = '#FFFFFF';
+            datasetClickedItem.selected = 'true';
+          }
+        };
+      }(itemList[i]));
+      divItemList[itemList[i]] = divItem;
+      divContainer.appendChild(divItem);
+    }
+  }());
+</script>

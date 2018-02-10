@@ -1,0 +1,37 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 2 DOM reflow -->
+<!-- DOM reflow 시 자원 소모 최소화 방법 - position:relative와 absolute의 조합 -->
+
+<html>
+<head>
+  <style>
+    #bannerWrapper {
+      overflow: hidden;
+      height: 400px;
+      width: 265px;
+      position: relative;
+    }
+    #bannerImg {
+      position: absolute;
+    }
+    #bannerImg.mouseover {
+      top: -400px;
+    }
+  </style>
+</head>
+<body>
+  <div id="bannerWrapper">
+    <img src="http://i.imgur.com/3DpJ0ou.png" id="bannerImg">
+  </div>
+  <script>
+    (function() {
+      var imgBannerImg = document.getElementById('bannerImg');
+      imgBannerImg.addEventListener('mouseover', function() {
+        this.classList.add('mouseover');
+      });
+      imgBannerImg.addEventListener('mouseout', function() {
+        this.classList.remove('mouseover');
+      });
+    }());
+  </script>
+</body>
+</html>

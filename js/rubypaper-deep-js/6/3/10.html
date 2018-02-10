@@ -1,0 +1,53 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 2 DOM reflow -->
+<!-- 엘리먼트 추가/삭제 시 DOM reflow - 엘리먼트 변경 후 DOM 추가 예 -->
+
+<html>
+<body>
+  <div id="guestbook">
+    <table>
+      <thead>
+        <td>Name</td>
+        <td>Subject</td>
+        <td>Contents</td>
+      </thead>
+      <tbody id="guestbookTbody"></tbody>
+    </table>
+  </div>
+  <div>
+    <form id="writeForm">
+      <label>Name: <input type='text' id='name' /></label>
+      <label>Subject: <input type='text' id='subject' /></label>
+      <label>Contents: <textarea id='contents'></textarea></label>
+      <input type='submit'/>
+    </form>
+  </div>
+  <script>
+    (function() {
+      var inputName = document.getElementById('name'),
+          inputSubject = document.getElementById('subject'),
+          inputContents = document.getElementById('contents'),
+          divGuestBook = document.getElementById('guestbook'),
+          tbodyGuestbook = document.getElementById('guestbookTbody');
+
+      document.getElementById('writeForm').addEventListener('submit', function() {
+        var trGuestbook = document.createElement('tr'),
+            tdName = document.createElement('td'),
+            tdSubject = document.createElement('td'),
+            tdContents = document.createElement('td');
+
+        trGuestbook.appendChild(tdName);
+        trGuestbook.appendChild(tdSubject);
+        trGuestbook.appendChild(tdContents);
+        tdName.innerHTML = inputName.value;
+        tdSubject.innerHTML = inputSubject.value;
+        tdContents.innerHTML = inputContents.value;
+
+        tbodyGuestbook.appendChild(trGuestbook);
+        
+        event.returnValue = false;
+        return false;
+      });
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 3 DOM 탐색 횟수 최소화를 통한 성능 개선 -->
+<!-- 메모이제이션 패턴을 이용한 DOM 탐색 최적화 예 -->
+
+<form id="myForm">
+  <input type="text" name='firstName' id="firstName"/>
+  <input type="text" name='middleName' id="middleName"/>
+  <input type="text" name='lastName' id="lastName"/>
+  <input type='submit' value='Submit' />
+</form>
+<script>
+  (function() {
+    var memo = {};
+    document.getElementById('myForm').onsubmit = function() {
+      var inputFirstName = getMemo('firstName'),
+          inputMiddleName,
+          inputLastName;
+      
+      if (inputFirstName.value === '') {
+        alert('First name is mandatory');
+        inputFirstName.focus();
+        return false;
+      }
+
+      inputLastName = getMemo('lastName');
+      if (inputLastName.value === '') {
+        alert('Last name is mandatory');
+        inputLastName.focus();
+        return false;
+      }
+
+      inputMiddleName = getMemo('middleName');
+      alert('Hello, ' + inputFirstName.value + ' ' + inputMiddleName.value + ' ' + inputLastName.value);
+    }
+
+    function getMemo(id) {
+      memo[id] = memo[id] || document.getElementById(id);
+      return memo[id];
+    }
+  }());
+</script>

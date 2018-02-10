@@ -1,0 +1,16 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 2 DOM reflow -->
+<!-- DOM reflow가 일어나는 또 다른 상황들 - DOM reflow를 고려하지 않은 예 -->
+
+<div id="spanningDiv" style='background-color: #EEEEEE; width: 100px'>
+  This div will be increased
+</div>
+<script>
+  (function() {
+    var i,
+        element = document.getElementById('spanningDiv');
+    console.log(element.offsetWidth)
+    while (element.offsetWidth < 200) {
+      element.style.width = (element.offsetWidth + 2) + 'px';
+    }
+  }());
+</script>
