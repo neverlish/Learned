@@ -14,11 +14,11 @@
     ]
   },
   "motorcycle": {
-    "dataSource": null,
+    "dataSource": "motorcycleDataSource",
     "public": true
   },
   "review": {
-    "dataSource": null,
+    "dataSource": "motorcycleDataSource",
     "public": true
   }
 }
