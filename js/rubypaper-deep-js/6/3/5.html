@@ -1,0 +1,24 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 2 DOM reflow -->
+<!-- DOM reflow 시 자원 소모 최소화 방법 - 일반적인 태그명을 정의한 CSS 예 -->
+
+<style>
+  table tr td {
+    height: 100px;
+  }
+  div div {
+    width: 100px;
+  }
+</style>
+<div>
+  <table>
+    <tr>
+      <td>
+        Hello world
+      </td>
+      <td>
+        Inside world
+      </td>
+    </tr>
+  </table>
+  <div>Outside world</div>
+</div>

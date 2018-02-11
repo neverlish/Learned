@@ -1,0 +1,74 @@
+<!-- 5 디자인 패턴 실용 - 2 이벤트 델리게이션 패턴 -->
+<!-- DOM 수정 시 전달 경로 - 이벤트 전달 중 DOM 수정하는 예 -->
+<html>
+<head>
+  <style>
+    div {
+      border: 1px solid black;
+    }
+    .divOutside {
+      width: 200px;
+      height: 200px;
+      background-color: lightgreen;
+    }
+    .divMiddle {
+      width: 150px;
+      height: 150px;
+      background-color: lightblue;
+    }
+    .divInside {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+      position: relative;
+    }
+    .divFloat {
+      position: absolute;
+      left: 210px;
+      height: 50px;
+      width: 50px;
+      background-color: lightgray;
+    }
+    .hightlight {
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="divCapturingOutside" class="divOutside">
+    <div id="divCapturingMiddle" class="divMiddle">
+      <div id="divCapturingInside" class="divInside">
+        Delete from propagation path
+        <div id="divCapturingFloat" class="divFloat">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      document.getElementById('divCapturingOutside').addEventListener('click', function() {
+        this.classList.toggle('hightlight');
+        alert('Outside capturing');
+        this.classList.toggle('hightlight');
+      }, true);
+      document.getElementById('divCapturingMiddle').addEventListener('click', function() {
+        this.classList.toggle('hightlight');
+        document.getElementById('divCapturingInside').removeChild(document.getElementById('divCapturingFloat'));
+        alert('Middle capturing, deleting divCapturingFloat');
+        this.classList.toggle('hightlight');
+      }, true);
+      document.getElementById('divCapturingInside').addEventListener('click', function() {
+        this.classList.toggle('hightlight');
+        alert('Inside capturing');
+        this.classList.toggle('hightlight');
+      }, true);
+      document.getElementById('divCapturingFloat').addEventListener('click', function() {
+        this.classList.toggle('hightlight');
+        alert('Float capturing');
+        this.classList.toggle('hightlight');
+      }, true);
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 2 DOM reflow -->
+<!-- DOM reflow가 일어나는 또 다른 상황들 - 루프 안에서 DOM reflow를 여러 번 수행하는 예 -->
+
+<script>
+  var i,
+      tags = document.getElementById('div'),
+      length = tags.length;
+
+  for (i = 0; i < length; i++) {
+    console.log(tags[i].offsetWidth + ', ' + tags[i].clientHeight);
+  }
+</script>

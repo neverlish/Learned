@@ -1,0 +1,34 @@
+<!-- 7 자바스크립트 성능과 사용자 경험 개선 - 1 <script> 태그 위치와 레이지 로드 -->
+<!-- 자바스크립트의 레이지 로드 구현 방법 -->
+
+<script>
+  (function() {
+    var previousOnload;
+    if (window.addEventListener) {
+      window.addEventListener('load', lazyload);
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', lazyload);
+    } else if (window.onload) {
+      previousOnload = window.onload;
+      window.onload = function() {
+        previousOnload.call();
+        lazyload();
+      }
+    } else {
+      window.onload = lazyload;
+    }
+    function lazyload() {
+      var scriptTag = document.createElement('script'),
+          headTag = document.getElementsByTagName('head')[0];
+
+      scriptTag.setAttribute('src', './sleep.js');
+      scriptTag.setAttribute('type', 'text/javascript');
+      scriptTag.setAttribute('async', 'true');
+
+      if (!headTag) {
+        headTag = document.getElementsByTagName('script')[0].parentNode;
+      }
+      headTag.appendChild(scriptTag);
+    }
+  }());
+</script>

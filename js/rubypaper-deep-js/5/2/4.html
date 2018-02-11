@@ -1,0 +1,50 @@
+<!-- 5 디자인 패턴 실용 - 2 이벤트 델리게이션 패턴 -->
+
+<html>
+<body>
+  <video style='width: 480px' id='videoBunny' src='http://media.w3.org/2010/05/bunny/movie.ogv'></video>
+  <div id='controlPanel'>
+    <button id='play'>Play</button>
+    <button id='pause'>Pause</button>
+    <button id='volumeUp'>Volume+</button>
+    <button id='volumeDown'>Volume-</button>
+  </div>
+  <script>
+    // DOM의 id에 따라 이벤트 처리 분기 - DOM의 id에 따라 이벤트 처리 분기 예
+    (function() {
+      var divControlPanel = document.getElementById('controlPanel'),
+          videoBunny = document.getElementById('videoBunny');
+      
+      divControlPanel.addEventListener('click', function(e) {
+        var target = e.target || e.srcElement;
+        if (target.id === 'play') {
+          videoBunny.play();
+        } else if (target.id === 'pause') {
+          videoBunny.pause();
+        } else if (target.id === 'volumeUp') {
+          if (videoBunny.volume <= 0.9) {
+            videoBunny.volume += 0.1;
+          } else {
+            videoBunny.volume = 1;
+          }
+        } else if (target.id === 'volumeDown') {
+          if (videoBunny.volume >= 0.1) {
+            videoBunny.volume -= 0.1;
+          } else {
+            videoBunny.volume = 0;
+          }
+        }
+        event.stopPropagation();
+      }, true);
+
+      // 버블링 단계의 이벤트 처리 생략 예;
+      divControlPanel.addEventListener('click', function() {
+        alert('Bubbling event listener');
+      });
+      document.getElementById('play').addEventListener('click', function() {
+        alert('Target event listener');
+      });
+    }());
+  </script>
+</body>
+</html>

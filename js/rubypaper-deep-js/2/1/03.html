@@ -1,0 +1,49 @@
+<!-- 2 자바스크립트의 스코프와 클로저 - 1 스코프 - 03 with 구문 -->
+
+<div id='myDiv'></div>
+
+<script>
+  // with 구문의 이해
+
+  var user = {
+    name: 'Sung-ihk',
+    homepage: 'unikys.tistory.com',
+    language: 'Korean'
+  }
+
+  with (user) {
+    console.log(name === 'Sung-ihk'); // true
+    console.log(homepage === 'unikys.tistory.com'); // true
+    console.log(language === 'Korean'); // true
+    language = 'javascript';
+    nickname = 'unikys';
+  }
+
+  console.log(user.language === 'javascript'); // true
+  console.log(user.nickname === 'unikys'); // false
+
+  // with 구문의 활용
+
+  with (document.getElementById('myDiv').style) {
+    background = 'yellow';
+    color = 'red';
+    border = '1px sold black';
+  }
+
+  var r = 10, a, x, y;
+  with (Math) {
+    a = PI * r * r;
+    x = r * cos(PI);
+    y = r * sin(PI / 2);
+  }
+
+  function toString(string) {
+    console.log(string);
+  }
+
+  with({nickname: 'unikys'}) {
+    with(window) {
+      toString('Hello, ' + nickname);
+    }
+  }
+</script>

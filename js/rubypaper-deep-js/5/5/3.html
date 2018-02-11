@@ -1,0 +1,33 @@
+<!-- 5 디자인 패턴 - 5 Init-time branching 패턴 -->
+<!-- 이벤트 핸들러 호환성 지원 - 기능 호환 여부에 따른 이벤트 핸들러 함수 정의 방법 -->
+
+<script>
+(function() {
+  var addEventHandler,
+      removeEventHandler;
+  if (document.addEventListener) {
+    addEventHandler = function(dom, type, fn) {
+      dom.addEventListener(type, fn);
+    };
+    removeEventHandler = function(dom, type, fn) {
+      dom.removeEventHandler(type, fn);
+    };
+  } else if (document.attachEvent) {
+    addEventHandler = function(dom, type, fn) {
+      dom.attachEvent('on'+type, function() {
+        fn.call(dom, window.event);
+      });
+    };
+    removeEventHandler = function(dom, type, fn) {
+      dom.detachEvent('on'+type, fn);
+    };
+  } else {
+    addEventHandler = function(dom, type, fn) {
+      dom['on'+type] = fn;
+    };
+    removeEventHandler = function(dom, type, fn) {
+      dom['on'+type] = null;
+    };
+  }
+}());
+</script>

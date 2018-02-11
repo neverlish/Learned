@@ -1,0 +1,23 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 3 DOM과 자바스크립트 - 3 DOM 탐색 횟수 최소화를 통한 성능 개선 -->
+
+<script>
+  // 한 엘리먼트에 대해서 여러 스타일 수정 예
+  document.getElementById('changeDiv').style.backgroundColor = '#EEEEEE';
+  document.getElementById('changeDiv').style.fontSize = '10em';
+  document.getElementById('changeDiv').style.width = '100px';
+  document.getElementById('changeDiv').style.marginLeft = '10px';
+
+  // DOM 탐색을 최소화한 스타일 수정 예
+  var changingDiv = document.getElementById('changingDiv');
+  changingDiv.style.backgroundColor = '#EEEEEE';
+  changingDiv.style.fontSize = '10em';
+  changingDiv.style.width = '100px';
+  changingDiv.style.marginLeft = '10px';
+
+  // DOM 탐색과 속성 탐색을 최소화한 스타일 수정 예
+  var changingDivStyle = document.getElementById('changingDiv').style;
+  changingDivStyle.backgroundColor = '#EEEEEE';
+  changingDivStyle.fontSize = '10em';
+  changingDivStyle.width = '100px';
+  changingDivStyle.marginLeft = '10px';
+</script>

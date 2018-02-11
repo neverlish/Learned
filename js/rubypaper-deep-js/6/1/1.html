@@ -1,0 +1,27 @@
+<!-- 6 브라우저 환경에서의 자바스크립트 - 1 단일 스레드 환경 -->
+<!-- setTimeout() 0초 후 호출 설정 예 -->
+
+<html>
+  <button id="addItem">
+    Add New Input
+  </button>
+  <div id="items">
+  </div>
+  <script>
+  (function() {
+    var divItems = document.getElementById('items'),
+        buttonAddItem = document.getElementById('addItem'),
+        inputItem = document.createElement('input');
+    
+    buttonAddItem.onclick = function() {
+      var inputCloneItem = inputItem.cloneNode(true);
+      inputCloneItem.value = 'Give me focus';
+
+      divItems.appendChild(inputCloneItem);
+      setTimeout(function() {
+        inputCloneItem.focus();
+      }, 0);
+    }
+  }());
+  </script>
+</html>
