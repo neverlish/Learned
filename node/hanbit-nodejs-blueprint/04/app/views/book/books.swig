@@ -28,6 +28,9 @@
             <img class="materialboxed" src="{{ item.image.url }}" height='200' width='100%' alt="{{ item.title }}" data-caption="{{item.description}}"></img>
           #}
           <p class="light">{{ item.description }}</p>
+          <a href="{{ cloudinary.url(item.image.url) }}" target="_blank">
+            Link to original image
+          </a>
         </div>
       </div>
     {% endfor %}
