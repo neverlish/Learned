@@ -33,7 +33,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "reviews": {
+      "type": "hasMany",
+      "model": "review",
+      "foreignKey": "ObjectId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
