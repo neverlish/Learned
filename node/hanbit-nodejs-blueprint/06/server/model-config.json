@@ -12,5 +12,13 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "motorcycle": {
+    "dataSource": null,
+    "public": true
+  },
+  "review": {
+    "dataSource": null,
+    "public": true
   }
 }
