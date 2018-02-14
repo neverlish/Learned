@@ -1,0 +1,38 @@
+<!-- 6 Introducing the Observable -->
+
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/2.3.22/rx.all.js"></script>
+</head>
+<body>
+  <button id='button'>Click me</button>
+  <script>
+    var Observable = Rx.Observable;
+
+    var button = document.getElementById('button');
+
+    /*
+    var handler = function(e) {
+      alert('clicked');
+      button.removeEventListener('click', handler)
+    }
+
+    button.addEventListener('click', handler);
+    */
+
+    var clicks = Observable.fromEvent(button, 'click');
+    
+    var subscription = clicks.forEach(
+      function onNext(e) {
+        alert('clicked');
+        subscription.dispose();
+      },
+      function onError(error) {
+        console.log('ERROR!');
+      },
+      function onCompleted() {
+        console.log('done');
+      })
+  </script>
+</body>
+</html>
