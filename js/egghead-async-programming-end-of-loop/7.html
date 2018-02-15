@@ -1,0 +1,33 @@
+<!-- 7 Using the map method with Observable -->
+
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/2.3.22/rx.all.js"></script>
+</head>
+<body>
+  <button id='button'>Click me</button>
+  <script>
+    var Observable = Rx.Observable;
+
+    var button = document.getElementById('button');
+
+    var clicks = Observable.fromEvent(button, 'click');
+
+    var points = clicks.map(function(e) {
+      return { x: e.clientX, y: e.clientY };
+    });
+    
+    var subscription = points.forEach(
+      function onNext(point) {
+        alert('clicked:' + JSON.stringify(point));
+        subscription.dispose();
+      },
+      function onError(error) {
+        console.log('ERROR!');
+      },
+      function onCompleted() {
+        console.log('done');
+      })
+  </script>
+</body>
+</html>

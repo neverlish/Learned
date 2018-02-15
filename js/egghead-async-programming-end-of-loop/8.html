@@ -1,0 +1,70 @@
+<!-- 8 Simple drag and drop with Observables -->
+
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/2.3.22/rx.all.js"></script>
+  <style>
+    #parent {
+      background-color: red;
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    #widget {
+      background-color: blue;
+      position: absolute;
+      width: 150px;
+      text-align: left;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <button id='parent'><div id='widget'>Drag me</div></button>
+  <script>
+    Array.prototype.concatAll = function() {
+      var results = [];
+      this.forEach(function(subArray) {
+        subArray.forEach(function(item) {
+          results.push(item);
+        });
+      });
+
+      return results;
+    };
+
+    var Observable = Rx.Observable;
+
+    var parent = document.getElementById('parent');
+    var widget = document.getElementById('widget');
+
+    var mouseDowns = Observable.fromEvent(widget, 'mousedown');
+    var parentMouseMoves = Observable.fromEvent(parent, 'mousemove');
+    var parentMouseUps = Observable.fromEvent(parent, 'mouseup');
+
+    var drags = 
+      mouseDowns.
+        map(function(e) {
+          return parentMouseMoves.takeUntil(parentMouseUps);
+        }).
+        concatAll();
+
+    
+    var subscriptions =
+      drags.forEach(
+        function onNext(e) {
+          widget.style.left = e.clientX + 'px';
+          widget.style.top = e.clientY + 'px';
+        },
+        function onError(error) {
+          console.log('error')
+        },
+        function onCompleted() {
+
+        });
+    
+  </script>
+</body>
+</html>
+
