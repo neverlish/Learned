@@ -12,10 +12,10 @@
         <h1 class="title">Jinho's Bookmark</h1>
       
         <div class="btn-group">
-          <button class="btn btn-default">
+          <button class="btn btn-default" id='btn-home'>
             <span class="icon icon-home"></span>
           </button>
-          <button class="btn btn-default">
+          <button class="btn btn-default" id='btn-github'>
             <span class="icon icon-github"></span>
           </button>
         </div>
@@ -23,10 +23,10 @@
     </header>
 
     <div class="window-content">
-      <ul class="list-group">
+      <ul class="list-group" id='data'>
         <li class="list-group-item">
           <div class="media-body">
-            <strong><a href='https://github.com'>https://github.com</a></strong>
+            <strong><a href='#'>https://github.com</a></strong>
             <p>
               타이틀
               <span class="icon icon-trash pull-right"></span>
@@ -36,5 +36,57 @@
       </ul>
     </div>
   </div>
+
+  <script>
+    const {ipcRenderer} = require('electron');
+    let type = 'home';
+    let data = [];
+
+    const btnHome = document.querySelector('#btn-home');
+    const btnGithub = document.querySelector('#btn-github');
+
+    btnHome.classList.add('active');
+    btnGithub.classList.remove('active');
+
+    ipcRenderer.on('update', (event, _data) => {
+      data = _data;
+      update();
+    });
+
+    btnHome.addEventListener('click', () => {
+      btnHome.classList.add('active');
+      btnGithub.classList.remove('active');
+
+      type = 'home';
+      update();
+    });
+
+    btnGithub.addEventListener('click', () => {
+      btnGithub.classList.add('active');
+      btnHome.classList.remove('active');
+
+      type = 'github';  
+      update();    
+    });
+
+    function update() {
+      const htmls = data.filter(item => item.type === type).map(item => {
+        return `
+          <li class="list-group-item">
+            <div class="media-body">
+              <strong><a href='#'>${item.url}</a></strong>
+              <p>
+                ${item.title}
+                <span class="icon icon-trash pull-right"></span>
+              </p>
+            </div>
+          </li>
+        `;
+      });
+      const html = htmls.join('');
+
+      document.querySelector('#data').innerHTML = html;
+    }
+  </script>
 </body>
 </html>
