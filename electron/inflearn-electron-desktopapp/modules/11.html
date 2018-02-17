@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+</head>
+<body>
+  <button id='btn_open'>open</button>
+  <button id='btn_save'>save</button>
+  <button id='btn_message'>message</button>
+  <button id='btn_error'>error</button>
+
+  <script>
+    const {dialog} = require('electron').remote;
+
+    const btnOpen = document.querySelector('#btn_open');
+
+    btnOpen.addEventListener('click', () => {
+      dialog.showOpenDialog({
+        filters: [
+          {name: 'Images', extensions: ['jpg', 'png']}
+        ],
+        properties: [
+          'openFile',
+          'multiSelections'
+        ]
+      }, (filepaths) => {
+        console.log(filepaths);
+      });
+    });
+
+    const btnSave = document.querySelector('#btn_save');
+    btnSave.addEventListener('click', () => {
+      dialog.showSaveDialog({
+        title: 'title',
+        message: 'message',
+        filters: [
+          {name: 'Images', extensions: ['jpg']}
+        ]
+      }, (filename) => {
+        console.log(filename);
+      });
+    });
+
+    const btnMessage = document.querySelector('#btn_message');
+    btnMessage.addEventListener('click', () => {
+      dialog.showMessageBox({
+        message: '메세지입니다.',
+        detail: '디테일입니다.',
+        buttons: [
+          'First',
+          'Second'
+        ],
+        checkboxLabel: '체크박스',
+        checkboxChecked: true
+      }, (index, checkboxChecked) => {
+        console.log(index, checkboxChecked);
+      });
+    });
+
+    const btnError = document.querySelector('#btn_error');
+    btnError.addEventListener('click', () => {
+      dialog.showErrorBox('제목', '내용');
+    });
+  </script>
+</body>
+</html>
