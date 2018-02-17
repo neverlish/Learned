@@ -2,7 +2,7 @@
   "name": "inflearn-electron-desktopapp",
   "version": "1.0.0",
   "description": "",
-  "main": "06.js",
+  "main": "07.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
