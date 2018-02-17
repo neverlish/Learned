@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+</head>
+<body>
+  <button id='btn_win_id'>win.id</button>
+  <button id='btn_open_browser'>open browser</button>
+
+  <script>
+    const { remote, shell } = require('electron');
+  
+    const btnWinId = document.querySelector('#btn_win_id');
+    btnWinId.addEventListener('click', () => {
+      const win = remote.getCurrentWindow();
+      console.log(win.id);
+    });
+
+    const btnOpenBrowser = document.querySelector('#btn_open_browser')
+    btnOpenBrowser.addEventListener('click', () => {
+      shell.openExternal('https://github.com');
+    });
+
+    console.log(process.versions);
+    console.log(process.platform);
+    console.log(process.type);
+  </script>
+</body>
+</html>
