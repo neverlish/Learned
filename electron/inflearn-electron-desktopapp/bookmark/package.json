@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
+    "pack": "electron-packager . --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,5 +16,8 @@
     "get-title": "^1.0.1",
     "photonkit": "^0.1.2",
     "superagent": "^3.8.2"
+  },
+  "devDependencies": {
+    "electron-packager": "^11.0.1"
   }
 }
