@@ -1,7 +1,8 @@
 import React from 'react';
-import { ipcRenderer } from 'electron';
+import { clipboard, ipcRenderer } from 'electron';
 
 import Item from './Item';
+import Button from './Button';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,6 +15,13 @@ export default class App extends React.Component {
     
     ipcRenderer.on('update',(event, data) => {
       this.setState({data: data});
+    });
+
+    document.addEventListener('paste', () => {
+      ipcRenderer.send('paste', {
+        type: this.state.type,
+        url: clipboard.readText()
+      });
     });
   }
   render() {
@@ -30,12 +38,8 @@ export default class App extends React.Component {
             <h1 className="title">Jinho's Bookmark</h1>
           
             <div className="btn-group">
-              <button className="btn btn-default" id='btn-home'>
-                <span className="icon icon-home"></span>
-              </button>
-              <button className="btn btn-default" id='btn-github'>
-                <span className="icon icon-github"></span>
-              </button>
+              <Button type='home' icon='icon-home' active={this.state.type === 'home'} changeType={this.changeType.bind(this)} />
+              <Button type='github' icon='icon-github' active={this.state.type === 'github'} changeType={this.changeType.bind(this)} />
             </div>
           </div>
         </header>
@@ -47,6 +51,10 @@ export default class App extends React.Component {
         </div>
       </div>
     );
+  }
+
+  changeType(type) {
+    this.setState({type});
   }
 }
 
