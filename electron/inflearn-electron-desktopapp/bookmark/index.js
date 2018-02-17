@@ -74,15 +74,22 @@ app.on('ready', () => {
   const menu = Menu.buildFromTemplate(template);
   tray = new Tray(path.join(__dirname, './icon.png'));
   tray.setContextMenu(menu);
-  tray.on('right-click', () => {
-    toggle();
-  });
+  if (process.platform === 'darwin') {
+    tray.on('right-click', () => {
+      toggle();
+    });
+  } else {
+    tray.on('click', () => {
+      toggle();
+    });
+  }
+  
   const bounds = tray.getBounds();
   win = new BrowserWindow({
     width: 400,
     height: 400,
-    x: bounds.x + (bounds.width / 2) - 200,
-    y: bounds.y + (bounds.height / 2) + 10,
+    x: Math.round(bounds.x + (bounds.width / 2) - 200),
+    y: (process.platform === 'darwin') ? bounds.y + (bounds.height / 2) + 10 : bounds.y - 400 + 10,
     acceptFirstMouse: true,
     show: false,
     resizable: false,
@@ -95,9 +102,11 @@ app.on('ready', () => {
     win.webContents.send('update', data);
   });
 
-  win.on('blur', () => {
-    win.hide();
-  });
+  if (process.platform === 'darwin') {
+    win.on('blur', () => {
+      win.hide();
+    });
+  }
 
   ipcMain.on('paste', (event, item) => {
     save(item);
