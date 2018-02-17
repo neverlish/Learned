@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+</head>
+<body>
+  <button id='btn_send_async'>send async</button>
+  <button id='btn_send_sync'>send sync</button>
+
+  <script>
+    const {ipcRenderer} = require('electron');
+
+    const btnSendAsync = document.querySelector('#btn_send_async');
+    const btnSendSync = document.querySelector('#btn_send_sync');
+
+    btnSendAsync.addEventListener('click', () => {
+      console.log('btnSendAsync clicked');
+
+      ipcRenderer.send('send_async_channel', '이것은 렌더러프로세스에서 보낸 비동기 메시지입니다.');
+    });
+
+    btnSendSync.addEventListener('click', () => {
+      console.log('btnSendSync clicked');
+
+      const reply = ipcRenderer.sendSync('send_sync_channel', '이것은 렌더러프로세스에서 보낸 동기 메시지입니다.');
+      console.log(reply);
+    });
+
+    ipcRenderer.on('reply_async_channel', (event, message) => {
+      console.log(message);
+    });
+  </script>
+</body>
+</html>
