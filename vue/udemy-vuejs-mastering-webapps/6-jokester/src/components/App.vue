@@ -9,6 +9,7 @@
       <Joke
         v-for='(joke, index) in $store.state.jokes'
         :joke='joke'
+        :index='index'
         :key='index'
       />
     </div>
