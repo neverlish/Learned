@@ -10,3 +10,7 @@ body {
   color: white;
   margin-top: 60px;
 }
+
+.link, .link:hover, .link:visited, .link:active {
+  color: #4FC08D;
+}
