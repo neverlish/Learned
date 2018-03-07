@@ -5,6 +5,7 @@
  */
 
 // Core variables and mixins
+// @import "bootstrap/_theme_variables";
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
@@ -54,3 +55,6 @@
 // Utility classes
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
+
+// Bootswatch overhide classes
+@import "bootswatch";
