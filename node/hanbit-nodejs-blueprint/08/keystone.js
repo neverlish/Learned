@@ -17,7 +17,8 @@ keystone.init({
 	'sass': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
-	'views': 'templates/views',
+	'views': 'templates/themes/newBlog/views',
+	'emails': 'templates/themes/newBlog/emails',
 	'view engine': 'swig',
 
 	'custom engine': swig.renderFile,
