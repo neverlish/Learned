@@ -48,6 +48,7 @@ keystone.set('nav', {
 	galleries: 'galleries',
 	enquiries: 'enquiries',
 	userAdmins: 'user-admins',
+	abouts: 'abouts',
 });
 
 keystone.start();
