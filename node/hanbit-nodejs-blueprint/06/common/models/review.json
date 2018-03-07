@@ -3,6 +3,7 @@
   "plural": "reviews",
   "base": "PersistedModel",
   "idInjection": true,
+  "forceId": false,
   "options": {
     "validateUpsert": true
   },
