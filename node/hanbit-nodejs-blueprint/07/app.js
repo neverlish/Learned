@@ -60,3 +60,40 @@ app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + server.address().port);
 })
+
+// Socket.io 시작하기
+var io = require('socket.io').listen(server);
+// 사용자를 저장할 배열 생성
+var userList = [];
+// 연결을 저장할 배열 생성
+var connections = [];
+
+// 연결 시 리스너 설정하기
+io.sockets.on('connection', function(socket) {
+	connections.push(socket);
+	console.log('Connected:', connections.length);
+	// 사용자 연결 끊기 설정
+	socket.on('disconnect', function(data) {
+		if (socket.username) {
+			userList.splice(userList.indexOf(socket.username), 1);
+			updateUserNames();
+		}
+		connections.splice(connections.indexOf(socket), 1);
+		console.log('Disconnected:', connections.length);
+	});
+	// 새 메시지 설정
+	socket.on('send message', function(data) {
+		io.sockets.emit('new message', { msg: data, user: socket.username });
+	});
+	// 새 사용자
+	socket.on('new user', function(data, callback) {
+		callback(!!data);
+		socket.username = data;
+		userList.push(socket.username);
+		updateUserNames();
+	});
+	function updateUserNames() {
+		io.sockets.emit('get userList', userList);
+		console.log(userList,'userlist');
+	}
+});
