@@ -18,6 +18,9 @@
 		{# Customise the stylesheet for your site by editing /public/styles/site.sass #}
 		<link href="/styles/site.css" rel="stylesheet">
 
+		<!-- fancyBox -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
 		{# This file provides the default styling for the KeystoneJS Content Editor #}
 		{%- if user and user.canAccessKeystone -%}
 			<link href="/keystone/styles/content/editor.min.css" rel="stylesheet">
@@ -177,6 +180,25 @@
 		{%- endif -%}
 
 		{# Add scripts that are globally required by your site here. #}
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+		<script>
+		$(document).ready(function(){
+			// Gallery
+			$(".fancybox").fancybox({
+				openEffect: "elastic",
+				closeEffect: "elastic"
+			});
+			// Floating label headings for the contact form
+			$("body").on("input propertychange", ".floating-label-form-group", function(e) {
+				$(this).toggleClass("floating-label-form-group-with-value", !!$(e.target).val());
+			}).on("focus", ".floating-label-form-group", function() {
+				$(this).addClass("floating-label-form-group-with-focus");
+			}).on("blur", ".floating-label-form-group", function() {
+				$(this).removeClass("floating-label-form-group-with-focus");
+			});
+		});
+		</script>
 
 		{# Include template-specific javascript files by extending the js block #}
 		{%- block js -%}{%- endblock -%}
