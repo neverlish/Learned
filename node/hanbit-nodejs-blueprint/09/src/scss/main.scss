@@ -1,0 +1,14 @@
+// 프로젝트 스타일
+
+// 부트스트랩 가져오기
+@import "vendor/bootstrap";
+
+//
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  @include clearfix;
+}

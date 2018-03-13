@@ -1,0 +1,23 @@
+{
+  "name": "09",
+  "description": "09",
+  "main": "server/server.js",
+  "authors": [
+    "Jinho Hyeon <neverlish@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/neverlish/neverlish",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha",
+    "fancybox": "^3.2.5"
+  }
+}
