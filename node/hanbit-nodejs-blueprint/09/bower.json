@@ -18,6 +18,9 @@
   ],
   "dependencies": {
     "bootstrap": "v4.0.0-alpha",
-    "fancybox": "^3.2.5"
+    "fancybox": "^3.2.5",
+    "angular": "angularjs#1.5.0",
+    "angular-resource": "1.5.0",
+    "angular-ui-router": "^1.0.15"
   }
 }
