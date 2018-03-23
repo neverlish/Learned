@@ -1,0 +1,16 @@
+{
+  "name": "egghead-composable-functional-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "immutable": "^3.8.2",
+    "immutable-ext": "^1.1.2"
+  }
+}
