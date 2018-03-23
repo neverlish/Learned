@@ -57,10 +57,21 @@ All.empty = () => All(true)
 const First = x =>
 ({
   x,
-  concat: _ =>
-    First(x),
+  fold: f => f(x),
+  concat: o =>
+    x.isLeft ? o : First(x),
   inspect: () =>
     `First(${x})`
+})
+
+First.empty = () => First(Left())
+
+const Pair = (x, y) =>
+({
+  x,
+  y,
+  concat: ({x: x1, y: y1}) =>
+    Pair(x.concat(x1), y.concat(y1))
 })
   
 module.exports = {
@@ -72,4 +83,5 @@ module.exports = {
   Sum,
   All,
   First,
+  Pair,
 }
