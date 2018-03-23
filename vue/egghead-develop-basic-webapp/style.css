@@ -1,15 +1,24 @@
+body {
+  padding: 2em;
+  font-family: sans-serif;
+}
+
+.extinct {
+  float: right;
+}
+
 #card {
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin: 20px;
+  border: 2px solid Gray;
+  border-radius: 10px;
 }
 
 #card header {
-  background-color: orange;
+  display: block;
+  border-radius: 8px 8px 0 0;
+  background: orange;
+  padding: 10px;
   color: white;
-  height: 20px;
-  padding: 12px;
-  font-size: 20px;
+  font-size: 1.5em;
 }
 
 #card div {
@@ -22,4 +31,33 @@
   margin: 5px 12px;
   list-style-type: none;
   padding: 3px;
+}
+
+#card span {
+  font-size: 0.75em;
+  font-weight: normal;
+  font-style: italic;
+  float: right;
+}
+
+div, p, form {
+  padding: 1em;
+}
+
+ul { 
+  list-style: none;
+  margin: 0;
+  padding: 1em;
+}
+ul li {
+  padding: .5em;
+  border: 1px solid gray;
+  margin: .5em 0;
+  border-radius: 3px;
+}
+
+ul li span {
+  float: right;
+  color: darkred;
+  font-weight: 600;
 }
