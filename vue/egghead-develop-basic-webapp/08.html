@@ -1,0 +1,32 @@
+<!-- 08 Handle DOM Events in Vue.js with v-on -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>Dinosaurs</header>
+    <form v-on:submit.prevent='addDinos'>
+      <button>Add {{ amount }} Dinosaur</button>
+      <input type="number" v-model='amount'>
+    </form>
+    <p>You have {{ total }} dinosaurs!</p>
+  </div>
+
+  <script>
+    var card = new Vue({
+      el: '#card',
+      data: {
+        total: 0,
+        amount: null
+      },
+      methods: {
+        addDinos: function() {
+          this.total += Number(this.amount);
+        }
+      }
+    })
+  </script>
+</body>
+
