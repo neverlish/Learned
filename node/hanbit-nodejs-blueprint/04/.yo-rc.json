@@ -1,0 +1,11 @@
+{
+  "generator-express": {
+    "promptValues": {
+      "type": "MVC",
+      "viewEngine": "Swig",
+      "cssPreprocessor": "None",
+      "database": "None",
+      "buildTool": "Gulp"
+    }
+  }
+}

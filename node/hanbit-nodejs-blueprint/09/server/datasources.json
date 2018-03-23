@@ -1,0 +1,12 @@
+{
+  "galleryDS": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "n6b-chapter-09",
+    "password": "",
+    "name": "galleryDS",
+    "user": "",
+    "connector": "mongodb"
+  }
+}
