@@ -6,7 +6,8 @@
     "autoprefixer": "^8.2.0",
     "postcss-modules": "^1.1.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "typography": "^0.16.6"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -14,6 +15,7 @@
     "babel-preset-react": "^6.24.1"
   },
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "parcel build index.html -d build --public-url ./"
   }
 }
