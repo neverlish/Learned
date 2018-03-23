@@ -1,0 +1,59 @@
+<!-- 07 Conditionally Render DOM Elements in Vue.js -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}</header>
+    <form v-on:submit="addItem">
+      <input id="itemForm" v-model="input">
+      <button>Add Dinosaur</button>
+    </form>
+    <template v-if='dinos.length > 0'>
+      <h4>Dinosaur List</h4>
+      <ul>
+        <li v-for="dino in dinos">
+          <button v-on:click="dino.quantity += 1"
+                  v-show='dino.quantity < 5'>+</button>
+          {{ dino.quantity }}
+          <button v-on:click="dino.quantity -= 1"
+                  v-show='dino.quantity > 1'>-</button>
+          {{ dino.name }}<button class="extinct" v-on:click="removeItem">Make Extinct</button>
+        </li>
+      </ul>
+    </template>
+    <p v-else>You have no dinosaurs yet!</p>
+  </div>
+  <script>
+    var card = new Vue({
+      el:'#card',
+      data: {
+        title: 'dinosaurs',
+        input: '',
+        dinos: [
+          { name: "Tyrannosaurus", quantity: 5 },
+          { name: "Triceratops", quantity: 3 },
+        ]
+      },
+      methods: {
+        addItem: function (e) {
+          e.preventDefault();
+          if(!this.input) return '';
+          this.dinos.push({ name: this.input, quantity:1 });
+          this.input = '';
+        },
+        removeItem: function (item) {
+          this.dinos.splice(item, 1);
+        }
+      },
+      computed: {
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+

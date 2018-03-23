@@ -1,0 +1,59 @@
+<!-- 03 Create Filters in Vue.js -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title | capitalize }}</header>
+    <li v-for='dino in dinos'>
+      <h4>{{ dino.text | capitalize }}</h4>
+      <span>The {{ dino.text }} weighs {{ dino.weight }}</span>
+      <br>
+      <a href="">https://en.wikipdedia.org/wiki/{{ dino.text | undercase | url }}</a>
+    </li>
+  </div>
+  <script>
+    var card = new Vue({
+      el: "#card",
+      data: {
+        title: "Dinosaurs",
+        dinos: [
+          {
+            text: 'Velociraptor',
+            weight: '15 kg'
+          },
+          {
+            text: 'triceratops',
+            weight: '6,000 kg'
+          },
+          {
+            text: 'Stegosaurus',
+            weight: '2,500kg'
+          }
+        ]
+      },
+      filters: {
+        capitalize: function(value) {
+          if (!value) return '';
+          value = value.toString();
+          return value.charAt(0).toUpperCase() + value.slice(2);
+        },
+        undercase: function(value) {
+          if (!value) return '';
+          value = value.toString();
+          return value.toLowerCase()
+        },
+        url: function(value) {
+          if (!value) return '';
+          value = value.toString();
+          return "https://en.wikipedia.org/wiki/" + value
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
+

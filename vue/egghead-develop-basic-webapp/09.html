@@ -1,0 +1,55 @@
+<!-- 09 Bind Values to Input Fields in Vue.js -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <input type='checkbox' id='checkbox' v-model='checked'>
+    <label for='checkbox'>This box is {{ checked ? 'checked' : 'unchecked '}}</label>
+    <hr>
+    <template v-for='dino in dinos'>
+      <label>
+        <input type="radio" v-bind:value='dino' v-model='chosenDino'>
+        {{ dino }}
+      </label><br>
+    </template>
+    <span>Favorite: {{ chosenDino }}</span>
+    <hr>
+    <select v-model='selectedPeriods' multiple>
+      <option v-for='period in periods' v-bind:value='period.value'>
+        {{ period.name }}
+      </option>
+    </select>
+    <span>Selected Period Value: {{ selectedPeriods }}</span>
+    <hr>
+    <input type='text' v-model='single'>
+    <p>{{ single }}</p>
+    <hr>
+    <textarea v-model='message' placeholder='add multiple lines'></textarea>
+    <p style='white-space: pre; '>{{ message }}</p>
+  </div>
+
+  <script>
+    var card = new Vue({
+      el: '#card',
+      data: {
+        checked: false,
+        chosenDino: '',
+        selectedPeriods: [],
+        single: '',
+        message: '',
+        dinos: [
+          'Triceratops', 'Velociraptor', 'Tyrannosaurus'
+        ],
+        periods: [
+          { name: 'Triassic', value: 1 },
+          { name: 'Jurassic', value: 2 },
+          { name: 'Cretaceous', value: 3 }
+        ],
+      }
+    })
+  </script>
+</body>
+

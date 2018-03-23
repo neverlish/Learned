@@ -1,0 +1,23 @@
+<!-- 01 Create a Basic Component using Vue.js -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}</header>
+    <div v-html='content'>{{ content }}</div>
+  </div>
+  <script>
+    var card = new Vue({
+      el: "#card",
+      data: {
+        title: "Dinosaurs",
+        content: "<strong>Dinosaurs</strong> are diverse group of animals of the clade <em>Dinosauria</em> that first appeared during the Triassic period."
+      }
+    })
+  </script>
+</body>
+
+</html>

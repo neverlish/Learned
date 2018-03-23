@@ -1,0 +1,68 @@
+<!-- 06 Update Attributes, Classes and Styles in Vue.js with v-bind -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}</header>
+    <button
+        v-bind:class="[ sizeToggle ? 'large' : '', {'rounded':isRounded}]"
+        v-bind:disabled="disabled"
+        v-bind:style="styles"
+        > Start Tour</button>
+    <hr>
+    <h4>Options</h4>
+    <ul>
+      <li>
+        <input type="checkbox" v-model="sizeToggle">
+        <label>Large</label>
+      </li>
+      <li>
+        <input type="checkbox" id="round" v-model="isRounded">
+        <label for="rounded">Rounded</label>
+      </li>
+      <li>
+        <input type="checkbox" v-model="disabled">
+        <label for="disabled">Disabled</label>
+      </li>
+      <li>
+        <input type="text" v-model="backgroundColor">
+        <label for="bg-color">Background Color</label>
+      </li>
+      <li>
+        <input type="text" v-model="fontColor">
+        <label for="fontColor">Font Color</label>
+      </li>
+      <li>
+        <input type="range" v-model="range" min="15" max="85">
+        <label for="range">Position</label>
+      </li>
+    </ul>
+  </div>
+  <script>
+    var card = new Vue({
+      el:'#card',
+      data: {
+        title: 'Style Binding',
+        sizeToggle: false,
+        isRounded: false,
+        disabled: false,
+        backgroundColor: '#CCCCCC',
+        fontColor: '#000000',
+        range: 50
+      },
+      computed: {
+        styles: function () {
+          return {
+            color: this.fontColor,
+            background: this.backgroundColor,
+            'margin-left': this.range+"%"
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

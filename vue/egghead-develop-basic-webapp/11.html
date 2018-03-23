@@ -1,0 +1,78 @@
+<!-- 11 Dynamic Vue.js Components with the component element -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}<span v-on:click='toggle'>{{ toggleLabel }}</span></header>
+    <ul>
+      <li v-for="item in items">
+        <keep-alive>
+          <component v-bind:is='currentView'
+                    v-bind:initial-quantity='item.quantity'
+                    v-bind:name='item.text'
+                    v-bind:diet='item.diet'></component>
+        </keep-alive>
+      </li>
+    </ul>
+  </div>
+  
+  <script type="text/x-template" id="dino-edit">
+    <div><button v-on:click="increment">{{ quantity }}</button>{{ name }}</div>
+  </script>
+  <script type="text/x-template" id="dino-show">
+    <div><strong>{{ name }}</strong> | {{ diet }}</div>
+  </script>
+
+  <script>
+    var dinoEdit = {
+      template: '#dino-edit',
+      props: ["initialQuantity", "name", "index"],
+      data: function () {
+        return {
+          quantity: this.initialQuantity
+        }
+      },
+      methods: {
+        increment: function(){
+          this.quantity += 1;
+        }
+      }
+    };
+    var dinoShow = {
+      template: '#dino-show',
+      props: ["name", "diet"]
+    };
+
+    var card = new Vue({
+      el: '#card',
+      data: {
+        title: 'Dinosaurs',
+        input: '',
+        currentView: 'dino-edit',
+        items: [
+          { text: "Tyrannosaurus", quantity: 5, diet: 'Carnivore' },
+          { text: "Triceratops", quantity: 4, diet: 'Herbivore' },
+          { text: "Stegosaurus", quantity: 6, diet: 'Herbivore' }
+        ]
+      },
+      methods: {
+        toggle: function() {
+          this.currentView = this.currentView == 'dino-show' ? 'dino-edit' : 'dino-show';
+        }
+      },
+      computed: {
+        toggleLabel: function() {
+          return this.currentView === 'dino-show' ? 'Edit' : 'Show';
+        }
+      },  
+      components: {
+        "dino-edit": dinoEdit,
+        "dino-show": dinoShow
+      }
+    })
+  </script>
+</body>
+</html>
