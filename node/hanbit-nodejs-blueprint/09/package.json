@@ -8,7 +8,19 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "copy-jquery": "copy ./src/components/jquery/dist/jquery.js > ./client/js/libs/jquery.js",
+    "copy-angular": "copy ./src/components/angular/angular.js > ./client/js/libs/angular.js",
+    "copy-angular-resource": "copy ./src/components/angular-resource/angular-resource.js > ./client/js/libs/angular-resource.js",
+    "copy-angular-ui-router": "copy ./src/components/angular-ui-router/release/angular-ui-router.js > ./client/js/libs/angular-ui-router.js",
+    "copy-angular-files": "npm run copy-angular && npm run copy-angular-resource && npm run copy-angular-ui-router",
+    "build-css": "node-sass --include-path scss src/scss/main.scss   client/css/main.css",
+    "lint-js": "eslint client/js/*.js --no-ignore",
+    "imagemin": "imagemin src/images/gallery/* --o client/images/gallery",
+    "concat-js-plugins": "browserify src/libs/*.js -o client/js/libs/libs.js",
+    "concat-js-scripts": "browserify src/scripts/*.js -o client/js/scripts/scripts.js",
+    "prepare-js": "npm run concat-js-plugins && npm run concat-js-scripts",
+    "build": "npm run lint-js && npm run copy-jquery && npm run copy-angular-files && npm run build-css && npm run prepare-js && npm run imagemin"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -23,7 +35,9 @@
     "strong-error-handler": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.17.1",
+    "browserify": "^16.1.1",
+    "copy-cli": "^1.2.1",
+    "eslint": "^3.19.0",
     "eslint-config-loopback": "^8.0.0",
     "nsp": "^2.1.0"
   },

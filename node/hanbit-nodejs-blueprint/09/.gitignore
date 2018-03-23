@@ -19,3 +19,7 @@ node_modules
 npm-debug.log
 
 src/components
+
+client/css
+client/images
+client/js
