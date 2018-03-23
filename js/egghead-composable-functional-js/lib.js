@@ -41,6 +41,8 @@ const Sum = x =>
     `Sum(${x})`
 })
 
+Sum.empty = () => Sum(0)
+
 const All = x =>
 ({
   x,
@@ -49,6 +51,8 @@ const All = x =>
   inspect: () =>
     `All(${x})`
 })
+
+All.empty = () => All(true)
 
 const First = x =>
 ({
