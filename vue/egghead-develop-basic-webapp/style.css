@@ -19,10 +19,28 @@ body {
   padding: 10px;
   color: white;
   font-size: 1.5em;
+  margin-bottom: 1em;
 }
 
 #card div {
   padding: 15px;
+}
+
+#card div, #card p {
+  padding:1em;
+}
+
+#card ul { 
+  list-style: none;
+  margin: 0;
+  padding: 0 1em 1em;
+}
+
+#card ul li {
+  padding: .25em;
+  border: 1px solid gray;
+  margin: .5em 0;
+  border-radius: 3px;
 }
 
 #card li {
@@ -60,4 +78,18 @@ ul li span {
   float: right;
   color: darkred;
   font-weight: 600;
+}
+
+.rounded {
+  border-radius: 10px;
+}
+.large {
+  font-size: 2em;
+}
+label {
+  margin-left: 1em;
+}
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
