@@ -7,6 +7,7 @@ const Box = x =>
 
 const Right = x =>
 ({
+  chain: f => f(x),
   map: f => Right(f(x)),
   fold: (f, g) => g(x),
   inspect: () => `Right(${x})`
@@ -22,9 +23,18 @@ const Left = x =>
 const fromNullable = x =>
   x != null ? Right(x) : Left(null)
 
+const tryCatch = f => {
+  try {
+    return Right(f())
+  } catch(e) {
+    return Left(e)
+  }
+}
+
 module.exports = {
   Box,
   Right,
   Left,
-  fromNullable
+  fromNullable,
+  tryCatch,
 }
