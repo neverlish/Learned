@@ -20,7 +20,8 @@
     "concat-js-plugins": "browserify src/libs/*.js -o client/js/libs/libs.js",
     "concat-js-scripts": "browserify src/scripts/*.js -o client/js/scripts/scripts.js",
     "prepare-js": "npm run concat-js-plugins && npm run concat-js-scripts",
-    "build": "npm run lint-js && npm run copy-jquery && npm run copy-angular-files && npm run build-css && npm run prepare-js && npm run imagemin"
+    "build": "npm run lint-js && npm run copy-jquery && npm run copy-angular-files && npm run build-css && npm run prepare-js && npm run imagemin",
+    "deploy": "./bin/deploy.sh"
   },
   "dependencies": {
     "compression": "^1.0.3",
