@@ -1,0 +1,55 @@
+<!-- 05 Use Vue.js Watchers to Respond to Async Updates -->
+<html>
+<head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.6/lodash.min.js"></script>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+<body>
+  <div id="card">
+    <header>{{ title }}</header>
+    <form v-on:submit="addItem">
+      <input  type="text" id="itemForm" v-model="input">
+      <button v-bind:disabled="buttonDisabled"> {{ buttonText }}</button>
+    </form>
+    <ul>
+      <li v-for="item in items">
+        {{ item.text }}
+      </li>
+    </ul>
+  </div>
+  <script>
+    var card = new Vue({
+      el:'#card',
+      data: {
+        title: 'dinosaurs',
+        input: '',
+        buttonText: "Add Dinosaur",
+        items: [
+          { text: "Tyrannosaurus" },
+          { text: "Stegosaurus" }
+        ]
+      },
+      methods: {
+        addItem: function (e) {
+          e.preventDefault();
+          if(!this.input) return '';
+          this.items.push({ text:this.input });
+          this.input = '';
+        }
+      },
+      computed: {
+        buttonDisabled: function() {
+          return this.input == "";
+        }
+      },
+      watch: {
+        input:_.debounce(function(){
+          this.buttonText = this.input !== '' ? 'Add ' + this.input : 'Add Dinosaur'
+        }, 250)
+      }
+    });
+  </script>
+  
+</body>
+</html>
