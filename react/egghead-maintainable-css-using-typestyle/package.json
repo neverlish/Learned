@@ -1,0 +1,23 @@
+{
+  "name": "egghead-maintainable-css-using-typestyle",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline --no-info --content-base ./public",
+    "static": "ts-node ./server/10.tsx",
+    "server": "webpack && ts-node ./server/11.tsx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "ts-loader": "^2.3.7",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.2.1",
+    "typestyle": "^1.2.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  }
+}
