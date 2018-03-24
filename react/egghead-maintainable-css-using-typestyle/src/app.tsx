@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import App, {className} from './06';
+import App from './07';
 
 ReactDOM.render(
-  <App className={className}/>,
+  <App/>,
   document.getElementById('root')
 )
