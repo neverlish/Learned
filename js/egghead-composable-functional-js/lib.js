@@ -9,6 +9,7 @@ const Box = x =>
 
 const Right = x =>
 ({
+  ap: b2 => b2.map(x),
   chain: f => f(x),
   map: f => Right(f(x)),
   fold: (f, g) => g(x),
