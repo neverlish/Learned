@@ -3,6 +3,7 @@ const Box = x =>
   map: f => Box(f(x)),
   fold: f => f(x),
   chain: f => f(x),
+  ap: b2 => b2.map(x),
   inspect: () => `Box(${x})`
 })
 
@@ -74,6 +75,9 @@ const Pair = (x, y) =>
   concat: ({x: x1, y: y1}) =>
     Pair(x.concat(x1), y.concat(y1))
 })
+
+const liftA2 = (f, fx, fy) =>
+  fx.map(f).ap(fy)
   
 module.exports = {
   Box,
@@ -85,4 +89,5 @@ module.exports = {
   All,
   First,
   Pair,
+  liftA2,
 }
