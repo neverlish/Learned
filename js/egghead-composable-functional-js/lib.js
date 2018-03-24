@@ -79,7 +79,10 @@ const Pair = (x, y) =>
 
 const liftA2 = (f, fx, fy) =>
   fx.map(f).ap(fy)
-  
+
+const first = xs =>
+  fromNullable(xs[0])
+
 module.exports = {
   Box,
   Right,
@@ -91,4 +94,5 @@ module.exports = {
   First,
   Pair,
   liftA2,
+  first,
 }
