@@ -13,11 +13,19 @@
     </ol>
     <h2>
       <?php
-        echo $_GET['id'];
+        if (isset($_GET['id'])) {
+          echo $_GET['id'];  
+        } else {
+          echo 'Welcome';
+        }
       ?>
     </h2>
     <?php
-      echo file_get_contents('data/'.$_GET['id']);
+      if (isset($_GET['id'])) {
+        echo file_get_contents('data/'.$_GET['id']);
+      } else {
+        echo 'Hello, PHP';
+      }
     ?>
   </body>
 </html>
