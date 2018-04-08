@@ -34,6 +34,12 @@
               <td><?= $filtered['name'] ?></td>
               <td><?= $filtered['profile'] ?></td>
               <td><a href="author.php?id=<?= $filtered['id'] ?>">update</a></td>
+              <td>
+                <form action='process_delete_author.php' method='post' onsubmit="if(!confirm('sure?')) {return false;}">
+                  <input type='hidden' name='id' value="<?= $filtered['id'] ?>">
+                  <input type='submit' value='delete'>
+                </form>
+              </td>
             </tr>
           <?php
         }
