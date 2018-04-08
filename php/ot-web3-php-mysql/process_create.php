@@ -7,16 +7,18 @@
 
   $filtered = array(
     'title' => mysqli_real_escape_string($conn, $_POST['title']),
-    'description' => mysqli_real_escape_string($conn, $_POST['description'])
+    'description' => mysqli_real_escape_string($conn, $_POST['description']),
+    'author_id' => mysqli_real_escape_string($conn, $_POST['author_id'])
   );
 
   $sql = "
     INSERT INTO topic
-      (title, description, created)
+      (title, description, created, author_id)
       VALUES (
         '{$filtered['title']}',
         '{$filtered['description']}',
-        NOW()
+        NOW(),
+        '{$filtered['author_id']}'
       )
   ";
   
