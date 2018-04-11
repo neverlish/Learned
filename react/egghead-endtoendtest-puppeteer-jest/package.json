@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "pixelmatch": "^4.0.2",
+    "pngjs": "^3.3.2",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-scripts": "1.1.4"
