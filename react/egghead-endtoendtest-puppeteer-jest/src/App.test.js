@@ -45,7 +45,9 @@ describe('on page load', () => {
     const listItems = await page.$$('[data-testid="navBarLi"]')
 
     expect(navbar).toBe(true)
-    expect(listItems.length).toBe(4)
+    if (listItems.length !== 3)
+      await page.screenshot({path: 'screenshot.png'})
+    expect(listItems.length).toBe(3)
   })
   describe('login form', () => {
     test('fills out form and submits', async() => {
