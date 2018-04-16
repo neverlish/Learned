@@ -19,6 +19,8 @@
     "js-yaml": "^3.11.0",
     "jschardet": "^1.4.2",
     "level": "^3.0.0",
+    "officegen": "^0.4.5",
+    "pdfkit": "^0.8.3",
     "sqlite3": "^4.0.0"
   }
 }
