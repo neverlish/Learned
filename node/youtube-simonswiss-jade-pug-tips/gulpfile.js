@@ -9,3 +9,11 @@ gulp.task('jade', function() {
   }))
   .pipe(gulp.dest('./dist'))
 })
+
+
+gulp.task('watch', function() {
+  gulp.watch('./src/*.jade', ['jade'])
+})
+
+// command 'gulp'
+gulp.task('default', ['jade', 'watch'])
