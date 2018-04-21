@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      filterText: ''
+      filterText: '',
+      favourites: [1, 2, 14, 20]
     }
   }
 
@@ -26,7 +27,10 @@ class App extends Component {
           filterUpdate={this.filterUpdate.bind(this)}
         />
         <main>
-          <ShortList />
+          <ShortList 
+            favourites={this.state.favourites}
+            data={this.props.data}
+          />
           <NamesList 
             data={this.props.data} 
             filterText={this.state.filterText}
