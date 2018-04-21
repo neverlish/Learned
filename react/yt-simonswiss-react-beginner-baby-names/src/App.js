@@ -9,13 +9,20 @@ class App extends Component {
     super(props)
     this.state = {
       filterText: '',
-      favourites: [1, 2, 14, 20]
+      favourites: []
     }
   }
 
   filterUpdate(value) {
     this.setState({
       filterText: value
+    })
+  }
+
+  addFavourite(id) {
+    const favList = this.state.favourites.concat([id])
+    this.setState({
+      favourites: favList
     })
   }
 
@@ -34,6 +41,7 @@ class App extends Component {
           <NamesList 
             data={this.props.data} 
             filterText={this.state.filterText}
+            addFavourite={this.addFavourite.bind(this)}
           />
           <Credit />
         </main>
