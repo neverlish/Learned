@@ -2,6 +2,7 @@ mixin navLink(link, name)
   li
     a(
       href=link
+      class={active: name === current}
     ) #{name}
 
 ul
