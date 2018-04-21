@@ -1,0 +1,12 @@
+mixin navLink(link, name)
+  li
+    a(
+      href=link
+    ) #{name}
+
+ul
+  +navLink('#', 'Home')
+  +navLink('#', 'About')
+  +navLink('#', 'Work')
+  +navLink('#', 'Contact')
+    
