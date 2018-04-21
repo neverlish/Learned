@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      filterText: 'hello'
+      filterText: ''
     }
   }
 
@@ -19,9 +19,6 @@ class App extends Component {
   }
 
   render() {
-
-    console.log('filterText state from parent component', this.state.filterText)
-
     return (
       <div>
         <Search 
