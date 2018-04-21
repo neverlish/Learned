@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
+import NamesList from './components/NamesList';
 
 class App extends Component {
   render() {
-
-    const { data } = this.props;
-
-    const namesList = data.map(name => {
-      return (
-        <li key={name.id} className={name.sex}>{name.name}</li>
-      );
-    });
-
+    
     return (
-      <ul>
-        {namesList}
-      </ul>
-    );
+      <div>
+        <NamesList data={this.props.data} />
+      </div>
+    )
   }
 }
 
