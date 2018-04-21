@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Search extends Component {
   filterUpdate() {
     const val = this.myValue.value
-    console.log(val)
+    this.props.filterUpdate(val)
   }
   render() {
     return (
