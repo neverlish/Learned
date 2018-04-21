@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App03';
+import App from './App04';
 
 ReactDOM.render(
-  <App baby={3} />, 
+  <App />, 
   document.getElementById('root')
 );
