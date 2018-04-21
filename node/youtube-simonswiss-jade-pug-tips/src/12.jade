@@ -1,0 +1,10 @@
+extends templates/layout
+
+block append config
+  - var age = 35
+  - var name = 'John Doe'
+
+block prepend main
+  h2 I am taking over.
+
+  p Hello, I am #{name} and am #{age} years old.

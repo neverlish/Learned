@@ -1,0 +1,19 @@
+- var image = "http://unsplash.it/300/180?image="
+
+mixin product(title, imageID, price)
+  .product
+    .product__wrapper    
+      img.product__img(
+        src="#{image}#{imageID}"
+      )
+      .product__content
+        h2.product__title #{title}
+        p.product__price AU$ #{price}
+
+.products
+  +product('iPhone 6+',464, '599.90')
+  +product('GoPro Hero 4',881, '479.90')
+  +product('Toothbrush',777, '9.40')
+  +product('AAA Batteries',666, '17.90')
+  +product('Printer Ink',555, '69.90')
+  +product('MP3 Player',444, '129.50')
