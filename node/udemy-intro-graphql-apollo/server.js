@@ -10,8 +10,6 @@ server.use('/graphiql', graphiqlExpress({
 
 server.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
-console.log('changing the file');
-
 server.listen(4000, () => {
   console.log('listening on port 4000');
 });
