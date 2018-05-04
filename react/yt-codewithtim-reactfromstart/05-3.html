@@ -1,0 +1,44 @@
+<!-- 05-3 Challenge Refactor 1 -->
+
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>React tutorial</title>
+  <link rel='stylesheet' href='./style.css' />
+  <script src='http://fb.me/react-0.14.7.js'></script>
+  <script src='http://fb.me/react-dom-0.14.7.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js'></script>
+</head>
+<body>
+  <div id='app'></div>
+  <script type='text/babel'>
+    var CountChallenge = React.createClass({
+      getInitialState: function() {
+        return {
+          count: 0
+        }
+      },
+      incrementCount: function(value) {
+        this.setState({
+          count: this.state.count + value
+        })
+      },
+      render: function () {
+        return (
+          <div className='container'>
+            <h1>Count: {this.state.count}</h1>
+            <button onClick={this.incrementCount.bind(this, 1)} className='btn blue-btn'>Add 1</button>
+            <button onClick={this.incrementCount.bind(this, 5)} className='btn green-btn'>Add 5</button>
+            <button onClick={this.incrementCount.bind(this, 10)} className='btn purple-btn'>Add 10</button>
+          </div>
+        )
+      }
+    })
+
+    ReactDOM.render(
+      <CountChallenge />,
+      document.getElementById('app')
+    )
+  </script>
+</body>
+</html>
