@@ -3,36 +3,24 @@
 // fulfilled
 // rejected
 const initialState = {
-  sendingRequest: false,
-  requestReceived: false,
-  user: {
-    name: '',
-    email: '',
-    gender: ''
-  },
-  status: '',
-  statusClass: ''
+  users: [],
+  loading: false,
+  error: null
 }
 
 // REDUCER 
 function usersReducer(state=initialState, action) {
-  const user = {
-    name: '',
-    email: '',
-    gender: ''
-  }
+  let users
   switch (action.type) {
     case 'FETCH_USER_PENDING':
-      return {...state, sendingRequest: true, status: 'Pending...', statusClass: 'pending'}
+      return { ...state, loading: true }
       break
     case 'FETCH_USER_FULFILLED':
-      user.name = `${action.payload.data.results[0].name.first} ${action.payload.data.results[0].name.last}`
-      user.email = action.payload.data.results[0].email
-      user.gender = action.payload.data.results[0].gender
-      return {...state, sendingRequest: false, user, status: 'User Received', statusClass: 'success'}
+      users = action.payload.data.results
+      return { ...state, loading: false, users }
       break
     case 'FETCH_USER_REJECTED':
-      return {...state, sendingRequest: false, status: `${action.payload.message}`, statusClass: 'error'}
+      return { ...state, loading: false, error: `${action.payload.message}` }
       break
     default:
       return state

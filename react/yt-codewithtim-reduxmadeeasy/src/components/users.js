@@ -1,7 +1,23 @@
 import React from 'react'
 
-export default (props) => {
-  return <div>
-    <h1>{props.data}</h1>
-  </div>
+class Users extends React.Component {
+  constructor(props) {
+    super(props)
+    this.componentDidMount = this.componentDidMount.bind(this)
+  }
+
+  componentDidMount() {
+    console.log(this.props)
+    this.props.fetchUsers()
+  }
+
+  render() {
+    return (
+      <div>
+        hello
+      </div>
+    )
+  }
 }
+
+export default Users
