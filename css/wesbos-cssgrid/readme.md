@@ -1,3 +1,9 @@
+Lecture: https://cssgrid.io
+
+Pull Request: https://github.com/neverlish/Learned/pull/91
+
+-----------
+
 ![](https://res.cloudinary.com/wesbos/image/upload/v1515524452/GRID-social-share_wlfzk3.png)
 
 # CSS Grid Video Course
