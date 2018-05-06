@@ -1,10 +1,10 @@
 import { applyMiddleware, createStore } from 'redux'
 import logger from 'redux-logger'
 import promise from 'redux-promise-middleware'
-import userReducer from './reducers/user'
+import usersReducer from './reducers/users'
 
 export default createStore(
-  userReducer, 
+  usersReducer, 
   applyMiddleware(
     logger(), 
     promise()

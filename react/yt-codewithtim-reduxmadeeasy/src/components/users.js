@@ -2,6 +2,6 @@ import React from 'react'
 
 export default (props) => {
   return <div>
-    <h1>Hello</h1>
+    <h1>{props.data}</h1>
   </div>
 }
