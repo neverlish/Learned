@@ -1,70 +1,91 @@
+html, body {
+  height: 100%;
+}
+
 body {
-  padding: 40px;
-  font-family: "helvetica neue", sans-serif;
+  font-family: "Roboto", "helvetica neue", sans-serif;
+  margin: 0;
+}
+
+nav {
+  height: 50px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav, .btn.btn-blue {
+  background-color: #55acee;
+}
+
+nav a {
+  margin: 0 50px;
+  font-size: 15px;
+  outline: none;
+  color: #FFF;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .container {
-  width: 600px;
-  margin: auto;
-  color: black;
-  padding: 20px;
-  text-align: center;
+  width: 350px;
+  margin: 10px auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.container h1 {
-  margin: 0;
-  padding: 20px;
-  font-size: 48px;
+#users {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.container .btn {
+.btn {
   border: 0;
   padding: 15px;
   margin: 10px;
   width: 40%;
   font-size: 15px;
   outline: none;
-  border-radius: 3px;
   color: #FFF;
   font-weight: bold;
 }
 
-#todosList li {
-  list-style-type: none;
-  font-size: 25px;
-}
-
-input {
-  padding: 5px;
-  font-size: 20px;
+h1 {
+  text-align: center;
 }
 
 .btn.btn-blue {
-  background-color: #55acee;
-  box-shadow: 0px 5px 0px 0px #3C93D5;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
 .btn.btn-blue:hover {
-   background-color: #6FC6FF;
+  background-color: #6FC6FF;
 }
 
-.btn.btn-blue {
-  background-color: #55acee;
-  box-shadow: 0px 5px 0px 0px #3C93D5;
+.box {
+  display: flex;
+  width: 350px;
+  align-items: center;
+  border-right: 1px solid #eee;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  text-decoration: none;
 }
 
-.btn.btn-blue:hover {
-   background-color: #6FC6FF;
+.box:last-child {
+  border-bottom: 1px solid #eee;
 }
 
-.pending {
-  color: #55acee;  
+img {
+  padding: 10px;
+  border-radius: 50%;
+  float: left;
 }
 
-.error {
-  color: #d84a4a;
-}
-
-.success {
-  color: #2ecc71;  
+span {
+  text-align: center;
+  color: #333;
+  margin-left: 20px;
 }
