@@ -1,24 +1,39 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux'
 import logger from 'redux-logger'
+import thunk from 'redux-thunk'
+import axios from 'axios'
+
+const initialState = {
+  sendingRequest: false,
+  requestReceived: false,
+  user: {
+    name: '',
+    email: '',
+    gender: ''
+  },
+  status: '',
+  statusClass: ''
+}
 
 // REDUCER 
-function counterReducer(state = {count: 0} , action) {
-  var nextState = {
-    count: state.count
+function userReducer(state=initialState, action) {
+  const user = {
+    name: '',
+    email: '',
+    gender: ''
   }
-
   switch (action.type) {
-    case 'ADD':
-      nextState.count = state.count + 1
-      return nextState
+    case 'GET_USER':
+      return {...state, sendingRequest: true, status: 'Pending...', statusClass: 'pending'}
       break
-    case 'MINUS':
-      nextState.count = state.count - 1
-      return nextState
+    case 'USER_RECEIVED':
+      user.name = `${action.payload[0].name.first} ${action.payload[0].name.last}`
+      user.email = action.payload[0].email
+      user.gender = action.payload[0].gender
+      return {...state, sendingRequest: false, user, status: 'User Received', statusClass: 'success'}
       break
-    case 'RESET':
-      nextState.count = 0
-      return nextState
+    case 'ERROR':
+      return {...state, sendingRequest: false, status: `${action.payload.message}`, statusClass: 'error'}
       break
     default:
       return state
@@ -26,29 +41,42 @@ function counterReducer(state = {count: 0} , action) {
 }
 
 // STORE
-const store = createStore(counterReducer, applyMiddleware(logger()))
-const counterEl = document.getElementById('counter')
+const store = createStore(userReducer, applyMiddleware(logger(), thunk))
+const nameEl = document.getElementById('name')
+const emailEl = document.getElementById('email')
+const genderEl = document.getElementById('gender')
+const statusEl = document.getElementById('status')
 
 function render() {
   var state = store.getState()
-  counterEl.innerHTML = state.count.toString()
+  nameEl.innerHTML = state.user.name
+  emailEl.innerHTML = state.user.email
+  genderEl.innerHTML = state.user.gender
+  statusEl.innerHTML = state.status
+  statusEl.className = state.statusClass
 }
 
 render()
 store.subscribe(render)
 
 // ACTIONS
-document.getElementById('add')
-  .addEventListener('click', () => {
-    store.dispatch({ type: 'ADD' })
-  })
-
-document.getElementById('minus')
-  .addEventListener('click', () => {
-    store.dispatch({ type: 'MINUS' })
-  })
-
-document.getElementById('reset')
-  .addEventListener('click', () => {
-    store.dispatch({ type: 'RESET' })
+document.getElementById('getUser')
+  .addEventListener('click', function() {
+    store.dispatch(dispatch => {
+      // ASYNC ACTION
+      // dispatch action
+      dispatch({type: 'GET_USER'})
+      // do the xhr request
+      axios.get('https://randomuser.me/api/')
+      // handle response
+      // success
+        .then(response => {
+          dispatch({type: 'USER_RECEIVED', payload: response.data.results})
+        })
+      // error
+        .catch(error => {
+          dispatch({type: 'ERROR', payload: error})
+        })
+      dispatch({type: 'AFTER ASYNC ACTION'})
+    })
   })
