@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import UsersStore from './store'
 import App from './components/app'
 import Home from './components/home'
+import UserProfile from './containers/userProfile'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 
 render(
@@ -13,6 +14,7 @@ render(
       <Route path='/' component={App}>
         <IndexRoute component={Home} />
         <Route path='users' component={Users} />
+        <Route path='user(:userName)' component={UserProfile} />
       </Route>
     </Router>
   </Provider>,

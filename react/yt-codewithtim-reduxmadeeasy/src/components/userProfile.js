@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './button'
 
 const UserProfile = (props) => {
   const { userProfile } = props
