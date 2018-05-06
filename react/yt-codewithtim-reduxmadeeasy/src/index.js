@@ -1,8 +1,12 @@
 import { applyMiddleware, createStore } from 'redux'
 import logger from 'redux-logger'
-import thunk from 'redux-thunk'
+import promise from 'redux-promise-middleware'
 import axios from 'axios'
 
+// Promise
+// pending 
+// fulfilled
+// rejected
 const initialState = {
   sendingRequest: false,
   requestReceived: false,
@@ -23,16 +27,16 @@ function userReducer(state=initialState, action) {
     gender: ''
   }
   switch (action.type) {
-    case 'GET_USER':
+    case 'FETCH_USER_PENDING':
       return {...state, sendingRequest: true, status: 'Pending...', statusClass: 'pending'}
       break
-    case 'USER_RECEIVED':
-      user.name = `${action.payload[0].name.first} ${action.payload[0].name.last}`
-      user.email = action.payload[0].email
-      user.gender = action.payload[0].gender
+    case 'FETCH_USER_FULFILLED':
+      user.name = `${action.payload.data.results[0].name.first} ${action.payload.data.results[0].name.last}`
+      user.email = action.payload.data.results[0].email
+      user.gender = action.payload.data.results[0].gender
       return {...state, sendingRequest: false, user, status: 'User Received', statusClass: 'success'}
       break
-    case 'ERROR':
+    case 'FETCH_USER_REJECTED':
       return {...state, sendingRequest: false, status: `${action.payload.message}`, statusClass: 'error'}
       break
     default:
@@ -62,21 +66,25 @@ store.subscribe(render)
 // ACTIONS
 document.getElementById('getUser')
   .addEventListener('click', function() {
-    store.dispatch(dispatch => {
-      // ASYNC ACTION
-      // dispatch action
-      dispatch({type: 'GET_USER'})
-      // do the xhr request
-      axios.get('https://randomuser.me/api/')
-      // handle response
-      // success
-        .then(response => {
-          dispatch({type: 'USER_RECEIVED', payload: response.data.results})
-        })
-      // error
-        .catch(error => {
-          dispatch({type: 'ERROR', payload: error})
-        })
-      dispatch({type: 'AFTER ASYNC ACTION'})
+    // store.dispatch(dispatch => {
+    //   // ASYNC ACTION
+    //   // dispatch action
+    //   dispatch({type: 'GET_USER'})
+    //   // do the xhr request
+    //   axios.get('https://randomuser.me/api/')
+    //   // handle response
+    //   // success
+    //     .then(response => {
+    //       dispatch({type: 'USER_RECEIVED', payload: response.data.results})
+    //     })
+    //   // error
+    //     .catch(error => {
+    //       dispatch({type: 'ERROR', payload: error})
+    //     })
+    //   dispatch({type: 'AFTER ASYNC ACTION'})
+    // })
+    store.dispatch({
+      type: 'FETCH_USER',
+      payload: axios.get('https://randomuser.me/api')
     })
   })
