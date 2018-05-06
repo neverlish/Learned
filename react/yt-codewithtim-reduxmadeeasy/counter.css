@@ -10,11 +10,13 @@ body {
   padding: 20px;
   text-align: center;
 }
+
 .container h1 {
   margin: 0;
   padding: 20px;
   font-size: 48px;
 }
+
 .container .btn {
   border: 0;
   padding: 15px;
@@ -25,6 +27,16 @@ body {
   border-radius: 3px;
   color: #FFF;
   font-weight: bold;
+}
+
+#todosList li {
+  list-style-type: none;
+  font-size: 25px;
+}
+
+input {
+  padding: 5px;
+  font-size: 20px;
 }
 
 .btn.btn-blue {
