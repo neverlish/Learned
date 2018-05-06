@@ -1,4 +1,5 @@
 import { applyMiddleware, createStore } from 'redux';
+import logger from 'redux-logger'
 
 // REDUCER 
 function counterReducer(state = {count: 0} , action) {
@@ -24,35 +25,8 @@ function counterReducer(state = {count: 0} , action) {
   }
 }
 
-// const logger = store => next => action => {
-//   console.log('dispatching', action)
-//   let result = next(action)
-//   console.log('next state', store.getState())
-//   return result
-// }
-
-const logger = function(store) {
-  return function(next) {
-    return function(action) {
-      console.log('dispatch', action)
-      let result = next(action)
-      return result
-    }
-  }
-}
-
-const error = store => next => action => {
-  console.log('new action', action)
-  // action = 'blah'
-  try {
-    next(action)
-  } catch(error) {
-    console.log('error')
-  }
-}
-
 // STORE
-const store = createStore(counterReducer, applyMiddleware(logger, error))
+const store = createStore(counterReducer, applyMiddleware(logger()))
 const counterEl = document.getElementById('counter')
 
 function render() {
