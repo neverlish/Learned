@@ -1,38 +1,46 @@
-// REDUCER
-function counter(currentState, action) {
-  var nextState = {
-    count: currentState.count
+// createStore
+// getState
+// dispatch
+// subscribe
+
+// REDUCER 
+function counter(state, action) {
+  if (typeof state === 'undefined') {
+    return { count: 0 }
   }
+
+  var nextState = {
+    count: state.count
+  }
+
   switch (action.type) {
     case 'ADD':
-      nextState.count = currentState.count + 1
+      nextState.count = state.count + 1
       return nextState
       break
     case 'MINUS':
-      nextState.count = currentState.count - 1
+      nextState.count = state.count - 1
       return nextState
       break
     case 'RESET':
       nextState.count = 0
       return nextState
       break
-    default: 
-      console.log('In Default')
-      return currentState
+    default:
+      return state
   }
 }
 
-var state = { count: 0 }
-var store = Redux.createStore(counter, state)
+// STORE
+var store = Redux.createStore(counter)
 var counterEl = document.getElementById('counter')
 
 function render() {
-  console.log('In Render')
-  console.log(store.getState())
   var state = store.getState()
   counterEl.innerHTML = state.count.toString()
 }
 
+render()
 store.subscribe(render)
 
 // ACTIONS
