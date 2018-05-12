@@ -70,7 +70,8 @@ label {
 }
 
 .custom-input-container,
-.custom-select-container {
+.custom-select-container,
+.custom-field-array-container {
   position: relative;
   margin: 0 0 25px 0;
 }
@@ -135,4 +136,13 @@ button[type='submit'] {
   animation-name: grey-pulse;
   animation-iteration-count: infinite;
   animation-duration: 1.4s;
+}
+
+.field-array-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field-array-item button {
+  align-self: start;
 }

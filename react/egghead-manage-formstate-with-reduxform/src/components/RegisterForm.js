@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { customInput, customSelect } from './fields';
+import { Field, reduxForm, FieldArray } from 'redux-form';
+import { customInput, customSelect, discounts } from './fields';
 import capitalize from 'capitalize';
 import { 
   required,
@@ -63,6 +63,10 @@ class RegisterForm extends Component {
           component={customInput}
           type='checkbox'
           label='Sign up to newsletter?'
+        />
+        <FieldArray
+          name='discountCodes'
+          component={discounts}
         />
         <button type='submit'>Submit</button>
       </form>
