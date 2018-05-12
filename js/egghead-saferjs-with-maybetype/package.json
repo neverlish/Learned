@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "crocks": "^0.9.3"
+    "crocks": "^0.9.3",
+    "ramda": "^0.25.0"
   }
 }
