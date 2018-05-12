@@ -1,3 +1,9 @@
+Lecture: https://egghead.io/courses/manage-react-form-state-with-redux-form
+
+Pull Request: https://github.com/neverlish/Learned/pull/95
+
+----------
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
