@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { customInput, customSelect } from './fields';
 
 class RegisterForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <Field name='name' component='input' type='text' />
-        </div>
-        <div>
-          <label>Preferred Formatting</label>
-          <Field name='preference' component='select'>
-            <option />
-            <option vale='tabs'>Tabs</option>
-            <option value='spaces'>Spaces</option>
-          </Field>
-        </div>
-        <div>
-          <label>Sign up to newsletter?</label>
-          <Field name='newsletter' component='input' type='checkbox' />
-        </div>
+        <Field
+          name='name'
+          component={customInput}
+          type='text'
+          label='Name'
+        />
+        <Field
+          name='preferences'
+          component={customSelect}
+          label='Preferred Formatting'
+        />
+        <Field
+          name='newsletter'
+          component={customInput}
+          type='checkbox'
+          label='Sign up to newsletter?'
+        />
         <button type='submit'>Submit</button>
       </form>
     )
