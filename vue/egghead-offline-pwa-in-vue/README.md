@@ -1,5 +1,3 @@
-# vue-pwa
+Lecture: https://egghead.io/courses/offline-first-progressive-web-apps-pwa-in-vue-js
 
-You can find in this repository the code for the course _Offline-First Progressive Web App (PWA) in Vue.js_.
-
-Each branch is named as `lesson-XX/...` which includes the code for that particular reason. Feel free to navigate through them and their commits.
+Pull Request: https://github.com/neverlish/Learned/pull/98
