@@ -14,36 +14,55 @@
 <script>
 import DetailsFooter from './DetailsFooter'
 import { imagesRef } from '../db'
+import { get, save } from '../store'
 
 export default {
-  props: ['id'],
-  firebase: function() {
-    return { messages: imagesRef.child(this.id).limitToLast(60) }
-  },
-  methods: {
-    sendMessage(input) {
-      this.$firebaseRefs.messages.push(input)
-    }
-  },
-  components: {
-    DetailsFooter
-  }
+	props: ['id'],
+	data: () => ({ cachedMessages: [] }),
+	firebase: function() {
+		return { fireMessages: imagesRef.child(this.id).limitToLast(60) }
+	},
+	methods: {
+		sendMessage(input) {
+			this.$firebaseRefs.fireMessages.push(input)
+		},
+	},
+	computed: {
+		messages() {
+			return this.fireMessages.length ? this.fireMessages : this.cachedMessages
+		},
+	},
+	created() {
+		get(this.id).then(messages => {
+			this.cachedMessages = messages
+		})
+		this.$watch(
+			'messages',
+			messages => {
+				save(this.id, messages)
+			},
+			{ deep: true }
+		)
+	},
+	components: {
+		DetailsFooter,
+	},
 }
 </script>
 
 
 <style scoped>
 .details {
-  padding: 0 18px;
+	padding: 0 18px;
 }
 .message-list {
-  padding: 20px 0;
-  height: calc(100vh - 120px);
-  overflow-y: scroll;
+	padding: 20px 0;
+	height: calc(100vh - 120px);
+	overflow-y: scroll;
 }
 
 .message-list > * {
-  display: flex;
+	display: flex;
 }
 </style>
 
