@@ -2,7 +2,9 @@
 <template>
   <v-toolbar app color="purple">
     <v-toolbar-title>
-      <router-link class="white--text" to="/images">Chatty Images</router-link>
+      <router-link class="white--text" to="/images">
+        Chatty Images
+      </router-link>
     </v-toolbar-title>
   </v-toolbar>
 </template>
@@ -12,6 +14,6 @@
 
 <style>
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 </style>
