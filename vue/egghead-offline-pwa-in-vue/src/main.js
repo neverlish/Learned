@@ -32,6 +32,16 @@ const router = new VueRouter({
   ]
 })
 
+let swUpdated = false
+router.beforeEach((to, from, next) => {
+  if (swUpdated) {
+    window.location.href = '/#' + to.fullPath
+    window.location.reload()
+  } else {
+    next()
+  }
+})
+
 const app = new Vue({
   el: '#app',
   router,
@@ -55,6 +65,7 @@ if ('serviceWorker' in navigator) {
             // New version
             app.show = true
             app.message = 'A new version available'
+            swUpdated = true
           } else {
             // Contents are cached
             app.show = true
