@@ -16,10 +16,19 @@ Vue.use(VueRouter)
 Vue.use(Vuetify)
 
 const router = new VueRouter({
-  routes: [
-    { path: '/images', component: Images },
-    { path: '/images/:id', component: Details, props: true },
-    { path: '/', redirect: '/images' }
+  routes: [{
+      path: '/images',
+      component: Images
+    },
+    {
+      path: '/images/:id',
+      component: Details,
+      props: true
+    },
+    {
+      path: '/',
+      redirect: '/images'
+    }
   ]
 })
 
@@ -28,3 +37,12 @@ new Vue({
   router,
   render: h => h(App)
 })
+
+const prod = process.env.NODE_ENV === 'production'
+const shouldSW = 'serviceWorker' in navigator && prod
+
+if (shouldSW) {
+  navigator.serviceWorker.register('/service-worker.js').then(() => {
+    console.log('SW registered')
+  })
+}
