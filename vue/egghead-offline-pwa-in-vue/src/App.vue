@@ -7,20 +7,28 @@
       </v-content>
     </main>
     <v-footer app></v-footer>
+    <v-snackbar
+      :absolute="true"
+      v-model="show"
+      :timeout="4000"
+    >
+      {{ message }}
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import Toolbar from './components/Toolbar'
 export default {
-  components: {
-    Toolbar
-  }
+	props: ['show', 'message'],
+	components: {
+		Toolbar,
+	},
 }
 </script>
 
 <style>
 .notification {
-  position: absolute;
+	position: absolute;
 }
 </style>

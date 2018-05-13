@@ -32,14 +32,36 @@ const router = new VueRouter({
   ]
 })
 
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
-  render: h => h(App)
+  data: {
+    message: '',
+    show: false
+  },
+  template: '<app :message="message" :show="show"></app>',
+  components: {
+    App
+  }
 })
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js').then(() => {
-    console.log('Service Worker registered')
+  navigator.serviceWorker.register('/service-worker.js').then(reg => {
+    reg.onupdatefound = () => {
+      const sw = reg.installing
+      sw.onstatechange = () => {
+        if (sw.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            // New version
+            app.show = true
+            app.message = 'A new version available'
+          } else {
+            // Contents are cached
+            app.show = true
+            app.message = 'Contents are now offline'
+          }
+        }
+      }
+    }
   })
 }
