@@ -1,3 +1,3 @@
-# Painless end-to-end integration testing with Cypress
+Lecture: https://egghead.io/courses/end-to-end-testing-with-cypress
 
-This repository contains the course code for my egghead.io course teaching how to test an application using [Cypress.io](https://cypress.io).
+Pull Request: https://github.com/neverlish/Learned/pull/97
