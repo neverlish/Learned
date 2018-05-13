@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const SWPrecache = require('sw-precache-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
@@ -9,8 +10,7 @@ module.exports = {
     filename: 'build.js'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -70,6 +70,16 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new SWPrecache({
+      cacheId: "my-awesome-app",
+      filepath: "service-worker.js",
+      staticFileGlobs: [
+        "index.html",
+        "manifest.json",
+        "dist/**/*.{css,js}"
+      ],
+      stripPrefix: "/"
     })
   ])
 }
