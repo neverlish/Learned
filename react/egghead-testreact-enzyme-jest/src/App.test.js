@@ -7,8 +7,8 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() })
 
 describe('<App />', () => {
-  it('should render App', () => {
-    const wrapper = shallow(<App />, {context: {}, disableLifecycleMethods: bool})
-    console.log(wrapper.debug())
+  const wrapper = shallow(<App />)
+  it('h1 contains correct text', () => {
+    expect(wrapper.find('h1').text()).toBe('Welcome to React')
   })
 })
