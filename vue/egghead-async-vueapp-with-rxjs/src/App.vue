@@ -26,6 +26,21 @@ export default {
   },
   domStreams: ['click$', 'imageError$'],
   subscriptions() {
+    const myPromise = new Promise((resolve, reject) => {
+      console.log('INVOKED')
+
+      resolve(new Date())
+    })
+
+    Observable.from(myPromise).subscribe(value => console.log(value))
+    Observable.from(myPromise).subscribe(value => console.log(value))
+    
+    setTimeout(() => {
+      Observable.from(myPromise).subscribe(value => console.log(value))
+      Observable.from(myPromise).subscribe(value => console.log(value))
+    }, 3000)
+    
+
     const createLoader = url => Observable.from(
       this.$http.get(url)
     ).pluck('data')
