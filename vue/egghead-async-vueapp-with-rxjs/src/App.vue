@@ -18,7 +18,7 @@ export default {
 
     const luke$ = this.click$
       .mapTo('https://starwars.egghead.training/people/1')
-      .switchMap(createLoader)
+      .exhaustMap(createLoader)
       // .catch(err => Observable.of({name: 'Failed ... :('}))
       .catch(err => createLoader('https://starwars.egghead.training/people/2'))
       .share()
