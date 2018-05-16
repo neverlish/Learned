@@ -21,6 +21,7 @@ export default {
       .switchMap(createLoader)
       // .catch(err => Observable.of({name: 'Failed ... :('}))
       .catch(err => createLoader('https://starwars.egghead.training/people/2'))
+      .share()
     
     const name$ = luke$.pluck('name')
     const loadImage$ = luke$
