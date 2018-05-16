@@ -12,20 +12,18 @@ import {Observable} from 'rxjs'
 export default {
   domStreams: ['click$', 'imageError$'],
   subscriptions() {
-    const person$ = Observable.from(
-      this.$http.get(
-        'https://starwars.egghead.training/people/1'
-      )
+    const createLoader = url => Observable.from(
+      this.$http.get(url)
     ).pluck('data')
-    const luke$ = this.click$.switchMap(() => person$)
+
+    const luke$ = this.click$
+      .mapTo('https://starwars.egghead.training/people/1')
+      .switchMap(createLoader)
     
     const name$ = luke$.pluck('name')
     const loadImage$ = luke$
       .pluck('image')
-      .map(
-        image => 
-          `https://starwars.egghead.training/${image}`
-      )
+      .map(image => `https://starwars.egghead.training/${image}`)
 
     const failImage$ = this.imageError$.mapTo(`http://via.placeholder.com/400x400`)
     const image$ = Observable.merge(
