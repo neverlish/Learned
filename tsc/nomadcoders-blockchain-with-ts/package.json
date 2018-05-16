@@ -1,0 +1,15 @@
+{
+  "name": "nomadcoders-blockchain-with-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc-watch --onSuccess \" node dist/index.js\" "
+  },
+  "devDependencies": {
+    "tsc-watch": "^1.0.21"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  }
+}
