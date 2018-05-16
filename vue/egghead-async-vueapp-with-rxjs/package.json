@@ -7,9 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "buefy": "^0.6.3",
     "rxjs": "^5.5.7",
     "vue": "^2.5.13",
+    "vue-axios": "^2.0.2",
     "vue-rx": "^5.0.0"
   },
   "devDependencies": {
