@@ -1,6 +1,5 @@
 <template>
   <section class='section'>
-    {{activeTab$}}
     <b-tabs v-model='activeTab'>
       <b-tab-item
         v-for='person of people$'
@@ -26,20 +25,12 @@ export default {
   },
   domStreams: ['click$', 'imageError$'],
   subscriptions() {
-    const myPromise = new Promise((resolve, reject) => {
-      console.log('INVOKED')
-
-      resolve(new Date())
-    })
-
-    Observable.from(myPromise).subscribe(value => console.log(value))
-    Observable.from(myPromise).subscribe(value => console.log(value))
-    
-    setTimeout(() => {
-      Observable.from(myPromise).subscribe(value => console.log(value))
-      Observable.from(myPromise).subscribe(value => console.log(value))
-    }, 3000)
-    
+    const cache = {}
+    const cachePerson = cache => url => {
+      return cache[url] 
+        ? cache[url] 
+        : (cache[url] = createLoader(url))
+    }
 
     const createLoader = url => Observable.from(
       this.$http.get(url)
@@ -62,7 +53,7 @@ export default {
         (tabId, people) => people[tabId].id
       )
       .map(id => `https://starwars.egghead.training/people/${id}`)
-      .exhaustMap(createLoader)
+      .switchMap(cachePerson(cache))
       // .catch(err => Observable.of({name: 'Failed ... :('}))
       .catch(err => createLoader('https://starwars.egghead.training/people/2'))
       .share()
