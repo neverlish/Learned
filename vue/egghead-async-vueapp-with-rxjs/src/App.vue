@@ -1,7 +1,7 @@
 <template>
   <section class='section'>
-    <h1 class='title'>{{timesTwo$}}</h1>
-    <h1 class='title'>{{timesThree$}}</h1>
+    <button class='button' v-stream:click='click$'>click</button>
+    <h1 class='title'>{{random$}}</h1>
   </section>
 </template>
 
@@ -9,13 +9,11 @@
 import {Observable} from 'rxjs'
 
 export default {
+  domStreams: ['click$'],
   subscriptions() {
-    const interval$ = Observable.interval(1000)
-    const timesTwo$ = interval$.map(i => i * 2)
-    const timesThree$ = interval$.map(i => i * 3)
+    const random$ = this.click$.map(() => Math.random())
     return {
-      timesTwo$,
-      timesThree$
+      random$
     }
   }
 }
