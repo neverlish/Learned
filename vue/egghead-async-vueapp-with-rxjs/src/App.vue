@@ -6,16 +6,21 @@
         :key='person.id'
         :label='person.name'></b-tab-item>
     </b-tabs>
-    <button class='button' :disabled='disabled$' v-stream:click='{subject:click$, data: 1}'>{{buttonText$}}</button>
-    <button class='button' :disabled='disabled$' v-stream:click='{subject:click$, data: 4}'>{{buttonText$}}</button>
-    <button class='button' :disabled='disabled$' v-stream:click='{subject:click$, data: 5}'>{{buttonText$}}</button>
     <h1 class='title'>{{name$}}</h1>
     <img v-stream:error='imageError$' :src='image$' alt=''>
   </section>
 </template>
 
 <script>
-import {Observable} from 'rxjs'
+import { from, combineLatest, merge } from 'rxjs'
+import {
+  pluck,
+  map,
+  switchMap,
+  catchError,
+  share,
+  mapTo
+} from 'rxjs/operators'
 
 export default {
   data() {
@@ -25,6 +30,10 @@ export default {
   },
   domStreams: ['click$', 'imageError$'],
   subscriptions() {
+    const createLoader = url => from(this.$http.get(url)).pipe(
+      pluck('data')
+    )
+
     const cache = {}
     const cachePerson = cache => url => {
       return cache[url] 
@@ -32,57 +41,45 @@ export default {
         : (cache[url] = createLoader(url))
     }
 
-    const createLoader = url => Observable.from(
-      this.$http.get(url)
-    ).pluck('data')
-
-    const people$ = createLoader(
-      `https://starwars.egghead.training/people`
-    ).map(people => people.slice(0, 7))
+    const people$ = createLoader(`https://starwars.egghead.training/people`)
 
     const activeTab$ = this.$watchAsObservable(
-      'activeTab',
-      { immediate: true }
-    ).pluck('newValue')
-    
-
-    const luke$ = activeTab$
-      // .map(tabId => this.people[tabId].id)
-      .combineLatest(
-        people$, 
-        (tabId, people) => people[tabId].id
-      )
-      .map(id => `https://starwars.egghead.training/people/${id}`)
-      .switchMap(cachePerson(cache))
-      // .catch(err => Observable.of({name: 'Failed ... :('}))
-      .catch(err => createLoader('https://starwars.egghead.training/people/2'))
-      .share()
-    
-    const disabled$ = Observable.merge(
-      this.click$.mapTo(true),
-      luke$.mapTo(false)
-    ).startWith(false)
-
-    const buttonText$ = disabled$
-      .map(bool => bool ? 'Loading...' : 'Load')
-
-    const name$ = luke$.pluck('name')
-    const loadImage$ = luke$
-      .pluck('image')
-      .map(image => `https://starwars.egghead.training/${image}`)
-
-    const failImage$ = this.imageError$.mapTo(`http://via.placeholder.com/400x400`)
-    const image$ = Observable.merge(
-      loadImage$,
-      failImage$
+      'activeTab', 
+      {immediate: true}
+    ).pipe(
+      pluck('newValue')
     )
+
+    const person$ = combineLatest(
+      activeTab$, 
+      people$, 
+      (tabId, people) => people[tabId].id
+    ).pipe(
+      map(id => `https://starwars.egghead.training/people/${id}`),
+      switchMap(cachePerson(cache)),
+      catchError(err => createLoader(`https://starwars.egghead.training/people/2`)),
+      share()
+    )
+
+    const name$ = person$.pipe(
+      pluck('name')
+    )
+
+    const loadImage$ = person$.pipe(
+      pluck('image'),
+      map(image => `https://starwars.egghead.training/${image}`)
+    )
+
+    const failImage$ = this.imageError$.pipe(
+      mapTo(`http://via.placeholder.com/400x400`)
+    )
+
+    const image$ = merge(loadImage$, failImage$)
+
     return {
+      people$,
       name$,
-      image$,
-      disabled$,
-      buttonText$,
-      activeTab$,
-      people$
+      image$
     }
   }
 }
