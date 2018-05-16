@@ -2,7 +2,7 @@
   <section class='section'>
     <button class='button' v-stream:click='click$'>click</button>
     <h1 class='title'>{{name$}}</h1>
-    <img :src='image$' alt=''/>
+    <img v-stream:error='imageError$' :src='image$' alt=''>
   </section>
 </template>
 
@@ -10,7 +10,7 @@
 import {Observable} from 'rxjs'
 
 export default {
-  domStreams: ['click$'],
+  domStreams: ['click$', 'imageError$'],
   subscriptions() {
     const person$ = Observable.from(
       this.$http.get(
@@ -20,7 +20,18 @@ export default {
     const luke$ = this.click$.switchMap(() => person$)
     
     const name$ = luke$.pluck('name')
-    const image$ = luke$.pluck('image').map(image => `https://starwars.egghead.training/${image}`)
+    const loadImage$ = luke$
+      .pluck('image')
+      .map(
+        image => 
+          `https://starwars.egghead.training/${image}`
+      )
+
+    const failImage$ = this.imageError$.mapTo(`http://via.placeholder.com/400x400`)
+    const image$ = Observable.merge(
+      loadImage$,
+      failImage$
+    )
     return {
       name$,
       image$
