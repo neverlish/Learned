@@ -19,6 +19,8 @@ export default {
     const luke$ = this.click$
       .mapTo('https://starwars.egghead.training/people/1')
       .switchMap(createLoader)
+      // .catch(err => Observable.of({name: 'Failed ... :('}))
+      .catch(err => createLoader('https://starwars.egghead.training/people/2'))
     
     const name$ = luke$.pluck('name')
     const loadImage$ = luke$
