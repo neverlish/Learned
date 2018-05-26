@@ -30,8 +30,7 @@
 <div id="app" class="container">
   <h2>{{ title }}</h2>
   <ul>
-    <li>{{ items[0] }}</li>
-    <li>{{ items[1] }}</li>
+    <li v-for='item in items'>{{ item }}</li>
   </ul>
   <div class='footer'>
     <hr />
