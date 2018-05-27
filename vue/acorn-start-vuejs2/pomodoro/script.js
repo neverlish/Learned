@@ -17,6 +17,20 @@ new Vue({
   computed: {
     title: function() {
       return this.pomodoroState === POMODORO_STATES.WORK ? 'Work!' : 'Rest!';
+    },
+    min: function() {
+      if (this.minute < 10) {
+        return '0' + this.minute;
+      }
+
+      return this.minute;
+    },
+    sec: function() {
+      if (this.second < 10) {
+        return '0' + this.second;
+      }
+
+      return this.second;
     }
   },
   methods: {
