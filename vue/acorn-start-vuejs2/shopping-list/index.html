@@ -30,7 +30,14 @@
 <div id="app" class="container">
   <h2>{{ title }}</h2>
   <ul>
-    <li v-for='item in items'>{{ item }}</li>
+    <li v-for='item in items' v-bind:class="{ 'removed': item.checked }">
+      <div class='checkbox'>
+        <label>
+          <input type='checkbox' v-model='item.checked' >
+          {{ item.text }}
+        </label>
+      </div>
+    </li>
   </ul>
   <div class='footer'>
     <hr />

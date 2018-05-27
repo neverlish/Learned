@@ -1,6 +1,10 @@
 var data = {
-  items: ['Bananas', 'Apples'],
-  title: 'My Shopping List'
+  items: [
+    { text: 'Bananas', checked: true },
+    { text: 'Apples', checked: false }
+  ],
+  title: 'My Shopping List',
+  newItem: ''
 };
 
 new Vue({
