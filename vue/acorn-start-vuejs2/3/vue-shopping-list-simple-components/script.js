@@ -10,6 +10,17 @@ Vue.component('add-item-component', {
     return {
       newItem: ''
     }
+  },
+  methods: {
+    addItem: function () {
+      var text;
+
+      text = this.newItem.trim();
+      if (text) {
+        this.$emit('add', this.newItem);
+        this.newItem = "";
+      }
+    }
   }
 });
 
