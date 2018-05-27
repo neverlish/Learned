@@ -29,6 +29,12 @@
 <body>
 <div id="app" class="container">
   <h2>{{ title }}</h2>
+  <div class='input-group'>
+    <input v-model='newItem' v-on:keyup.enter='vadddItem' placeholder='add shopping list item' type='text' class='form-control'>
+    <span class='input-group-btn'>
+      <button v-on:click='addItem' class='btn btn-default' type='button'>Add!</button>
+    </span>
+  </div>
   <ul>
     <li v-for='item in items' v-bind:class="{ 'removed': item.checked }">
       <div class='checkbox'>
