@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello Component</title>
+</head>
+
+<body>
+
+<template id='hello'>
+  <h1>Hello</h1>
+</template>
+
+<div id="app">
+  <hello-component></hello-component>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+<script>
+  Vue.component('hello-component', {
+    template: '#hello'
+  });
+
+  new Vue({
+    el: '#app'
+  });
+</script>
+</body>
+</html>
