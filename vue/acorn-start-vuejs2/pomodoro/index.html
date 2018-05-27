@@ -14,8 +14,16 @@
 <div id="app" class="container">
   <h2>
     <span>Pomodoro</span>
-    <button @click='start()'>
+    <button :disabled="state === 'started'" @click='start()'>
       <i class='glyphicon glyphicon-play'></i>
+    </button>
+
+    <button :disabled="state !== 'started'" @click='pause()'>
+      <i class='glyphicon glyphicon-pause'></i>
+    </button>
+
+    <button :disabled="state !== 'started' && state !== 'paused'" @click='stop()'>
+      <i class='glyphicon glyphicon-stop'></i>
     </button>
   </h2>
 
