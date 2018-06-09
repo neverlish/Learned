@@ -109,11 +109,12 @@ class BookForm extends React.Component {
                 <Form.Field error={!!errors.pages}>
                   <label htmlFor='page'>Book page</label>
                   <input
-                    type='number'
+                    disabled={data.pages === undefined}
+                    type='text'
                     id='pages'
                     name='pages'
                     placeholder='Pages'
-                    value={data.pages}
+                    value={data.pages ? data.pages : 'Loading...'}
                     onChange={this.onChangeNumber}
                   />
                   {errors.page && <InlineError text={errors.pages} />}
@@ -145,7 +146,7 @@ BookForm.propTypes = {
     title: PropTypes.string.isRequired,
     authors: PropTypes.string.isRequired,
     covers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    pages: PropTypes.number.isRequired
+    pages: PropTypes.number
   }).isRequired
 }
 
