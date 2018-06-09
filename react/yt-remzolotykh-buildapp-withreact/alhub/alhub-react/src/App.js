@@ -16,12 +16,12 @@ import NewCharacterPage from "./components/pages/NewCharacterPage"
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import TopNavigation from "./components/navigation/TopNavigation";
-import { fetchCurrentUser } from './actions/users'
+import { fetchCurrentUserRequest } from './actions/users'
 import messages from './messages'
 
 class App extends React.Component {
   componentDidMount() {
-    if (this.props.isAuthenticated) this.props.fetchCurrentUser()
+    if (this.props.isAuthenticated) this.props.fetchCurrentUserRequest()
   }
 
   render() {
@@ -90,7 +90,7 @@ App.propTypes = {
     pathname: PropTypes.string.isRequired
   }).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  fetchCurrentUser: PropTypes.func.isRequired,
+  fetchCurrentUserRequest: PropTypes.func.isRequired,
   loaded: PropTypes.bool.isRequired,
   lang: PropTypes.string.isRequired
 };
@@ -103,4 +103,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchCurrentUser })(App);
+export default connect(mapStateToProps, { fetchCurrentUserRequest })(App);
