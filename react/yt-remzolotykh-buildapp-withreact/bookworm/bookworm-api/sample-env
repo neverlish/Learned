@@ -1,0 +1,8 @@
+MONGODB_URL=mongodb://localhost/bookworm
+JWT_SECRET=secretkey
+HOST=http://localhost:3000
+EMAIL_HOST=smtp.mailtrap.io
+EMAIL_PORT=2525
+EMAIL_USER=MAILTRAP_USER
+EMAIL_PASS=MAILTRAP_PASSWORD
+GOODREADS_KEY=goodreadskey

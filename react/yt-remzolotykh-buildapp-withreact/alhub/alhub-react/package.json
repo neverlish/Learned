@@ -1,0 +1,49 @@
+{
+  "name": "alhub-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bootstrap": "4.0.0-beta.2",
+    "glamor": "^2.20.40",
+    "glamorous": "^4.11.0",
+    "gravatar-url": "^2.0.0",
+    "jwt-decode": "^2.2.0",
+    "normalizr": "^3.2.4",
+    "prop-types": "^15.6",
+    "react": "^16.2.0",
+    "react-animations": "1.0.0",
+    "react-dom": "^16.2.0",
+    "react-intl": "2.4.0",
+    "react-loader": "2.4.2",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "reactstrap": "^5.0.0-alpha.4",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-saga": "0.16.0",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
+    "validator": "^9.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-prettier": "^2.2.0",
+    "eslint-plugin-react": "^7.3.0",
+    "prettier": "^1.9.1"
+  },
+  "proxy": "http://localhost:8080"
+}
