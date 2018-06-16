@@ -49,6 +49,24 @@
             </objects>
             <point key="canvasLocation" x="140" y="137.18140929535232"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="3jp-Lu-1eO">
+            <objects>
+                <viewController id="UFz-M1-zW3" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X16-YL-upe"/>
+                        <viewControllerLayoutGuide type="bottom" id="paN-Mk-hK4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wEa-sF-ZXk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="leA-mU-8r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="137"/>
+        </scene>
     </scenes>
     <resources>
         <image name="superman" width="480" height="360"/>
