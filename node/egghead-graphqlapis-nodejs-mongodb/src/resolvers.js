@@ -1,7 +1,7 @@
 export const resolvers = {
   Query: {
-    hello(root, args, context, info) {
-      return 'Welcome to GraphQL'
+    hello(root, {msg}, context, info) {
+      return msg;
     }
   }
 }
