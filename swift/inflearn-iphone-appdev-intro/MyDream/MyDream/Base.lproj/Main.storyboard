@@ -60,6 +60,12 @@
                     <view key="view" contentMode="scaleToFill" id="wEa-sF-ZXk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Sky" translatesAutoresizingMaskIntoConstraints="NO" id="dZF-jr-S0J">
+                                <rect key="frame" x="55" y="103" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -69,6 +75,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Sky" width="378" height="213"/>
         <image name="superman" width="480" height="360"/>
     </resources>
 </document>
