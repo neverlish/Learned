@@ -1,3 +1,5 @@
+import Product from './models/product'
+
 const products = [{
   _id: '12',
   name: 'GraphQL course',
@@ -15,10 +17,8 @@ export const resolvers = {
     }
   },
   Mutation: {
-    createProduct(_, {input}) {
-      input._id = '12313';
-      products.push(input);
-      return input;
+    async createProduct(_, {input}) {
+      return await Product.create(input);
     }
   }
 }
