@@ -9,6 +9,7 @@ const typeDefs = `
   }
 
   type Query {
+    getProduct(_id: ID): Product
     allProduct: [Product]
   }
 

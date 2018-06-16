@@ -5,6 +5,9 @@ export const resolvers = {
   Query: {
     async allProduct() {
       return await Product.find()
+    },
+    async getProduct(_, {_id}) {
+      return await Product.findById(_id)
     }
   },
   Mutation: {
