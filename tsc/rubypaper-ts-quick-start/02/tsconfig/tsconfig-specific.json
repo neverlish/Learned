@@ -1,0 +1,15 @@
+// 02-2-3 tsconfig.json 파일을 이용한 컴파일 - 하나의 파일로 합쳐서 컴파일하기 - files 속성을 적용한 tsconfig.json 파일
+
+{
+  "compilerOptions": {
+    "outFile": "./dist-specific/out.js",
+    "target": "es5",
+    "removeComments": true,
+    "sourceMap": true
+  },
+  "files": [
+    "./src/hello1.ts",
+    "./src/hello2.ts",
+    "./src2/hello3.ts"
+  ]
+}
