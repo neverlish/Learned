@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "es6",
+    // 04-1-2 switch 문과 폴스루 - 폴스루에 대한 이해와 폴스루의 사용 여부 설정
+    "noFallthroughCasesInSwitch": true
+  }
+}
