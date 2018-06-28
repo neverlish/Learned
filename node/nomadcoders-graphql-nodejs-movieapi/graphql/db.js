@@ -27,3 +27,13 @@ export const getById = id => {
   const filteredMovies = movies.filter(movie => id === movie.id)
   return filteredMovies[0]
 }
+
+export const addMovie = (name, score) => {
+  const newMovie = {
+    id: `${movies.length + 1}`,
+    name, 
+    score
+  }
+  movies.push(newMovie)
+  return newMovie
+}
