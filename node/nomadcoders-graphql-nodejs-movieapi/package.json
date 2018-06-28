@@ -1,0 +1,9 @@
+{
+  "name": "nomadcoders-graphql-nodejs-movieapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.14.10"
+  }
+}
