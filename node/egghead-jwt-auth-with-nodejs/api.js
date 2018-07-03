@@ -10,7 +10,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const jwtCheck = expressjwt({
-  secret: "mysupersecretkey"
+  secret: 'MbMTyd1C3j2DWz31MqnCtMXN2g6rk96b',
+  audience: 'egghead-demo',
+  issuer: "https://neverlish.auth0.com/"
 });
 
 app.get("/resource", (req, res) => {
