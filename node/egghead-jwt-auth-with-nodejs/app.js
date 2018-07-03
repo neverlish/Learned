@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 // export PORT=3000 & node app
@@ -12,6 +13,7 @@ const users = [
 ];
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/login', (req, res) => {
   if (!req.body.username || !req.body.password) {
