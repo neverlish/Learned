@@ -1,5 +1,5 @@
 import {getTodos, createTodo, updateTodo, destroyTodo} from './lib/todoServices'
-import { createActions, handleAction } from 'redux-actions'
+import { createActions, handleAction, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers';
 
 const initState = {
@@ -132,13 +132,13 @@ const removeTodoReducer = handleAction(REMOVE_TODO, (state, action) => {
   }
 }, initState)
 
-const showLoaderReducer = handleAction(SHOW_LOADER, (state, action) => {
-  return { ...state, isLoading: action.payload }
-}, initState)
-
-const hideLoaderReducer = handleAction(HIDE_LOADER, (state, action) => {
-  return { ...state, isLoading: action.payload }
-}, initState)
+const loaderReducer = handleAction(
+  combineActions(SHOW_LOADER, HIDE_LOADER), 
+  (state, action) => {
+    return { ...state, isLoading: action.payload }
+  }, 
+  initState
+)
 
 export default reduceReducers(
   addTodoReducer, 
@@ -146,6 +146,5 @@ export default reduceReducers(
   updateCurrentReducer,
   replaceTodoReducer,
   removeTodoReducer,
-  showLoaderReducer,
-  hideLoaderReducer
+  loaderReducer
 )
