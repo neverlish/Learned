@@ -1,5 +1,5 @@
 import {getTodos, createTodo, updateTodo, destroyTodo} from './lib/todoServices'
-import { createActions } from 'redux-actions'
+import { createActions, handleAction } from 'redux-actions'
 
 const initState = {
   todos: [],
@@ -100,10 +100,18 @@ export const getVisibleTodos = (todos, filter) => {
   }
 }
 
+const addTodoReducer = handleAction(ADD_TODO, (state, action) => {
+  return {
+    ...state, 
+    currentTodo: '', 
+    todos: state.todos.concat(action.payload)
+  }
+}, initState)
+
 export default (state = initState, action) => {
   switch (action.type) {
     case ADD_TODO:
-      return {...state, currentTodo: '', todos: state.todos.concat(action.payload)}
+      return addTodoReducer(state, action)
     case LOAD_TODOS:
       return {...state, todos: action.payload}
     case UPDATE_CURRENT:
