@@ -1,4 +1,5 @@
 import {getTodos, createTodo, updateTodo, destroyTodo} from './lib/todoServices'
+import { createAction } from 'redux-actions'
 
 const initState = {
   todos: [],
@@ -15,11 +16,12 @@ const REMOVE_TODO = 'REMOVE_TODO'
 const SHOW_LOADER = 'SHOW_LOADER'
 const HIDE_LOADER = 'HIDE_LOADER'
 
-export const updateCurrent = (val) => ({type:UPDATE_CURRENT, payload: val})
-export const loadTodos = (todos) => ({type: LOAD_TODOS, payload: todos})
-export const addTodo = (todo) => ({type: ADD_TODO, payload: todo})
-export const replaceTodo = (todo) => ({type: REPLACE_TODO, payload: todo })
-export const removeTodo = (id) => ({type: REMOVE_TODO, payload: id})
+// export const updateCurrent = (val) => ({type:UPDATE_CURRENT, payload: val})
+export const updateCurrent = createAction(UPDATE_CURRENT)
+export const loadTodos = createAction(LOAD_TODOS)
+export const addTodo = createAction(ADD_TODO)
+export const replaceTodo = createAction(REPLACE_TODO)
+export const removeTodo = createAction(REMOVE_TODO)
 export const showLoader = () => ({type: SHOW_LOADER, payload: true})
 export const hideLoader = () => ({type: HIDE_LOADER, payload: false})
 
