@@ -62,6 +62,10 @@ class User extends BaseEntity {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  public comparePassword(password: string): boolean {
+    return bcrypt.compareSync(password, this.password)
+  }
+
   @BeforeInsert()
   @BeforeUpdate()
   async savePassword(): Promise<void>  {
