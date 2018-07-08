@@ -1,3 +1,20 @@
+type Chat {
+  id: Int!
+  messages: [Message]!
+  participants: [User]!
+  createdAt: String!
+  updatedAt: String
+}
+
+type Message {
+  id: Int!
+  text: String!
+  chat: Chat
+  user: User
+  createdAt: String!
+  updatedAt: String
+}
+
 type Place {
   id: Int!
   name: String!
