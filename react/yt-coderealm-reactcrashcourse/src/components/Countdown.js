@@ -10,6 +10,18 @@ export default class Countdown extends Component {
     }
   }
 
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState({
+        duration: this.getRemainingTime()
+      })
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
   getRemainingTime() {
     let now = moment(),
         newYear = moment({year: now.year() + 1}),
