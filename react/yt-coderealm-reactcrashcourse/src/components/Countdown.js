@@ -32,8 +32,28 @@ export default class Countdown extends Component {
     return moment.duration(diff)
   }
 
+  handlePausedToggle = () => {
+    this.setState((prevState) => {
+      const paused = !prevState.paused
+
+      if (paused) {
+        clearInterval(this.interval)
+      } else {
+        this.interval = setInterval(() => {
+          this.setState({
+            duration: this.getRemainingTime()
+          })
+        }, 1000)
+      }
+
+      return {
+        paused
+      }
+    })
+  }
+
   render() {
-    const { duration } = this.state
+    const { duration, paused } = this.state
 
     return <section className='hero is-dark is-bold is-fullheight has-text-centered'>
       <div className='hero-body'>
@@ -69,7 +89,7 @@ export default class Countdown extends Component {
               </div>
             </nav>
           </section>
-          <Controls paused={this.state.paused}/>
+          <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
         </div>
       </div>
     </section>
