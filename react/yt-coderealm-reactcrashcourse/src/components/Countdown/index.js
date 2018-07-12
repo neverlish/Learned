@@ -3,6 +3,8 @@ import Timer from './Timer'
 import moment from 'moment'
 import Controls from './Controls'
 
+import Datepicker from './Datepicker'
+
 export default class Countdown extends Component {
   state = {
     duration: this.getRemainingTime(),
@@ -65,6 +67,9 @@ export default class Countdown extends Component {
           <section className='section'>
             <Timer duration={duration} />
           </section>
+
+          <Datepicker />
+
           <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
         </div>
       </div>
