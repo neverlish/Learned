@@ -62,14 +62,14 @@ export default class Countdown extends Component {
   }
 
   render() {
-    const { paused } = this.state,
+    const { paused, nextDate } = this.state,
           duration = this.getRemainingTime()
 
     return <section className='hero is-dark is-bold is-fullheight has-text-centered'>
       <div className='hero-body'>
         <div className='container'>
           <h1 className='title'>
-            New Year is Coming Up!
+            {nextDate.calendar()} is Coming Up!
           </h1>
           <section className='section'>
             <Timer duration={duration} />

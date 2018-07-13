@@ -3,19 +3,26 @@ import moment from 'moment';
 
 class Datepicker extends Component {
   state = {
-    date: '2018-01-21'
+    date: '',
+    valid: true
   }
 
-  handleDateChange = e => {
+  handleDateChange = ({ target: { value } }) => {
+    const date = moment(value)
+
     this.setState({
-      date: e.target.value
+      date: value,
+      valid: date.isValid() && date.isAfter(moment())
     })
   }
 
   handleDateSubmit = e => {
     e.preventDefault()
+
+    const { valid, date } = this.state
     
-    this.props.onDateReset(moment(this.state.date))
+    
+    valid && this.props.onDateReset(moment(this.state.date))
   }
 
   render() {
