@@ -4,47 +4,43 @@ import moment from 'moment';
 class Datepicker extends Component {
   state = {
     date: '',
-    valid: true
+    valid: true,
+    dirty: false
   }
 
   handleDateChange = ({ target: { value } }) => {
-    const date = moment(value)
+    const date = moment(value),
+          valid = date.isValid() && date.isAfter(moment())
 
     this.setState({
+      valid,
       date: value,
-      valid: date.isValid() && date.isAfter(moment())
+      dirty: true
     })
-  }
 
-  handleDateSubmit = e => {
-    e.preventDefault()
-
-    const { valid, date } = this.state
-    
-    
-    valid && this.props.onDateReset(moment(this.state.date))
+    valid && this.props.onDateReset(date)
   }
 
   render() {
-    const { date } = this.state
+    let { date, valid, dirty } = this.state,
+        classes = 'input is-medium is-rounded'
 
-    return <form onSubmit={this.handleDateSubmit}>
-      <div className='field is-grouped is-grouped-centered' style={{marginBottom: 40}}>
-        <p className='control'>
-          <input
-            className='input is-medium is-rounded'
-            type='text'
-            value={date}
-            onChange={this.handleDateChange}
-            placeholder='Type a date...' />
-        </p>
-        <p className='control'>
-          <button type='submit' className='button is-light is-outlined is-medium is-rounded'>
-            Reset
-          </button>
-        </p>
-      </div>
-    </form>
+    valid && dirty && (classes += ' is-success')
+    !valid && dirty && (classes += ' is-danger')
+
+    return <div className='field is-grouped is-grouped-centered' style={{marginBottom: 40}}>
+      <p className='control has-text-centered'>
+        <input
+          className={classes}
+          type='text'
+          value={date}
+          onChange={this.handleDateChange}
+          placeholder='Type a date...' />
+        {!valid && <i className='help is-danger is-size-6'>
+          Please type a valind (and future) date.
+        </i>}
+      </p>
+    </div>
   }
 }
   
