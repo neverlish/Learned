@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
+import moment from 'moment';
 
 class Datepicker extends Component {
   state = {
     date: '2018-01-21'
   }
 
-  handleDateChange = (e) => {
+  handleDateChange = e => {
     this.setState({
       date: e.target.value
     })
   }
 
-  handleDateSubmit = (e) => {
+  handleDateSubmit = e => {
     e.preventDefault()
-    console.log(this.state.date)
+    
+    this.props.onDateReset(moment(this.state.date))
   }
 
   render() {
@@ -22,7 +24,12 @@ class Datepicker extends Component {
     return <form onSubmit={this.handleDateSubmit}>
       <div className='field is-grouped is-grouped-centered' style={{marginBottom: 40}}>
         <p className='control'>
-          <input className='input is-medium is-rounded' type='text' value={date} onChange={this.handleDateChange} placeholder='Type a date...' />
+          <input
+            className='input is-medium is-rounded'
+            type='text'
+            value={date}
+            onChange={this.handleDateChange}
+            placeholder='Type a date...' />
         </p>
         <p className='control'>
           <button type='submit' className='button is-light is-outlined is-medium is-rounded'>

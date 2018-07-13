@@ -7,7 +7,8 @@ import Datepicker from './Datepicker'
 
 export default class Countdown extends Component {
   state = {
-    duration: this.getRemainingTime(),
+    currentDate: moment(),
+    nextDate: moment({year: moment().year() + 1}),
     paused: false
   }
 
@@ -20,9 +21,8 @@ export default class Countdown extends Component {
   }
 
   getRemainingTime() {
-    let now = moment(),
-        newYear = moment({year: now.year() + 1}),
-        diff = newYear.diff(now)
+    let { currentDate, nextDate } = this.state,
+        diff = nextDate.diff(currentDate)
 
     return moment.duration(diff)
   }
@@ -50,13 +50,20 @@ export default class Countdown extends Component {
   resume() {
     this.interval = setInterval(() => {
       this.setState({
-        duration: this.getRemainingTime()
+        currentDate: moment()
       })
     }, 1000)
   }
 
+  handleDateReset = nextDate => {
+    this.setState({
+      nextDate
+    })
+  }
+
   render() {
-    const { duration, paused } = this.state
+    const { paused } = this.state,
+          duration = this.getRemainingTime()
 
     return <section className='hero is-dark is-bold is-fullheight has-text-centered'>
       <div className='hero-body'>
@@ -68,7 +75,7 @@ export default class Countdown extends Component {
             <Timer duration={duration} />
           </section>
 
-          <Datepicker />
+          <Datepicker onDateReset={this.handleDateReset}/>
 
           <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
         </div>
