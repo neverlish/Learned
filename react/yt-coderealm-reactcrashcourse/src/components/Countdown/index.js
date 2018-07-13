@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import Timer from './Timer'
 import moment from 'moment'
 import Controls from './Controls'
-
 import Datepicker from './Datepicker'
+import HolidaysModal from './HolidaysModal'
 
 export default class Countdown extends Component {
   state = {
     currentDate: moment(),
     nextDate: moment({year: moment().year() + 1}),
-    paused: false
+    paused: false,
+    showHolidays: false
   }
 
   componentDidMount() {
@@ -61,8 +62,14 @@ export default class Countdown extends Component {
     })
   }
 
+  handleHolidaysToggle = () => {
+    this.setState({
+      showHolidays: !this.state.showHolidays
+    })
+  }
+
   render() {
-    const { paused, nextDate } = this.state,
+    const { paused, nextDate, showHolidays } = this.state,
           duration = this.getRemainingTime()
 
     return <section className='hero is-dark is-bold is-fullheight has-text-centered'>
@@ -70,6 +77,12 @@ export default class Countdown extends Component {
         <div className='container'>
           <h1 className='title'>
             {nextDate.calendar()} is Coming Up!
+            <button
+              className='button is-small is-rounded is-light'
+              style={{margin: '5px 0 0 10px'}}
+              onClick={this.handleHolidaysToggle}>
+              Holidays
+            </button>
           </h1>
           <section className='section'>
             <Timer duration={duration} />
@@ -78,6 +91,8 @@ export default class Countdown extends Component {
           <Datepicker onDateReset={this.handleDateReset}/>
 
           <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
+
+          <HolidaysModal active={showHolidays} onToggle={this.handleHolidaysToggle}/>
         </div>
       </div>
     </section>
