@@ -6,7 +6,7 @@ import Controls from './Controls'
 import Datepicker from './Datepicker'
 import HolidaysModal from './HolidaysModal'
 
-export default class Countdown extends Component {
+export default class extends Component {
   state = {
     currentDate: moment(),
     nextDate: moment({year: moment().year() + 1}),
@@ -30,8 +30,8 @@ export default class Countdown extends Component {
   }
 
   handlePausedToggle = () => {
-    this.setState((prevState) => {
-      const paused = !prevState.paused
+    this.setState(({paused}) => {
+      paused = !paused
 
       if (paused) {
         this.pause()
@@ -39,9 +39,13 @@ export default class Countdown extends Component {
         this.resume()
       }
 
-      return {
+      const nextState = {
         paused
       }
+
+      !paused && (nextState.currentDate = moment())
+
+      return nextState
     })
   }
 
@@ -76,7 +80,7 @@ export default class Countdown extends Component {
   }
 
   render() {
-    const { paused, nextDate, showHolidays } = this.state,
+    const { paused, currentDate, nextDate, showHolidays } = this.state,
           duration = this.getRemainingTime(),
           holidays = this.getHolidays()
 
@@ -86,7 +90,7 @@ export default class Countdown extends Component {
           <h1 className='title'>
             {nextDate.calendar()} is Coming Up!
             <button
-              className='button is-small is-rounded is-light'
+              className='button is-small is-rounded is-light is-outlined'
               style={{margin: '5px 0 0 10px'}}
               onClick={this.handleHolidaysToggle}>
               Holidays
@@ -99,6 +103,10 @@ export default class Countdown extends Component {
           <Datepicker onDateReset={this.handleDateReset}/>
 
           <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
+
+          <section className='section'>
+            <i>{currentDate.format('dddd, MMMM Do, YYYY, HH:mm A (UTCZ)')}</i>
+          </section>
 
           <HolidaysModal
             holidays={holidays}
