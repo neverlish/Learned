@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import moment from 'moment-holiday'
+
 import Timer from './Timer'
-import moment from 'moment'
 import Controls from './Controls'
 import Datepicker from './Datepicker'
 import HolidaysModal from './HolidaysModal'
@@ -68,9 +69,16 @@ export default class Countdown extends Component {
     })
   }
 
+  getHolidays() {
+    const { currentDate, nextDate } = this.state
+
+    return currentDate.holidaysBetween(nextDate)
+  }
+
   render() {
     const { paused, nextDate, showHolidays } = this.state,
-          duration = this.getRemainingTime()
+          duration = this.getRemainingTime(),
+          holidays = this.getHolidays()
 
     return <section className='hero is-dark is-bold is-fullheight has-text-centered'>
       <div className='hero-body'>
@@ -92,7 +100,10 @@ export default class Countdown extends Component {
 
           <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
 
-          <HolidaysModal active={showHolidays} onToggle={this.handleHolidaysToggle}/>
+          <HolidaysModal
+            holidays={holidays}
+            active={showHolidays}
+            onToggle={this.handleHolidaysToggle}/>
         </div>
       </div>
     </section>

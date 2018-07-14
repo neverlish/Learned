@@ -5,6 +5,7 @@
   "dependencies": {
     "bulma": "^0.7.1",
     "moment": "^2.22.2",
+    "moment-holiday": "^1.5.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
