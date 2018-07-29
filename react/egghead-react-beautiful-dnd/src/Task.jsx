@@ -3,21 +3,11 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
-  border: 3px solid lightgrey;
-  border-radius: 50%;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => props.isDragging ? 'lightgreen' : 'white'};
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:focus {
-    outline: none;
-    border-color: red;
-  }
 `;
 
 export default class Task extends React.Component {
@@ -34,7 +24,7 @@ export default class Task extends React.Component {
             innerRef={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            {this.props.task.content[0]}
+            {this.props.task.content}
           </Container>
         )}
         
