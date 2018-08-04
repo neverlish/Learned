@@ -6,7 +6,9 @@
     </h2>
     <state-title-component></state-title-component>
     <countdown-component></countdown-component>
-    <kittens-component></kittens-component>
+    <transition name='fade'>
+      <kittens-component v-if='kittens'></kittens-component>
+    </transition>
   </div>
 </template>
 
@@ -16,17 +18,27 @@ import StateTitleComponent from './components/StateTitleComponent'
 import CountdownComponent from './components/CountdownComponent'
 import KittensComponent from './components/KittensComponent'
 
+window.data = { kittens: true }
+
 export default {
   components: {
     ControlsComponent,
     StateTitleComponent,
     CountdownComponent,
     KittensComponent
+  },
+  data () {
+    return window.data
   }
 }
 
 </script>
 
-<style>
-
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 </style>
