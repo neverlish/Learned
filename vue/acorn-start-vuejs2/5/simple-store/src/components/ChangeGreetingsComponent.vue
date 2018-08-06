@@ -1,14 +1,14 @@
 <template>
-  <input v-model='msg' @keyup='changeMsg'>
+  <input :value='msg' @keyup='changeMsg'>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  computed: {
-    msg() {
-      return this.$store.state.msg
-    }
-  },
+  computed: mapGetters({
+    msg: 'getMessage'
+  }),
   methods: {
     changeMsg(ev) {
       this.$store.commit('changeMessage', ev.target.value)

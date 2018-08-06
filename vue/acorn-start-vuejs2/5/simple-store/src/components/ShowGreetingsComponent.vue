@@ -3,11 +3,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  computed: {
-    msg() {
-      return this.$store.state.msg
-    }
-  }
+  computed: mapGetters({
+    msg: 'getMessage'
+  })
 }
 </script>
