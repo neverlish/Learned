@@ -1,7 +1,7 @@
 <template>
   <div id="app" class='container'>
     <h2>
-      <span>Pomodoro</span>
+      <span>{{ 'Pomodoro' | lowercase }}</span>
       <controls-component></controls-component>
     </h2>
     <state-title-component v-bind:isworking='isworking'></state-title-component>
