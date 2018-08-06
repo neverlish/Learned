@@ -4,6 +4,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { CHANGE_MSG } from '../vuex/mutation_types'
 
 export default {
   computed: mapGetters({
@@ -11,7 +12,7 @@ export default {
   }),
   methods: {
     changeMsg(ev) {
-      this.$store.commit('changeMessage', ev.target.value)
+      this.$store.commit(CHANGE_MSG, ev.target.value)
     }
   }
 }
