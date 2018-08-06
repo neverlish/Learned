@@ -7,7 +7,7 @@
     <state-title-component v-bind:isworking='isworking'></state-title-component>
     <countdown-component></countdown-component>
     <transition name='fade'>
-      <kittens-component v-if='kittens'></kittens-component>
+      <kittens-component v-show='!isworking'></kittens-component>
     </transition>
   </div>
 </template>
