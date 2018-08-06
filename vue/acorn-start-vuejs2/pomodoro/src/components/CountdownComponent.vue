@@ -10,4 +10,12 @@
 </style>
 
 <script>
+export default {
+  data () {
+    return {
+      min: 5,
+      sec: 0
+    }
+  }
+}
 </script>
