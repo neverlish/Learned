@@ -6,4 +6,11 @@
 </style>
 
 <script>
+export default {
+  data () {
+    return {
+      title: 'Learning Vue.js!'
+    }
+  }
+}
 </script>
