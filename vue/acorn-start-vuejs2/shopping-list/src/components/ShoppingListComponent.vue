@@ -5,7 +5,7 @@
     <items-component :items='items'></items-component>
     <div class='footer'>
       <hr />
-      <change-title-component v-model='title'></change-title-component>
+      <change-title-component :title='title' v-on:changeTitle='onChangeTitle'></change-title-component>
     </div>
   </div>
 </template>
@@ -21,13 +21,16 @@ export default {
     ItemsComponent,
     ChangeTitleComponent
   },
-  props: ['title', 'items'],
+  props: ['title', 'items', 'id'],
   methods: {
     addItem (text) {
       this.items.push({
         text: text,
         checked: false
       })
+    },
+    onChangeTitle (text) {
+      this.$emit('changeTitle', this.id, text)
     }
   }
 }

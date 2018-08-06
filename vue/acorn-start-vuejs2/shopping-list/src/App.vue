@@ -2,12 +2,12 @@
   <div id="app" class="container">
     <ul class="nav nav-tabs" role="tablist">
       <li :class= "index === 0 ? 'active' : ''" v-for="(list, index) in shoppinglists" role="presentation" :key='index'>
-        <a :href="'#' + list.id" :aria-controls="list.id" role="tab" data-toggle="tab">{{ list.title }}</a>
+        <shopping-list-title-component :id="list.id" :title="list.title"></shopping-list-title-component>
       </li>
     </ul>
     <div class="tab-content">
       <div :class= "index === 0 ? 'active' : ''" v-for="(list, index) in shoppinglists" class="tab-pane" role="tabpanel" :id="list.id" :key='index'>
-        <shopping-list-component :title="list.title" :items="list.items"></shopping-list-component>
+        <shopping-list-component :title="list.title" :items="list.items" :id='list.id' v-on:changeTitle='onChangeTitle'></shopping-list-component>
       </div>
     </div>
   </div>
@@ -15,10 +15,13 @@
 
 <script>
 import ShoppingListComponent from './components/ShoppingListComponent'
+import ShoppingListTitleComponent from './components/ShoppingListTitleComponent'
+import _ from 'underscore'
 
 export default {
   components: {
-    ShoppingListComponent
+    ShoppingListComponent,
+    ShoppingListTitleComponent
   },
   data () {
     return {
@@ -34,6 +37,11 @@ export default {
           items: [{ text: 'black dress', checked: false }, { text: 'all stars', checked: false }]
         }
       ]
+    }
+  },
+  methods: {
+    onChangeTitle (id, text) {
+      _.findWhere(this.shoppinglists, { id: id }).title = text
     }
   }
 }
