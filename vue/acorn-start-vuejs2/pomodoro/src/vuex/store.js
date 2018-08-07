@@ -13,7 +13,8 @@ const state = {
   paused: false,
   stopped: false,
   isWorking: true,
-  counter: WORKING_TIME
+  counter: WORKING_TIME,
+  interval: null
 }
 
 export default new Vuex.Store({
