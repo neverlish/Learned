@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import * as types from './mutation_types'
-import { WORKING_TIME, RESTING_TIME } from '../config'
+import { WORKING_TIME, RESTING_TIME, KITTEN_TIME } from '../config'
 
 function togglePomodoro (state, toggle) {
   if (_.isBoolean(toggle) === false) {
@@ -15,6 +15,9 @@ function tick (state) {
     togglePomodoro(state)
   }
   state.counter--
+  if (state.counter % KITTEN_TIME === 0) {
+    state.timestamp = new Date().getTime()
+  }
 }
 
 export default {
