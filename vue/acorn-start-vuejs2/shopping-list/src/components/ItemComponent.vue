@@ -9,8 +9,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  props: ['item']
+  props: ['item', 'id'],
+  methods: mapActions(['updateList']),
+  watch: {
+    'item.checked': function () {
+      this.updateList(this.id)
+    }
+  }
 }
 </script>
 
