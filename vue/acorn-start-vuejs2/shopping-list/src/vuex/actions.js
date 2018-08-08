@@ -20,5 +20,10 @@ export default {
     api.addNewShoppingList(shoppinglist).then(() => {
       store.dispatch('populateShoppingLists')
     })
+  },
+  deleteShoppingList: (store, id) => {
+    api.deleteShoppingList(id).then(() => {
+      store.dispatch('populateShoppingLists')
+    })
   }
 }
