@@ -15,5 +15,10 @@ export default {
   updateList: (store, id) => {
     let shoppingList = getters.getListById(store.state, id)
     api.updateShoppingList(shoppingList)
+  },
+  createShoppingList: (store, shoppinglist) => {
+    api.addNewShoppingList(shoppinglist).then(() => {
+      store.dispatch('populateShoppingLists')
+    })
   }
 }
