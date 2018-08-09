@@ -9,6 +9,7 @@
     <button :disabled='!isStarted' @click='stop'>
       <i class="glyphicon glyphicon-stop"></i>
     </button>
+    <i class="toggle-volume glyphicon" v-show="isStarted && !isPaused && isWorking" :class="{ 'glyphicon-volume-off': isSoundEnabled, 'glyphicon-volume-up': !isSoundEnabled }" @click="toggleSound"></i>
   </div>
 </template>
 
@@ -16,13 +17,17 @@
 button:disabled i {
   color: gray;
 }
+.toggle-volume {
+  float: right;
+  cursor: pointer;
+}
 </style>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  computed: mapGetters(['isStarted', 'isPaused', 'isStopped']),
-  methods: mapActions(['start', 'stop', 'pause'])
+  computed: mapGetters(['isStarted', 'isPaused', 'isStopped', 'isWorking', 'isSoundEnabled']),
+  methods: mapActions(['start', 'stop', 'pause', 'toggleSound'])
 }
 </script>

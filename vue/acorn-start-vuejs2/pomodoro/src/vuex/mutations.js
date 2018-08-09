@@ -32,7 +32,7 @@ export default {
     state.paused = false
     state.stopped = false
     state.interval = setInterval(() => tick(state), 1000)
-    if (state.isWorking) {
+    if (state.isWorking && state.soundEnabled) {
       Vue.noise.start()
     }
   },
@@ -50,5 +50,13 @@ export default {
     clearInterval(state.interval)
     togglePomodoro(state, true)
     Vue.noise.stop()
+  },
+  [types.TOGGLE_SOUND] (state) {
+    state.soundEnabled = !state.soundEnabled
+    if (state.soundEnabled) {
+      Vue.noise.start()
+    } else {
+      Vue.noise.pause()
+    }
   }
 }

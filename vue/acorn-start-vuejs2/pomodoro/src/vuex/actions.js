@@ -9,5 +9,8 @@ export default {
   },
   stop: ({ commit }) => {
     commit(types.STOP)
+  },
+  toggleSound: ({ commit }) => {
+    commit(types.TOGGLE_SOUND)
   }
 }
