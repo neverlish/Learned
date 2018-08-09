@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import Vue from 'vue'
 import * as types from './mutation_types'
 import { WORKING_TIME, RESTING_TIME, KITTEN_TIME } from '../config'
 
@@ -7,6 +8,11 @@ function togglePomodoro (state, toggle) {
     toggle = !state.isWorking
   }
   state.isWorking = toggle
+  if (state.isWorking) {
+    Vue.noise.start()
+  } else {
+    Vue.noise.pause()
+  }
   state.counter = state.isWorking ? WORKING_TIME : RESTING_TIME
 }
 
@@ -26,12 +32,16 @@ export default {
     state.paused = false
     state.stopped = false
     state.interval = setInterval(() => tick(state), 1000)
+    if (state.isWorking) {
+      Vue.noise.start()
+    }
   },
   [types.PAUSE] (state) {
     state.paused = true
     state.started = true
     state.stopped = false
     clearInterval(state.interval)
+    Vue.noise.pause()
   },
   [types.STOP] (state) {
     state.stopped = true
@@ -39,5 +49,6 @@ export default {
     state.started = false
     clearInterval(state.interval)
     togglePomodoro(state, true)
+    Vue.noise.stop()
   }
 }

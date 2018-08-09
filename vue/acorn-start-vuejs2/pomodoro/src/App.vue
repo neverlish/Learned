@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class='container'>
+  <div id="app" class='container' v-noise="'brown'">
     <h2>
       <span>{{ 'Pomodoro' | uppercase | addspace }}</span>
       <controls-component></controls-component>
