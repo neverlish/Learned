@@ -25,4 +25,28 @@ describe('mutations.js', () => {
       expect(state.shoppinglists).toHaveLength(0)
     })
   })
+
+  describe('DELETE_SHOPPING_LIST', () => {
+    it('should remove item from the shopping list array', () => {
+      state.shoppinglists = [{ id: '1' }, { id: '2' }, {id: 3}]
+      mutations[DELETE_SHOPPING_LIST](state, '1')
+      expect(state.shoppinglists).toEqual([{id: '2'}, {id: 3}])
+    })
+  })
+
+  describe('POPULATE_SHOPPING_LISTS', () => {
+    it('should assign to the value of shopping lists the given property', () => {
+      mutations[POPULATE_SHOPPING_LISTS](state, [{id: '1'}])
+      expect(state.shoppinglists).toEqual([{ id: '1' }])
+    })
+  })
+
+  describe('CHANGE_TITLE', () => {
+    it('should change the title of the given list', () => {
+      let title = 'learning vue.js'
+      state.shoppinglists = [{ id: '1', title: 'groceries' }, { id: '2', title: 'clothes' }]
+      mutations[CHANGE_TITLE](state, title, '1')
+      expect(state.shoppinglists).toEqual([{ id: '1', title: title }, { id: '2', title: 'clothes' }])
+    })
+  })
 })
