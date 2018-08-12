@@ -1,10 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Dialog, Button } from 'material-ui'
-import {
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from 'material-ui/Dialog'
+import { Dialog, Button, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 
 import Form from './Form'
@@ -36,6 +31,8 @@ export default class extends Component {
       <Dialog
         open={open}
         onClose={this.handleToggle}
+        fullWidth
+        maxWidth='sm'
       >
         <DialogTitle >
           Create a New Exercise

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Paper, Tabs } from 'material-ui'
-import { Tab } from 'material-ui/Tabs'
-import withWidth from 'material-ui/utils/withWidth'
+import { Paper, Tabs, Tab } from '@material-ui/core'
+import widthWidth from '@material-ui/core/es/withWidth'
 
-export default withWidth()(
+export default widthWidth()(
   ({ muscles, category, onSelect, width }) => {
     const index = category
       ? muscles.findIndex(group => group === category) + 1

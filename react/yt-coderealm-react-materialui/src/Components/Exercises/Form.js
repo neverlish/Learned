@@ -1,17 +1,7 @@
 import React, { Component } from 'react'
-import { TextField, Select, Button } from 'material-ui'
-import { FormControl } from 'material-ui/Form'
-import { InputLabel } from 'material-ui/Input'
-import { MenuItem } from 'material-ui/Menu'
-import { withStyles } from 'material-ui/styles'
+import { TextField, Select, Button, FormControl, InputLabel, MenuItem } from '@material-ui/core'
 
-const styles = theme => ({
-  FormControl: {
-    width: 250
-  }
-})
-
-export default withStyles(styles)(class extends Component {
+export default class extends Component {
   state = this.getInitState()
 
   getInitState() {
@@ -24,10 +14,6 @@ export default withStyles(styles)(class extends Component {
     }
   }
 
-  static getDerivedStateFromProps({ exercise }) {
-    return exercise || null
-  }
-
   handleChange = name => ({ target: { value }}) =>
     this.setState({
       [name]: value
@@ -38,13 +24,11 @@ export default withStyles(styles)(class extends Component {
       id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
       ...this.state
     })
-
-    this.setState(this.getInitState())
   }
-
+ 
   render() {
     const { title, description, muscles } = this.state,
-          { classes, exercise, muscles: categories } = this.props
+          { exercise, muscles: categories } = this.props
 
     return <form>
       <TextField
@@ -52,10 +36,10 @@ export default withStyles(styles)(class extends Component {
         value={title}
         onChange={this.handleChange('title')}
         margin='normal'
-        className={classes.FormControl}
+        fullWidth
       />
       <br />
-      <FormControl className={classes.FormControl}>
+      <FormControl fullWidth>
         <InputLabel htmlFor='muscles'>
           Muscles
         </InputLabel>
@@ -78,7 +62,7 @@ export default withStyles(styles)(class extends Component {
         value={description}
         onChange={this.handleChange('description')}
         margin='normal'
-        className={classes.FormControl}
+        fullWidth
       />
       <br />
       <Button
@@ -90,4 +74,4 @@ export default withStyles(styles)(class extends Component {
       </Button>
     </form>
   }
-})
+}
