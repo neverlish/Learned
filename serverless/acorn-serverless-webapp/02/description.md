@@ -18,3 +18,13 @@
   - 파일 업로드: `aws s3 cp test.txt s3://my-bucket-name --acl public-read
   - 목록 나열: `aws s3 ls s3://my-bucket-name`
   - 다운로드: `aws s3 cp s3://my-bucket-name file_path`
+
+### 메시징과 통지
+
+#### 아마존 SNS
+
+- SNS 주제 생성: `aws sns create-topic --name email-alerts`
+  - 리턴 : `"TopicArn": "TOPIC_ARN"`
+- 이메일 수신 설정: `aws sns subscribe --topic-arn TOPIC_ARN --protocol email --notification-endpoint EMAIL`
+  - 리턴: `"SubscriptionArn": "pending confirmation"`
+- 테스트: `aws sns publich --topic-arn TOPIC_ARN --message "MESSAGE"`
