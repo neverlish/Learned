@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Tabs, Tab } from '@material-ui/core'
+import { AppBar, Tabs, Tab } from '@material-ui/core'
 import widthWidth from '@material-ui/core/es/withWidth'
 
 export default widthWidth()(
@@ -11,12 +11,12 @@ export default widthWidth()(
     const onIndexSelect = (e, index) => 
       onSelect(index === 0 ? '' : muscles[index - 1])
 
-    return <Paper>
+    return <AppBar position='static'>
       <Tabs
         value={index}
         onChange={onIndexSelect}
-        indicatorColor='primary'
-        textColor='primary'
+        indicatorColor='secondary'
+        textColor='secondary'
         centered={width !== 'xs'}
         scrollable={width === 'xs'}
       >
@@ -25,6 +25,6 @@ export default widthWidth()(
           <Tab key={group} label={group} />
         )}
       </Tabs>
-    </Paper>
+    </AppBar>
   }
 )
