@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import { importSchema } from 'graphql-import'
 import * as bcrypt from 'bcryptjs'
-import * as jwt from 'jsonwebtoken'
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as path from 'path'
@@ -10,7 +9,7 @@ import { makeExecutableSchema } from 'graphql-tools'
 import { graphqlExpress } from 'apollo-server-express'
 import expressPlayground from 'graphql-playground-middleware-express'
 import * as cors from 'cors'
-import * as cookieParser from 'cookie-parser'
+import * as session from 'express-session'
 
 import { ResolverMap } from './types/ResolverType'
 import { User } from './entity/User'
@@ -18,21 +17,21 @@ import { User } from './entity/User'
 const typeDefs = importSchema(path.join(__dirname, './schema.graphql'))
 
 const SALT = 12
-const JWT_SECRET = 'aslkdfjaklsjdflk'
+const SESSION_SECRET = 'asdklfjqo31'
 
 const resolvers: ResolverMap = {
   Query: {
 		hello: () => `Hello World!`,
-		authHello: (_, __, { userId }) => {
-      if (userId) {
-        return `Cookie found! Your id is: ${userId}`;
+		authHello: (_, __, { req }) => {
+      if (req.session.userId) {
+        return `Cookie found! Your id is: ${req.session.userId}`;
       } else {
         return "Could not find cookie :(";
       }
     }
   },
   Mutation: {
-    register: async (_, args, { res }) => {
+    register: async (_, args, { req }) => {
       const password = await bcrypt.hash(args.password, SALT)
       const user = User.create({
         username: args.username,
@@ -40,19 +39,7 @@ const resolvers: ResolverMap = {
       })
 			await user.save()
 
-      const token = jwt.sign(
-        {
-          userId: user.id
-        },
-        JWT_SECRET,
-        { expiresIn: '7d' }
-      )
-
-      res.cookie('id', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-      })
+      req.session.userId = user.id
 
       return true
     }
@@ -74,21 +61,28 @@ app.use(
 )
 
 app.use(
+  session({
+    name: "qid",
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    }
+  })
+)
+
+app.use(
   '/graphql',
   bodyParser.json(),
-	cookieParser(),
-	(req: any, _, next) => {
-    try {
-			const { userId }: any = jwt.verify(req.cookies.id, JWT_SECRET);
-			req.userId = userId;
-    } catch (err) {
-      console.log(err);
-    }
+  (_, __, next) => {
     return next();
   },
-  graphqlExpress((req: any, res) => ({
+  graphqlExpress(req => ({
     schema,
-    context: { res, userId: req.userId }
+    context: { req }
   }))
 )
 
