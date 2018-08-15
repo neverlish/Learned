@@ -1,19 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import ApolloBoostClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import registerServiceWorker from "./registerServiceWorker";
 import Routes from "./routes";
 
-const client = new ApolloClient({
-  link: createHttpLink({
-    uri: "http://localhost:4000/graphql",
+const client = new ApolloBoostClient({
+  uri: "http://localhost:4000/graphql",
+  fetchOptions: {
     credentials: "include"
-  }),
-  cache: new InMemoryCache()
+  },
 });
 
 ReactDOM.render(
