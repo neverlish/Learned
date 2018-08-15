@@ -1,42 +1,16 @@
 import 'reflect-metadata';
 import { GraphQLServer } from 'graphql-yoga'
-import { createConnection, getConnection } from 'typeorm'
+import { createConnection } from 'typeorm'
+import typeDefs from './schema.graphql'
+
 import { ResolverMap } from './types/ResolverType'
 import { User } from './entity/User';
 import { Profile } from './entity/Profile';
 
-const typeDefs = `
-  type User {
-		id: Int!
-		firstName: String!
-		profile: Profile
-	}
-
-	type Profile {
-		favoriteColor: String!
-	}
-	
-	type Query {
-		hello(name: String): String!
-		user(id: Int!): User!
-		users: [User!]!
-	}
-
-	input ProfileInput {
-		favoriteColor: String!
-	}
-
-	type Mutation {
-		createUser(firstName: String!, profile: ProfileInput): User!
-		updateUser(id: Int!, firstName: String): Boolean
-		deleteUser(id: Int!): Boolean
-	}
-`
-
 const resolvers: ResolverMap = {
   Query: {
-		hello: (_: any, { name }: any) => `Hello ${name || 'World'}`,
-		user: async (_, { id }) => {
+		hello: (_, { name }: GQL.IHelloOnQueryArguments) => `Hello ${name || 'World'}`,
+		user: async (_, { id }: GQL.IUserOnQueryArguments) => {
 			const user = await User.findOneById(id, { relations: ['profile'] })
 			return user;
 		},
@@ -46,7 +20,7 @@ const resolvers: ResolverMap = {
 		},
 	},
 	Mutation: {
-		createUser: async (_, args) => {
+		createUser: async (_, args: GQL.ICreateUserOnMutationArguments) => {
 			const profile = Profile.create({ ...args.profile })
 			await profile.save()
 
@@ -60,9 +34,9 @@ const resolvers: ResolverMap = {
 
 			return user
 		},
-		updateUser: async (_, { id, ...args }) => {
+		updateUser: async (_, { id, firstName }: GQL.IUpdateUserOnMutationArguments) => {
 			try {
-				await User.updateById(id, args)
+				await User.updateById(id, { firstName: firstName || undefined })
 			} catch (err) {
 				console.log(err)
 				return false
@@ -70,7 +44,7 @@ const resolvers: ResolverMap = {
 
 			return true
 		},
-		deleteUser: async (_, { id }) => {
+		deleteUser: async (_, { id }: GQL.IDeleteUserOnMutationArguments) => {
 			try {
 				await User.removeById(id)
 				// const deleteQuery =  getConnection()
