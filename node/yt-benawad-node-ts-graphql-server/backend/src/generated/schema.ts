@@ -23,53 +23,20 @@ export declare namespace GQL {
   interface IQuery {
     __typename: 'Query';
     hello: string;
-    user: IUser;
-    users: Array<IUser>;
   }
 
   interface IHelloOnQueryArguments {
     name?: string | null;
   }
 
-  interface IUserOnQueryArguments {
-    id: number;
-  }
-
-  interface IUser {
-    __typename: 'User';
-    id: number;
-    firstName: string;
-    profile: IProfile | null;
-  }
-
-  interface IProfile {
-    __typename: 'Profile';
-    favoriteColor: string;
-  }
-
   interface IMutation {
     __typename: 'Mutation';
-    createUser: IUser;
-    updateUser: boolean | null;
-    deleteUser: boolean | null;
+    register: boolean;
   }
 
-  interface ICreateUserOnMutationArguments {
-    firstName: string;
-    profile?: IProfileInput | null;
-  }
-
-  interface IUpdateUserOnMutationArguments {
-    id: number;
-    firstName?: string | null;
-  }
-
-  interface IDeleteUserOnMutationArguments {
-    id: number;
-  }
-
-  interface IProfileInput {
-    favoriteColor: string;
+  interface IRegisterOnMutationArguments {
+    username: string;
+    password: string;
   }
 }
 

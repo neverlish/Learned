@@ -1,79 +1,86 @@
-import 'reflect-metadata';
-import { GraphQLServer } from 'graphql-yoga'
+import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import { importSchema } from 'graphql-import'
+import * as bcrypt from 'bcryptjs'
+import * as jwt from 'jsonwebtoken'
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
 import * as path from 'path'
+import { makeExecutableSchema } from 'graphql-tools'
+import { graphqlExpress } from 'apollo-server-express'
+import expressPlayground from 'graphql-playground-middleware-express'
+import * as cors from 'cors'
 
 import { ResolverMap } from './types/ResolverType'
 import { User } from './entity/User'
-import { Profile } from './entity/Profile'
 
 import { GQL } from './generated/schema'
 
 const typeDefs = importSchema(path.join(__dirname, './schema.graphql'))
 
+const SALT = 12
+const JWT_SECRET = 'aslkdfjaklsjdflk'
+
 const resolvers: ResolverMap = {
   Query: {
-		hello: (_, { name }: GQL.IHelloOnQueryArguments) => `Hello ${name || 'World'}`,
-		user: async (_, { id }: GQL.IUserOnQueryArguments) => {
-			const user = await User.findOneById(id, { relations: ['profile'] })
-			return user;
-		},
-		users: async () => {
-			const users = await User.find({ relations: ['profile'] })
-			return users
-		},
-	},
-	Mutation: {
-		createUser: async (_, args: GQL.ICreateUserOnMutationArguments) => {
-			const profile = Profile.create({ ...args.profile })
-			await profile.save()
+    hello: (_, { name }: GQL.IHelloOnQueryArguments) =>
+      `hhello ${name || 'World'}`
+  },
+  Mutation: {
+    register: async (_, args, { res }) => {
+      const password = await bcrypt.hash(args.password, SALT)
+      const user = User.create({
+        username: args.username,
+        password
+      })
+      await user.save()
 
-			const user = User.create({
-				firstName: args.firstName
-			})
+      const token = jwt.sign(
+        {
+          userId: user.id
+        },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      )
 
-			user.profile = profile
+      res.cookie('id', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+      })
 
-			await user.save()
-
-			return user
-		},
-		updateUser: async (_, { id, firstName }: GQL.IUpdateUserOnMutationArguments) => {
-			try {
-				await User.updateById(id, { firstName: firstName || undefined })
-			} catch (err) {
-				console.log(err)
-				return false
-			}
-
-			return true
-		},
-		deleteUser: async (_, { id }: GQL.IDeleteUserOnMutationArguments) => {
-			try {
-				await User.removeById(id)
-				// const deleteQuery =  getConnection()
-				// 	.createQueryBuilder()
-				// 	.delete()
-				// 	.from(User)
-				// 	.where("id = :id", { id })
-				
-				// 	if (id === 3) {
-				// 		deleteQuery.andWhere('email = :email', { email: 'neverlish@gmail.com' })
-				// 	}
-
-				// 	await deleteQuery.execute()
-			} catch (err) {
-				console.log(err)
-				return false
-			}
-
-			return true
-		}
-	},
+      return true
+    }
+  }
 }
 
-const server = new GraphQLServer({ typeDefs, resolvers })
+const app = express()
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+})
+
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+  })
+)
+
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress((_, res) => ({
+    schema,
+    context: { res }
+  }))
+)
+
+app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+
+app.listen(4000)
+
 createConnection().then(() => {
-  server.start(() => console.log('Server is running on localhost:4000'))
+  app.listen(() => console.log('Server is running on localhost:4000'))
 })
