@@ -1,11 +1,16 @@
 import 'reflect-metadata';
 import { GraphQLServer } from 'graphql-yoga'
 import { createConnection } from 'typeorm'
-import typeDefs from './schema.graphql'
+import { importSchema } from 'graphql-import'
+import * as path from 'path'
 
 import { ResolverMap } from './types/ResolverType'
-import { User } from './entity/User';
-import { Profile } from './entity/Profile';
+import { User } from './entity/User'
+import { Profile } from './entity/Profile'
+
+import { GQL } from './generated/schema'
+
+const typeDefs = importSchema(path.join(__dirname, './schema.graphql'))
 
 const resolvers: ResolverMap = {
   Query: {
