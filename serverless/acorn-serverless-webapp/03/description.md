@@ -5,3 +5,6 @@
 
 ### 프레임워크 구성
 - 최소 접근 요구 사항: 람다, 클라우드포메이션, IAM, 클라우드워치
+
+### 새 프로젝트 생성
+- `serverless create --template aws-nodejs --name hello-serverless -p hello-serverless`
