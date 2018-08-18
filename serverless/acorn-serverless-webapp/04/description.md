@@ -52,3 +52,6 @@
 ### 정적 파일 업로드
 - index.html 업로드
   - 퍼블릭 권한 관리: 이 객체에 퍼블릭 읽기 액세스 권한을 부여함
+
+### 웹사이트 자동 배포
+- `aws s3 sync ./path/to/folder s3://my-bucket-name --acl public-read`
