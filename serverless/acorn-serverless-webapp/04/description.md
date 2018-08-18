@@ -43,3 +43,8 @@
   </RoutingRule>
 </RoutingRules>
 ```
+
+### www 앵커
+- 버킷 생성: www.jinhohyeon.com
+  - 정적 웹 사이트 호스팅 - 요청 리디렉션
+    - 대상 버킷 또는 도메인: jinhohyeon.com
