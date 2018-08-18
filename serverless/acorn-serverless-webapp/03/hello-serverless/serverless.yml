@@ -22,14 +22,14 @@ provider:
   runtime: nodejs8.10
   memorySize: 512
   timeout: 30
-  stage: dev
+  stage: ${env:DEPLOYMENT_STAGE}
   region: ap-northeast-2
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
         - "s3:GetObject"
-      Resource: "arn:aws:s3:::jinho03/*"
+      Resource: "arn:aws:s3:::${opt:bucket-name}/*"
     - Effect: "Allow"
       Action:
         - "sns:publish"
@@ -83,7 +83,7 @@ functions:
   processTask:
     handler: handler.processTask
     events:
-      - schedule: rate(15 minutes)
+      - schedule: ${file(my-vars.yml):schedule}
   
 
 #    The following are a few example events you can configure
