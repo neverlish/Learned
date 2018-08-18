@@ -22,6 +22,8 @@ provider:
   runtime: nodejs8.10
   memorySize: 512
   timeout: 30
+  stage: dev
+  region: ap-northeast-2
 
 # you can overwrite defaults here
 #  stage: dev
@@ -61,6 +63,8 @@ functions:
     handler: handler.hello
     memorySize: 128 # measured in megabytes
     timeout: 10 # measured in seconds
+    events:
+      - http: GET my-service/resource
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
