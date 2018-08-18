@@ -24,3 +24,22 @@
       </RoutingRule>
     </RoutingRules>
     ```
+
+### 오류 처리
+
+#### 리다이렉션 이용
+- 리디렉션 규칙 변경
+```
+<RoutingRules>
+  <RoutingRule>
+    <Condition>
+      <HttpErrorCodeReturnedEquals>
+        404
+      </HttpErrorCodeReturnedEquals>
+    </Condition>
+    <Redirect>
+      <ReplaceKeyPrefixWith>#!/</ReplaceKeyPrefixWith>
+    </Redirect>
+  </RoutingRule>
+</RoutingRules>
+```
