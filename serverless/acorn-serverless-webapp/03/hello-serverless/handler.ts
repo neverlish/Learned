@@ -4,25 +4,12 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const sns = new AWS.SNS();
 
-module.exports.hello = (event, context, callback) => {
-  const html = `
-    <html>
-      <head>
-        <title>Page Title</title>
-      </head>
-      <body>
-        <h1>Hello</h1>
-      </body>
-    </html>
-  `;
-
+export async function hello (event, context, callback) {
   const response = {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'text/html'
-    },
-    body: html
+    body: JSON.stringify({
+      message: 'Hello, typescript!'
+    })
   };
 
   callback(null, response);

@@ -22,14 +22,14 @@ provider:
   runtime: nodejs8.10
   memorySize: 512
   timeout: 30
-  stage: ${env:DEPLOYMENT_STAGE}
+  stage: dev
   region: ap-northeast-2
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
         - "s3:GetObject"
-      Resource: "arn:aws:s3:::${opt:bucket-name}/*"
+      Resource: "arn:aws:s3:::jinho03/*"
     - Effect: "Allow"
       Action:
         - "sns:publish"
@@ -83,7 +83,10 @@ functions:
   processTask:
     handler: handler.processTask
     events:
-      - schedule: ${file(my-vars.yml):schedule}
+      - schedule: rate(15 minutes)
+
+plugins:
+  - serverless-plugin-typescript
   
 
 #    The following are a few example events you can configure
