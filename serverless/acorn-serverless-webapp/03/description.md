@@ -13,3 +13,8 @@
 - 일반 배포: `serverless deploy`
 - stage, region 설정 배포: `serverless deploy --stage STAGE --region REGION`
 - 함수만 배포: `serverless deploy function --function FUNCTION_NAME`
+
+### 함수 호출
+- 일반 호출: `serverless invoke --function FUNCTION --path event.json`
+- 명시적 호출: `serverless invoke --function FUNCTION --stage STAGE --region REGION`
+- local 호출: `serverless invoke local --function hello --path event.json`
