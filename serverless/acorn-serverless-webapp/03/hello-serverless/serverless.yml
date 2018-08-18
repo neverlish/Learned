@@ -29,7 +29,11 @@ provider:
       Action:
         - "s3:PutObject"
         - "s3:GetObject"
-      Resource: "arn:aws:s3:::jinho01/*"
+      Resource: "arn:aws:s3:::jinho03/*"
+    - Effect: "Allow"
+      Action:
+        - "sns:publish"
+      Resource: "arn:aws:sns:ap-northeast-2:367416660003:email-alerts"
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -67,6 +71,19 @@ functions:
     handler: handler.catNames
   testPermissions:
     handler: handler.testPermissions
+  processLog:
+    handler: handler.processLog
+    events:
+      - s3:
+          bucket: jinho03 # use a new bucket name
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: logs/
+            - suffix: .txt
+  processTask:
+    handler: handler.processTask
+    events:
+      - schedule: rate(15 minutes)
   
 
 #    The following are a few example events you can configure
