@@ -20,6 +20,8 @@ service: hello-serverless # NOTE: update this with your service name
 provider:
   name: aws
   runtime: nodejs8.10
+  memorySize: 512
+  timeout: 30
 
 # you can overwrite defaults here
 #  stage: dev
@@ -57,6 +59,8 @@ provider:
 functions:
   hello:
     handler: handler.hello
+    memorySize: 128 # measured in megabytes
+    timeout: 10 # measured in seconds
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
