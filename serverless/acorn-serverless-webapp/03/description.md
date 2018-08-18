@@ -24,3 +24,7 @@
 - 운영 환경 실행 중인 람다의 로그 검색: `serverless logs --function FUNCTION`
 - 로그 필터링: `serverless logs --function FUNCTION --filter error --startTime 30m`
 - 리스너 추가: `serverless logs --function FUNCTION --tail`
+
+### 서비스 삭제
+- 일반 삭제: `serverless remove`
+- 명시적 삭제: `serverless remove --stage STAGE --region REGION`
