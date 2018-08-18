@@ -8,3 +8,8 @@
 
 ### 새 프로젝트 생성
 - `serverless create --template aws-nodejs --name hello-serverless -p hello-serverless`
+
+### 서비스 배포
+- 일반 배포: `serverless deploy`
+- stage, region 설정 배포: `serverless deploy --stage STAGE --region REGION`
+- 함수만 배포: `serverless deploy function --function FUNCTION_NAME`
