@@ -24,17 +24,12 @@ provider:
   timeout: 30
   stage: dev
   region: ap-northeast-2
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "arn:aws:s3:::jinho01/*"
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -70,6 +65,8 @@ functions:
       - http: GET my-service/resource
   catNames:
     handler: handler.catNames
+  testPermissions:
+    handler: handler.testPermissions
   
 
 #    The following are a few example events you can configure
