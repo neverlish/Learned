@@ -3,6 +3,9 @@
 module.exports.hello = async (event, context) => {
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://www.example.com'
+    },
     body: JSON.stringify({
       message: 'Go Serverless v1.0! Your function executed successfully!',
       input: event,
