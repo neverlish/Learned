@@ -4,20 +4,29 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const sns = new AWS.SNS();
 
-module.exports.hello = async (event, context) => {
-  return {
+module.exports.hello = (event, context, callback) => {
+  const html = `
+    <html>
+      <head>
+        <title>Page Title</title>
+      </head>
+      <body>
+        <h1>Hello</h1>
+      </body>
+    </html>
+  `;
+
+  const response = {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Origin': 'https://www.example.com'
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'text/html'
     },
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
+    body: html
   };
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+  callback(null, response);
+  
 };
 
 module.exports.catNames = (event, context, callback) => {
