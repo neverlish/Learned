@@ -55,3 +55,10 @@
 
 ### 웹사이트 자동 배포
 - `aws s3 sync ./path/to/folder s3://my-bucket-name --acl public-read`
+
+## 2 루트 53 설정
+
+### 호스팅 영역 생성
+- AWS Route53 페이지 - DNS 관리 -> 지금 시작하기
+- Create Hosted Zone
+  - Domain name: jinhohyeon.com -> Create
