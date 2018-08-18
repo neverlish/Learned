@@ -28,3 +28,14 @@
 ### 서비스 삭제
 - 일반 삭제: `serverless remove`
 - 명시적 삭제: `serverless remove --stage STAGE --region REGION`
+
+
+## 2 서버리스 프레임워크 더 알아보기
+
+### 배포 정보 표시
+- `serverless info`
+
+### 스캐폴딩
+- `serverless install --url <github-project-url>`
+  - `serverless install --url https://github.com/eahefnawy/serverless-mailer`
+  - `serverless install --url https://github.com/zanonio/serverless-store`
