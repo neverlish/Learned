@@ -8,7 +8,7 @@ export default {
     store.dispatch('updateList', data.id)
   },
   populateShoppingLists: ({ commit }) => {
-    api.fetchShoppingLists().then(response => {
+    return api.fetchShoppingLists().then(response => {
       commit(POPULATE_SHOPPING_LISTS, response.data)
     })
   },
