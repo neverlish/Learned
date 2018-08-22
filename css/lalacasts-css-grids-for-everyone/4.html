@@ -1,0 +1,47 @@
+<!-- 4 The Fractional Unit -->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>CSS Grid</title>
+
+  <style>
+    body {
+      margin-top: 40px;
+    }
+
+    #container {
+      width: 800px;
+      margin: auto;
+      background: #e3e3e3;
+      
+      display: grid;
+      grid-template-columns: 30px 10% 1fr;
+      grid-template-rows: repeat(3, 50px);
+      grid-gap: 1em;
+    }
+
+    #container > div {
+      background: #999;
+      font-weight: bold;
+      color: white;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <section id="container">
+    <div> 1 </div>
+    <div> 2 </div>
+    <div> 3 </div>
+    <div> 4 </div>
+    <div> 5 </div>
+    <div> 6 </div>
+    <div> 7 </div>
+    <div> 8 </div>
+    <div> 9 </div>
+  </section>
+</body>
+</html>
