@@ -15,3 +15,7 @@
 ## 7 Deploy an AWS Lambda function to store data in DynamoDB using the Serverless Framework
 
 - `$ curl -X POST URL_GENERATED --data '{ "text": "learn serverless" }'`
+
+## 8 Deploy an AWS Lambda to retrieve a record from DynamoDB with the Serverless Framework
+
+- `$ sls invoke --function getTodo --log --data '{ "pathParameters": { "id" : "ID" } }'`
