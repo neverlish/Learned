@@ -1,7 +1,8 @@
-// module.exports.run = (event) => {
-//   return Promise.resolve('hello');
-// }
-
 module.exports.run = async (event) => {
-  return 'hello';
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: 'Hello World'
+    })
+  }
 }
