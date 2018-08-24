@@ -11,3 +11,7 @@
   - `$ sls invoke --function helloWorld --log`
 - `$ sls logs --function helloWorld`
 - `$ sls deploy function --function helloWorld`
+
+## 7 Deploy an AWS Lambda function to store data in DynamoDB using the Serverless Framework
+
+- `$ curl -X POST URL_GENERATED --data '{ "text": "learn serverless" }'`
