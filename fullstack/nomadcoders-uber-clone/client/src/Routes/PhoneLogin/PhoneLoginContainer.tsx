@@ -23,10 +23,31 @@ class PhoneLoginContainer extends React.Component<
     return (
       <PhoneLoginPresenter 
         countryCode={countryCode} 
-        phoneNumber={phoneNumber} 
+        phoneNumber={phoneNumber}
+        onInputChange={this.onInputChange}
+        onSubmit={this.onSubmit}
       />
     );
   }
+
+  public onInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = event => {
+    const { 
+      target: { name, value } 
+    } = event;
+
+    this.setState({
+      [name]: value
+    } as any);
+  };
+
+  public onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
+    event.preventDefault();
+    const { countryCode, phoneNumber } = this.state;
+    // tslint:disable-next-line
+    console.log(countryCode, phoneNumber);
+  };
 }
 
 export default PhoneLoginContainer;
