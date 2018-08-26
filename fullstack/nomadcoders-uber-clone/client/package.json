@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.1.14",
+    "axios": "^0.18.0",
     "graphql": "^0.13.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
