@@ -24,7 +24,9 @@ class SocialLoginContainer extends React.Component<IProps, IState> {
   public render() {
     return (
       <LoginMutation mutation={FACEBOOK_CONNECT}>
-        <SocialLoginPresenter />
+        {() => (
+          <SocialLoginPresenter />
+        )}
       </LoginMutation>
     );
   }
