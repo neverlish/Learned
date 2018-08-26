@@ -2,6 +2,23 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: toggleDriving
+// ====================================================
+
+export interface toggleDriving_ToggleDrivingMode {
+  __typename: "ToggleDrivingModeResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface toggleDriving {
+  ToggleDrivingMode: toggleDriving_ToggleDrivingMode;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: startPhoneVerification
 // ====================================================
 
