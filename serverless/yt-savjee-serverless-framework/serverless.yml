@@ -21,6 +21,8 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
+  environment:
+    GOOGLE_MAPS_API_KEY: key1234
 
 # you can overwrite defaults here
 #  region: us-east-1
@@ -61,6 +63,14 @@ functions:
       - http:
           path: first-endpoint
           method: POST
+  envVariables:
+    handler: envVariables.handler
+    events:
+      - http:
+          path: envVariables
+          method: GET
+    environment:
+      OTHER_API_KEY: key56789
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
