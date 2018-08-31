@@ -1,4 +1,5 @@
 import React from 'react';
+import { MutationFn } from 'react-apollo';
 import Helmet from 'react-helmet';
 import Button from '../../Components/Button';
 import Form from '../../Components/Form';
@@ -18,27 +19,31 @@ interface IProps {
   address: string;
   name: string;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  loading: boolean;
+  onSubmit: MutationFn;
 }
 
-const AddPlacesPresenter: React.SFC<IProps> = ({ address, name, onInputChange }) => (
+const AddPlacesPresenter: React.SFC<IProps> = ({ address, name, onInputChange, loading, onSubmit }) => (
   <React.Fragment>
     <Helmet>
       <title>Add Place | Nuber</title>
     </Helmet>
     <Header title={'Add Place'} backTo={'/'} />
     <Container>
-      <Form submitFn={null}>
+      <Form submitFn={onSubmit}>
         <ExtendedInput
           placeholder={'Name'}
           type={'text'}
           value={name}
           onChange={onInputChange}
+          name={'name'}
         />
         <ExtendedInput
           placeholder={'Address'}
           type={'text'}
           value={address}
           onChange={onInputChange}
+          name={'address'}
         />
         <Button onClick={null} value={'Add Place'} />
       </Form>
