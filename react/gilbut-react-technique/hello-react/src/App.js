@@ -11,9 +11,7 @@ class App extends Component {
       <div>
         <h1>리액트 안녕!</h1>        
         <h2>{text}</h2>
-        {
-          condition ? '참' : '거짓'
-        }
+        { condition && '보여주세요' }
       </div>
     );
   }
