@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 class MyComponent extends Component {
+  static defaultProps = {
+    name: '기본 이름'
+  }
+  
   render() {
     return (
       <div>
