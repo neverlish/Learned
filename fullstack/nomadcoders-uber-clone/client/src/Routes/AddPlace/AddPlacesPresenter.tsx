@@ -21,9 +21,17 @@ interface IProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
   onSubmit: MutationFn;
+  pickedAddress: boolean;
 }
 
-const AddPlacesPresenter: React.SFC<IProps> = ({ address, name, onInputChange, loading, onSubmit }) => (
+const AddPlacesPresenter: React.SFC<IProps> = ({
+  address,
+  name,
+  onInputChange,
+  loading,
+  onSubmit,
+  pickedAddress
+}) => (
   <React.Fragment>
     <Helmet>
       <title>Add Place | Nuber</title>
@@ -45,7 +53,12 @@ const AddPlacesPresenter: React.SFC<IProps> = ({ address, name, onInputChange, l
           onChange={onInputChange}
           name={'address'}
         />
-        <Button onClick={null} value={loading ? 'Adding place' : 'Add Place'} />
+        {pickedAddress && (
+          <Button
+            onClick={null}
+            value={loading ? 'Adding place' : 'Add Place'}
+          />
+        )}
       </Form>
     </Container>
   </React.Fragment>
