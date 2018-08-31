@@ -18,10 +18,18 @@ class App extends Component {
 
     return (
       <div className='my-div'>
+        { /* 요소 밖에서는 이렇게 작성해요. */ }
         <h1>리액트 안녕!</h1>        
         <h2>{text}</h2>
         { condition && '보여주세요' }
-        <div style={style}></div>
+        <div
+          style={style}
+          // self-closed 태그에서만 작동하는 주석
+          // 마지막 />가 꼭 새 줄에 있어야 합니다.
+          /* 이렇게 작성할 수도 있고요. */
+        />
+        // 여기 쓰는 건 그대로 렌더링됩니다.
+        /* 여기에선 주석 못 써요 */
       </div>
     );
   }
