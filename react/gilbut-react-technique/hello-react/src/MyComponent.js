@@ -11,6 +11,10 @@ class MyComponent extends Component {
     age: PropTypes.number.isRequired
   }
   
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <div>
