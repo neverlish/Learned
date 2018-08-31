@@ -45,7 +45,7 @@ const AddPlacesPresenter: React.SFC<IProps> = ({ address, name, onInputChange, l
           onChange={onInputChange}
           name={'address'}
         />
-        <Button onClick={null} value={'Add Place'} />
+        <Button onClick={null} value={loading ? 'Adding place' : 'Add Place'} />
       </Form>
     </Container>
   </React.Fragment>
