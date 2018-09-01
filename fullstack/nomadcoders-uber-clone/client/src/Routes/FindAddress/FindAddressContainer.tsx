@@ -49,7 +49,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     );
   }
 
-  public handleGeoSuccess = (position: Position) => {
+  public handleGeoSuccess: PositionCallback = (position: Position) => {
     const { 
       coords: { latitude, longitude }
     } = position;
@@ -61,7 +61,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     this.reverseGeocodeAddress(latitude, longitude);
   }
 
-  public handleGeoError = () => {
+  public handleGeoError: PositionErrorCallback = () => {
     console.log('No location');
   }
 
@@ -137,7 +137,6 @@ class FindAddressContainer extends React.Component<IProps, IState> {
         lng
       }
     });
-    console.log(address, lat, lng);
   }
 }
 
