@@ -35,6 +35,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   public userMarker: google.maps.Marker;
   public toMarker: google.maps.Marker;
   public directions: google.maps.DirectionsRenderer;
+  public drivers: google.maps.Marker[];
 
   public state = {
     distance: '',
@@ -51,6 +52,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
+    this.drivers = [];
   }
 
   public componentDidMount() {
@@ -64,38 +66,33 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { isMenuOpen, toAddress, price } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
-        {({ data, loading }) => {
-          if (data && data.GetMyProfile) {
-            const { GetMyProfile: { user = null } = {} } = data;
-            if (user) {
-              return (
-                <NearbyQueries
-                  query={GET_NEARBY_DRIVERS}
-                  skip={user.isDriving}
-                  onCompleted={this.handleNearbyDrivers}
-                >
-                  {() => (
-                    <HomePresenter
-                      loading={loading}
-                      isMenuOpen={isMenuOpen}
-                      price={price}
-                      toggleMenu={this.toggleMenu}
-                      mapRef={this.mapRef}
-                      toAddress={toAddress}
-                      onInputChange={this.onInputChange}
-                      onAddressSubmit={this.onAddressSubmit}
-                      data={data}
-                    />
-                  )}
-                </NearbyQueries>
-              )
-            } else {
-              return null;
+        {({ data, loading }) => (
+          <NearbyQueries
+            query={GET_NEARBY_DRIVERS}
+            skip={
+              (data &&
+                data.GetMyProfile &&
+                data.GetMyProfile.user &&
+                data.GetMyProfile.user.isDriving) || 
+              false
             }
-          } else {
-            return 'Loading';
-          }
-        }}
+            onCompleted={this.handleNearbyDrivers}
+          >
+            {() => (
+              <HomePresenter
+                loading={loading}
+                isMenuOpen={isMenuOpen}
+                price={price}
+                toggleMenu={this.toggleMenu}
+                mapRef={this.mapRef}
+                toAddress={toAddress}
+                onInputChange={this.onInputChange}
+                onAddressSubmit={this.onAddressSubmit}
+                data={data}
+              />
+            )}
+          </NearbyQueries>
+        )}
       </ProfileQuery>
     );
   }
@@ -123,6 +120,10 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { google } = this.props;
     const maps = google.maps;
     const mapNode = ReactDOM.findDOMNode(this.mapRef.current);
+    if (!mapNode) {
+      this.loadMap(lat, lng);
+      return;
+    }
     const mapConfig: google.maps.MapOptions = {
       center: {
         lat,
@@ -273,7 +274,26 @@ class HomeContainer extends React.Component<IProps, IState> {
         GetNearbyDrivers: { drivers, ok } 
       } = data;
       if (ok && drivers) {
-        console.log(drivers);
+        for (const driver of drivers) {
+          console.log(driver);
+          if (driver && driver.lastLat && driver.lastLng) {
+            const markerOptions: google.maps.MarkerOptions = {
+              icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                scale: 5
+              },
+              position: {
+                lat: driver.lastLat,
+                lng: driver.lastLng
+              }
+            };
+            const newMarker: google.maps.Marker = new google.maps.Marker(markerOptions);
+            newMarker.set('ID', driver.id);
+            newMarker.setMap(this.map);
+            this.drivers.push(newMarker);
+          }
+        }
+        this.drivers = [];
       }
     }
   }
