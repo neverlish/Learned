@@ -1,3 +1,4 @@
+import { SubscribeToMoreOptions } from 'apollo-client';
 import React from 'react';
 import { graphql, Mutation, MutationFn, Query } from 'react-apollo';
 import ReactDOM from "react-dom";
@@ -21,8 +22,10 @@ import {
   GET_NEARBY_DRIVERS,
   GET_NEARBY_RIDE,
   REPOLRT_LOCATION,
-  REQUEST_RIDE
+  REQUEST_RIDE,
+  SUBSCRIBE_NEARBY_RIDES
 } from './HomeQueries';
+
 
 interface IState {
   isMenuOpen: boolean;
@@ -125,8 +128,13 @@ class HomeContainer extends React.Component<IProps, IState> {
               >
                 {requestRideFn => (
                   <GetNearbyRides query={GET_NEARBY_RIDE} skip={!isDriving}>
-                    {({ data: nearbyRide }) => (
-                      <AcceptRide mutation={ACCEPT_RIDE}>
+                    {({ subscribeToMore, data: nearbyRide }) => {
+                      const rideSubscriptionOptions: SubscribeToMoreOptions = {
+                        document: SUBSCRIBE_NEARBY_RIDES,
+                        updateQuery: this.handleSubscriptionUpdate
+                      };
+                      subscribeToMore(rideSubscriptionOptions);
+                      return <AcceptRide mutation={ACCEPT_RIDE}>
                         {(acceptRideFn) => (
                           <HomePresenter
                             loading={loading}
@@ -144,7 +152,7 @@ class HomeContainer extends React.Component<IProps, IState> {
                           />
                         )}
                       </AcceptRide>
-                    )}
+                    }}
                   </GetNearbyRides>
                 )}
               </RequestRideMutation>
@@ -404,6 +412,10 @@ class HomeContainer extends React.Component<IProps, IState> {
         });
       }
     }
+  }
+
+  public handleSubscriptionUpdate = (data) => {
+    console.log(data);
   }
 }
 
