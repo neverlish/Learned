@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import AddPlace from '../../Routes/AddPlace';
+import Chat from '../../Routes/Chat';
 import EditAccount from '../../Routes/EditAccount';
 import FindAddress from '../../Routes/FindAddress';
 import Home from '../../Routes/Home';
@@ -43,6 +44,7 @@ const LoggedInRoutes: React.SFC = () => (
   <Switch>
     <Route path={'/'} exact={true} component={Home} />
     <Route path={'/ride/:rideId'} component={Ride} />
+    <Route path={'/chat/:chatId'} component={Chat} />
     <Route path={'/edit-account'} component={EditAccount} />
     <Route path={'/settings'} component={Settings} />
     <Route path={'/places'} component={Places} />
