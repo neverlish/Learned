@@ -66,6 +66,42 @@ export interface addPlaceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getChat
+// ====================================================
+
+export interface getChat_GetChat_chat_messages {
+  __typename: "Message";
+  id: number;
+  text: string;
+  userId: number | null;
+}
+
+export interface getChat_GetChat_chat {
+  __typename: "Chat";
+  passengerId: number;
+  driverId: number | null;
+  messages: (getChat_GetChat_chat_messages | null)[] | null;
+}
+
+export interface getChat_GetChat {
+  __typename: "GetChatResponse";
+  ok: boolean;
+  error: string | null;
+  chat: getChat_GetChat_chat | null;
+}
+
+export interface getChat {
+  GetChat: getChat_GetChat;
+}
+
+export interface getChatVariables {
+  chatId: number;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateProfile
 // ====================================================
 
