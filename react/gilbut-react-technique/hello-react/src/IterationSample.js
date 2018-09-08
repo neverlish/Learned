@@ -19,9 +19,23 @@ class IterationSample extends Component {
     });
   }
 
+  handleRemove = (index) => {
+    const { names } = this.state;
+
+    this.setState({
+      names: names.filter((item, i) => i !== index)
+    });
+  }
+
   render() {
     const nameList = this.state.names.map(
-      (name, index) => (<li key={index}>{name}</li>)
+      (name, index) => (
+        <li
+          key={index}
+          onDoubleClick={() => this.handleRemove(index)}>
+          {name}
+        </li>
+      )
     );
 
     return (
