@@ -2,3 +2,4 @@ node_modules
 yarn.lock
 .env
 dist
+.env.production
