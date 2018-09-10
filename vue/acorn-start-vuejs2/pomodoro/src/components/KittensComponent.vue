@@ -1,5 +1,5 @@
 <template>
-  <div class="well">
+  <div class="well kittens">
     <img v-bind:src='catimgsrc' />
   </div>
 </template>
