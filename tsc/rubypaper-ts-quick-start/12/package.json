@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@reactivex/rxjs": "^5.5.6"
+  }
+}
