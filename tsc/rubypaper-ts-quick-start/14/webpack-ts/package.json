@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.2"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "build2": "webpack --config webpack2.config.js",
+    "build3": "webpack --config webpack3.config.js"
+  }
+}
