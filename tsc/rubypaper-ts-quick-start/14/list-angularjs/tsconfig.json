@@ -1,0 +1,14 @@
+// 14-2-2 AngularJS 기반 프로젝트의 구성과 실습 - AngularJS 기반 프로젝트의 tsconfig 설정
+
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": false
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

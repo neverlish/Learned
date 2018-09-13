@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@types/angular": "^1.6.4",
+    "@types/underscore": "^1.8.0",
+    "angular": "^1.6.4",
+    "underscore": "^1.8.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.0.1",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.2",
+    "webpack": "^3.11.0"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  }
+}
