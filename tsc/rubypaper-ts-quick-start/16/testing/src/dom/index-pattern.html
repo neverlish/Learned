@@ -1,0 +1,18 @@
+<!-- 16-3-3 DOM 테스트 - 입력값 검증에 사용할 템플릿 - pattern 속성(직관적으로 검증 불가)을 이용해 입력을 검증하는 폼을 포함하는 템플릿 -->
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div>로그인</div>
+  <form action="">
+    <input type="text" name="userID" pattern="^[A-Za-z][0-9A-Za-z]{2,4}$">
+    <input type="password" name='userPW' pattern="^[0-9A-Za-z]{2,5}$">
+    <button type="submit">로그인</button>
+  </form>
+</body>
+
+</html>

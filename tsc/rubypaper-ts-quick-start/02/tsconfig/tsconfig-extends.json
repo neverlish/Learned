@@ -1,0 +1,9 @@
+// 02-2-3 tsconfig.json 파일을 이용한 컴파일 - tsconfig.json 속성 확장하기 - 부모 설정 파일을 받아 확장한 자식 설정 파일(tsconfig.json)
+
+{
+  "extends": "./config/base.json",
+  "compilerOptions": {
+    "outFile": "./dist/extends/out.js",
+    "target": "es5"
+  }
+}

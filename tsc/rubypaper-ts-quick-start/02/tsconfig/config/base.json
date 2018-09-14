@@ -1,0 +1,12 @@
+// 02-2-3 tsconfig.json 파일을 이용한 컴파일 - tsconfig.json 속성 확장하기 - 공통적으로 사용하는 부모 설정 파일
+
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
+}

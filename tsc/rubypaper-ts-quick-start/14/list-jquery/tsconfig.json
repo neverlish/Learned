@@ -1,0 +1,9 @@
+// 14-2-1 jQuery 기반 프로젝트의 구성과 실습 - jQuery 기반 프로젝트의 패키지 설정
+
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true
+  }
+}

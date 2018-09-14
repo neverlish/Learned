@@ -1,0 +1,80 @@
+// 02-3-4 태스트러너 설정 - 타입스크립트를 위한 tasks.json 파일
+
+{
+  // 작업 구성: Cmd+Shift+P -> Configure Task -> 
+  // 1. tsc: 보기 - tsconfig.json
+  // 2. tsc: 빌드 - tsconfig.json
+
+  // 작업 실행: Cmd+Shift+B -> 작업 선택
+
+  // 작업 기본 설정: Cmd+Shift+P -> 기본 빌드 작업 구성 -> tsc: 보기 -> 빌드가 자동으로 포함되서 실행
+
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    // 02-3-4 태스트러너 설정 - 타입스크립트를 위한 tasks.json 파일 - 특정 파일만을 빌드하도록 tasks.json 설정하기 - 특별한 옵션없이 tsc 명령어를 수행하도록 구성한 tasks.json 파일
+    {
+      "label": "현재 TS 파일을 컴파일하기",
+      "type": "shell",
+      "command": "tsc ${file}",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    // 02-3-4 태스트러너 설정 - 타입스크립트를 위한 tasks.json 파일 - 특정 파일만을 빌드하도록 tasks.json 설정하기 - 특정 파일에 대한 감시만 수행하는 tasks.json 파일
+    {
+      "label": "감시 모드에서 파일이 변경되면 특정 TS 파일을 컴파일하기",
+      "type": "shell",
+      "command": "tsc -w ${file}",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    // 02-3-4 태스트러너 설정 - 타입스크립트를 위한 tasks.json 파일 - 특정 파일만을 빌드하도록 tasks.json 설정하기 - 빌드 단축키 입력 후 실행할 ts-node 작업에 대한 설정
+    {
+      "label": "특정 TS 파일을 ts-node로 실행해 결과보기",
+      "type": "shell",
+      "command": "ts-node ${file}",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    // 02-3-5 타입스크립트의 확장 기능 - TSLint - ts-node와 린트 검사를 동시에 수행하는 tasks.json 파일
+    {
+      "label": "ts-node와 tslint를 동시에 실행해 특정 TS 파일의 결과 보기",
+      "type": "shell",
+      "command": "ts-node ${file} && tslint ${file}",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}

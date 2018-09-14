@@ -1,0 +1,17 @@
+// 02-2-3 tsconfig.json 파일을 이용한 컴파일 - 컴파일 결과를 특정 디렉터리에 생성하기 - outDir 속성을 포함한 tsconfig.json 파일
+
+{
+  "compilerOptions": {
+    "outDir": "./dist-outdir",
+    "target": "es5",
+    "removeComments": true
+  },
+  "include": [
+    "src/**/*",
+    "src2/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
+}

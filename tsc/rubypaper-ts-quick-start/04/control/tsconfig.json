@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    // 04-2-1 for 문과 이터러블 객체 - 맵과 셋을 for of 문에 적용 - tsconfig.json 파일의 속성값을 es2015으로 설정
+    "target": "es2015",
+    // 04-1-2 switch 문과 폴스루 - 폴스루에 대한 이해와 폴스루의 사용 여부 설정
+    "noFallthroughCasesInSwitch": true
+  }
+}
