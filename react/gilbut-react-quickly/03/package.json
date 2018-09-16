@@ -1,6 +1,6 @@
 {
   "scripts": {
-    
+    "build-hello-world-jsx": "./node_modules/.bin/babel hello-world-jsx/jsx/script.jsx -o hello-world-jsx/js/script.js -w"
   },
   "babel": {
     "presets": [
