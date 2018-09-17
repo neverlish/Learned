@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build-clock": "./node_modules/.bin/babel clock/jsx -d clock/js -w"
+    "build-clock": "./node_modules/.bin/babel clock/jsx -d clock/js -w",
+    "build-clock-analog-digital": "./node_modules/.bin/babel clock-analog-digital/jsx -d clock-analog-digital/js -w"
   },
   "babel": {
     "presets": [
