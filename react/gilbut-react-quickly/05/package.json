@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build-logger": "./node_modules/.bin/babel logger/jsx -d logger/js -w",
-    "build-users": "./node_modules/.bin/babel users/jsx -d users/js -w"
+    "build-users": "./node_modules/.bin/babel users/jsx -d users/js -w",
+    "build-note": "./node_modules/.bin/babel note/jsx -d note/js -w"
   },
   "babel": {
     "presets": [
