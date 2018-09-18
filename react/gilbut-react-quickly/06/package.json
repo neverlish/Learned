@@ -2,7 +2,8 @@
   "scripts": {
     "build-button": "./node_modules/.bin/babel button/jsx -d button/js -w",
     "build-mouse": "./node_modules/.bin/babel mouse/jsx -d mouse/js -w",
-    "build-mouse-capture": "./node_modules/.bin/babel mouse-capture/jsx -d mouse-capture/js -w"
+    "build-mouse-capture": "./node_modules/.bin/babel mouse-capture/jsx -d mouse-capture/js -w",
+    "build-onclick": "./node_modules/.bin/babel onclick/jsx -d onclick/js -w"
   },
   "babel": {
     "presets": [
