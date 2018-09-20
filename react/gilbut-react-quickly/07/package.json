@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build-elements": "./node_modules/.bin/babel elements/jsx -d elements/js -w"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-preset-react": "6.24.1"
+  }
+}
