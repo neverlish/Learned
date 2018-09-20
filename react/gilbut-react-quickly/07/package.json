@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build-elements": "./node_modules/.bin/babel elements/jsx -d elements/js -w",
-    "build-account": "./node_modules/.bin/babel account/jsx -d account/js -w"
+    "build-account": "./node_modules/.bin/babel account/jsx -d account/js -w",
+    "build-uncontrolled": "./node_modules/.bin/babel uncontrolled/jsx -d uncontrolled/js -w"
   },
   "babel": {
     "presets": [
