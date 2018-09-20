@@ -6,7 +6,12 @@ class Tooltip extends React.Component {
   }
 
   toggle() {
-    
+    const { offsetTop: top, offsetLeft: left } = ReactDOM.findDOMNode(this)
+    this.setState({
+      opacity: !this.state.opacity,
+      top,
+      left
+    })
   }
 
   render() {
