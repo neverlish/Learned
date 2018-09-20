@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build-default-props": "./node_modules/.bin/babel default-props/jsx -d default-props/js -w",
-    "build-prop-types": "./node_modules/.bin/babel prop-types/jsx -d prop-types/js -w"
+    "build-prop-types": "./node_modules/.bin/babel prop-types/jsx -d prop-types/js -w",
+    "build-children": "./node_modules/.bin/babel children/jsx -d children/js -w"
   },
   "babel": {
     "presets": [
