@@ -3,8 +3,11 @@ class Content extends React.Component {
     super(props)
     this.handleRadio = this.handleRadio.bind(this)
     this.handleCheckbox = this.handleCheckbox.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.handleInput = this.handleInput.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
     this.state = {
       description: `With the right pattern, applications will be more scalable and easier to maintain.
 If you aspire one day to become a Node.js architect (or maybe you're already one and want to extend your knowledge), this presentation is for you.`,
@@ -32,8 +35,20 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
     obj[event.target.value] = event.target.checked // true or false
     this.setState({checkboxGroup: obj})
   }
+  handleChange(event) {
+    console.log('onChange event: ', event.target.value, event.target.checked)
+  }
   handleInput(event){
     console.log('onInput event: ', event.target.value, event.target.checked)
+  }
+  handleFirstNameChange(event) {
+    this.setState({firstName: event.target.value})
+  }
+  handleSubmit(event){
+    console.log(event.target.value, event.target.checked)
+    fetch(this.props['data-url'], {method: 'POST', body: JSON.stringify(this.state)})
+      .then((response)=>{return response.json()})
+      .then((data)=>{console.log('Submitted: ', data)})
   }
   handleSelectChange(event) {
     this.setState({selectedValue: event.target.value})
@@ -46,7 +61,7 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
         <input type="text" name="new-book-title" defaultValue="Node: The Best Parts"/>
         <hr/>
         <h2>input: password</h2>
-        <input type="password" defaultValue="123456" onInput={this.handleInput}/>
+        <input type="password" defaultValue="123456" onChange={this.handleChange} onInput={this.handleInput}/>
         <hr/>
         <h2>input: radio</h2>
         <label>
@@ -107,11 +122,13 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
         <hr/>
         <textarea
           name="description"
-          defaultValue={this.state.description}/>
+          defaultValue={this.state.description}
+          onChange={this.handleChange}/>
         <hr/>
         <textarea
           name="description1"
-          defaultValue={"Pro Express.js is for the reader\nwho wants to quickly get up-to-speed with Express.js, \nthe flexible Node.js framework"}/>
+          defaultValue={"Pro Express.js is for the reader\nwho wants to quickly get up-to-speed with Express.js, \nthe flexible Node.js framework"}
+          onChange={this.handleChange}/>
         <hr/>
         <select value={this.state.selectedValue} onChange={this.handleSelectChange}>
           <option value="ruby">Ruby</option>
@@ -124,6 +141,12 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
           <option value="react">React</option>
           <option value="jQuery">jQuery</option>
         </select>
+        <hr/>
+        <h2>input: first name [text]</h2>
+        <input type="text" name="first-name" onChange={this.handleFirstNameChange}/>
+        <hr/>
+        <h2>input: button</h2>
+        <input type="button" defaultValue="Send" onClick={this.handleSubmit}/>
         <hr/>
 
       </form>
