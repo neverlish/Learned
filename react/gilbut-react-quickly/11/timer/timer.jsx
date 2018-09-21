@@ -47,11 +47,13 @@ class Timer extends React.Component {
 
 class Button extends React.Component {
   startTimer(event) {
-
+    return this.props.startTimer(this.props.time)
   }
 
   render() {
-
+    return <button type='button' className='btn btn-default' onClick={this.startTimer.bind(this)}>
+      {this.props.time} seconds
+    </button>
   }
 }
 
