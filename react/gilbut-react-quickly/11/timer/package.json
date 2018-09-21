@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "./node_modules/.bin/babel timer.jsx -o timer.js -w"
+  },
+  "babel": {
+    "presets": ["react"]
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-preset-react": "6.24.1"
+  }
+}
