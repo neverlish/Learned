@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    
+    "build": "./node_modules/.bin/webpack -w"
   },
   "author": "Azat Mardan",
   "license": "MIT",
