@@ -1,6 +1,7 @@
 const React = require('react')
 const ReactDOM = require ('react-dom')
 const ReactRouter = require('react-router')
+const History = require('history')
 
 const Content = require('./content.jsx')
 const About = require('./about.jsx')
@@ -12,9 +13,12 @@ const Posts = require('./posts.jsx')
 const posts = require('../posts.js')
 
 let { Router,
-  Route,
-  hashHistory
+  Route
 } = ReactRouter
+
+let hashHistory = ReactRouter.useRouterHistory(History.createHashHistory)({
+  queryKey: false
+})
 
 ReactDOM.render((
   <Router history={hashHistory}>
