@@ -25,6 +25,13 @@ describe('비밀번호', function() {
     TestUtils.Simulate.click(fD(generateButton))
     expect(fD(rules[1]).firstChild.nodeName.toLowerCase()).toBe('strike')
 
+    const { createRenderer } = require('react-test-renderer/shallow')
+    const passwordRenderer = createRenderer()
+    passwordRenderer.render(<Password />)
+    let p = passwordRenderer.getRenderOutput()
+    expect(p.type).toBe('div')
+    expect(p.props.children.length).toBe(6)
+
     done()
   })
 })
