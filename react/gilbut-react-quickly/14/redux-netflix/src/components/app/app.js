@@ -1,4 +1,5 @@
 const React = require('react')
+const { connect } = require('react-redux')
 const styles = require('./app.css')
 
 class App extends React.Component {
@@ -15,4 +16,4 @@ class App extends React.Component {
   }
 }
 
-module.exports = App
+module.exports = connect()(App)
