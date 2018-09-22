@@ -1,0 +1,4 @@
+- Index 컴포넌트와 App 컴포넌트를 추상화하여 app.jsx에서 별도의 파일로 분리하고(복사/붙여넣기) App의 이름을 Layout이라고 변경해보자.
+- MongoDB 또는 PostgreSQL 같은 데이터베이스로 데이터를 옮겨보자.
+- 해시를 사용한 URL 대신 별도의 Express 서버와 HTML5 History API를 사용하여 해시가 없는 URL로 변경해보자. 15장에서 살펴봤던 해시를 사용하지 않는 Netflix 앱을 참고하면 도움이 될 것이다.
+- Jest를 이용해서 Product 컴포넌트와 Checkout 컴포넌트에 대한 단위 테스트를 추가하자.
