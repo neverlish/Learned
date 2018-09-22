@@ -7,12 +7,23 @@ const {
 const styles = require('./movie.css')
 
 class Movie extends React.Component {
+  componentWillMount() {
+    this.props.fetchMovie(this.props.params.id)
+  }
+
+  componentWillUpdate(next) {
+    if (this.props.params.id !== next.params.id) {
+      this.props.fetchMovie(next.params.id)
+    }
+  }
+
   render() {
     const {
       movie = {
         starring: []
       }
     } = this.props
+
     return (
       <div
         className={styles.movie}
@@ -46,5 +57,5 @@ class Movie extends React.Component {
 module.exports = connect(({movies}) => ({
   movie: movies.current
 }), {
-  fetchMovieActionCreator
+  fetchMovie: fetchMovieActionCreator
 })(Movie)
