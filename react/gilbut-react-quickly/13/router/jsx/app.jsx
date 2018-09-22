@@ -13,7 +13,8 @@ const Posts = require('./posts.jsx')
 const posts = require('../posts.js')
 
 let { Router,
-  Route
+  Route,
+  withRouter
 } = ReactRouter
 
 let hashHistory = ReactRouter.useRouterHistory(History.createHashHistory)({
@@ -26,7 +27,7 @@ ReactDOM.render((
       <Route path="/about" component={About} />
       <Route path="/posts" component={Posts} posts={posts}/>
       <Route path="/posts/:id" component={Post}  posts={posts}/>
-      <Route path="/contact" component={Contact} />
+      <Route path="/contact" component={withRouter(Contact)} />
     </Route>
     <Route path="/login" component={Login}/>
   </Router>
