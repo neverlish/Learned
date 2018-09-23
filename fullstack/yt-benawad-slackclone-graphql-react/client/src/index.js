@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
+import 'semantic-ui-css/semantic.min.css';
 
 import registerServiceWorker from './registerServiceWorker';
 import Routes from './routes';
