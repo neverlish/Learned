@@ -1,10 +1,19 @@
 var Conference = Conference || {};
 Conference.attendee = function(firstName, lastName) {
-  var checkedIn = false,
+  var attendeeId,
+      checkedIn = false,
       first = firstName || 'None',
-      last = lastName || 'None';
+      last = lastName || 'None',
+      checkInNumber;
 
   return {
+    setId: function(id) {
+      attendeeId = id;
+    },
+    getId: function() {
+      return attendeeId;
+    },
+
     getFullName: function() {
       return first + ' ' + last;
     },

@@ -1,10 +1,39 @@
 var Conference = Conference || {};
 
 Conference.checkInRecorder = function() {
+  'use strict';
+
+  var messages = {
+    mustBeCheckedIn: '참가자는 체크인된 것으로 표시되어야 한다.',
+    httpFailure: 'HTTP 요청 실패!'
+  };
 
   return {
+    getMessages: function() {
+      return messages;
+    },
+
     recordCheckIn: function(attendee) {
-      // 외부 서비스를 통해 체크인 등록한다
+      return new Promise( function(resolve, reject) {
+        if (attendee.isCheckedIn()) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange=function onreadystatechange() {
+            // *** 3 ***
+            if (xhr.readyState == 4) {
+              if (xhr.status == 200) {
+                // *** 7 ***
+                resolve(xhr.responseText);
+              } else {
+                reject(new Error(messages.httpFailure));
+              }
+            }
+          };
+          xhr.open("POST","/checkin/" + attendee.getId(),true);
+          xhr.send();
+        } else {
+          reject(new Error(messages.mustBeCheckedIn));
+        }
+      });
     }
   };
 };
