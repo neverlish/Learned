@@ -16,11 +16,19 @@ class CreateTeam extends React.Component {
 
   onSubmit = async () => {
     const { name } = this;
-    const response = await this.props.mutate({
-      variables: { name },
-    });
+    let response = null;
+
+    try {
+      response = await this.props.mutate({
+        variables: { name },
+      });
+    } catch (err) {
+      this.props.history.push('/login');
+      return;
+    }
+
     console.log(response);
-    const { 
+    const {
       ok, errors,
     } = response.data.createTeam;
 
@@ -64,7 +72,7 @@ class CreateTeam extends React.Component {
           </Form.Field>
           <Button onClick={this.onSubmit}>Submit</Button>
         </Form>
-        
+
         {errorList.length ? (
           <Message
             error
