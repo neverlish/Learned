@@ -10,9 +10,15 @@ export default {
   Subscription: {
     newChannelMessage: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+        (parent, { channelId }, { models, user }) =>
+          // const channel = await models.Channel.findOne({ where: { id: channelId }});
+          // const member = await models.Member.findOne({ where: { teamId: channel.teamId, userId: user.id }});
+          // if (!member) {
+          //   throw new Error("You have to be a member of the team to subscribe to it's messages");
+          // }
+          pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
         (payload, args) => payload.channelId === args.channelId,
-      )
+      ),
     },
   },
   Message: {

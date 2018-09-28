@@ -5,6 +5,7 @@ export default `
     owner: Int!
     members: [User!]!
     channels: [Channel!]!
+    admin: Boolean!
   }
 
   type CreateTeamResponse {
