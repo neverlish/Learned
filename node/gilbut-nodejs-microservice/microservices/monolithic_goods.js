@@ -3,8 +3,15 @@ const conn = {
   host: 'localhost',
   user: 'micro',
   password: 'service',
-  database: 'monolithic'
+  database: 'monolithic',
+  multipleStatements: true
 };
+
+const redis = require('redis').createClient();
+
+redis.on('error', function(err) {
+  console.log('Redis Error', err);
+});
 
 exports.onRequest = function(res, method, pathname, params, cb) {
   switch (method) {
@@ -40,12 +47,15 @@ function register(method, pathname, params, cb) {
     var connection = mysql.createConnection(conn);
     connection.connect();
     connection.query(
-      'insert into goods(name, category, price, description) values(?, ?, ?, ?)',
+      'insert into goods(name, category, price, description) values(?, ?, ?, ?); select LAST_INSERTID() as id;',
       [params.name, params.category, params.price, params.description],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
           response.errormessage = error;
+        } else {
+          const id = results[1][0].id;
+          redis.set(id, JSON.stringify(params));
         }
         cb(response);
       }
@@ -99,6 +109,8 @@ function unregister(method, pathname, params, cb) {
         if (error) {
           response.errorcode = 1;
           response.errormessage = error;
+        } else {
+          redis.del(params.id);
         }
         cb(response);
       }
