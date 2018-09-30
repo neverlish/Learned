@@ -1,4 +1,5 @@
 const business = require('./monolithic_goods.js');
+const cluster = require('cluster');
 
 class goods extends require('./server.js') {
   constructor() {
@@ -17,4 +18,13 @@ class goods extends require('./server.js') {
   }
 }
 
-new goods();
+if (cluster.isMaster) {
+  cluster.fork();
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
+  new goods();
+}
