@@ -36,4 +36,7 @@ function counter(state = inintialState, action) {
   }
 }
 
-console.log(counter(undefined, increment(1)));
+// 12 - 2 - 4 리덕스 스토어 생성
+const { createStore } = Redux;
+
+const store = createStore(counter);
