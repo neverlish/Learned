@@ -11,3 +11,29 @@ const decrement = (diff) => ({
   type: DECREMENT,
   diff: diff
 });
+
+// 12 - 2 - 3 변화를 일으키는 함수, 리듀서
+const inintialState = {
+  number: 1,
+  foo: 'bar',
+  baz: 'qux'
+};
+
+function counter(state = inintialState, action) {
+  switch(action.type) {
+    case INCREMENT:
+      return {
+        ...state,
+        number: state.number + action.diff
+      };
+    case DECREMENT:
+      return {
+        ...state,
+        number: state.number - action.diff
+      };
+    default:
+      return state;
+  }
+}
+
+console.log(counter(undefined, increment(1)));
