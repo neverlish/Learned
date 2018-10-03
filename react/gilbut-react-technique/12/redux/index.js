@@ -1,3 +1,13 @@
-// 12 리덕스 개념 이해 - 2 리덕스 사용 - 1 JSBin 준비
+// 12 - 2 - 2 액션과 액션 생성 함수
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
 
-console.log(Redux);
+const increment = (diff) => ({
+  type: INCREMENT,
+  diff: diff
+});
+
+const decrement = (diff) => ({
+  type: DECREMENT,
+  diff: diff
+});
