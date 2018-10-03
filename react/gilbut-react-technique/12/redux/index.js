@@ -45,3 +45,8 @@ const store = createStore(counter);
 const unsubscribe = store.subscribe(() => {
   console.log(store.getState());
 });
+
+// 12 - 2 - 6 dispatch로 액션 전달
+store.dispatch(increment(1));
+store.dispatch(decrement(5));
+store.dispatch(increment(10));
