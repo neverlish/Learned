@@ -40,3 +40,8 @@ function counter(state = inintialState, action) {
 const { createStore } = Redux;
 
 const store = createStore(counter);
+
+// 12 - 2 - 5 구독
+const unsubscribe = store.subscribe(() => {
+  console.log(store.getState());
+});
