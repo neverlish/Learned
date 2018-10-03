@@ -1,4 +1,4 @@
-const { Map, fromJS } = Immutable;
+const { Map, fromJS, List } = Immutable;
 
 // 14 리덕스, 더 편하게 사용 - 1 Immutable.js 익히기 - 2 Map
 
@@ -46,3 +46,41 @@ const newData4 = data.setIn(['c', 'd'], 10)
                      .setIn(['c', 'e'], 10);
 
 const newData5 = data.merge({ a: 10, b: 10 });
+
+// 14 - 1 - 3 List
+
+// 생성
+
+const list = List([
+  Map({ value: 1 }),
+  Map({ value: 2 })
+]);
+
+const list2 = fromJS([
+  { value: 1 },
+  { value: 2 }
+]);
+
+// 값 읽어 오기
+console.log(list.getIn([0, 'value'])); // 1
+
+// 아이템 수정
+const newList = list.set(0, Map({ value: 10 }));
+const newList2 = list.setIn([0, 'value'], 10);
+
+const newList3 = list.update(0, item => item.set('value', item.get('value') * 5));
+
+const newList4 = list.setIn([0, 'value'], list.getIn([0, 'value']) * 5);
+
+// 아이템 추가
+const newList5 = list.push(Map({ value: 3 }));
+const newList6 = list.unshift(Map({ value: 0 }));
+
+// 아이템 제거
+const newList7 = list.delete(1);
+const newList8 = list.pop();
+
+// List 크기 가져오기
+console.log(list.size); // 2
+
+console.log(list.isEmpty()); // false
