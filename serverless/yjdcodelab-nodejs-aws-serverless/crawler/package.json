@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "node handler.test.js",
+    "deploy": "serverless deploy"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.263.1",
+    "serverless": "^1.27.3"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "dynamoose": "^0.8.7",
+    "got": "^8.3.1"
+  }
+}
