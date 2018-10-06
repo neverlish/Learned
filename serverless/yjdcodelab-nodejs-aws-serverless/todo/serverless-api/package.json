@@ -1,6 +1,8 @@
 {
   "scripts": {
-    
+    "test": "mocha spec/*.spec.js --timeout 10000",
+    "start": "node bin/www",
+    "deploy": "serverless deploy"
   },
   "dependencies": {
     "aws-serverless-express": "^3.1.3",
