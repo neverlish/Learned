@@ -60,3 +60,6 @@
 - `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC;`
 - `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1;`
 - `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1 OFFSET 1;`
+
+#### Update(수정)
+- `mysql> UPDATE nodejs.users SET comment = '바꿀 내용' WHERE id = 2;`
