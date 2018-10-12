@@ -48,3 +48,7 @@
 #### Update(수정)
 
 - `> db.users.update({ name: 'nero' }, { $set: { comment: '안녕하세요. 이 필드를 바꿔보겠습니다!' } })`
+
+#### Delete(삭제)
+
+- `> db.users.remove({ name: 'nero' })`
