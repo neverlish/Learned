@@ -27,3 +27,20 @@
 - `> db.users.find({ name: 'zero' }, { _id: 1 })`
 
 - `> db.comments.save({ commenter: ObjectId('USER_ID'), comment: '안녕하세요. zero의 댓글입니다.', createdAt: new Date() })`
+
+#### Read(조회)
+
+- `> db.users.find({})`
+- `> db.comments.find({})`
+
+- `> db.users.find({}, { _id: 0, name: 1, married: 1 })`
+
+- `> db.users.find({ age: { $gt: 30 }, married: true }, { _id: 0, name: 1, age: 1 })`
+
+- `> db.users.find({ $or: [{ age: { $gt: 30 } }, { married: false }] }, { _id: 0, name: 1, married: 1 })`
+
+- `> db.users.find({}, { _id: 0, name: 1, married: 1 }).sort({ age: -1 })`
+
+- `> db.users.find({}, { _id: 0, name: 1, married: 1 }).sort({ age: -1 }).limit(1)`
+
+- `> db.users.find({}, { _id: 0, name: 1, married: 1 }).sort({ age: -1 }).limit(1).skip(1)`
