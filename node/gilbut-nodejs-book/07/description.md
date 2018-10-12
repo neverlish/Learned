@@ -46,3 +46,17 @@
 - `mysql> INSERT INTO nodejs.users (name, age, married, comment) VALUES ('zero', 24, 0, '자기소개1');`
 - `mysql> INSERT INTO nodejs.users (name, age, married, comment) VALUES ('nero', 32, 1, '자기소개2');`
 - `mysql> INSERT INTO nodejs.comments (commenter, comment) VALUES (1, '안녕하세요. zero의 댓글입니다.');`
+
+#### Read(조회)
+
+- `mysql> SELECT * FROM nodejs.users;`
+- `mysql> SELECT * FROM nodejs.comments;`
+
+- `mysql> SELECT name, married FROM nodejs.users;`
+
+- `mysql> SELECT name, married FROM nodejs.users WHERE married = 1 AND age > 30;`
+- `mysql> SELECT id, name FROM nodejs.users WHERE married = 0 OR age > 30;`
+
+- `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC;`
+- `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1;`
+- `mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1 OFFSET 1;`
