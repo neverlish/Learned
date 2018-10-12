@@ -63,3 +63,6 @@
 
 #### Update(수정)
 - `mysql> UPDATE nodejs.users SET comment = '바꿀 내용' WHERE id = 2;`
+
+#### Delete(삭제)
+- `mysql > DELETE FROM nodejs.users WHERE id = 2;`
