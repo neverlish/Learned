@@ -1,0 +1,23 @@
+<!-- v-on 디렉티브 이용해 이벤트 처리하기 -->
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app">
+      <button v-on:click='clickBtn'>클릭</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        methods: {
+          clickBtn: function() {
+            alert('경고 창 표시');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
