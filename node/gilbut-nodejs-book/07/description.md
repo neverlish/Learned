@@ -66,3 +66,7 @@
 
 #### Delete(삭제)
 - `mysql > DELETE FROM nodejs.users WHERE id = 2;`
+
+## 07 - 6 시퀄라이즈 사용하기
+- `$ npm i -g sequelize-cli`
+- `$ sequelize init`
