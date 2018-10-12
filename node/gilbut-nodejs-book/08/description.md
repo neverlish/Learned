@@ -44,3 +44,7 @@
 - `> db.users.find({}, { _id: 0, name: 1, married: 1 }).sort({ age: -1 }).limit(1)`
 
 - `> db.users.find({}, { _id: 0, name: 1, married: 1 }).sort({ age: -1 }).limit(1).skip(1)`
+
+#### Update(수정)
+
+- `> db.users.update({ name: 'nero' }, { $set: { comment: '안녕하세요. 이 필드를 바꿔보겠습니다!' } })`
