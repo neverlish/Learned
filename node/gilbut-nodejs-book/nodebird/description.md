@@ -4,3 +4,13 @@
 ## 09 - 2 데이터베이스 세팅하기
 
 - `$ sequelize db:create`
+
+## 09 - 3 Passport 모듈로 로그인 구현하기
+
+#### 카카오개발자 키 획득
+- Kakao 개발자 앱 만들기 -> REST API 키
+- 설정 -> 일반 -> 플랫폼 추가
+  - 주소: http://localhost:8001
+  - Redirect path: /auth/kakao/callback
+- 설정 -> 사용자 관리
+  - ON, 이메일 '연결시 선택', 수집 목적 입력
