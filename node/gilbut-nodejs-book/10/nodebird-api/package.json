@@ -9,6 +9,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.2.1",
     "morgan": "^1.9.0",
     "mysql2": "^1.5.1",
     "passport": "^0.4.0",
