@@ -10,8 +10,14 @@ const googleMapsClient = googleMaps.createClient({
   key: process.env.PLACES_API_KEY,
 });
 
-router.get('/', (req, res) => {
-  res.render('index');
+router.get('/', async (req, res, next) => {
+  try {
+    const favorites = await Favorite.find({});
+    res.render('index', { results: favorites });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.get('/autocomplete/:query', (req, res, next) => {
