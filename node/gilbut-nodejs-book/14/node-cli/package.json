@@ -1,0 +1,7 @@
+{
+  "name": "node-cli",
+  "version": "0.0.1",
+  "bin": {
+    "cli": "./template.js"
+  }
+}
