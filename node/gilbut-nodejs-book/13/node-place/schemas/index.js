@@ -18,15 +18,13 @@ module.exports = () => {
       }
     });
   };
-
   connect();
 
   mongoose.connection.on('error', (error) => {
     console.error('몽고디비 연결 에러', error);
   });
-
   mongoose.connection.on('disconnected', () => {
-    console.error('몽고디비 연결이 끊어졌습니다. 연결을 재시도합니다.');
+    console.error('몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.');
     connect();
   });
 
