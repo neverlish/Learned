@@ -14,3 +14,12 @@
   - Redirect path: /auth/kakao/callback
 - 설정 -> 사용자 관리
   - ON, 이메일 '연결시 선택', 수집 목적 입력
+
+## 15 - 1 서비스 운영을 위한 패키지
+#### pm2
+- pm2 목록 확인
+  - `$ pm2 list`
+- pm2 종료
+  - `$ pm2 kill`
+- 서버 재시작
+  - `$ pm2 reload all`

@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "cross-env NODE_ENV=production PORT=80 node app",
+    "start": "cross-env NODE_ENV=production PORT=80 pm2 start app.js -i 0",
     "dev": "nodemon app"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "passport": "^0.4.0",
     "passport-kakao": "0.0.5",
     "passport-local": "^1.0.0",
+    "pm2": "^2.10.3",
     "pug": "^2.0.3",
     "sequelize": "^4.37.6"
   }
