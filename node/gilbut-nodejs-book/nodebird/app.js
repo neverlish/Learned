@@ -5,6 +5,8 @@ const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
+const helmet = require('helmet');
+const hpp = require('hpp');
 require('dotenv').config();
 
 const pageRouter = require('./routes/page');
@@ -25,6 +27,8 @@ app.set('port', process.env.PORT || 8001);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
+  app.use(helmet());
+  app.use(hpp());
 } else {
   app.use(morgan('dev'));
 }
