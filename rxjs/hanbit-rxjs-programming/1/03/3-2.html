@@ -1,0 +1,35 @@
+
+<body>
+  <button id="btn1"></button>
+  <div id="nextResult"></div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js'></script>
+  <script>
+    // 이벤트를 옵저버블로 구독한 후 이벤트 객체를 사용해 값을 발행
+    const { fromEvent } = rxjs;
+
+    fromEvent(document.querySelector('#btn1'), 'click').subscribe(
+      event => {
+        const pTag = document.createElement('p');
+        pTag.appendChild(
+          document.createTextNode(`event.target.id ${event.target.id} clicked`)
+        );
+        document.querySelector('#nextResult').appendChild(pTag);
+      },
+      err => {
+        const pTag = document.createElement('p');
+        pTag.appendChild(
+          document.createTextNode(`error: ${err.message}`)
+        );
+        document.querySelector('#nextResult').appendChild(pTag);
+      },
+      () => {
+        const pTag = document.createElement('p');
+        pTag.appendChild(
+          document.createTextNode('completed')
+        );
+        document.querySelector('#nextResult').appendChild(pTag);
+      }
+    );
+  </script>
+      
+</body>
