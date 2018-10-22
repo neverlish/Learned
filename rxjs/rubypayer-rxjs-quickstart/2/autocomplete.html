@@ -53,7 +53,7 @@
   </div>
   <script>
     const { fromEvent } = rxjs;
-    const { map, debounceTime, filter, distinctUntilChanged, tap, switchMap } = rxjs.operators;
+    const { map, debounceTime, filter, distinctUntilChanged, tap, switchMap, catchError, retry, finalize } = rxjs.operators;
     const { ajax } = rxjs.ajax;
 
     const keyup$ = fromEvent(document.getElementById('search'), 'keyup')
@@ -68,11 +68,22 @@
         filter(query => query.trim().length > 0),
         tap(showLoading),
         switchMap(query => ajax.getJSON(`https://api.github.com/search/users?q=${query}`)),
-        tap(hideLoading)
+        tap(hideLoading),
+        // catchError((e, orgObservable) => {
+        //   console.log('서버 에러가 발생하였으나 다시 호출하도록 처리', e.message);
+        //   // 현재 Observable을 반환한ㄷ.
+        //   return orgObservable;
+        // })
+        retry(2),
+        finalize(hideLoading)
       );
 
-    user$.subscribe(v => {
-      drawLayer(v.items);
+    user$.subscribe({
+      next: v => drawLayer(v.items),
+      error: e => {
+        console.error(e);
+        alert(e.message);
+      }
     });
 
     const reset$ = keyup$
