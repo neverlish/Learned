@@ -1,0 +1,14 @@
+<html>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
+  <script>
+    const { fromEvent } = rxjs;
+    const click$ = fromEvent(document, 'click');
+    const subscription = click$.subscribe({
+      next: console.log,
+      error: console.error,
+      complete: () => console.log('완료')
+    });
+  </script>
+</body>
+</html>
