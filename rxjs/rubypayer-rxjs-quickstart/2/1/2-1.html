@@ -1,0 +1,20 @@
+<html>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
+  <script>
+    const eventHandler = event => {
+      console.log(event.currentTarget);
+    };
+
+    document.addEventListener('click', eventHandler);
+
+    const { fromEvent } = rxjs;
+    const click$ = fromEvent(document, 'click'); // observable
+
+    const observer = event => {
+      console.log(event.currentTarget);
+    };
+    click$.subscribe(observer);
+  </script>
+</body>
+</html>
