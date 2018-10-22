@@ -44,33 +44,48 @@ dt {
 	}).catch(e => {
 		console.error(e);
 	});
+	// 표준 체중과 비만도를 계산하는 함수
+	function logic(height, mass, gender) {
+		let broca;
+		let bmi;
+		if (gender == "male") {
+			broca = (height - 100 * 0.9).toFixed(2);
+			bmi = (height / 100 * height / 100 * 22).toFixed(2);
+		} else {
+			broca = (height - 105 * 0.9).toFixed(2);
+			bmi = (height / 100 * height / 100 * 21).toFixed(2);
+		}
+		const obesityUsingBroca = ((mass - broca) / broca * 100).toFixed(2);
+		const obesityUsingBmi = ((mass - bmi) / bmi * 100).toFixed(2);
+		return {
+			broca,
+			bmi,
+			obesityUsingBroca,
+			obesityUsingBmi
+		};
+	}
+	// 사용자 정보를 표현하기 위해 HTML을 만드는 함수
+	function makeHtml(user) {
+		return `<li class='card'>
+			<dl>
+				<dt>${user.name} <i class="fa fa-${user.gender}"></i></dt>
+				<dd><span>키 : </span><span>${user.height} cm</span></dd>
+				<dd><span>몸무게: </span><span>${user.mass} kg</span></dd>
+				<dd><span>BROCA 표준체중 : </span><span>${user.broca} kg</span></dd>
+				<dd><span>BROCA 비만도 : ${user.obesityUsingBroca}</span></dd>
+				<dd><span>BMI 표준체중 : </span><span>${user.bmi} kg</span></dd>
+				<dd><span>BMI 비만도 : ${user.obesityUsingBmi}</span></dd>
+			</dl>
+		</li>`;
+	}
 	// 데이터를 처리하는 함수
 	function process(people) {
 		const html = [];
 		for (const user of people.results) {
 			if (/male|female/.test(user.gender)) {
-				let broca;
-				let bmi;
-				if (user.gender == "male") {
-					broca = (user.height - 100 * 0.9).toFixed(2);
-					bmi = (user.height / 100 * user.height / 100 * 22).toFixed(2);
-				} else {
-					broca = (user.height - 105 * 0.9).toFixed(2);
-					bmi = (user.height / 100 * user.height / 100 * 21).toFixed(2);
-				}
-				const obesityUsingBroca = ((user.mass - broca) / broca * 100).toFixed(2);
-				const obesityUsingBmi = ((user.mass - bmi) / bmi * 100).toFixed(2);
-				html.push(`<li class='card'>
-			  <dl>
-			      <dt>${user.name} <i class="fa fa-${user.gender}"></i></dt>
-			      <dd><span>키 : </span><span>${user.height} cm</span></dd>
-			      <dd><span>몸무게: </span><span>${user.mass} kg</span></dd>
-			      <dd><span>BROCA 표준체중 : </span><span>${broca} kg</span></dd>
-			      <dd><span>BROCA 비만도 : ${obesityUsingBroca}</span></dd>
-			      <dd><span>BMI 표준체중 : </span><span>${bmi} kg</span></dd>
-			      <dd><span>BMI 비만도 : ${obesityUsingBmi}</span></dd>
-			  </dl>
-		      </li>`);
+				const result = logic(user.height, user.mass, user.gender);
+				Object.assign(user, result);
+				html.push(makeHtml(user));
 			}
 		}
 		return html.join("");
