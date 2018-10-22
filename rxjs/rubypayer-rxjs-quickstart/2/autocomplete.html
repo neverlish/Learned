@@ -6,10 +6,14 @@
   <input type="input" id="search" placeholder="검색하고 싶은 사용자의 아이디를 입력해 주세요" />
   <script>
     const { fromEvent } = rxjs;
-    const keyup$ = fromEvent(document.getElementById('search'), 'keyup');
+    const { map } = rxjs.operators;
+    const keyup$ = fromEvent(document.getElementById('search'), 'keyup')
+      .pipe(
+        map(event => event.target.value)
+      );
 
-    keyup$.subscribe(event => {
-      console.log('사용자 입력의 KeyboardEvent', event);
+    keyup$.subscribe(value => {
+      console.log('search input에 입력된 값', value);
     });
   </script>
 </body>
