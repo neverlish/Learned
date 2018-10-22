@@ -1,0 +1,18 @@
+<html>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
+  <script>
+    const { fromEvent } = rxjs;
+    const { pluck } = rxjs.operators;
+    const currentTarget$ = fromEvent(document, 'click')
+      .pipe(
+        pluck('currentTarget')
+      ); // observable
+    
+    const observer = currentTarget => {
+      console.log(currentTarget);
+    };
+    currentTarget$.subscribe(observer);
+  </script>
+</body>
+</html>
