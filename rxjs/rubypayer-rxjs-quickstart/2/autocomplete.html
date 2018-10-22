@@ -6,14 +6,13 @@
   <input type="input" id="search" placeholder="검색하고 싶은 사용자의 아이디를 입력해 주세요" />
   <script>
     const { fromEvent } = rxjs;
-    const { map, mergeAll } = rxjs.operators;
+    const { map, mergeMap } = rxjs.operators;
     const { ajax } = rxjs.ajax;
 
     const user$ = fromEvent(document.getElementById('search'), 'keyup')
       .pipe(
         map(event => event.target.value),
-        map(query => ajax.getJSON(`https://api.github.com/search/users?q=${query}`)),
-        mergeAll()
+        mergeMap(query => ajax.getJSON(`https://api.github.com/search/users?q=${query}`))
       );
 
     user$.subscribe(value => {
