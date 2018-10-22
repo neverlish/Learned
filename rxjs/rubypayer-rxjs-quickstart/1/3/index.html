@@ -80,15 +80,17 @@ dt {
 	}
 	// 데이터를 처리하는 함수
 	function process(people) {
-		const html = [];
-		for (const user of people.results) {
-			if (/male|female/.test(user.gender)) {
-				const result = logic(user.height, user.mass, user.gender);
-				Object.assign(user, result);
-				html.push(makeHtml(user));
-			}
-		}
-		return html.join("");
+		return people.results
+			.filter(user => /male|female/.test(user.gender))
+			.map(user => Object.assign(
+				user,
+				logic(user.height, user.mass, user.gender)
+			))
+			.reduce((acc, user) => {
+				acc.push(makeHtml(user));
+				return acc;
+			}, [])
+			.join('');
 	}
 </script>
 </body>
