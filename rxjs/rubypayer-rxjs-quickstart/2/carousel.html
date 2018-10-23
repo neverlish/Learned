@@ -36,6 +36,7 @@
 
   <script>
     const { fromEvent } = rxjs;
+    const { mergeMap, takeUntil } = rxjs.operators;
     
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
@@ -51,6 +52,11 @@
     const start$ = fromEvent($view, EVENTS.start);
     const move$ = fromEvent($view, EVENTS.move);
     const end$ = fromEvent($view, EVENTS.end);
+
+    const drag$ = start$
+      .pipe(
+        mergeMap(start => move$.pipe(takeUntil(end$)))
+      );
   </script>
 </body>
 </html>
