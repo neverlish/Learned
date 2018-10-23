@@ -36,8 +36,8 @@
 
   <script>
     const { fromEvent } = rxjs;
-    const { mergeMap, takeUntil } = rxjs.operators;
-    
+    const { mergeMap, takeUntil, map, switchMap } = rxjs.operators;
+
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
@@ -49,14 +49,27 @@
       end: SUPPORT_TOUCH ? 'touchend' : 'mouseup'
     };
 
-    const start$ = fromEvent($view, EVENTS.start);
-    const move$ = fromEvent($view, EVENTS.move);
+    function toPos(obj$) {
+      return obj$
+        .pipe(
+          map(v => SUPPORT_TOUCH ? event.changedTouches[0].pageX : event.pageX)
+        );
+    }
+
+    const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
+    const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     const end$ = fromEvent($view, EVENTS.end);
 
-    const drag$ = start$
-      .pipe(
-        mergeMap(start => move$.pipe(takeUntil(end$)))
-      );
+    const drag$ = start$.pipe(
+      switchMap(start => {
+        return move$.pipe(
+          map(move => move - start),
+          takeUntil(end$)
+        );
+      })
+    );
+    
+    drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
   </script>
 </body>
 </html>
