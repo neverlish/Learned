@@ -36,7 +36,7 @@
 
   <script>
     const { fromEvent } = rxjs;
-    const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom } = rxjs.operators;
+    const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
@@ -66,7 +66,9 @@
           map(move => move - start),
           takeUntil(end$)
         );
-      })
+      }),
+      // tap(v => console.log('drag$', v)),
+      share()
     );
     
     drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
@@ -84,10 +86,11 @@
           first()
         );
       }),
+      // tap(v => console.log('drop$', v)),
       withLatestFrom(size$)
     );
 
-    drop$.subscribe(array => console.log('drop', array));
+    // drop$.subscribe(array => console.log('drop', array));
   </script>
 </body>
 </html>
