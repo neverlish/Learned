@@ -18,6 +18,7 @@
       display: inline-block;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
 </head>
 <body>
   <div id="carousel" class="view">
@@ -34,9 +35,22 @@
   </div>
 
   <script>
+    const { fromEvent } = rxjs;
+    
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
+
+    const SUPPORT_TOUCH = 'ontouchstart' in window;
+    const EVENTS = {
+      start: SUPPORT_TOUCH ? 'touchstart' : 'mousedown',
+      move: SUPPORT_TOUCH ? 'touchmove' : 'mousemove',
+      end: SUPPORT_TOUCH ? 'touchend' : 'mouseup'
+    };
+
+    const start$ = fromEvent($view, EVENTS.start);
+    const move$ = fromEvent($view, EVENTS.move);
+    const end$ = fromEvent($view, EVENTS.end);
   </script>
 </body>
 </html>
