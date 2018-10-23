@@ -36,7 +36,7 @@
 
   <script>
     const { fromEvent } = rxjs;
-    const { mergeMap, takeUntil, map, switchMap } = rxjs.operators;
+    const { mergeMap, takeUntil, map, switchMap, first } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
@@ -70,6 +70,10 @@
     );
     
     drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
+
+    const drop$ = drag$.pipe(
+      switchMap(drag => end$.pipe(first()))
+    )
   </script>
 </body>
 </html>
