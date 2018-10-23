@@ -35,7 +35,7 @@
   </div>
 
   <script>
-    const { fromEvent } = rxjs;
+    const { fromEvent, merge } = rxjs;
     const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
@@ -71,7 +71,7 @@
       share()
     );
     
-    drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
+    // drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
 
     const size$ = fromEvent(window, 'resize')
       .pipe(
@@ -91,6 +91,9 @@
     );
 
     // drop$.subscribe(array => console.log('drop', array));
+
+    const carousel$ = merge(drag$, drop$);
+    carousel$.subscribe(v => console.log('캐러셀 데이터', v));
   </script>
 </body>
 </html>
