@@ -127,7 +127,9 @@ export default class Map {
         mergeMap(marker => fromEvent(marker, 'click')),
         map(({ overlay }) => ({
           marker: overlay,
-          position: overlay.getPosition()
+          position: overlay.getPosition(),
+          id: overlay.getOptions('id'),
+          name: overlay.getOptions('name')
         }))
       );
   }
@@ -135,7 +137,12 @@ export default class Map {
   manageMarker(station$) {
     return station$
       .pipe(
-        map(stations => stations.map(station => this.createMarker(station.stationName, station.x, station.y))),
+        map(stations => stations.map(station => {
+          const marker = this.createMarker(station.stationName, station.x, station.y);
+          marker.setOptions('id', station.stationId);
+          marker.setOptions('name', station.stationName);
+          return marker;
+        })),
         scan((prev, markers) => {
           // 이전 markers 삭제
           prev.forEach(this.deleteMarker),
