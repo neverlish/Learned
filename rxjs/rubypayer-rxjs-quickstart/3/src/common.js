@@ -25,7 +25,7 @@ export function handleAjax(property) {
     )
 }
 
-function geolocation() {
+function geolocation(obs$) {
   const defaultPosition = {
     coords: {
       longitude: 126.9783882,
@@ -73,7 +73,7 @@ export function createShare$() {
 
   return {
     render$,
-    search$
+    search$: search$.pipe(geolocation)
   }
 }
 
