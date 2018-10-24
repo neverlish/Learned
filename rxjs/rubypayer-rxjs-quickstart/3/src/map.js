@@ -1,5 +1,6 @@
-const { fromEvent } = rxjs;
-const { map } = rxjs.operators;
+const { fromEvent, of } = rxjs;
+const { ajax } = rxjs.ajax;
+const { map, switchMap, pluck } = rxjs.operators;
 
 // 버스 타입의 클래스를 결정하는 함수
 function getBusType(name) {
@@ -98,6 +99,14 @@ export default class Map {
           latitude: coord.x,
           longitude: coord.y
         }))
+      );
+  }
+
+  mapStation(coord$) {
+    return coord$
+      .pipe(
+        switchMap(coord => ajax.getJSON(`/station/around/${coord.longitude}/${coord.latitude}`)),
+        pluck('busStationAroundList')
       );
   }
 }
