@@ -95,11 +95,12 @@ export default class Map {
       .pipe(
         this.mapStation,
         this.manageMarker.bind(this),
-        this.mapMarkerClick
+        this.mapMarkerClick,
+        this.mapBus
       );
 
-    station$.subscribe(markInfo => {
-      console.log('클릭한 마커의 정보 ', markInfo);
+    station$.subscribe(stations => {
+      console.log('클릭한 마커를 경유하는 버스노선 정보 ', stations);
     });
   }
 
@@ -153,10 +154,10 @@ export default class Map {
       )
   }
 
-  mapBus(stationId$) {
-    return stationId$
+  mapBus(markerInfo$) {
+    return markerInfo$
       .pipe(
-        switchMap(id => ajax.getJSON(`/bus/pass/station/${id}`)),
+        switchMap(markerInfo => ajax.getJSON(`/bus/pass/station/${markerInfo.id}`)),
         pluck('busRouteList')
       );
   }
