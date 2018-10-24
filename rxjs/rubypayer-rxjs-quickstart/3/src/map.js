@@ -1,4 +1,4 @@
-const { fromEvent, of } = rxjs;
+const { fromEvent } = rxjs;
 const { ajax } = rxjs.ajax;
 const { map, switchMap, pluck } = rxjs.operators;
 
@@ -90,14 +90,21 @@ export default class Map {
   constructor($map) {
     this.naverMap = createNaverMap($map);
     this.infowindow = createNaverInfoWindow();
+    
+    this.createDragend$()
+      .pipe(this.mapStation)
+      .subscribe(stations => {
+        this.markers && this.markers.forEach(marker => this.deleteMarker(marker));
+        this.markers = stations.map(station => this.createMarker(station.stationName, station.x, station.y));
+      });
   }
 
   createDragend$() {
     return fromEvent(this.naverMap, 'dragend')
       .pipe(
         map(({ coord }) => ({
-          latitude: coord.x,
-          longitude: coord.y
+          longitude: coord.x,
+          latitude: coord.y
         }))
       );
   }
@@ -105,7 +112,7 @@ export default class Map {
   mapStation(coord$) {
     return coord$
       .pipe(
-        switchMap(coord => ajax.getJSON(`/station/around/${coord.longitude}/${coord.latitude}`)),
+        switchMap(coord => ajax.getJSON(`http://localhost:3000/station/around/${coord.longitude}/${coord.latitude}`)),
         pluck('busStationAroundList')
       );
   }
