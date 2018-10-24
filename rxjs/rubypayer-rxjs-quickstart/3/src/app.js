@@ -15,7 +15,9 @@ const map = new Map(document.querySelector(".map"), search$);
 render$.subscribe(stations => {
   if (stations.length) {
     map.drawPath(stations);
+    sidebar.render(stations);
   } else {
     map.deletePath();
+    sidebar.close();
   }
 })

@@ -77,7 +77,7 @@ export function createShare$() {
   }
 }
 
-function parseHash() {
+export function parseHash() {
   const [routeId, routeNum] = location.hash.substring(1).split('_');
   return {
     routeId,
