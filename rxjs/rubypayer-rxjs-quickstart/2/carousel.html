@@ -35,7 +35,7 @@
   </div>
 
   <script>
-    const { fromEvent, merge, animationFrameScheduler, interval, concat, of } = rxjs;
+    const { fromEvent, merge, animationFrameScheduler, interval, concat, of, defer } = rxjs;
     const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share, scan, takeWhile } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
@@ -57,66 +57,31 @@
     }
 
     const THRESHOLD = 30;
-    const DURATION = 300;
-    const from = 100;
-    const to = 500;
     const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
     const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     const end$ = fromEvent($view, EVENTS.end);
 
-    const scheduler = animationFrameScheduler;
-    const start = scheduler.now();
-    const interval$ = interval(0, scheduler)
-      .pipe(
-        map(() => (scheduler.now() - start) / DURATION),
-        takeWhile(rate => rate < 1)
-      );
-    const animation$ = concat(interval$, of(1))
-      .pipe(
-        map(rate => from + (to - from) * rate)
-      );
-    animation$.subscribe(rate => console.log('animation$', rate));
-    /*
-    animation$ 112
-    animation$ 116
-    animation$ 117.33333333333334
-    animation$ 120
-    animation$ 124
-    animation$ 126.66666666666667
-    animation$ 146.66666666666666
-    animation$ 149.33333333333334
-    animation$ 169.33333333333334
-    animation$ 172
-    animation$ 190.66666666666666
-    animation$ 193.33333333333331
-    animation$ 213.33333333333331
-    animation$ 214.66666666666669
-    animation$ 236
-    animation$ 240
-    animation$ 260
-    animation$ 261.3333333333333
-    animation$ 281.3333333333333
-    animation$ 284
-    animation$ 302.6666666666667
-    animation$ 304
-    animation$ 325.33333333333337
-    animation$ 328
-    animation$ 348
-    animation$ 352
-    animation$ 369.3333333333333
-    animation$ 373.3333333333333
-    animation$ 390.6666666666667
-    animation$ 393.3333333333333
-    animation$ 414.66666666666663
-    animation$ 417.3333333333333
-    animation$ 437.33333333333337
-    animation$ 441.33333333333337
-    animation$ 457.3333333333333
-    animation$ 462.66666666666663
-    animation$ 480
-    animation$ 484
-    animation$ 500
-    */
+    function animation(from, to, duration) {
+      return defer(() => {
+        const scheduler = animationFrameScheduler;
+        const start = scheduler.now();
+        const interval$ = interval(0, scheduler)
+          .pipe(
+            map(() => (scheduler.now() - start) / duration),
+            takeWhile(rate => rate < 1)
+          );
+        return concat(interval$, of(1))
+          .pipe(
+            map(rate => from + (to - from) * rate)
+          );
+      })
+    }
+
+    const animation$ = animation(100, 500, 300);
+
+    setTimeout(() => {
+      animation$.subscribe(v => console.log(v));
+    }, 500);
 
     const drag$ = start$.pipe(
       switchMap(start => {
