@@ -182,7 +182,7 @@ export default class Map {
 
   render(buses, { name }) {
     const list = buses.map(bus => (`<dd>
-      <a href="#">
+      <a href="#${bus.routeId}_${bus.routeName}">
         <strong>${bus.routeName}</strong> <span>${bus.regionName}</span>
         <span class="type ${getBusType(bus.routeTypeName)}">${bus.routeTypeName}</span>
       </a>

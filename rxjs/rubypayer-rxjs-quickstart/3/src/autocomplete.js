@@ -53,7 +53,7 @@ export default class AutoComplete {
   render(buses) {
     this.$layer.innerHTML = buses.map(bus => {
       return `<li>
-        <a href="#">
+        <a href="#${bus.routeId}_${bus.routeName}">
           <strong>${bus.routeName}</strong>
           <span>${bus.regionName}</span>
           <div>${bus.routeTypeName}</div>
