@@ -124,7 +124,14 @@
           size: 0
         })
       );
-    carousel$.subscribe(v => console.log('캐러셀 데이터', v));
+
+    function translateX(posX) {
+      $container.style.transform = `translate3d(${posX}px, 0, 0)`;
+    }
+    carousel$.subscribe(store => {
+      console.log('캐러셀 데이터', store);
+      translateX(store.to);
+    });
   </script>
 </body>
 </html>
