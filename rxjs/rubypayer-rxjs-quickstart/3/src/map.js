@@ -1,4 +1,4 @@
-const { fromEvent, from, of, combineLatest } = rxjs;
+const { fromEvent, from, of, combineLatest, merge } = rxjs;
 const { ajax } = rxjs.ajax;
 const { map, switchMap, pluck, scan, mergeMap } = rxjs.operators;
 
@@ -89,11 +89,11 @@ export default class Map {
   isOpenInfoWindow(position) {
     return !(position.equals(this.infowindow.getPosition()) && this.infowindow.getMap());
   }
-  constructor($map) {
+  constructor($map, search$) {
     this.naverMap = createNaverMap($map);
     this.infowindow = createNaverInfoWindow();
     
-    const station$ = this.createDragend$()
+    const station$ = merge(search$, this.createDragend$())
       .pipe(
         this.mapStation,
         this.manageMarker.bind(this),
