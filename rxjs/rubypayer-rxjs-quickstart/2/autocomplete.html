@@ -1,0 +1,124 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <style>
+    .autocomplete {
+      position: relative;
+      width: 300px;
+    }
+    #search {
+      width: 100%;
+    }
+    #suggestLayer {
+      position: absolute;
+      top: 20px;
+      color: #666;
+      padding: 0px;
+      margin: 0px;
+      width: 100%;
+    }
+    #suggestLayer li {
+      border: 1px solid #bec8d8;
+      list-style: none;
+    }
+    .user img {
+      position:relative;
+      float:left;
+      margin-right: 10px;
+    }
+    .user p {
+      line-height: 50px;   
+      margin:0px;
+      padding:0px;
+    }
+    #loading {
+      position: absolute;
+      z-index: 2;
+      top: 2px;
+      right: 0px;
+      display: none;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+
+<body>
+  <div class='autocomplete'>
+    <input type="input" id="search" placeholder="검색하고 싶은 사용자의 아이디를 입력해 주세요" />
+    <ul id='suggetLayer'></ul>
+    <div id='loading'>
+      <i class='fas fa-spinner fa-pulse'></i>
+    </div>
+  </div>
+  <script>
+    const { fromEvent, Subject, Observable } = rxjs;
+    const { map, debounceTime, filter, distinctUntilChanged, tap, switchMap, catchError, retry, finalize, partition, share } = rxjs.operators;
+    const { ajax } = rxjs.ajax;
+
+    const keyup$ = fromEvent(document.getElementById('search'), 'keyup')
+      .pipe(
+        debounceTime(300), // 300ms 뒤에 데이터를 전달한다.
+        map(event => event.target.value),
+        distinctUntilChanged(), // 특수키가 입력된 경우에는 나오지 않기 위해 중복 데이터 처리
+        tap(v => console.log('from keyup$', v)),
+        share()
+      );
+    
+    let [user$, reset$] = keyup$
+      .pipe(
+        partition(query => query.trim().length > 0) 
+      );
+    
+
+    user$ = user$
+      .pipe(
+        tap(showLoading),
+        switchMap(query => ajax.getJSON(`https://api.github.com/search/users?q=${query}`)),
+        tap(hideLoading),
+        // catchError((e, orgObservable) => {
+        //   console.log('서버 에러가 발생하였으나 다시 호출하도록 처리', e.message);
+        //   // 현재 Observable을 반환한ㄷ.
+        //   return orgObservable;
+        // })
+        retry(2),
+        finalize(hideLoading),
+        tap(v => console.log('from user$', v))
+      );
+
+    user$.subscribe({
+      next: v => drawLayer(v.items),
+      error: e => {
+        console.error(e);
+        alert(e.message);
+      }
+    });
+
+    reset$ = reset$
+      .pipe(
+        tap(v => $layer.innerHTML = ''),
+        tap(v => console.log('from reset$', v))
+      );
+
+    reset$.subscribe();
+
+    const $layer = document.getElementById('suggetLayer');
+    function drawLayer(items) {
+      $layer.innerHTML = items.map(user => {
+        return `<li class="user">
+          <img src="${user.avatar_url}" width="50px" height="50px" />
+          <p><a href="${user.html_url}" target="_blank">${user.login}</a></p>
+        </li>`;
+      }).join('');
+    }
+
+    const $loading = document.getElementById('loading');
+    function showLoading() {
+      $loading.style.display = 'block';
+    }
+    function hideLoading() {
+      $loading.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

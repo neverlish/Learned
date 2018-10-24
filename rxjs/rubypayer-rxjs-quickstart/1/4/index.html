@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js"></script>
+<style>
+li,ul {
+	list-style: none;
+	padding:0;
+}
+dt {
+	background-color: black;
+	color: white;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+.card {
+	background-color: #e3e3e3;
+	border-radius: 5px;
+	padding: 10px 20px;
+	margin: 10px 0;
+}
+.color {
+	display: inline-block;
+    width: 40px;
+    height: 13px;
+    margin-left: 5px;
+	border: 1px solid #333;
+}
+</style>
+</head>
+
+<body>
+<ul id="users"></ul>
+<script>
+	const { of } = rxjs;
+	const { ajax } = rxjs.ajax;
+	const { switchMap, filter, map, reduce } = rxjs.operators;
+	
+	ajax.getJSON("https://swapi.co/api/people/?format=json")
+		.pipe(
+			switchMap(data => of(...data.results)),
+			filter(user => /male|female/.test(user.gender)),
+			map(user => Object.assign(
+				user,
+				logic(user.height, user.mass, user.gender)
+			)),
+			reduce((acc, user) => {
+				acc.push(makeHtml(user));
+				return acc;
+			}, []),
+			map(htmlArr => htmlArr.join(""))
+		)
+		.subscribe(v => {
+			document.getElementById("users").innerHTML = v;
+		});
+
+	// 표준 체중과 비만도를 계산하는 함수
+	function logic(height, mass, gender) {
+		let broca;
+		let bmi;
+		if (gender == "male") {
+			broca = (height - 100 * 0.9).toFixed(2);
+			bmi = (height / 100 * height / 100 * 22).toFixed(2);
+		} else {
+			broca = (height - 105 * 0.9).toFixed(2);
+			bmi = (height / 100 * height / 100 * 21).toFixed(2);
+		}
+		const obesityUsingBroca = ((mass - broca) / broca * 100).toFixed(2);
+		const obesityUsingBmi = ((mass - bmi) / bmi * 100).toFixed(2);
+		return {
+			broca,
+			bmi,
+			obesityUsingBroca,
+			obesityUsingBmi
+		};
+	}
+	// 사용자 정보를 표현하기 위해 HTML을 만드는 함수
+	function makeHtml(user) {
+		return `<li class='card'>
+			<dl>
+				<dt>${user.name} <i class="fa fa-${user.gender}"></i></dt>
+				<dd><span>키 : </span><span>${user.height} cm</span></dd>
+				<dd><span>몸무게: </span><span>${user.mass} kg</span></dd>
+				<dd><span>BROCA 표준체중 : </span><span>${user.broca} kg</span></dd>
+				<dd><span>BROCA 비만도 : ${user.obesityUsingBroca}</span></dd>
+				<dd><span>BMI 표준체중 : </span><span>${user.bmi} kg</span></dd>
+				<dd><span>BMI 비만도 : ${user.obesityUsingBmi}</span></dd>
+			</dl>
+		</li>`;
+	}
+</script>
+</body>
+</html>

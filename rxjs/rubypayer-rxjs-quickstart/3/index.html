@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="./style.css"/> 
+  <!-- font awesome CDN -->
+  <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+  <!-- 네이버 지도 API 
+    별도의 인증키로 교체가 필요한 경우 "인증키" 부분을 바꿔서 사용하세요
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=인증키&submodules=geocoder"></script>
+    
+    제공 인증키(ClientID): _ydj_2zvT5NeZ_zCFLa
+  -->
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=_ydj_2zvT5NeZ_zCFLa7&submodules=geocoder"></script>
+  <!-- RxJS 라이브러리 -->
+  <!-- 브라우저가 지원하는 ES Modules을 지원하기 위해서 해당 예제에서는 umd 모듈을 사용 -->
+  <script src="../node_modules/rxjs/bundles/rxjs.umd.js"></script>
+</head>
+<body>
+  <header>
+    <h2 class="bus">RxJS Example</h2>
+    <!-- 자동완성 UI 영역 (시작) -->
+    <div class="autocomplete">
+      <input type="input" placeholder="검색하고 싶은 버스 번호를 입력해주세요"></input>
+      <ul class="layer"></ul>
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+      </div>
+    </div>
+    <!-- 자동완성 UI 영역 (끝) -->
+  </header>
+  <main>
+    <!-- 지도 영역 (시작) -->
+    <article class="map"></article>
+    <!-- 지도 영역 (끝) -->
+    <!-- 사이드바 영역 (시작) -->
+    <aside class="stations">
+      <div class="title-container">
+        <span class="title"></span>
+      </div>
+      <ul></ul>
+    </aside>
+    <!-- 사이드바 영역 (끝) -->
+  </main>
+<script type="module" src="./src/app.js"></script>
+</body>
+</html>

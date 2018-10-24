@@ -1,0 +1,20 @@
+{
+  "name": "bus-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect api-server.js # API 처리하는 서버"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "isomorphic-fetch": "^2.2.1",
+    "xml2json-light": "^1.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5",
+    "rxjs": "^6.2.0"
+  }
+}
