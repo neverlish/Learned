@@ -36,7 +36,7 @@
 
   <script>
     const { fromEvent, merge } = rxjs;
-    const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share } = rxjs.operators;
+    const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share, scan } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
     const $container = document.querySelector('.container');
@@ -56,6 +56,7 @@
         );
     }
 
+    const THRESHOLD = 30;
     const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
     const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     const end$ = fromEvent($view, EVENTS.end);
@@ -95,7 +96,34 @@
 
     // drop$.subscribe(array => console.log('drop', array));
 
-    const carousel$ = merge(drag$, drop$);
+    const carousel$ = merge(drag$, drop$)
+      .pipe(
+        scan((store, { distance, size }) => {
+          const updateStore = {
+            from: -(store.index * store.size) + distance,
+          };
+          if (size === undefined) { // drag 시점
+            updateStore.to = updateStore.from;
+          } else { // drop 시점
+            let tobeIndex = store.index;
+            if (Math.abs(distance) >= THRESHOLD) {
+              tobeIndex = distance < 0 ?
+                Math.min(tobeIndex + 1, PANEL_COUNT - 1) : 
+                Math.max(tobeIndex - 1, 0);
+            }
+            updateStore.index = tobeIndex;
+            updateStore.to = -(tobeIndex * size);
+            updateStore.size = size;
+          }
+
+          return { ...store, ...updateStore };
+        }, {
+          from: 0,
+          to: 0,
+          index: 0,
+          size: 0
+        })
+      );
     carousel$.subscribe(v => console.log('캐러셀 데이터', v));
   </script>
 </body>
