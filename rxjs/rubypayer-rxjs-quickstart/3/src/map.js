@@ -145,4 +145,12 @@ export default class Map {
         mergeMap(markers => from(markers))
       )
   }
+
+  mapBus(stationId$) {
+    return stationId$
+      .pipe(
+        switchMap(id => ajax.getJSON(`/bus/pass/station/${id}`)),
+        pluck('busRouteList')
+      );
+  }
 }
