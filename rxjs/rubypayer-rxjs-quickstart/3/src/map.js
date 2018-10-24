@@ -99,8 +99,16 @@ export default class Map {
         this.mapBus
       );
 
-    station$.subscribe(stations => {
-      console.log('클릭한 마커를 경유하는 버스노선 정보 ', stations);
+    station$.subscribe(({ markerInfo, buses }) => {
+      if (this.isOpenInfoWindow(markerInfo.position)) {
+        this.openInfoWindow(
+          markerInfo.marker,
+          markerInfo.position,
+          this.render(buses, markerInfo)
+        );
+      } else {
+        this.closeInfoWindow();
+      }
     });
   }
 
