@@ -2,6 +2,8 @@ const { fromEvent } = rxjs;
 const { debounceTime, map, distinctUntilChanged, share, partition, switchMap, pluck, tap, retry, finalize, merge } = rxjs.operators;
 const { ajax } = rxjs.ajax;
 
+import { handleAjax } from './common.js';
+
 export default class AutoComplete {
   constructor($autocomplete) {
     this.$input = $autocomplete.querySelector('input');
@@ -16,17 +18,7 @@ export default class AutoComplete {
       .pipe(
         tap(() => this.showLoading()),
         switchMap(query => ajax.getJSON(`/bus/${query}`)),
-        map(jsonRes => {
-          if (Array.isArray(jsonRes['busRouteList'])) {
-            return jsonRes['busRouteList'];
-          } else {
-            if (jsonRes['busRouteList']) {
-              return [jsonRes['busRouteList']]; // 1건만 전달된 경우 객체로 넘겨져 옮.
-            } else {
-              return [];
-            }
-          }
-        }),
+        handleAjax('busRouteList'),
         retry(2),
         tap(() => this.hideLoading()),
         finalize(() => this.reset())

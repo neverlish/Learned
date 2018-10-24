@@ -2,6 +2,8 @@ const { fromEvent, from, of, combineLatest } = rxjs;
 const { ajax } = rxjs.ajax;
 const { map, switchMap, pluck, scan, mergeMap } = rxjs.operators;
 
+import { handleAjax } from './common.js';
+
 // 버스 타입의 클래스를 결정하는 함수
 function getBusType(name) {
   if (/^광역/.test(name)) {
@@ -126,7 +128,7 @@ export default class Map {
     return coord$
       .pipe(
         switchMap(coord => ajax.getJSON(`http://localhost:3000/station/around/${coord.longitude}/${coord.latitude}`)),
-        pluck('busStationAroundList')
+        handleAjax('busStationAroundList')
       );
   }
 
@@ -168,7 +170,7 @@ export default class Map {
         switchMap(markerInfo => {
           const marker$ = of(markerInfo);
           const bus$ = ajax.getJSON(`/bus/pass/station/${markerInfo.id}`)
-            .pipe(pluck('busRouteList'));
+            .pipe(handleAjax('busRouteList'));
 
           return combineLatest(marker$, bus$, (marker, buses) => ({
             buses,
