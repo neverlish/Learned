@@ -1,3 +1,6 @@
+const { fromEvent } = rxjs;
+const { map } = rxjs.operators;
+
 // 버스 타입의 클래스를 결정하는 함수
 function getBusType(name) {
   if (/^광역/.test(name)) {
@@ -86,5 +89,15 @@ export default class Map {
   constructor($map) {
     this.naverMap = createNaverMap($map);
     this.infowindow = createNaverInfoWindow();
+  }
+
+  createDragend$() {
+    return fromEvent(this.naverMap, 'dragend')
+      .pipe(
+        map(({ coord }) => ({
+          latitude: coord.x,
+          longitude: coord.y
+        }))
+      );
   }
 }
