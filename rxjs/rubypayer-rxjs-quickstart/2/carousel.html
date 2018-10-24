@@ -57,12 +57,28 @@
     }
 
     const THRESHOLD = 30;
+    const DURATION = 300;
     const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
     const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     const end$ = fromEvent($view, EVENTS.end);
 
     const scheduler = animationFrameScheduler;
-    const animation$ = interval(0, scheduler);
+    const start = scheduler.now();
+    const animation$ = interval(0, scheduler)
+      .pipe(
+        map(() => (scheduler.now() - start) / DURATION)
+      );
+    animation$.subscribe(rate => console.log('animation$', rate));
+    /*
+    animation$ 0.01
+    animation$ 0.013333333333333334
+    animation$ 0.08666666666666667
+    animation$ 0.14333333333333334
+    animation$ 0.2
+    animation$ 0.25333333333333335
+    animation$ 0.25666666666666665
+    ....
+    */
 
     const drag$ = start$.pipe(
       switchMap(start => {
