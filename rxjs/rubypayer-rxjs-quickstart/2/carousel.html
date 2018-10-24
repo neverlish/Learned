@@ -68,7 +68,8 @@
         );
       }),
       // tap(v => console.log('drag$', v)),
-      share()
+      share(),
+      map(distance => ({ distance }))
     );
     
     // drag$.subscribe(distance => console.log("start$와 move$의 차이 값", distance));
@@ -87,7 +88,9 @@
         );
       }),
       // tap(v => console.log('drop$', v)),
-      withLatestFrom(size$)
+      withLatestFrom(size$, (drag, size) => {
+        return { ...drag, size };
+      })
     );
 
     // drop$.subscribe(array => console.log('drop', array));
