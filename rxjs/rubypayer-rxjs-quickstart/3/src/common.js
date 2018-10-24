@@ -1,5 +1,5 @@
-const { merge, fromEvent } = rxjs;
-const { map, partition, share, switchMap } = rxjs.operators;
+const { merge, fromEvent, Observable } = rxjs;
+const { map, partition, share, switchMap, pluck, first } = rxjs.operators;
 const { ajax } = rxjs.ajax;
 
 export function handleAjax(property) {
@@ -23,6 +23,32 @@ export function handleAjax(property) {
         }
       })
     )
+}
+
+function geolocation() {
+  const defaultPosition = {
+    coords: {
+      longitude: 126.9783882,
+      latitude: 37.5666103,
+    }
+  };
+
+  return new Observable(observer => {
+    if (navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(
+        position => observer.next(position),
+        error => observer.next(defaultPosition),
+        {
+          timeout: 1000 // 1초 내에 답변이 없으면 에러처리
+        }
+      );
+    } else {
+      observer.next(defaultPosition);
+    }
+  }).pipe(
+    pluck('coords'),
+    first()
+  );
 }
 
 export function createShare$() {
