@@ -35,7 +35,7 @@
   </div>
 
   <script>
-    const { fromEvent, merge } = rxjs;
+    const { fromEvent, merge, animationFrameScheduler, interval } = rxjs;
     const { mergeMap, takeUntil, map, switchMap, first, startWith, withLatestFrom, tap, share, scan } = rxjs.operators;
 
     const $view = document.getElementById('carousel');
@@ -60,6 +60,9 @@
     const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
     const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     const end$ = fromEvent($view, EVENTS.end);
+
+    const scheduler = animationFrameScheduler;
+    const animation$ = interval(0, scheduler);
 
     const drag$ = start$.pipe(
       switchMap(start => {
