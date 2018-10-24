@@ -1,6 +1,6 @@
 const { fromEvent } = rxjs;
 const { ajax } = rxjs.ajax;
-const { map, switchMap, pluck } = rxjs.operators;
+const { map, switchMap, pluck, scan } = rxjs.operators;
 
 // 버스 타입의 클래스를 결정하는 함수
 function getBusType(name) {
@@ -91,8 +91,13 @@ export default class Map {
     this.naverMap = createNaverMap($map);
     this.infowindow = createNaverInfoWindow();
     
-    this.createDragend$()
-      .pipe(this.mapStation)
+    let station$ = this.createDragend$()
+      .pipe(
+        this.mapStation,
+        this.manageMarker.bind(this)
+      );
+
+    station$ = station$
       .subscribe(stations => {
         this.markers && this.markers.forEach(marker => this.deleteMarker(marker));
         this.markers = stations.map(station => this.createMarker(station.stationName, station.x, station.y));
@@ -125,5 +130,18 @@ export default class Map {
           position: overlay.getPosition()
         }))
       );
+  }
+
+  manageMarker(station$) {
+    return station$
+      .pipe(
+        map(stations => stations.map(station => this.createMarker(station.stationName, station.x, station.y))),
+        scan((prev, markers) => {
+          // 이전 markers 삭제
+          prev.forEach(this.deleteMarker),
+          prev = markers;
+          return prev;
+        }, [])
+      )
   }
 }
