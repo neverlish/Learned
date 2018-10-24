@@ -1,5 +1,5 @@
 const { fromEvent } = rxjs;
-const { debounceTime, map, distinctUntilChanged, share, partition, switchMap, pluck, tap, retry, finalize } = rxjs.operators;
+const { debounceTime, map, distinctUntilChanged, share, partition, switchMap, pluck, tap, retry, finalize, merge } = rxjs.operators;
 const { ajax } = rxjs.ajax;
 
 export default class AutoComplete {
@@ -19,13 +19,15 @@ export default class AutoComplete {
         pluck('busRouteList'),
         retry(2),
         tap(() => this.hideLoading()),
-        finalize(() => {
-          this.hideLoading();
-          this.$layer.style.display = 'none';
-        })
+        finalize(() => this.reset())
       );
 
+    reset$ = reset$.pipe(
+      merge(fromEvent(this.$layer, 'click', (evt) => evt.target.closest('li')))
+    );
+
     search$.subscribe(items => this.render(items));
+    reset$.subscribe(() => this.reset());
   }
 
   createKeyup$() {
@@ -57,5 +59,10 @@ export default class AutoComplete {
       </li>`;
     }).join('');
     this.$layer.style.display = 'block';
+  }
+
+  reset() {
+    this.hideLoading();
+    this.$layer.style.display = 'none';
   }
 };
