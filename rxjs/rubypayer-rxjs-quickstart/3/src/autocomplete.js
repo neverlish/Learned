@@ -16,7 +16,17 @@ export default class AutoComplete {
       .pipe(
         tap(() => this.showLoading()),
         switchMap(query => ajax.getJSON(`/bus/${query}`)),
-        pluck('busRouteList'),
+        map(jsonRes => {
+          if (Array.isArray(jsonRes['busRouteList'])) {
+            return jsonRes['busRouteList'];
+          } else {
+            if (jsonRes['busRouteList']) {
+              return [jsonRes['busRouteList']]; // 1건만 전달된 경우 객체로 넘겨져 옮.
+            } else {
+              return [];
+            }
+          }
+        }),
         retry(2),
         tap(() => this.hideLoading()),
         finalize(() => this.reset())
