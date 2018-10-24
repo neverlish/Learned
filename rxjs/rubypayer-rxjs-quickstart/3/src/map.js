@@ -1,4 +1,4 @@
-const { fromEvent, from } = rxjs;
+const { fromEvent, from, of, combineLatest } = rxjs;
 const { ajax } = rxjs.ajax;
 const { map, switchMap, pluck, scan, mergeMap } = rxjs.operators;
 
@@ -157,8 +157,16 @@ export default class Map {
   mapBus(markerInfo$) {
     return markerInfo$
       .pipe(
-        switchMap(markerInfo => ajax.getJSON(`/bus/pass/station/${markerInfo.id}`)),
-        pluck('busRouteList')
+        switchMap(markerInfo => {
+          const marker$ = of(markerInfo);
+          const bus$ = ajax.getJSON(`/bus/pass/station/${markerInfo.id}`)
+            .pipe(pluck('busRouteList'));
+
+          return combineLatest(marker$, bus$, (marker, buses) => ({
+            buses,
+            markerInfo
+          }));
+        })
       );
   }
 }
