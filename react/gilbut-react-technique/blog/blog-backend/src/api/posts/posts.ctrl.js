@@ -39,6 +39,13 @@ exports.read = async (ctx) => {
 };
 
 exports.remove = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    await Post.findByIdAndRemove(id).exec();
+    ctx.status = 204;
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
 };
 
 exports.replace = async (ctx) => {
