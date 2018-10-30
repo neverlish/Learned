@@ -16,6 +16,12 @@ exports.write = async (ctx) => {
 };
 
 exports.list = async (ctx) => {
+  try {
+    const posts = await Post.find().exec();
+    ctx.body = posts;
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
 };
 
 exports.read = async (ctx) => {
