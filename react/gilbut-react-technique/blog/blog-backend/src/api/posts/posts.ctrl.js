@@ -48,8 +48,18 @@ exports.remove = async (ctx) => {
   }
 };
 
-exports.replace = async (ctx) => {
-};
-
 exports.update = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+      new: true
+    }).exec();
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = post;
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
 };
