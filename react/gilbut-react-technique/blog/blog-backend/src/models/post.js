@@ -11,3 +11,5 @@ const Post = new Schema({
     default: new Date()
   }
 });
+
+module.exports = mongoose.model('Post', Post);
