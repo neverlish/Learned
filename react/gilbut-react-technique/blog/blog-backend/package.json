@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "dotenv": "^5.0.1",
+    "joi": "^13.3.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
