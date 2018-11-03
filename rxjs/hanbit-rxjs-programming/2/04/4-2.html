@@ -1,0 +1,17 @@
+<!-- 조건이 있는 takeUntil 연산자 사용 -->
+
+<div id="displayArea">
+  0secs
+</div>
+<button id="stop_btn" type="button">Stop</button>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.2/rxjs.umd.min.js'></script>
+<script>
+  const { interval, fromEvent } = rxjs;
+  const { take, takeUntil } = rxjs.operators;
+  interval(1000).pipe(
+    take(100),
+    takeUntil(fromEvent(document.querySelector('#stop_btn'), 'click')
+  )).subscribe(
+    x => document.querySelector('#displayArea').innerHTML = `${x+1}secs`
+  );
+</script>
