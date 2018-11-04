@@ -7,6 +7,7 @@ import Header from './Header';
 import Loading from './Loading';
 import ErrorMessage from './ErrorMessage';
 import Login from './Login';
+import Logout from './Logout';
 
 class App extends Component {
   render() {
@@ -14,6 +15,10 @@ class App extends Component {
       <div className="App">
         <Header />
         <Login
+          auth={this.props.auth}
+          actions={this.props.actions}
+        />
+        <Logout
           auth={this.props.auth}
           actions={this.props.actions}
         />
