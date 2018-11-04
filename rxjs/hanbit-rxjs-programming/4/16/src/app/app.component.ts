@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { interval } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  template: '<h1>interval: {{ source$ | async }}</h1>',
+  template: `
+    <input type="text" [formControl]="name">
+    <div> 입력된 내용은 {{ name$ | async }}</div>
+  `,
 })
 export class AppComponent {
-  x = 0;
-  source$ = interval(1000);
+  name = new FormControl();
+  name$ = this.name.valueChanges;
 }
