@@ -5,6 +5,7 @@ import * as actions from './actions';
 
 import Header from './Header';
 import Loading from './Loading';
+import ErrorMessage from './ErrorMessage';
 
 class App extends Component {
   render() {
@@ -13,6 +14,9 @@ class App extends Component {
         <Header />
         <Loading 
           loading={this.props.loading} 
+        />
+        <ErrorMessage
+          errorMessage={this.props.errorMessage}
         />
       </div>
     );
