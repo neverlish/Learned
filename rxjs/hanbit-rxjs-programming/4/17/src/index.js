@@ -7,7 +7,11 @@ const store = createStore(reducer, 0);
 
 class App extends Component {
   increment () {
-    store.dispatch({ type: 'INCREMENT' });
+    store.dispatch(function(dispatch, getState) {
+      setTimeout(() => {
+        dispatch({ type: 'INCREMENT' });
+      }, 1000);
+    });
   }
   decrement () {
     store.dispatch({ type: 'DECREMENT' });
