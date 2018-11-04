@@ -1,7 +1,7 @@
 import { Subject, BehaviorSubject } from 'rxjs';
 import { scan } from 'rxjs/operators';
 
-function createStore(rootReducer, initialState) {
+export function createStore(rootReducer, initialState) {
   const actionDispatcher$ = new Subject();
 
   const store$ = new BehaviorSubject(initialState);
