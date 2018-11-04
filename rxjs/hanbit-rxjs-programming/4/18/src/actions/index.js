@@ -1,5 +1,9 @@
 import * as ActionTypes from '../constants/ActionTypes';
 
+export function getAuth(username, password) {
+  return { type: ActionTypes.GET_AUTH, username, password };
+}
+
 export function setAuth(auth) {
   return { type: ActionTypes.SET_AUTH, auth };
 }
