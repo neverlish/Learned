@@ -1,9 +1,13 @@
 import { Subject } from 'rxjs';
+import { scan } from 'rxjs/operators';
 
 function createStore(rootReducer, initialState) {
-  const store$ = new Subject();
+  const actionDispatcher$ = new Subject();
+  const store$ = actionDispatcher$
+    .pipe(scan(rootReducer, initialState));
+    
   return {
-    dispatch: store$.next.bind(store$),
-    subscribe: store$.subscribe.bind(store$),
+    dispatch: actionDispatcher$.next.bind(actionDispatcher$),
+    subscribe: actionDispatcher$.subscribe.bind(actionDispatcher$),
   };
 }
