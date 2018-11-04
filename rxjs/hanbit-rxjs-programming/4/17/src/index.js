@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { createStore } from './redux';
 import reducer from './reducer';
 
@@ -13,6 +14,19 @@ class App extends Component {
   }
 
   render() {
-    return <div>Output: {this.props.state}</div>;
+    return (
+      <div>
+        <button onClick={this.increment.bind(this)}>증가</button>
+        <button onClick={this.decrement.bind(this)}>감소</button>
+        <div>Output: {this.props.state}</div>
+      </div>
+    );
   }
 }
+
+store.subscribe(state => {
+  ReactDOM.render(
+    <App state={state} />,
+    document.getElementById('root')
+  );
+});
