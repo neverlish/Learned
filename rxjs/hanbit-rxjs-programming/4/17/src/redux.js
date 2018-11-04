@@ -1,17 +1,16 @@
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { scan } from 'rxjs/operators';
 
 function createStore(rootReducer, initialState) {
   const actionDispatcher$ = new Subject();
-  const store$ = actionDispatcher$
-    .pipe(scan(rootReducer, initialState));
-  
-  let latestState = initialState;
-  store$.subscribe(state => (latestState = state));
+
+  const store$ = new BehaviorSubject(initialState);
+  actionDispatcher$.pipe(scan(rootReducer, initialState))
+    .subscribe(store$);
 
   return {
     dispatch: actionDispatcher$.next.bind(actionDispatcher$),
     subscribe: store$.subscribe.bind(store$),
-    getState: () => latestState
+    getState: store$.getValue.bind(store$)
   };
 }
