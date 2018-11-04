@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, combineLatest } from 'rxjs';
+import { startWith, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   template: `
     <input type="text" [formControl]="name">
-    <div> 입력된 내용은 {{ name$ | async }}</div>
     <ul>
-      <li *ngFor="let user of list$ | async">
+      <li *ngFor="let user of filtered$ | async">
         {{ user }}
       </li>
     </ul>
@@ -16,6 +16,18 @@ import { of } from 'rxjs';
 })
 export class AppComponent {
   name = new FormControl();
-  name$ = this.name.valueChanges;
   list$ = of(['john', 'aiden', 'bob', 'paul', 'sam']);
+  filtered$ = null;
+
+  ngOnInit() {
+    const name$ = this.name.valueChanges
+      .pipe(startWith(''))
+      .pipe(distinctUntilChanged());
+
+    this.filtered$ = combineLatest(
+      this.list$, name$, (list, name) => {
+        return list.filter(item => item.includes(name));
+      }
+    );
+  }
 }
