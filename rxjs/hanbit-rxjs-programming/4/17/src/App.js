@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
   render() {
-    const message = 'Hello RxJS!';
     return (
-      <h2>{message}</h2>
-    );
+      <div>
+        <button>증가</button>
+        <button>감소</button>
+        <div>Output: {this.state.count}</div>
+      </div>
+    )
   }
 }
 
