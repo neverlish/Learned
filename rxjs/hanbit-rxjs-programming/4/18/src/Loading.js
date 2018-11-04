@@ -5,7 +5,7 @@ export default class Loading extends Component {
     if (!this.props.loading) return null;
 
     const loadingStyle = {
-      backgroound: 'rgba(0, 0, 0, .8) no-repeat',
+      background: 'rgba(0, 0, 0, .8) no-repeat',
       width: '100%',
       height: '100%',
       position: 'fixed',
