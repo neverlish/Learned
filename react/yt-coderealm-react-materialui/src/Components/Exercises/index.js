@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import { Grid, Paper, Typography, List, IconButton, ListItem, ListItemText, ListItemSecondaryAction, withStyles } from '@material-ui/core'
+import { Grid, Paper, Typography, List, IconButton, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { Delete, Edit } from '@material-ui/icons'
 import Form from './Form'
 import { withContext } from '../../context'
