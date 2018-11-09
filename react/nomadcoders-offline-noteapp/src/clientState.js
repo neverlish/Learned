@@ -26,7 +26,7 @@ export const typeDefs = [
     
     type Mutation {
       createNote(title: String!, content: String!): Note
-      editNote(id: String!, title: String!, content: String!): Note
+      editNote(id: Int!, title: String!, content: String!): Note
     }
 
     type Note {
@@ -40,7 +40,7 @@ export const typeDefs = [
 export const resolvers = {
   Query: {
     note: (_, variables, { cache }) => {
-      const id = cache.config.dataIdFromObject({ 
+      const id = cache.config.dataIdFromObject({
         __typename: 'Note',
         id: variables.id
       });
@@ -67,6 +67,27 @@ export const resolvers = {
         }
       });
       return newNote;
+    },
+    editNote: (_, { id, title, content }, { cache }) => {
+      const noteId = cache.config.dataIdFromObject({
+        __typename: 'Note',
+        id,
+      });
+      const note = cache.readFragment({
+        fragment: NOTE_FRAGMENT,
+        id: noteId
+      });
+      const updatedNote = {
+        ...note,
+        title,
+        content
+      };
+      cache.writeFragment({
+        id: noteId,
+        fragment: NOTE_FRAGMENT,
+        data: updatedNote
+      });
+      return updatedNote;
     }
   },
 };
