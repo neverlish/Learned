@@ -93,3 +93,9 @@
     - Distribution Settings
       - Alternate Domain Name(CNAMEs): jinhohyeon.com, www.jinhohyeon.com
     - Create Distribution
+
+### 클라우드프론트 캐싱 관리
+- 모든 파일의 캐시 무효화 요청
+  - `$ aws cloudfront create-invalidation --distribution-id=DISTRIBUTION_ID --paths /*`
+- 클라이언트 캐시 무효화
+  - `$ aws s3 cp index.html s3://my-bucket-name --cache-control no-cache --acl public-read
