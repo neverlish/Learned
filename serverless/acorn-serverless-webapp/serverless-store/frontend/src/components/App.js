@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import ProductList from './ProductList';
 import ShoppingCart from './ShoppingCart';
@@ -69,25 +69,25 @@ class App extends Component {
               {
                 this.state.ready
                   ?
-                  <div>
-                    <h3>Products</h3>
-                    <ProductList
-                      products={this.state.products}
-                      onSelect={this.handleSelect} />
-                  </div>
+                  <Switch>
+                    <Route path="/" exact render={
+                      () => <ProductList
+                        products={this.state.products}
+                        onSelect={this.handleSelect} />
+                    } />
+                    <Route path="/shopping-cart" render={
+                      () => <ShoppingCart
+                        selectedProducts={this.state.products.filter(p => p.isSelected)}
+                        onDeselect={this.handleDeselect}
+                        onSave={this.handleSave}
+                        onCheckout={this.handleCheckout} />
+                    } />
+                  </Switch>
                   :
                   <div>
                     <span className="glyphicon glyphicon-refresh spin"></span>
                   </div>
               }
-            </div>
-            <div className="col-md-4">
-              <h3>Shopping Cart</h3>
-              <ShoppingCart
-                selectedProducts={this.state.products.filter(p => p.isSelected)}
-                hasSaved={this.state.hasSaved}
-                onDeselect={this.handleDeselect}
-                onSave={this.handleSave} />
             </div>
           </div>
         </div>
