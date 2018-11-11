@@ -1,4 +1,4 @@
-service: request-data
+service: serverless-store
 
 provider:
   name: aws
@@ -9,11 +9,4 @@ provider:
 
 functions:
   products:
-    handler: handler.products
-    events:
-      - http: GET store/products
-  save:
-    handler: handler.save
-    events:
-      - http: POST shopping-cart/save
-      - http: OPTIONS shopping-cart/save # the OPTIONs verb is needed when you want to support the POST verb
+    handler: functions/products.handler
