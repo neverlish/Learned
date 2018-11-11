@@ -62,3 +62,34 @@
 - AWS Route53 페이지 - DNS 관리 -> 지금 시작하기
 - Create Hosted Zone
   - Domain name: jinhohyeon.com -> Create
+
+### 레코드 셋 생성
+- jinhohyeon.com, www.jinhohyeon.com 두 개의 레코드 셋 생성
+  - Create Record Set
+    - 첫번째 레코드
+      - Name: 빈칸
+      - 타입: A - IPv4 address
+      - 별칭: YES
+      - 별칭 타겟 : S3 버킷 엔드포인트
+    - 두번쩨 레코드
+      - Name: www
+      - 타입: CNAME - Canonical name
+      - 별칭: No
+      - 값: www.jinhohyeon.com.s3-website.ap-northeast-2.amazonaws.com
+
+## 3 클라우드프론트 설정
+
+### 클라우드프론트 배포 생성
+- CloudFront -> Create Distribution
+  - Web -> Get Started
+    - Origin Settings
+      - Origin Domain Name 설정 -> Origin ID는 자동으로 설정됨
+    - Default Cache Behavior Settings
+      - Viewer Protocol Policy: HTTP and HTTPS
+      - Allowed HTTP Methods: GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE
+      - Cached HTTP Methods: OPTIONS 체크
+      - Object Caching: Use Origin Cache Headers
+      - Compress Objects Automatically: Yes
+    - Distribution Settings
+      - Alternate Domain Name(CNAMEs): jinhohyeon.com, www.jinhohyeon.com
+    - Create Distribution
