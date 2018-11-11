@@ -27,6 +27,12 @@ class ShoppingCart extends Component {
         <div className="panel-body">
           {products.length > 0 ? products : empty}
           <div>Total: US$ {this.getTotal()}</div>
+          <button
+            onClick={() => this.props.onSave()}
+            className='btn btn-primary'>
+            Save
+          </button>
+          {this.props.hasSaved ? <div>saved</div> : ''}
         </div>
       </div>
     );
