@@ -5,6 +5,8 @@ import Header from './Header';
 import Product from './Product';
 import ProductList from './ProductList';
 import ShoppingCart from './ShoppingCart';
+import Signup from './Signup';
+import Login from './Login';
 
 const apiAddress = 'https://ht3xa0px32.execute-api.us-east-1.amazonaws.com';
 const stage = 'dev';
@@ -56,7 +58,7 @@ class App extends Component {
       });
   }
 
-  handleCheckout() {        
+  handleCheckout() {
   }
 
   render() {
@@ -91,6 +93,8 @@ class App extends Component {
                         onSave={this.handleSave}
                         onCheckout={this.handleCheckout} />
                     } />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/login" component={Login} />
                   </Switch>
                   :
                   <div>
