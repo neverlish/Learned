@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Header from './Header';
 import ProductList from './ProductList';
 import ShoppingCart from './ShoppingCart';
 
@@ -55,39 +57,41 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <h1>Serverless Store</h1>
+      <Router>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <Header />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-8">
+              {
+                this.state.ready
+                  ?
+                  <div>
+                    <h3>Products</h3>
+                    <ProductList
+                      products={this.state.products}
+                      onSelect={this.handleSelect} />
+                  </div>
+                  :
+                  <div>
+                    <span className="glyphicon glyphicon-refresh spin"></span>
+                  </div>
+              }
+            </div>
+            <div className="col-md-4">
+              <h3>Shopping Cart</h3>
+              <ShoppingCart
+                selectedProducts={this.state.products.filter(p => p.isSelected)}
+                hasSaved={this.state.hasSaved}
+                onDeselect={this.handleDeselect}
+                onSave={this.handleSave} />
+            </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-8">
-            {
-              this.state.ready
-                ?
-                <div>
-                  <h3>Products</h3>
-                  <ProductList
-                    products={this.state.products}
-                    onSelect={this.handleSelect} />
-                </div>
-                :
-                <div>
-                  <span className="glyphicon glyphicon-refresh spin"></span>
-                </div>
-            }
-          </div>
-          <div className="col-md-4">
-            <h3>Shopping Cart</h3>
-            <ShoppingCart
-              selectedProducts={this.state.products.filter(p => p.isSelected)}
-              hasSaved={this.state.hasSaved}
-              onDeselect={this.handleDeselect}
-              onSave={this.handleSave} />
-          </div>
-        </div>
-      </div>
+      </Router>
     );
   }
 
