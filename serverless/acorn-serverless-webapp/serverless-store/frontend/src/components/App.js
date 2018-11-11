@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Header';
+import Product from './Product';
 import ProductList from './ProductList';
 import ShoppingCart from './ShoppingCart';
 
@@ -73,6 +74,11 @@ class App extends Component {
                     <Route path="/" exact render={
                       () => <ProductList
                         products={this.state.products}
+                        onSelect={this.handleSelect} />
+                    } />
+                    <Route path="/product/:id" render={
+                      (props) => <Product
+                        product={this.state.products.find(x => x.id == props.match.params.id)}
                         onSelect={this.handleSelect} />
                     } />
                     <Route path="/shopping-cart" render={
