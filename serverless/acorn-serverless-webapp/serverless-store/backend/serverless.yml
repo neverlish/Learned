@@ -10,3 +10,9 @@ provider:
 functions:
   products:
     handler: functions/products.handler
+    events:
+      - http: GET products
+      - http: POST cart
+      - http: OPTIONS cart      
+      - http: PUT checkout
+      - http: OPTIONS checkout
