@@ -56,6 +56,9 @@ class App extends Component {
       });
   }
 
+  handleCheckout() {        
+  }
+
   render() {
     return (
       <Router>
