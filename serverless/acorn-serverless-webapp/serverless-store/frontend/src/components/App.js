@@ -1,6 +1,11 @@
-import axios from 'axios';
+
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+
 import Header from './Header';
 import Product from './Product';
 import ProductList from './ProductList';
@@ -10,8 +15,7 @@ import Login from './Login';
 import NoMatch from './NoMatch';
 import Error from './Error';
 
-const apiAddress = 'https://ht3xa0px32.execute-api.us-east-1.amazonaws.com';
-const stage = 'dev';
+import Services from '../lib/services';
 
 class App extends Component {
 
@@ -20,25 +24,22 @@ class App extends Component {
     this.state = {
       products: [],
       ready: false,
-      hasSaved: false
+      showModal: false
     };
 
     // bind the component's "this" to the callback
     this.handleSelect = this.handleSelect.bind(this);
     this.handleDeselect = this.handleDeselect.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleCheckout = this.handleCheckout.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   handleSelect(product) {
-    // create a copy of the products array
     const products = this.state.products.slice();
-
-    // find the index of the product to modify
     const index = products.map(i => i.id).indexOf(product.id);
-
-    // modify the selection state
     products[index].isSelected = product.isSelected;
 
-    // make React aware that the state has changed
     this.setState({ products: products });
   }
 
@@ -46,24 +47,27 @@ class App extends Component {
     this.handleSelect(product);
   }
 
-  handleSave(products) {
-    axios
-      .post(`${apiAddress}/${stage}/store/save`, products)
-      .then(res => {
-        this.setState({
-          products: this.state.products,
-          hasSaved: true
-        })
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  handleSave() {
+    const selectedProducts = this.state.products.filter(p => p.isSelected);
+    Services.saveCart(selectedProducts, (err, res) => {
+      if (err) alert(err);
+      else this.setState({ showModal: true });
+    });
   }
 
   handleCheckout() {
+    Services.processCheckout((err, res) => {
+      if (err) alert(err);
+      else this.setState({ showModal: true });
+    });
+  }
+
+  handleCloseModal() {
+    this.setState({ showModal: false });
   }
 
   render() {
+
     return (
       <Router>
         <div className="container">
@@ -73,7 +77,7 @@ class App extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-12">
               {
                 this.state.ready
                   ?
@@ -91,9 +95,11 @@ class App extends Component {
                     <Route path="/shopping-cart" render={
                       () => <ShoppingCart
                         selectedProducts={this.state.products.filter(p => p.isSelected)}
+                        showModal={this.state.showModal}
                         onDeselect={this.handleDeselect}
                         onSave={this.handleSave}
-                        onCheckout={this.handleCheckout} />
+                        onCheckout={this.handleCheckout}
+                        onCloseModal={this.handleCloseModal} />
                     } />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
@@ -113,17 +119,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(`${apiAddress}/${stage}/store/products`)
-      .then(res => {
+    Services.getProducts((err, res) => {
+      if (err) {
+        alert(err);
+        this.setState({ ready: true });
+      } else {
         this.setState({
-          products: res.data.products,
+          products: res.data,
           ready: true
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      }
+    });
   }
 }
 

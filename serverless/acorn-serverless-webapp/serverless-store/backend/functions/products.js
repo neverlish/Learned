@@ -4,7 +4,6 @@ const cart = require('../lib/cart');
 const utils = require('../lib/utils');
 
 module.exports.handler = (event, context, callback) => {
-
   const userId = '1'; // TODO: retrieve from authentication headers
 
   try {
