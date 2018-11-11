@@ -7,6 +7,8 @@ import ProductList from './ProductList';
 import ShoppingCart from './ShoppingCart';
 import Signup from './Signup';
 import Login from './Login';
+import NoMatch from './NoMatch';
+import Error from './Error';
 
 const apiAddress = 'https://ht3xa0px32.execute-api.us-east-1.amazonaws.com';
 const stage = 'dev';
@@ -95,6 +97,8 @@ class App extends Component {
                     } />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
+                    <Route path="/error" component={Error} />
+                    <Route component={NoMatch} />
                   </Switch>
                   :
                   <div>
