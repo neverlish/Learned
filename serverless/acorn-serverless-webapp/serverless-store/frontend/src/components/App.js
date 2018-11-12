@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
@@ -21,10 +20,15 @@ class App extends Component {
 
   constructor() {
     super();
+
     this.state = {
       products: [],
       ready: false,
-      showModal: false
+      showModal: false,
+      isLoadingSignup: false,
+      isLoadingSignin: false,
+      newUser: null,
+      userToken: null
     };
 
     // bind the component's "this" to the callback
@@ -33,6 +37,10 @@ class App extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleCheckout = this.handleCheckout.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+    this.handleConfirmSignup = this.handleConfirmSignup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleSelect(product) {
@@ -49,14 +57,14 @@ class App extends Component {
 
   handleSave() {
     const selectedProducts = this.state.products.filter(p => p.isSelected);
-    Services.saveCart(selectedProducts, (err, res) => {
+    Services.saveCart(selectedProducts, this.state.userToken, (err, res) => {
       if (err) alert(err);
       else this.setState({ showModal: true });
     });
   }
 
   handleCheckout() {
-    Services.processCheckout((err, res) => {
+    Services.processCheckout(this.state.userToken, (err, res) => {
       if (err) alert(err);
       else this.setState({ showModal: true });
     });
@@ -66,6 +74,54 @@ class App extends Component {
     this.setState({ showModal: false });
   }
 
+  handleSignup(email, password) {
+    this.setState({ isLoadingSignup: true });
+    Services.signup(email, password, (err, res) => {
+      this.setState({ isLoadingSignup: false });
+
+      if (err) alert(err);
+      else this.setState({ newUser: res.user });
+    });
+  }
+
+  handleConfirmSignup(confirmationCode, history) {
+    this.setState({ isLoadingSignup: true });
+    Services.confirmSignup(this.state.newUser, confirmationCode, (err, res) => {
+      this.setState({ isLoadingSignup: false });
+
+      if (err) alert(err);
+      else history.push('/');
+    });
+  }
+
+  handleLogin(email, password, history) {
+    this.setState({ isLoadingSignin: true });
+    Services.login(email, password)
+      .then(res => {
+        this.setState({ isLoadingSignin: false, userToken: res });
+
+        // request the products again to update the shopping cart
+        Services.getProducts(res, (err, res) => {
+          if (err) alert(err);
+          else this.setState({
+            products: res.data,
+            ready: true
+          });
+        });
+
+        history.push('/');
+      })
+      .catch(err => {
+        this.setState({ isLoadingSignin: false });
+        alert(err);
+      })
+  }
+
+  handleLogout() {
+    Services.logout();
+    this.setState({ userToken: null });
+  }
+
   render() {
 
     return (
@@ -73,7 +129,8 @@ class App extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <Header />
+              <Header isLoggedIn={!!this.state.userToken}
+                onLogout={this.handleLogout} />
             </div>
           </div>
           <div className="row">
@@ -89,7 +146,7 @@ class App extends Component {
                     } />
                     <Route path="/product/:id" render={
                       (props) => <Product
-                        product={this.state.products.find(x => x.id == props.match.params.id)}
+                        product={this.state.products.find(x => x.id === props.match.params.id)}
                         onSelect={this.handleSelect} />
                     } />
                     <Route path="/shopping-cart" render={
@@ -101,8 +158,20 @@ class App extends Component {
                         onCheckout={this.handleCheckout}
                         onCloseModal={this.handleCloseModal} />
                     } />
-                    <Route path="/signup" component={Signup} />
-                    <Route path="/login" component={Login} />
+                    <Route path="/signup" render={
+                      (props) => <Signup
+                        {...props}
+                        isLoadingSignup={this.state.isLoadingSignup}
+                        newUser={this.state.newUser}
+                        onSignup={this.handleSignup}
+                        onConfirmSignup={this.handleConfirmSignup} />
+                    } />
+                    <Route path="/login" render={
+                      (props) => <Login
+                        {...props}
+                        isLoadingSignin={this.state.isLoadingSignin}
+                        onSignin={this.handleLogin} />
+                    } />
                     <Route path="/error" component={Error} />
                     <Route component={NoMatch} />
                   </Switch>
@@ -119,17 +188,25 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Services.getProducts((err, res) => {
+
+    Services.getUserToken((err, userToken) => {
       if (err) {
         alert(err);
-        this.setState({ ready: true });
       } else {
-        this.setState({
-          products: res.data,
-          ready: true
+        this.setState({ userToken: userToken });
+        Services.getProducts(userToken, (err, res) => {
+          if (err) {
+            alert(err);
+            this.setState({ ready: true });
+          } else {
+            this.setState({
+              products: res.data,
+              ready: true
+            });
+          }
         });
       }
-    });
+    })
   }
 }
 

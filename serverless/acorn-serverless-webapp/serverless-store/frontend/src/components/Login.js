@@ -24,6 +24,7 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.props.onSignin(this.state.email, this.state.password, this.props.history);
   }
 
   validateForm() {
@@ -45,8 +46,12 @@ class Login extends Component {
               <FormControl type="password" value={this.state.password} onChange={this.handleChange} />
             </FormGroup>
             <div className="text-center">
-              <button type="submit" className="btn btn-primary" disabled={!this.validateForm()}>
-                Login
+              <button type="submit" className="btn btn-primary" disabled={!this.validateForm() || this.state.isLoadingSignin}>
+                {
+                  !this.props.isLoadingSignin
+                    ? "Login"
+                    : "Signing in..."
+                }
               </button>
             </div>
           </form>
