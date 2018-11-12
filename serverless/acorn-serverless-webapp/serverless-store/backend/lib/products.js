@@ -4,6 +4,9 @@ const utils = require('./utils');
 module.exports.retrieveAll = (userId, callback) => {
   db.retrieveAllProducts((err, products) => {
     if (err) return utils.errorHandler(err, callback);
+    
+    if (!userId)
+      utils.successHandler(products, callback);
 
     db.retrieveCart(userId, (err, selectedProducts) => {
       if (err) utils.errorHandler(err, callback);

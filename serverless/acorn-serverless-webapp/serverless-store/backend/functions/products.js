@@ -4,13 +4,25 @@ const cart = require('../lib/cart');
 const utils = require('../lib/utils');
 
 module.exports.handler = (event, context, callback) => {
-  const userId = '1'; // TODO: retrieve from authentication headers
+
+  let userId = null;
+
+  if (event.requestContext.authorizer)
+    userId = event.requestContext.authorizer.claims.sub;
 
   try {
     switch (`${event.httpMethod} ${event.resource}`) {
 
       case 'GET /products':
+        products.retrieveAll(null, callback);
+        break;
+
+      case 'GET /productsAuth':
         products.retrieveAll(userId, callback);
+        break;
+
+      case 'OPTIONS /productsAuth':
+        utils.optionsHandler(callback);
         break;
 
       case 'POST /cart':
