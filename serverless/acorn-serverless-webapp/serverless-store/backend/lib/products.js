@@ -1,4 +1,4 @@
-const db = require('../repositories/fakedb');
+const db = require('../repositories/dynamodb');
 const utils = require('./utils');
 
 module.exports.retrieveAll = (userId, callback) => {
