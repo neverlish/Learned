@@ -6,6 +6,18 @@ provider:
   memorySize: 128
   timeout: 30
   region: ap-northeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:Scan"
+        - "dynamodb:Query"
+        - "dynamodb:PutItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:BatchWriteItem"
+      Resource: [
+        "arn:aws:dynamodb:ap-northeast-2:*:table/Products",
+        "arn:aws:dynamodb:ap-northeast-2:*:table/ShoppingCart"
+      ]
 
 functions:
   products:
