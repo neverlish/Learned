@@ -108,7 +108,7 @@ class Services {
     }
 
     if (AWS.config.credentials) {
-      
+      AWS.config.credentials.clearCachedId();
     }
   }
 
@@ -116,9 +116,19 @@ class Services {
 
     AWS.config.region = config.cognito.REGION;
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: config.cognito.IDENTITY_POOL_ID
-    });
+    if (userToken && AWS.config.credentials) {
+      const authenticator = `cognito-idp.${config.cognito.REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
+        Logins: {
+          [authenticator]: userToken
+        }
+      });
+    } else {
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: config.cognito.IDENTITY_POOL_ID
+      });
+    }
 
     AWS.config.credentials.get(() => {
       const keys = {
@@ -126,10 +136,32 @@ class Services {
         secretKey: AWS.config.credentials.secretAccessKey,
         sessionToken: AWS.config.credentials.sessionToken
       }
-      const client = new IoT(keys, messageCallback);
-      client.connect();
-      client.subscribe(config.iot.topics.COMMENTS);
-      callback(null, client);
+
+      if (userToken) {
+        const awsIoT = new AWS.Iot();
+
+        const params = {
+          policyName: config.iot.POLICY_NAME,
+          principal: AWS.config.credentials.identityId
+        }
+
+        awsIoT.attachPrincipalPolicy(params, (err, res) => {
+          if (err) alert(err);
+          else {
+            const client = new IoT(keys, messageCallback);
+            client.connect();
+            client.subscribe('serverless-store-' + AWS.config.credentials.identityId);
+            client.subscribe(config.iot.topics.COMMENTS);
+            callback(null, client);
+          }
+        });
+
+      } else {
+        const client = new IoT(keys, messageCallback);
+        client.connect();
+        client.subscribe(config.iot.topics.COMMENTS);
+        callback(null, client);
+      }
     });
   }
 

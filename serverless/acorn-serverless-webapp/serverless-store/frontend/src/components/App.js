@@ -137,11 +137,7 @@ class App extends Component {
       text: comment
     };
 
-    const product = this.state.products.find(p => p.id === productId);
-    product.comments.unshift(newComment);
-    this.setState({
-      products: this.state.products
-    });
+    Services.publishNewComment(this.state.iotClient, newComment, productId);
   }
 
   handleIotMessages(topic, message) {

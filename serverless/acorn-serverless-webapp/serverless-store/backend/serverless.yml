@@ -1,13 +1,16 @@
 service: serverless-store
 
 custom:
-  cognitoAuthorizer: arn:aws:cognito-idp:ap-northeast-2:367416660003:userpool/ap-northeast-2_YXaBTXrJm
+  awsAccountId: 367416660003
+  cognitoAuthorizer: arn:aws:cognito-idp:ap-northeast-2:${self:custom.awsAccountId}:userpool/ap-northeast-2_YXaBTXrJm
 
 provider:
   name: aws
   runtime: nodejs6.10
   memorySize: 128
   timeout: 30
+  environment:
+    IOT_ENDPOINT: a5n8ekl1og4d7-ats.iot.ap-northeast-2.amazonaws.com
   region: ap-northeast-2
   iamRoleStatements:
     - Effect: "Allow"
@@ -21,6 +24,11 @@ provider:
         "arn:aws:dynamodb:ap-northeast-2:*:table/Products",
         "arn:aws:dynamodb:ap-northeast-2:*:table/ShoppingCart"
       ]
+    - Effect: "Allow"
+      Action:
+        - "iot:Publish"
+      Resource: 
+        "arn:aws:iot:${self:provider.region}:${self:custom.awsAccountId}:topic/serverless-store-*"
 
 functions:
   products:
