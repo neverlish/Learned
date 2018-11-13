@@ -99,3 +99,18 @@
   - `$ aws cloudfront create-invalidation --distribution-id=DISTRIBUTION_ID --paths /*`
 - 클라이언트 캐시 무효화
   - `$ aws s3 cp index.html s3://my-bucket-name --cache-control no-cache --acl public-read
+
+## 4 HTTPS 지원 설정
+
+### 메일 익스체인지 레코드 생성
+- www.zoho.com/mail에서 비즈니스 계정 생성
+  - 도메인 주소 입력
+  - 관리자 계정명은 admin
+- Verify -> ...from the list: Others
+  - CNAME Method 선택
+  - CNAME, Destination 표시 테이블의 값으로 루트 53 레코드 셋 생성 후 Process to CNAME Verification
+- 계정 추가 -> Create Account -> Process
+- zoho에서 Configure Email Delivery로 이동
+  - MX Records 테이블 확인
+  - 방금 생성한 라우트53 레코드 셋은 삭제
+  - 위 테이블의 값들로 MX 타입의 새로운 레코드 셋을 생성(예: 10 mx.zoho.com\n20 mx2.zoho.com)
