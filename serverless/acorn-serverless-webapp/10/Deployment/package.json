@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "serverless-plugin-warmup": "^3.0.5-rc.1"
+  }
+}
