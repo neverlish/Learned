@@ -119,3 +119,9 @@
 - AWS Certification managet -> 인증서 프로비저닝 시작하기 -> 인증서 요청
   - 도메인 이름이 URL 2개 추가(jinhohyeon.com, www.jinhohyeon.com)
   - 이메일 검증 -> zoho admin 계정 메일함에서 링크 수신 후 확인 링크 클릭
+
+### HTTPS 사용을 위한 클라우드프론트 구성
+- Distribution 선택 -> General 탭에서 Edit
+  - SSL Certification -> Custon SSL Certificate 선택 -> 발급받은 인증서 선택 후 저장
+- Behaviors 탭 -> 행동 선택 후 Edit
+  - Viewer Protocal Policy -> Redirect HTTP to HTTPS 선택 후 저장. 잠시 후 도메인 연결시 HTTPS로 연결
