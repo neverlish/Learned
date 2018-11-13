@@ -114,3 +114,8 @@
   - MX Records 테이블 확인
   - 방금 생성한 라우트53 레코드 셋은 삭제
   - 위 테이블의 값들로 MX 타입의 새로운 레코드 셋을 생성(예: 10 mx.zoho.com\n20 mx2.zoho.com)
+
+### AWS 인증서 관리자에게 무료 인증서 요청하기
+- AWS Certification managet -> 인증서 프로비저닝 시작하기 -> 인증서 요청
+  - 도메인 이름이 URL 2개 추가(jinhohyeon.com, www.jinhohyeon.com)
+  - 이메일 검증 -> zoho admin 계정 메일함에서 링크 수신 후 확인 링크 클릭
