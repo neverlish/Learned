@@ -17,6 +17,10 @@ export default {
   },
   "iot": {
     "REGION": "ap-northeast-2",
-    "ENDPOINT": "a5n8ekl1og4d7-ats.iot.ap-northeast-2.amazonaws.com"
+    "ENDPOINT": "a5n8ekl1og4d7-ats.iot.ap-northeast-2.amazonaws.com",
+    "topics": {
+      "COMMENTS": "serverless-store-comments"
+    },
+    "POLICY_NAME": "iot-policy"
   }
 }

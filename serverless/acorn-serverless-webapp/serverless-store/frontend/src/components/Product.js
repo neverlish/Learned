@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import CommentList from './CommentList';
 
 class Product extends Component {
   render() {
@@ -40,6 +41,11 @@ class Product extends Component {
           <div className="product-box product-display">
             {product}
           </div>
+        </div>
+        <div className="col-md-8">
+          {this.props.fromList ? "" : <CommentList comments={this.props.product.comments}
+            productId={this.props.product.id}
+            onComment={this.props.onComment} />}
         </div>
       </div>
     );

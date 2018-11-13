@@ -4,6 +4,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import uuid from 'uuid/v4';
 
 import Header from './Header';
 import Product from './Product';
@@ -15,6 +16,7 @@ import NoMatch from './NoMatch';
 import Error from './Error';
 
 import Services from '../lib/services';
+import config from '../lib/config';
 
 class App extends Component {
 
@@ -28,7 +30,9 @@ class App extends Component {
       isLoadingSignup: false,
       isLoadingSignin: false,
       newUser: null,
-      userToken: null
+      userToken: null,
+      iotClient: null,
+      hasNotifications: false
     };
 
     // bind the component's "this" to the callback
@@ -41,6 +45,9 @@ class App extends Component {
     this.handleConfirmSignup = this.handleConfirmSignup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleComments = this.handleComments.bind(this);
+    this.handleIotMessages = this.handleIotMessages.bind(this);
+    this.handleReadNotification = this.handleReadNotification.bind(this);
   }
 
   handleSelect(product) {
@@ -122,6 +129,39 @@ class App extends Component {
     this.setState({ userToken: null });
   }
 
+  handleComments(comment, productId) {
+    const newComment = {
+      id: uuid(),
+      username: 'user1337',
+      age: 'a few seconds ago',
+      text: comment
+    };
+
+    const product = this.state.products.find(p => p.id === productId);
+    product.comments.unshift(newComment);
+    this.setState({
+      products: this.state.products
+    });
+  }
+
+  handleIotMessages(topic, message) {
+    if (topic === config.iot.topics.COMMENTS) {
+      const msg = JSON.parse(message.toString());
+      const product = this.state.products.find(p => p.id === msg.productId);
+      product.comments.unshift(msg.comment);
+
+      this.setState({
+        products: this.state.products
+      });
+    } else {
+      this.setState({ hasNotifications: true });
+    }
+  }
+
+  handleReadNotification() {
+    this.setState({ hasNotifications: false });
+  }
+
   render() {
 
     return (
@@ -130,7 +170,9 @@ class App extends Component {
           <div className="row">
             <div className="col-md-12">
               <Header isLoggedIn={!!this.state.userToken}
-                onLogout={this.handleLogout} />
+                onLogout={this.handleLogout}
+                hasNotifications={this.state.hasNotifications}
+                onReadNotification={this.handleReadNotification} />
             </div>
           </div>
           <div className="row">
@@ -147,7 +189,8 @@ class App extends Component {
                     <Route path="/product/:id" render={
                       (props) => <Product
                         product={this.state.products.find(x => x.id === props.match.params.id)}
-                        onSelect={this.handleSelect} />
+                        onSelect={this.handleSelect}
+                        onComment={this.handleComments} />
                     } />
                     <Route path="/shopping-cart" render={
                       () => <ShoppingCart
@@ -194,6 +237,12 @@ class App extends Component {
         alert(err);
       } else {
         this.setState({ userToken: userToken });
+
+        Services.getIotClient(userToken, this.handleIotMessages, (err, client) => {
+          if (err) alert(err);
+          else this.setState({ iotClient: client })
+        });
+
         Services.getProducts(userToken, (err, res) => {
           if (err) {
             alert(err);

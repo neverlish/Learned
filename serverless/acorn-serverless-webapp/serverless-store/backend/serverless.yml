@@ -45,3 +45,8 @@ functions:
           authorizer: 
             arn: ${self:custom.cognitoAuthorizer}
       - http: OPTIONS checkout  
+  comments:
+    handler: functions/comments.handler
+    events:
+      - iot:
+          sql: "SELECT * FROM 'serverless-store-comments'"

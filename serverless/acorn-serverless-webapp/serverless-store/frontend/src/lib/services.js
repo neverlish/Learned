@@ -1,4 +1,6 @@
+import AWS from 'aws-sdk';
 import axios from 'axios';
+import IoT from './iot';
 import config from './config';
 
 import {
@@ -26,7 +28,7 @@ class Services {
 
   static processCheckout(userToken, callback) {
     const url = `${config.apiGateway.ADDRESS}/${config.apiGateway.STAGE}/${config.services.CHECKOUT}`;
-    axiosRequest('put', url, { "id": 1 }, userToken, callback);
+    axiosRequest('put', url, { "id": AWS.config.credentials.identityId }, userToken, callback);
   }
 
   static signup(email, password, callback) {
@@ -104,6 +106,41 @@ class Services {
     if (currentUser !== null) {
       currentUser.signOut();
     }
+
+    if (AWS.config.credentials) {
+      
+    }
+  }
+
+  static getIotClient(userToken, messageCallback, callback) {
+
+    AWS.config.region = config.cognito.REGION;
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: config.cognito.IDENTITY_POOL_ID
+    });
+
+    AWS.config.credentials.get(() => {
+      const keys = {
+        accessKey: AWS.config.credentials.accessKeyId,
+        secretKey: AWS.config.credentials.secretAccessKey,
+        sessionToken: AWS.config.credentials.sessionToken
+      }
+      const client = new IoT(keys, messageCallback);
+      client.connect();
+      client.subscribe(config.iot.topics.COMMENTS);
+      callback(null, client);
+    });
+  }
+
+  static publishNewComment(iotClient, comment, productId) {
+    const topic = config.iot.topics.COMMENTS;
+    const message = {
+      comment: comment,
+      productId: productId
+    };
+
+    iotClient.publish(topic, JSON.stringify(message));
   }
 }
 
@@ -133,6 +170,7 @@ const axiosRequest = (method, url, data, userToken, callback) => {
       callback(null, res);
     })
     .catch(error => {
+      console.log(error);
       callback('You need to be logged in to access this feature.');
     });
 }
