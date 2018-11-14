@@ -1,0 +1,60 @@
+service: serverless-store
+
+custom:
+  awsAccountId: 367416660003
+  cognitoAuthorizer: arn:aws:cognito-idp:ap-northeast-2:${self:custom.awsAccountId}:userpool/ap-northeast-2_YXaBTXrJm
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  memorySize: 128
+  timeout: 30
+  environment:
+    IOT_ENDPOINT: a5n8ekl1og4d7-ats.iot.ap-northeast-2.amazonaws.com
+  region: ap-northeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:Scan"
+        - "dynamodb:Query"
+        - "dynamodb:PutItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:BatchWriteItem"
+      Resource: [
+        "arn:aws:dynamodb:ap-northeast-2:*:table/Products",
+        "arn:aws:dynamodb:ap-northeast-2:*:table/ShoppingCart"
+      ]
+    - Effect: "Allow"
+      Action:
+        - "iot:Publish"
+      Resource: 
+        "arn:aws:iot:${self:provider.region}:${self:custom.awsAccountId}:topic/serverless-store-*"
+
+functions:
+  products:
+    handler: functions/products.handler
+    events:
+      - http: GET products
+      - http:
+          method: GET
+          path: productsAuth
+          authorizer: 
+            arn: ${self:custom.cognitoAuthorizer}          
+      - http: OPTIONS productsAuth    
+      - http:
+          method: POST
+          path: cart
+          authorizer: 
+            arn: ${self:custom.cognitoAuthorizer}
+      - http: OPTIONS cart
+      - http:
+          method: PUT
+          path: checkout
+          authorizer: 
+            arn: ${self:custom.cognitoAuthorizer}
+      - http: OPTIONS checkout  
+  comments:
+    handler: functions/comments.handler
+    events:
+      - iot:
+          sql: "SELECT * FROM 'serverless-store-comments'"
