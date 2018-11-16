@@ -19,5 +19,15 @@
       transform: translate(-50%);
       cursor: col-resize; // 리사이즈 커서
     }
+
+    @include media('<medium') {
+      .editor {
+        flex: 1 !important;
+      }
+
+      .preview, .separator {
+        display: none;
+      }
+    }
   }
 }
