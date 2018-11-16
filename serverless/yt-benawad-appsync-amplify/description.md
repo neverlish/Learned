@@ -1,0 +1,15 @@
+## 0 AWS AppSync Setup with Amplify 
+- `$ npm i -g @aws-amplify/cli`
+- `$ amplify configure`
+- `$ create-react-app FOLDER --typescript`
+- `$ amplify init`
+- `$ amplify add api`
+  - GraphQL
+  - API name: Auction
+  - API authorization type: API key
+  - annotated GraphQL schema?: No
+  - want guided schema creation?: Yes
+  - Single object with fields
+  - want edit schema now?: Yes
+  - edit .graphql file and press enter
+- `$ amplify push`
