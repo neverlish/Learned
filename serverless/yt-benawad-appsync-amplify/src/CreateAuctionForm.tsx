@@ -4,8 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag'
+import { produce } from 'immer';
+
+import { listAuctions } from "./graphql/queries";
 import { createAuction } from './graphql/mutations';
-import { CreateAuctionMutation, CreateAuctionMutationVariables } from './API';
+import { CreateAuctionMutation, CreateAuctionMutationVariables, ListAuctionsQuery } from './API';
 
 interface FormValues {
   name: string
@@ -21,16 +24,44 @@ export const CreateAuctionForm = () => {
             name: '',
             price: 0
           }}
-          onSubmit={async ({ name, price }) => {
+          onSubmit={async ({ name, price }, { resetForm }) => {
             const response = await createAuction({
               variables: {
                 input: {
                   name,
                   price
                 }
+              },
+              optimisticResponse: {
+                createAuction: {
+                  __typename: 'Auction',
+                  id: '-1',
+                  name,
+                  price,
+                }
+              },
+              update: (store, { data }) => {
+                if (!data || !data.createAuction) {
+                  return;
+                }
+
+                const auctions = store.readQuery<ListAuctionsQuery>({ 
+                  query: gql(listAuctions),
+                  variables: { limit: 100 }
+                });
+
+                store.writeQuery({
+                  query: gql(listAuctions),
+                  variables: { limit: 100 },
+                  data: produce(auctions, ds => {
+                    ds!.listAuctions!.items!.unshift(
+                      data.createAuction!
+                    )
+                  })
+                });
               }
             });
-            console.log(response);
+            resetForm();
           }}
         >
           {({ values, handleChange, handleSubmit }) => (
