@@ -4,9 +4,15 @@
   "description": "Cloning Youtube with VAnilla and NodeJS",
   "author": "neverlish",
   "dependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
     "express": "^4.16.4"
   },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon --exec babel-node index.js"
   }
 }
