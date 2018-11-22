@@ -4,11 +4,9 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
+import { userRouter } from './router';
+
 const app = express();
-
-const PORT = 4000;
-
-const handlerListening = () => console.log(`Listening on http://localhost:${PORT}`);
 
 const handleHome = (req, res) => res.send('Hello from home');
 
@@ -24,4 +22,6 @@ app.get('/', handleHome);
 
 app.get('/profile', handleProfile);
 
-app.listen(PORT, handlerListening);
+app.use('/user', userRouter);
+
+export default app;
