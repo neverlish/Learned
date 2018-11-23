@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Counter from './lessons/11-react-memo'
+import Counter from './lessons/12-react-lazy'
 
 function App() {
   return (
