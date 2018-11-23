@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Counter from './lessons/06-vanilla-tilt'
+import Counter from './lessons/07-stopwatch-with-state'
 
 function App() {
   return (
