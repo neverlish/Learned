@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Counter from './lessons/08-stopwatch-use-reducer'
+import Counter from './lessons/09-stopwatch-set-state'
 
 function App() {
   return (
