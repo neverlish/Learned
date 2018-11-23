@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Counter from './lessons/13-suspense-fundamentals'
+import Counter from './lessons/14-react-cache'
 
 function App() {
   return (
