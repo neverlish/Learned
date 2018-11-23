@@ -1,6 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Counter from './lessons/05-testing-effects'
+import Counter from './lessons/06-vanilla-tilt'
 
-ReactDOM.render(<Counter />, document.getElementById('root'))
+function App() {
+  return (
+    <div
+      style={{
+        padding: 30,
+        height: '100vh',
+        display: 'grid',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Counter />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
