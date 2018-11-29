@@ -35,7 +35,7 @@
       completed
     }
   }
-  
+
   mutation delete {
     deleteTodo(input:{
       id:"3399efec-7c9b-445e-aafe-8aa9c8d0edd1",
@@ -47,3 +47,49 @@
   }
 
   ```
+
+## 4 Execute Queries within the AWS AppSync Console
+```
+query get {
+  getTodo(id:"cb261fd5-c55a-4b31-8cc1-40e8f56d279e") {
+    id
+    title
+    completed
+  }
+}
+
+query list {
+  listTodos {
+    items {
+      id
+      title
+      completed
+    }
+  }
+}
+
+query list {
+  listTodos(filter:{
+    title:{
+      contains:"Work Out"
+    }
+  }) {
+    items {
+      id
+      title
+      completed
+    }
+  }
+}
+
+mutation create {
+  createTodo(input:{
+    title: "Book Flight",
+    completed:false
+  }) {
+    id
+    title
+    completed
+  }
+}
+```
