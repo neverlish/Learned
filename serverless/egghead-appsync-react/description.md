@@ -93,3 +93,6 @@ mutation create {
   }
 }
 ```
+
+## 5 Connect to AWS AppSync from a React Application
+- AWS Appsync TodoApp -> Download Config
