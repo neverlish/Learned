@@ -96,3 +96,19 @@ mutation create {
 
 ## 5 Connect to AWS AppSync from a React Application
 - AWS Appsync TodoApp -> Download Config
+
+## 9 Building AWS AppSync APIs using the AWS Amplify CLI
+- `$ amplify configure`
+  - set region
+  - add AWS user
+  - put accessKeyId and secretAccessKey
+  - set Profile Name
+- `$ cd my-restaurant-app && amplify init`
+  - choose profile created before
+- `$ amplify add api`
+  - authorization type: API key
+  - have annotated graphql schema?: no
+  - want guided schema creation?: yes
+  - describes project: Single object with fields
+  - edit schema(schema.graphql) and enter
+- `$ amplify push`
