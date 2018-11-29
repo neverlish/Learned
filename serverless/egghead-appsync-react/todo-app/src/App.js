@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import gql from 'graphql-tag';
+import { graphql, compose } from 'react-apollo';
+
+const ListTodos = gql`
+  query {
+    listTodos {
+      items {
+        id title completed
+      }
+    }
+  }
+`;
+
 class App extends Component {
   render() {
     return (
@@ -20,9 +33,23 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        {
+          this.props.todos.map((item, i) => (
+            <p key={i}>{ item.title }</p>
+          ))
+        }
       </div>
     );
   }
 }
 
-export default App;
+export default compose(
+  graphql(ListTodos, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    },
+    props: props => ({
+      todos: props.data.listTodos ? props.data.listTodos.items : []
+    })
+  })
+)(App);
