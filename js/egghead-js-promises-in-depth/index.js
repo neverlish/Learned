@@ -3,17 +3,9 @@ const API_URL = "https://starwars.egghead.training/";
 const output = document.getElementById("output");
 const spinner = document.getElementById("spinner");
 
-fetch(API_URL + "movies")
-  .then(response => {
-    if (!response.ok) {
-      return Promise.reject(
-        new Error('Unsuccessful response')
-      );
-    }
-    return response.json().then(films => {
-      output.innerText = getFilmTitles(films);
-      return films;
-    });
+Promise.resolve($.getJSON(API_URL + "films"))
+  .then(films => {
+    output.innerText = getFilmTitles(films);
   })
   .catch(error => {
     console.warn(error);
