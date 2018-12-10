@@ -4,9 +4,17 @@ const output = document.getElementById("output");
 output.innerText = "Loading ...";
 
 fetch(API_URL + "films")
-  .then(response => response.json())
-  .then(films => {
-    output.innerText = getFilmTitles(films);
+  .then(response => {
+    if (!response.ok) {
+      throw Error('Unsuccessful response');
+    }
+    return response.json().then(films => {
+      output.innerText = getFilmTitles(films);
+    });
+  })
+  .catch(error => {
+    console.warn(error);
+    output.innerText = ':(';
   });
 
 function getFilmTitles(films) {
