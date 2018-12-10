@@ -1,20 +1,28 @@
+// #region Setup
 const API_URL = "https://starwars.egghead.training/";
 const output = document.getElementById("output");
+const spinner = document.getElementById("spinner");
 
-output.innerText = "Loading ...";
-
-fetch(API_URL + "films")
+fetch(API_URL + "movies")
   .then(response => {
     if (!response.ok) {
       throw Error('Unsuccessful response');
     }
     return response.json().then(films => {
       output.innerText = getFilmTitles(films);
+      return films;
     });
   })
   .catch(error => {
     console.warn(error);
     output.innerText = ':(';
+    return [];
+  })
+  .finally(() => {
+    spinner.remove();
+  })
+  .then(films => {
+    console.log(films);
   });
 
 function getFilmTitles(films) {
