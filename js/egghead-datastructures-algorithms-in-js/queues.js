@@ -20,13 +20,15 @@ function createQueue() {
   }
 }
 
-const q = createQueue()
+// const q = createQueue()
 
-q.enqueue('Make an egghead lesson')
-q.enqueue('Help others learn')
-q.enqueue('Be happy')
+// q.enqueue('Make an egghead lesson')
+// q.enqueue('Help others learn')
+// q.enqueue('Be happy')
 
-q.dequeue()
-q.dequeue()
-q.dequeue()
-console.log(q.peek())
+// q.dequeue()
+// q.dequeue()
+// q.dequeue()
+// console.log(q.peek())
+
+exports.createQueue = createQueue
