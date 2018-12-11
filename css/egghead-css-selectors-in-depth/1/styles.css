@@ -1,0 +1,14 @@
+li {
+  margin: 0;
+  list-style: circle inside;
+}
+.important {
+  font-weight: bold;
+  background: #b0cad4;
+}
+#main-nav {
+  color: #333;
+}
+input[type="email"] {
+  border: 2px solid #333;
+}
