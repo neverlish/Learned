@@ -1,0 +1,38 @@
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  padding: 5px;
+}
+/* li:first-child {
+  background-color: rgb(225, 231, 252);
+}
+li:last-child {
+  background-color: rgb(225, 231, 252);
+} */
+/* li:nth-child(2) {
+  background-color: rgb(225, 231, 252);
+} */
+/* li:nth-child(2n) {
+  background-color: rgb(225, 231, 252);
+} */
+/* li:nth-child(2n+1) {
+  background-color: rgb(225, 231, 252);
+} */
+/* li:nth-child(-n+4) {
+  background-color: rgb(225, 231, 252);
+} */
+li:nth-child(n+4) {
+  background-color: rgb(225, 231, 252);
+}
+
+/* Other psuedo classes:
+* :nth-last-child
+* :only-child
+* :only-of-type
+* :last-of-type
+* :nth-of-type(an+b)
+* :nth-last-of-type(an+b)
+*/
