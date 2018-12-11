@@ -78,6 +78,30 @@ function createGraph(directed = false) {
           }
         })
       }
+    },
+
+    depthFirstSearch(startingNodeKey, visitFn) {
+      const startingNode = this.getNode(startingNodeKey)
+
+      const visited = nodes.reduce((acc, node) => {
+        acc[node.key] = false
+        return acc
+      }, {})
+
+      function explore(node) {
+        if (visited[node.key]) {
+          return
+        } 
+        
+        visitFn(node)
+        visited[node.key] = true
+
+        node.neighbors.forEach(node => {
+          explore(node)
+        })
+      }
+
+      explore(startingNode)
     }
   }
 }
@@ -98,6 +122,39 @@ function createGraph(directed = false) {
 // graph.addEdge('Tali', 'Kyle')
 
 // console.log(graph.print())
+
+// const graph = createGraph(true)
+// const nodes = ['a', 'b', 'c', 'd', 'e', 'f']
+// const edges = [
+//   ['a', 'b'],
+//   ['a', 'e'],
+//   ['a', 'f'],
+//   ['b', 'd'],
+//   ['b', 'e'],
+//   ['c', 'b'],
+//   ['d', 'c'],
+//   ['d', 'e']
+// ]
+
+// nodes.forEach(node => {
+//   graph.addNode(node)
+// })
+
+// edges.forEach(nodes => {
+//   graph.addEdge(...nodes)
+// })
+
+// graph.breadFirstSearch('a', node => {
+//   console.log(node.key)
+// })
+/*
+a
+b
+e
+f
+d
+c
+*/
 
 const graph = createGraph(true)
 const nodes = ['a', 'b', 'c', 'd', 'e', 'f']
@@ -120,14 +177,14 @@ edges.forEach(nodes => {
   graph.addEdge(...nodes)
 })
 
-graph.breadFirstSearch('a', node => {
+graph.depthFirstSearch('a', node => {
   console.log(node.key)
 })
 /*
 a
 b
-e
-f
 d
 c
+e
+f
 */
