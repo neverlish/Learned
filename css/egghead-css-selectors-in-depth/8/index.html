@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Parcel Sandbox</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="logo" href="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="62.2" height="55.2" viewBox="0 0 62.2 55.2">
+        <path d="M31.1 0L0 31.1h7l24.1 24.1 24.1-24.1h7L31.1 0zm10.1 31.1L31.1 41.2l-10-10.1h-7l17-17.1 17.1 17.1h-7z" />
+      </svg>
+    </a>
+    <nav id="sitenav">
+      <ul>
+        <li class="nav-item"><a href="#">About</a></li>
+        <li class="nav-item"><a href="#">Team</a></li>
+        <li class="nav-item"><a href="#">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section>
+    <h1>Specificity</h1>
+    <p>This example has a specificity of (0,1,1,4).</p>
+    <ul>
+      <li>0: Inline styles</li>
+      <li>1: IDs</li>
+      <li>1: Classes, attributes, and pseudo-classes</li>
+      <li>4: Elements and pseudo-elements</li>
+    </ul>
+    <pre><code class="css">nav#sitenav ul li.nav-item a {}</code></pre>
+    <hr />
+    <p>This example has a specificity of (0,0,2,2).</p>
+    <ul>
+      <li>0: Inline styles</li>
+      <li>0: IDs</li>
+      <li>2: Classes, attributes, and pseudo-classes</li>
+      <li>2: Elements and pseudo-elements</li>
+    </ul>
+    <pre><code class="css">.sitenav li:last-child a {}</code></pre>
+  </section>
+</body>
+
+</html>
