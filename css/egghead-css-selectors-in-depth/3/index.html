@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Parcel Sandbox</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+
+<body>
+  <form>
+    <fieldset>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" class="text">
+    </fieldset>
+    <fieldset>
+      <label for="zip">Zip*</label>
+      <input type="text" name="zip" id="zip" class="text" pattern="^[0-9]{5}(?:-[0-9]{4})?$" required>
+    </fieldset>
+    <fieldset disabled>
+      <label for="city">City</label>
+      <input type="text" name="zip" id="city" class="text">
+    </fieldset>
+    <fieldset>
+      <input type="radio" name="type" id="home" value="home">
+      <label for="home">Home</label><br>
+      <input type="radio" name="type" id="office" value="office">
+      <label for="office">Office</label><br>
+      <input type="radio" name="type" id="narnia" value="narnia">
+      <label for="narnia">Narnia</label>
+    </fieldset>
+  </form>
+  <div> <em>* required</em></div>
+</body>
+
+</html>

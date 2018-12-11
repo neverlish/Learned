@@ -1,0 +1,49 @@
+body {
+  min-height: 100vh;
+  background: linear-gradient( to right top, #360033, #0b8793);
+  font-family: sans-serif;
+}
+.site-nav {
+  padding: 0 20px;
+}
+.site-nav ul, .login-button button {
+  list-style: none;
+  padding: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.site-nav li {
+  display: inline-block;
+}
+.nav-item {
+  margin-right: 30px;
+  color: #fff;
+}
+
+.nav-item__label {
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.nav-item__radio {
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+}
+.nav-item__radio:checked ~ .nav-item__label {
+  border-bottom: 1px solid;
+}
+
+.login-button button {
+  background: transparent;
+  color: white;
+  border: 1px solid;
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.login-button button:hover {
+  background: white;
+  color: #0b8793;
+  border-color: white;
+}

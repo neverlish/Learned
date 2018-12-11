@@ -1,0 +1,47 @@
+blockquote {
+  quotes: "“" "”" "‘" "’";
+}
+blockquote::before {
+  content: open-quote;
+}
+blockquote::after {
+  content: close-quote;
+}
+
+.footernav ul {
+  list-style: none;
+  padding: 0;
+  font-family: verdana;
+  font-size: 12px;
+  text-align: center;
+}
+.footernav li {
+  display: inline-block;
+}
+.footernav a {
+  color: #333;
+  text-decoration: none;
+}
+.footernav a:hover {
+  text-decoration: underline;
+}
+.footernav li:nth-last-child(n+2)::after {
+  content: "|";
+  margin: 0 20px;
+}
+
+p::first-line {
+  color: green;
+}
+p::first-letter {
+  font-size: 2em;
+  float: left;
+  line-height: 1.7em;
+  padding: 0.3em;
+  font-weight: bold;
+}
+
+input::placeholder {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.3);
+}
