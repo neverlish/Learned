@@ -1,3 +1,5 @@
+const { createQueue } = require('./queues')
+
 function createNode(key) {
   const neighbors = []
 
@@ -50,23 +52,82 @@ function createGraph(directed = false) {
         return result
       })
       .join('\n')
+    },
+
+    breadFirstSearch(startingNodeKey, visitFn) {
+      const startingNode = this.getNode(startingNodeKey)
+      const visited = nodes.reduce((acc, node) => {
+        acc[node.key] = false
+        return acc
+      }, {})
+
+      const queue = createQueue()
+      queue.enqueue(startingNode)
+
+      while (!queue.isEmpty()) {
+        const currentNode = queue.dequeue()
+
+        if (!visited[currentNode.key]) {
+          visitFn(currentNode)
+          visited[currentNode.key] = true
+        }
+
+        currentNode.neighbors.forEach(node => {
+          if (!visited[node.key]) {
+            queue.enqueue(node)
+          }
+        })
+      }
     }
   }
 }
 
+// const graph = createGraph(true)
+// graph.addNode('Kyle')
+// graph.addNode('Anna')
+// graph.addNode('Krios')
+// graph.addNode('Tali')
+
+// graph.addEdge('Kyle', 'Anna')
+// graph.addEdge('Anna', 'Kyle')
+// graph.addEdge('Kyle', 'Krios')
+// graph.addEdge('Kyle', 'Tali')
+// graph.addEdge('Anna', 'Krios')
+// graph.addEdge('Anna', 'Tali')
+// graph.addEdge('Krios', 'Anna')
+// graph.addEdge('Tali', 'Kyle')
+
+// console.log(graph.print())
+
 const graph = createGraph(true)
-graph.addNode('Kyle')
-graph.addNode('Anna')
-graph.addNode('Krios')
-graph.addNode('Tali')
+const nodes = ['a', 'b', 'c', 'd', 'e', 'f']
+const edges = [
+  ['a', 'b'],
+  ['a', 'e'],
+  ['a', 'f'],
+  ['b', 'd'],
+  ['b', 'e'],
+  ['c', 'b'],
+  ['d', 'c'],
+  ['d', 'e']
+]
 
-graph.addEdge('Kyle', 'Anna')
-graph.addEdge('Anna', 'Kyle')
-graph.addEdge('Kyle', 'Krios')
-graph.addEdge('Kyle', 'Tali')
-graph.addEdge('Anna', 'Krios')
-graph.addEdge('Anna', 'Tali')
-graph.addEdge('Krios', 'Anna')
-graph.addEdge('Tali', 'Kyle')
+nodes.forEach(node => {
+  graph.addNode(node)
+})
 
-console.log(graph.print())
+edges.forEach(nodes => {
+  graph.addEdge(...nodes)
+})
+
+graph.breadFirstSearch('a', node => {
+  console.log(node.key)
+})
+/*
+a
+b
+e
+f
+d
+c
+*/
