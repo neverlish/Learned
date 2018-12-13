@@ -1,17 +1,14 @@
-import Link from 'next/link';
+import React, { Component } from 'react';
 
-export default () => (
-  <div>
-    Hello, Next.js!
+class Index extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Index</h1>
+        <button className='btn btn-primary'>Button</button>
+      </div>
+    );
+  }
+}
 
-    <div>
-      <Link href='/playground'>
-        <a>Go Playground</a>
-      </Link>
-    </div>
-
-    <div>
-      <a href='/playground'>Go Playground(without Link)</a>
-    </div>
-  </div>  
-);
+export default Index;
