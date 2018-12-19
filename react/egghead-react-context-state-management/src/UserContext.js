@@ -6,27 +6,26 @@ const { Provider, Consumer } = UserContext = React.createContext();
 // Context.Consumer, Context.Provider
 
 class UserProvider extends React.Component {
-  state = {
-    currentUser: FAKE_USER
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: FAKE_USER,
+      onLogin: this.handleLogin,
+      onLogout: this.handleLogout
+    };
+  }
 
   handleLogin = user => {
-    this.setState({ currentUser: user });
+    this.setState({ user: user });
   };
 
   handleLogout = () => {
-    this.setState({ currentUser: null });
+    this.setState({ user: null });
   };
 
   render() {
     return (
-      <Provider 
-        value={{
-          user: this.state.currentUser,
-          onLogin: this.handleLogin,
-          onLogout: this.handleLogout
-        }}
-      >
+      <Provider value={this.state}>
         {this.props.children}
       </Provider>
     )

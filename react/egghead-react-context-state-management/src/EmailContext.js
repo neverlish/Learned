@@ -6,20 +6,24 @@ let EmailContext;
 const { Provider, Consumer } = (EmailContext = React.createContext());
 
 class EmailProvider extends React.Component {
-  state = {
-    emails: [],
-    currentEmail: null,
-    error: null,
-    loading: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      emails: [],
+      currentEmail: null,
+      error: null,
+      loading: false,
+      onSelectEmail: this.handleSelectEmail
+    };
   }
 
   componentDidMount() {
     this.setState({ loading: true, error: null });
     fetchEmails()
-      .then(emails => 
+      .then(emails =>
         this.setState({ loading: false, emails })
       )
-      .catch(error => 
+      .catch(error =>
         this.setState({ loading: false, error })
       );
     this.refreshInterval = setInterval(this.refresh, 5000);
@@ -50,12 +54,7 @@ class EmailProvider extends React.Component {
 
   render() {
     return (
-      <Provider 
-        value={{
-          ...this.state,
-          onSelectEmail: this.handleSelectEmail
-        }}
-      >
+      <Provider value={this.state}>
         {this.props.children}
       </Provider>
     )
@@ -64,8 +63,8 @@ class EmailProvider extends React.Component {
 
 const Wrapped = withNotifier(EmailProvider);
 
-export { 
-  Wrapped as EmailProvider, 
+export {
+  Wrapped as EmailProvider,
   Consumer as EmailConsumer,
   EmailContext
 };
