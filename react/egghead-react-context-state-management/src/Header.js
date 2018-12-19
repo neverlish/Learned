@@ -1,10 +1,10 @@
 import React from 'react';
 import UserMenu from './UserMenu';
 
-const Header = ({ onLogout }) => (
+const Header = () => (
   <header className="Header">
     <h2>MyMail</h2>
-    <UserMenu onLogout={onLogout} />
+    <UserMenu />
   </header>
 );
 

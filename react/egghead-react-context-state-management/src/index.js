@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import LoginPage from './LoginPage';
 import MainPage from './MainPage';
 import UserContext from './UserContext';
+import { FAKE_USER } from './api';
 import './index.css';
 
 class Root extends React.Component {
   state = {
-    currentUser: null
+    currentUser: FAKE_USER
   };
 
   handleLogin = user => {
@@ -19,12 +20,18 @@ class Root extends React.Component {
   };
 
   render() {
-    return this.state.currentUser ? (
-      <UserContext.Provider value={this.state.currentUser}>
-        <MainPage onLogout={this.handleLogout} />
+    return (
+      <UserContext.Provider value={{
+        user: this.state.currentUser,
+        onLogin: this.handleLogin,
+        onLogout: this.handleLogout
+      }}>
+        {this.state.currentUser ? (
+          <MainPage />
+        ) : (
+          <LoginPage />
+        )}
       </UserContext.Provider>
-    ) : (
-      <LoginPage onLogin={this.handleLogin} />
     );
   }
 }
