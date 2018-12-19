@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import LoginPage from './LoginPage';
 import MainPage from './MainPage';
 import { UserProvider, UserConsumer } from './UserContext';
+import { EmailProvider } from './EmailContext';
 import './index.css';
 
 function Root() {
@@ -21,7 +22,9 @@ function Root() {
 
 ReactDOM.render(
   <UserProvider>
-    <Root />
+    <EmailProvider>
+      <Root />
+    </EmailProvider>
   </UserProvider>,
   document.querySelector('#root')
 );

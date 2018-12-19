@@ -78,7 +78,7 @@ main {
   height: 100vh;
   grid-template-areas:
     'Header Header'
-    'MessageList MessageList';
+    'MessageArea MessageArea';
   grid-template-rows: 49px;
   grid-template-columns: 250px;
 }
@@ -90,10 +90,10 @@ main {
   padding: 10px;
 }
 .MessageList {
-  grid-area: MessageList;
+  grid-area: MessageArea;
 }
-.MessageView {
-  grid-area: MessageView;
+.MessageViewer {
+  grid-area: MessageArea;
 }
 
 /* Header styles */
@@ -118,6 +118,50 @@ main {
   text-align: center;
   color: #999;
   margin-top: 40px;
+}
+.MessageList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.MessageList li {
+  padding: 10px 3px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  user-select: none;
+}
+.MessageList li:hover {
+  background: #f5f5f5;
+}
+.MessageList li:active {
+  transition: background 0.3s;
+  background: #ebefff;
+}
+.MessageList li .subject {
+  font-weight: 400;
+}
+.MessageList li .preview {
+  opacity: 0.6;
+  font-size: 0.8em;
+}
+
+/* Message View */
+.MessageViewer {
+  padding: 10px;
+}
+.MessageViewer h2 {
+  font-size: 1.3em;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #ccc;
+}
+.MessageViewer button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1a1ae8;
+  text-decoration: underline;
+  float: right;
+  font-size: 15px;
 }
 
 /* Menu Styles */
