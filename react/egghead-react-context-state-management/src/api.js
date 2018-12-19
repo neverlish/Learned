@@ -49,3 +49,21 @@ export function fetchEmails() {
     }, 300);
   });
 }
+
+export function fetchLatestEmails() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(
+        FAKE_EMAILS.map(e => ({
+          ...e,
+          id: Math.random()
+        })).slice(
+          0,
+          Math.floor(
+            Math.random() * (FAKE_EMAILS.length + 1)
+          )
+        )
+      );
+    }, 300);
+  });
+}
