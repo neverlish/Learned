@@ -8,5 +8,10 @@ workbox.routing.registerRoute(
   })
 )
 
+workbox.routing.registerRoute(
+  new RegExp('/.*\.json'),
+  workbox.strategies.networkFirst()
+)
+
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [])
 
