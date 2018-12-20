@@ -1,10 +1,40 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 import logo from './logo.svg';
 import './App.css';
 
+import GreyProfile from './grey_profile.png'
+import Back from './back.png'
+
 const ITEMS_URL = 'http://localhost:4567/items.json'
 
-class App extends Component {
+const Profile = () => {
+  return (
+    <div>
+      <nav className="navbar navbar-light bg-light">
+        <span className="navbar-brand mb-0 h1">
+          <Link to="/">
+            <img src={Back} alt="logo" style={{ height: 30 }} />
+          </Link>
+          Profile
+          </span>
+      </nav>
+
+      <div style={{ textAlign: 'center' }}>
+        <img
+          src={GreyProfile} alt="profile"
+          style={{ height: 200, marginTop: 50 }}
+        />
+        <p style={{ color: '#888', fontSize: 20 }}>username</p>
+      </div>
+
+    </div>
+  )
+}
+
+
+class List extends Component {
 
   state = {
     items: [],
@@ -78,7 +108,7 @@ class App extends Component {
       <div className="App">
         <nav className="navbar navbar-light bg-light">
           <span className="navbar-brand mb-0 h1">
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={logo} alt="logo" />
             Todo List
           </span>
 
@@ -88,6 +118,9 @@ class App extends Component {
               Offline
             </span>
           }
+          <span>
+            <Link to="/profile">Profile</Link>
+          </span>
         </nav>
 
         <div className="px-3 py-2">
@@ -154,4 +187,10 @@ class App extends Component {
   }
 }
 
-export default App
+export default () =>
+  <Router>
+    <div>
+      <Route path="/" exact component={List} />
+      <Route path="/profile" exact component={Profile} />
+    </div>
+  </Router>
