@@ -1,13 +1,12 @@
 import React, {
-  Component,
-  PureComponent,
-  Fragment,
   useContext,
-  memo
+  memo,
+  useMemo
 } from "react";
 import styled from "react-emotion";
 import Checkbox from "./Checkbox";
 import ThemeContext from "./ThemeContext";
+import Color from "color";
 import styles from "./styles";
 
 const Button = styled("button")`
@@ -22,7 +21,9 @@ const Button = styled("button")`
 const Item = styled("li")`
   font-size: 1.75em;
   padding: 0.25em 0.25em 0.25em 0.5em;
-  color: ${props => styles[props.theme].todo.item.color};
+  background: ${props => props.ageColors.background};
+  color: ${props => props.ageColors.color};
+  // ${props => styles[props.theme].todo.item.color};
   border-bottom: 1px solid
     ${props => styles[props.theme].todo.item.borderBottom};
   display: flex;
@@ -33,95 +34,26 @@ const Item = styled("li")`
   }
 `;
 
-class TodoItem1 extends Component {
-  render() {
-    const { todo, onChange, onDelete } = this.props;
-    console.log("TodoItem", { theme: this.context, ...todo });
-    return (
-      <Item key={todo.id} theme={this.context}>
-        <Checkbox
-          id={todo.id}
-          label={todo.text}
-          checked={todo.completed}
-          onChange={onChange.bind(this, todo.id)}
-        />
-        <Button onClick={onDelete.bind(this, todo.id)} theme={this.context}>
-          x
-        </Button>
-      </Item>
-    );
-  }
-}
-TodoItem1.contextType = ThemeContext;
+const getColors = (text, theme) => {
+  console.log("figuring...");
+  const themeColor = styles[theme].todo.backgroundColor;
+  const lengthPercentage = (text.length * 100) / 42;
+  const darkenedColor = Color(themeColor).darken(lengthPercentage / 100);
+  const background = `linear-gradient(90deg, ${themeColor} 0%, ${darkenedColor.hex()} 100%)`;
+  const color = darkenedColor.isLight() ? "black" : "white";
+  return { color, background };
+};
 
-class TodoItem2 extends PureComponent {
-  render() {
-    const { todo, onChange, onDelete } = this.props;
-    console.log("TodoItem", { theme: this.context, ...todo });
-    return (
-      <Item key={todo.id} theme={this.context}>
-        <Checkbox
-          id={todo.id}
-          label={todo.text}
-          checked={todo.completed}
-          onChange={onChange.bind(this, todo.id)}
-        />
-        <Button onClick={onDelete.bind(this, todo.id)} theme={this.context}>
-          x
-        </Button>
-      </Item>
-    );
-  }
-}
-TodoItem2.contextType = ThemeContext;
-
-class TodoItem3 extends Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.todo !== this.props.todo;
-  }
-  render() {
-    const { todo, onChange, onDelete } = this.props;
-    console.log("TodoItem", { theme: this.context, ...todo });
-    return (
-      <Item key={todo.id} theme={this.context}>
-        <Checkbox
-          id={todo.id}
-          label={todo.text}
-          checked={todo.completed}
-          onChange={onChange.bind(this, todo.id)}
-        />
-        <Button onClick={onDelete.bind(this, todo.id)} theme={this.context}>
-          x
-        </Button>
-      </Item>
-    );
-  }
-}
-TodoItem3.contextType = ThemeContext;
-
-function TodoItem4({ todo, onChange, onDelete }) {
+export default memo(function TodoItem({ todo, onChange, onDelete }) {
   const theme = useContext(ThemeContext);
-  console.log("TodoItem", { theme, ...todo });
+  console.log("calling...");
+  // const ageColors = getColors(todo.text, theme);
+  const ageColors = useMemo(() => getColors(todo.text, theme), [
+    todo.text,
+    theme
+  ]);
   return (
-    <Item key={todo.id} theme={theme}>
-      <Checkbox
-        id={todo.id}
-        label={todo.text}
-        checked={todo.completed}
-        onChange={onChange.bind(this, todo.id)}
-      />
-      <Button onClick={onDelete.bind(this, todo.id)} theme={theme}>
-        x
-      </Button>
-    </Item>
-  );
-}
-
-const TodoItem5 = React.memo(({ todo, onChange, onDelete }) => {
-  const theme = useContext(ThemeContext);
-  console.log("TodoItem", { theme, ...todo });
-  return (
-    <Item key={todo.id} theme={theme}>
+    <Item key={todo.id} theme={theme} ageColors={ageColors}>
       <Checkbox
         id={todo.id}
         label={todo.text}
@@ -134,26 +66,3 @@ const TodoItem5 = React.memo(({ todo, onChange, onDelete }) => {
     </Item>
   );
 });
-
-const TodoItem6 = React.memo(
-  ({ todo, onChange, onDelete }) => {
-    const theme = useContext(ThemeContext);
-    console.log("TodoItem", { theme, ...todo });
-    return (
-      <Item key={todo.id} theme={theme}>
-        <Checkbox
-          id={todo.id}
-          label={todo.text}
-          checked={todo.completed}
-          onChange={onChange.bind(this, todo.id)}
-        />
-        <Button onClick={onDelete.bind(this, todo.id)} theme={theme}>
-          x
-        </Button>
-      </Item>
-    );
-  },
-  ({ prevTodo }, { nextTodo }) => prevTodo === nextTodo
-);
-
-export default TodoItem2;

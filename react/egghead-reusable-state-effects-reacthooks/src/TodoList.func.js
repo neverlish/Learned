@@ -73,7 +73,12 @@ const useTodosWithLocalStorage = defaultValue => {
         todoId.current += 1;
         return [
           ...state,
-          { id: todoId.current, text: action.text, completed: false }
+          {
+            id: todoId.current,
+            text: action.text,
+            completed: false,
+            createdOn: Date.now()
+          }
         ];
       case "DELETE_TODO":
         return state.filter(todo => todo.id !== action.id);
@@ -158,8 +163,6 @@ export default function TodoList3() {
     id => dispatch({ type: "DELETE_TODO", id }),
     []
   );
-  // try inline...
-  // onChange={useCallback(id => dispatch({ type: "TOGGLE_TODO", id }), [])}
   return (
     <Container todos={todos}>
       <NewTodo
