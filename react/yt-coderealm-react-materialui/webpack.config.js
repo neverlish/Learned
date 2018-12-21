@@ -11,7 +11,7 @@ const common = {
     alias: {
       '@material-ui/core': '@material-ui/core/es'
     }
-  },
+  }
 }
 
 module.exports = [

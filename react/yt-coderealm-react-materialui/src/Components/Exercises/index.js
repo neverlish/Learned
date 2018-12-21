@@ -63,7 +63,7 @@ const Exercises =
             !category || category === group
               ? <Fragment key={group}>
                 <Typography
-                  variant='headline'
+                  variant='h5'
                   color='secondary'
                   style={{ textTransform: 'capitalize' }}
                 >
@@ -96,7 +96,7 @@ const Exercises =
       <Grid item className={classes.item} xs={12} sm={6}>
         <Paper className={classes.Paper}>
           <Typography
-            variant='display1'
+            variant='h4'
             gutterBottom
             color='secondary'
           >
@@ -110,11 +110,7 @@ const Exercises =
               onSubmit={onEdit}
             />
             : <Fragment>
-              <Typography
-                variant='subheading'
-              >
-                {description}
-              </Typography>
+              <Typography variant='subtitle1'>{description}</Typography>
             </Fragment>}
         </Paper>
       </Grid>

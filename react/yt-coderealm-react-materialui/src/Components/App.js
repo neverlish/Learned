@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { CssBaseline } from '@material-ui/core'
 import { Header, Footer } from './Layouts'
 import Exercises from './Exercises'
 import { muscles, exercises } from '../store'
 import { Provider } from '../context'
 
-export default class extends Component {
+class App extends PureComponent {
   state = {
     exercises,
-    exercise: {}
+    exercise: {},
+    editMode: false,
+    category: ''
   }
 
-  getExercisesByMuscles() {
+  getExercisesByMuscles () {
     const initExercises = muscles.reduce((exercises, category) => ({
       ...exercises,
       [category]: []
     }), {})
-
 
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
@@ -82,7 +83,7 @@ export default class extends Component {
     onSelect: this.handleExerciseSelect
   })
 
-  render() {
+  render () {
     return (
       <Provider value={this.getContext()}>
         <CssBaseline />
@@ -95,3 +96,5 @@ export default class extends Component {
     )
   }
 }
+
+export default App

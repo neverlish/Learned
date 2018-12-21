@@ -9,10 +9,14 @@ const styles = {
   }
 }
 
-export default withStyles(styles)(({ classes }) =>
+const Header = ({ classes }) => (
   <AppBar position='static'>
     <Toolbar>
-      <Typography variant='headline' color='inherit' className={classes.flex}>
+      <Typography
+        variant='h5'
+        color='inherit'
+        className={classes.flex}
+      >
         Exercise Database
       </Typography>
 
@@ -20,3 +24,5 @@ export default withStyles(styles)(({ classes }) =>
     </Toolbar>
   </AppBar>
 )
+
+export default withStyles(styles)(Header)

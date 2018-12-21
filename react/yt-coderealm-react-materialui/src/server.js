@@ -50,7 +50,7 @@ app.use((req, res) => {
     <body>
       <div id='root'>${html}</div>
       <script src='main.js' async></script>
-      ${dev ? `<script src='/reload/reload.js' async></script>`: ''}
+      ${dev ? `<script src='/reload/reload.js' async></script>` : ''}
     </body>
     
     </html>

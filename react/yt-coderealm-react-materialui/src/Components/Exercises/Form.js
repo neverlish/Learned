@@ -4,17 +4,17 @@ import { TextField, Select, Button, FormControl, InputLabel, MenuItem } from '@m
 export default class extends Component {
   state = this.getInitState()
 
-  getInitState() {
+  getInitState () {
     const { exercise } = this.props
 
-    return exercise ? exercise : {
+    return exercise || {
       title: '',
       description: '',
       muscles: ''
     }
   }
 
-  handleChange = name => ({ target: { value }}) =>
+  handleChange = name => ({ target: { value } }) =>
     this.setState({
       [name]: value
     })
@@ -25,10 +25,11 @@ export default class extends Component {
       ...this.state
     })
   }
- 
-  render() {
-    const { title, description, muscles } = this.state,
-          { exercise, muscles: categories } = this.props
+
+  render () {
+    const { title, description, muscles } = this.state
+
+    const { exercise, muscles: categories } = this.props
 
     return <form>
       <TextField
@@ -47,7 +48,7 @@ export default class extends Component {
           value={muscles}
           onChange={this.handleChange('muscles')}
         >
-          {categories.map(category => 
+          {categories.map(category =>
             <MenuItem value={category} key={category}>
               {category}
             </MenuItem>
@@ -67,7 +68,7 @@ export default class extends Component {
       <br />
       <Button
         color='primary'
-        variant='raised'
+        variant='contained'
         onClick={this.handleSubmit}
       >
         {exercise ? 'Edit' : 'Create'}

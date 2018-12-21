@@ -18,5 +18,8 @@ export default createMuiTheme({
     MuiWithWidth: {
       initialWidth: 'lg'
     }
+  },
+  typography: {
+    useNextVariants: true
   }
 })
