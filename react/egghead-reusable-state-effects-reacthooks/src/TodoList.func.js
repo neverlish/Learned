@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useReducer, useMemo } from "react";
 import styled from "react-emotion";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import About from "./About";
-
-import {
-  useBattery,
-  useTitle as useDocumentTitle,
-  useLocalStorage
-} from "react-use";
+import { useTitle as useDocumentTitle } from "react-use";
 
 const Container = styled("div")`
   margin: 3em auto 0 auto;
@@ -18,7 +13,7 @@ const Container = styled("div")`
   flex-direction: column;
   input[type="text"] {
     border-radius: ${props =>
-    props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
+      props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
   }
 `;
 const List = styled("ul")`
@@ -28,57 +23,6 @@ const List = styled("ul")`
   margin: 0;
   padding-left: 0;
 `;
-
-const Battery = ({ level, charging }) => {
-  return (
-    <svg viewBox="0 0 34 98">
-      <defs>
-        <linearGradient id="progress" x1="0" y1="1" x2="0" y2="0">
-          <stop id="stop1" offset={level} stopColor="#37F53B" />
-          <stop
-            id="stop2"
-            offset={level}
-            stopColor="#ffffff"
-            stopOpacity="0.3"
-          />
-        </linearGradient>
-      </defs>
-      <path
-        fill="url(#progress)"
-        d="M32.016,4.813 L24.102,4.813 L24.102,1.127 C24.102,0.689 23.746,0.333 23.307,0.333 L11.142,0.333 C10.703,0.333 10.347,0.69 10.347,1.127 L10.347,4.813 L2.432,4.813 C1.364,4.813 0.498,5.677 0.498,6.745 L0.498,96.066 C0.498,97.131 1.364,98 2.432,98 L32.015,98 C33.082,98 33.949,97.136 33.949,96.066 L33.949,6.745 C33.949,5.677 33.084,4.813 32.016,4.813 Z"
-      />
-      {charging && (
-        <polygon
-          fill="yellow"
-          points="16.96 75.677 16.96 55.544 13.156 58.984 16.96 30.246 16.96 50.953 21.291 48.207"
-        />
-      )}
-      <text
-        x="17"
-        y="88"
-        alignmentBaseline="middle"
-        fontSize="11"
-        fill="#333"
-        textAnchor="middle"
-        style={{
-          fontFamily:
-            "-apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'"
-        }}
-      >
-        {level * 100}%
-      </text>
-    </svg>
-  );
-};
-
-export function Playground2() {
-  const battery = useBattery();
-  return (
-    <section>
-      <Battery {...battery} />
-    </section>
-  );
-}
 
 const useKeyDown = (map, defaultValue) => {
   let [match, setMatch] = useState(defaultValue);
@@ -97,10 +41,32 @@ const useKeyDown = (map, defaultValue) => {
 const incompleteTodoCount = todos =>
   todos.reduce((memo, todo) => (!todo.completed ? memo + 1 : memo), 0);
 
-export default function TodoList() {
+export function TodoList1() {
   const [newTodo, updateNewTodo] = useState("");
   const todoId = useRef(0);
-  const [todos, updateTodos] = useLocalStorage("todos", []);
+  // const [todos, updateTodos] = useLocalStorage("todos", []);
+  const [todos, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "ADD_TODO":
+        todoId.current += 1;
+        return [
+          ...state,
+          {
+            id: todoId.current,
+            text: action.text,
+            completed: false
+          }
+        ];
+      case "DELETE_TODO":
+        return state.filter(todo => todo.id !== action.id);
+      case "TOGGLE_TODO":
+        return state.map(todo =>
+          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        );
+      default:
+        return state;
+    }
+  }, []);
   const inCompleteCount = incompleteTodoCount(todos);
   const title = inCompleteCount ? `Todos (${inCompleteCount})` : "Todos";
   useDocumentTitle(title);
@@ -110,27 +76,15 @@ export default function TodoList() {
   );
   const handleNewSubmit = e => {
     e.preventDefault();
-    todoId.current += 1;
-    updateTodos(prevTodos => [
-      ...prevTodos,
-      {
-        id: todoId.current,
-        text: newTodo,
-        completed: false
-      }
-    ]);
+    dispatch({ type: "ADD_TODO", text: newTodo });
     updateNewTodo("");
   };
   const handleNewChange = e => updateNewTodo(e.target.value);
   const handleDelete = (id, e) => {
-    updateTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+    dispatch({ type: "DELETE_TODO", id });
   };
   const handleCompletedToggle = (id, e) => {
-    updateTodos(prevTodos =>
-      prevTodos.map(todo =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    dispatch({ type: "TOGGLE_TODO", id });
   };
 
   return (
@@ -148,6 +102,112 @@ export default function TodoList() {
               todo={todo}
               onChange={handleCompletedToggle}
               onDelete={handleDelete}
+            />
+          ))}
+        </List>
+      )}
+      <About isOpen={showAbout} onClose={() => setShowAbout(false)} />
+    </Container>
+  );
+}
+
+const useTodos = () => {
+  const todoId = useRef(0);
+  const [todos, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "ADD_TODO":
+        todoId.current += 1;
+        return [
+          ...state,
+          {
+            id: todoId.current,
+            text: action.text,
+            completed: false
+          }
+        ];
+      case "DELETE_TODO":
+        return state.filter(todo => todo.id !== action.id);
+      case "TOGGLE_TODO":
+        return state.map(todo =>
+          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        );
+      default:
+        return state;
+    }
+  }, []);
+  return [todos, dispatch];
+};
+
+const useTodosWithLocalStorage = defaultValue => {
+  const todoId = useRef(0);
+  const initialValue = () => {
+    const valueFromStorage = JSON.parse(
+      window.localStorage.getItem("todos") || JSON.stringify(defaultValue)
+    );
+    todoId.current = valueFromStorage.reduce(
+      (memo, todo) => Math.max(memo, todo.id),
+      0
+    );
+    return valueFromStorage;
+  };
+  const [todos, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "ADD_TODO":
+        todoId.current += 1;
+        return [
+          ...state,
+          { id: todoId.current, text: action.text, completed: false }
+        ];
+      case "DELETE_TODO":
+        return state.filter(todo => todo.id !== action.id);
+      case "TOGGLE_TODO":
+        return state.map(todo =>
+          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        );
+      default:
+        return state;
+    }
+  }, useMemo(initialValue, []));
+  useEffect(
+    () => {
+      window.localStorage.setItem("todos", JSON.stringify(todos));
+    },
+    [todos]
+  );
+  return [todos, dispatch];
+};
+
+export default function TodoList2() {
+  const [newTodo, updateNewTodo] = useState("");
+  const [todos, dispatch] = useTodosWithLocalStorage([]);
+  const inCompleteCount = incompleteTodoCount(todos);
+  const title = inCompleteCount ? `Todos (${inCompleteCount})` : "Todos";
+  useDocumentTitle(title);
+  let [showAbout, setShowAbout] = useKeyDown(
+    { "?": true, Escape: false },
+    false
+  );
+  const handleNewSubmit = e => {
+    e.preventDefault();
+    dispatch({ type: "ADD_TODO", text: newTodo });
+    updateNewTodo("");
+  };
+
+  return (
+    <Container todos={todos}>
+      <NewTodo
+        onSubmit={handleNewSubmit}
+        value={newTodo}
+        onChange={e => updateNewTodo(e.target.value)}
+      />
+      {!!todos.length && (
+        <List>
+          {todos.map(todo => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onChange={id => dispatch({ type: "TOGGLE_TODO", id })}
+              onDelete={id => dispatch({ type: "DELETE_TODO", id })}
             />
           ))}
         </List>
