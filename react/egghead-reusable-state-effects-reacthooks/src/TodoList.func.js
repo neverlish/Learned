@@ -1,24 +1,37 @@
-import React, { useState, useEffect, useRef, useReducer, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useReducer,
+  useMemo,
+  useContext
+} from "react";
 import styled from "react-emotion";
 import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import About from "./About";
 import { useTitle as useDocumentTitle } from "react-use";
+import ThemeContext from "./ThemeContext";
+import styles from "./styles";
 
 const Container = styled("div")`
-  margin: 3em auto 0 auto;
+  margin: 0 auto;
   width: 75%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   input[type="text"] {
     border-radius: ${props =>
-      props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
+    props.todos.length ? "0.25em 0.25em 0 0" : "0.25em"};
+  }
+  & > label {
+    align-self: flex-end;
+    margin-bottom: 10px;
   }
 `;
 const List = styled("ul")`
   list-style: none;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid ${props => styles[props.theme].list.borderColor};
   border-top: none;
   margin: 0;
   padding-left: 0;
@@ -40,103 +53,6 @@ const useKeyDown = (map, defaultValue) => {
 
 const incompleteTodoCount = todos =>
   todos.reduce((memo, todo) => (!todo.completed ? memo + 1 : memo), 0);
-
-export function TodoList1() {
-  const [newTodo, updateNewTodo] = useState("");
-  const todoId = useRef(0);
-  // const [todos, updateTodos] = useLocalStorage("todos", []);
-  const [todos, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case "ADD_TODO":
-        todoId.current += 1;
-        return [
-          ...state,
-          {
-            id: todoId.current,
-            text: action.text,
-            completed: false
-          }
-        ];
-      case "DELETE_TODO":
-        return state.filter(todo => todo.id !== action.id);
-      case "TOGGLE_TODO":
-        return state.map(todo =>
-          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
-        );
-      default:
-        return state;
-    }
-  }, []);
-  const inCompleteCount = incompleteTodoCount(todos);
-  const title = inCompleteCount ? `Todos (${inCompleteCount})` : "Todos";
-  useDocumentTitle(title);
-  let [showAbout, setShowAbout] = useKeyDown(
-    { "?": true, Escape: false },
-    false
-  );
-  const handleNewSubmit = e => {
-    e.preventDefault();
-    dispatch({ type: "ADD_TODO", text: newTodo });
-    updateNewTodo("");
-  };
-  const handleNewChange = e => updateNewTodo(e.target.value);
-  const handleDelete = (id, e) => {
-    dispatch({ type: "DELETE_TODO", id });
-  };
-  const handleCompletedToggle = (id, e) => {
-    dispatch({ type: "TOGGLE_TODO", id });
-  };
-
-  return (
-    <Container todos={todos}>
-      <NewTodo
-        onSubmit={handleNewSubmit}
-        value={newTodo}
-        onChange={handleNewChange}
-      />
-      {!!todos.length && (
-        <List>
-          {todos.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onChange={handleCompletedToggle}
-              onDelete={handleDelete}
-            />
-          ))}
-        </List>
-      )}
-      <About isOpen={showAbout} onClose={() => setShowAbout(false)} />
-    </Container>
-  );
-}
-
-const useTodos = () => {
-  const todoId = useRef(0);
-  const [todos, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case "ADD_TODO":
-        todoId.current += 1;
-        return [
-          ...state,
-          {
-            id: todoId.current,
-            text: action.text,
-            completed: false
-          }
-        ];
-      case "DELETE_TODO":
-        return state.filter(todo => todo.id !== action.id);
-      case "TOGGLE_TODO":
-        return state.map(todo =>
-          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
-        );
-      default:
-        return state;
-    }
-  }, []);
-  return [todos, dispatch];
-};
 
 const useTodosWithLocalStorage = defaultValue => {
   const todoId = useRef(0);
@@ -181,6 +97,7 @@ export default function TodoList2() {
   const [newTodo, updateNewTodo] = useState("");
   const [todos, dispatch] = useTodosWithLocalStorage([]);
   const inCompleteCount = incompleteTodoCount(todos);
+  const theme = useContext(ThemeContext);
   const title = inCompleteCount ? `Todos (${inCompleteCount})` : "Todos";
   useDocumentTitle(title);
   let [showAbout, setShowAbout] = useKeyDown(
@@ -201,7 +118,7 @@ export default function TodoList2() {
         onChange={e => updateNewTodo(e.target.value)}
       />
       {!!todos.length && (
-        <List>
+        <List theme={theme}>
           {todos.map(todo => (
             <TodoItem
               key={todo.id}
