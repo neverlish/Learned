@@ -33,9 +33,13 @@ const List = styled("ul")`
  * Explain React Team's recommendation to "split state into multiple state variables based on which values tend to change together" --[Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables)
  */
 
+// const todos = ['one', 'two', 'three']
 export function Playground1() {
   const [text, setText] = useState("");
   const [checked, setChecked] = useState(false);
+  // if (new Date().getDay() === 5) {
+  //   const [special, setSpecial ] = useState(false);
+  // }
   return (
     <section>
       <input type="text" value={text} onChange={e => setText(e.target.value)} />
