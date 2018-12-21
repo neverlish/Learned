@@ -4,6 +4,7 @@ import React, {
   useRef,
   useReducer,
   useMemo,
+  useCallback,
   useContext
 } from "react";
 import styled from "react-emotion";
@@ -93,7 +94,7 @@ const useTodosWithLocalStorage = defaultValue => {
   return [todos, dispatch];
 };
 
-export default function TodoList2() {
+export function TodoList2() {
   const [newTodo, updateNewTodo] = useState("");
   const [todos, dispatch] = useTodosWithLocalStorage([]);
   const inCompleteCount = incompleteTodoCount(todos);
@@ -109,7 +110,6 @@ export default function TodoList2() {
     dispatch({ type: "ADD_TODO", text: newTodo });
     updateNewTodo("");
   };
-
   return (
     <Container todos={todos}>
       <NewTodo
@@ -125,6 +125,56 @@ export default function TodoList2() {
               todo={todo}
               onChange={id => dispatch({ type: "TOGGLE_TODO", id })}
               onDelete={id => dispatch({ type: "DELETE_TODO", id })}
+            />
+          ))}
+        </List>
+      )}
+      <About isOpen={showAbout} onClose={() => setShowAbout(false)} />
+    </Container>
+  );
+}
+
+export default function TodoList3() {
+  const [newTodo, updateNewTodo] = useState("");
+  const [todos, dispatch] = useTodosWithLocalStorage([]);
+  const inCompleteCount = incompleteTodoCount(todos);
+  const theme = useContext(ThemeContext);
+  const title = inCompleteCount ? `Todos (${inCompleteCount})` : "Todos";
+  useDocumentTitle(title);
+  let [showAbout, setShowAbout] = useKeyDown(
+    { "?": true, Escape: false },
+    false
+  );
+  const handleNewSubmit = e => {
+    e.preventDefault();
+    dispatch({ type: "ADD_TODO", text: newTodo });
+    updateNewTodo("");
+  };
+  const handleTodoChange = useCallback(
+    id => dispatch({ type: "TOGGLE_TODO", id }),
+    []
+  );
+  const handleTodoDelete = useCallback(
+    id => dispatch({ type: "DELETE_TODO", id }),
+    []
+  );
+  // try inline...
+  // onChange={useCallback(id => dispatch({ type: "TOGGLE_TODO", id }), [])}
+  return (
+    <Container todos={todos}>
+      <NewTodo
+        onSubmit={handleNewSubmit}
+        value={newTodo}
+        onChange={e => updateNewTodo(e.target.value)}
+      />
+      {!!todos.length && (
+        <List theme={theme}>
+          {todos.map(todo => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onChange={handleTodoChange}
+              onDelete={handleTodoDelete}
             />
           ))}
         </List>
