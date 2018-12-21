@@ -4,6 +4,12 @@ import NewTodo from "./NewTodo";
 import TodoItem from "./TodoItem";
 import About from "./About";
 
+import {
+  useBattery,
+  useTitle as useDocumentTitle,
+  useLocalStorage
+} from "react-use";
+
 const Container = styled("div")`
   margin: 3em auto 0 auto;
   width: 75%;
@@ -65,56 +71,6 @@ const Battery = ({ level, charging }) => {
   );
 };
 
-export function Playground1() {
-  const [battery, setBattery] = useState({ level: 0, charging: false });
-  const handleChange = ({ target: { level, charging } }) =>
-    setBattery({ level, charging });
-
-  useEffect(() => {
-    let battery;
-    navigator.getBattery().then(bat => {
-      battery = bat;
-      battery.addEventListener("levelchange", handleChange);
-      battery.addEventListener("chargingchange", handleChange);
-      handleChange({ target: battery });
-    });
-    return () => {
-      battery.removeEventListener("levelchange", handleChange);
-      battery.removeEventListener("chargingchange", handleChange);
-    };
-  }, []);
-
-  return (
-    <section>
-      <Battery {...battery} />
-    </section>
-  );
-}
-
-const useBattery = () => {
-  const [battery, setBattery] = useState({ level: 0, charging: false });
-  const handleChange = ({ target: { level, charging } }) =>
-    setBattery({
-      level,
-      charging
-    });
-
-  useEffect(() => {
-    let battery;
-    navigator.getBattery().then(bat => {
-      battery = bat;
-      battery.addEventListener("levelchange", handleChange);
-      battery.addEventListener("chargingchange", handleChange);
-      handleChange({ target: battery });
-    });
-    return () => {
-      battery.removeEventListener("levelchange", handleChange);
-      battery.removeEventListener("chargingchange", handleChange);
-    };
-  }, []);
-  return battery;
-};
-
 export function Playground2() {
   const battery = useBattery();
   return (
@@ -123,30 +79,6 @@ export function Playground2() {
     </section>
   );
 }
-
-const useLocalStorage = (key, defaultValue) => {
-  const initialValue = () =>
-    JSON.parse(
-      window.localStorage.getItem(key) || JSON.stringify(defaultValue)
-    );
-  const [storage, updateStorage] = useState(initialValue);
-  useEffect(
-    () => {
-      window.localStorage.setItem(key, JSON.stringify(storage));
-    },
-    [storage]
-  );
-  return [storage, updateStorage];
-};
-
-const useDocumentTitle = title => {
-  useEffect(
-    () => {
-      document.title = title;
-    },
-    [title]
-  );
-};
 
 const useKeyDown = (map, defaultValue) => {
   let [match, setMatch] = useState(defaultValue);
