@@ -1,6 +1,6 @@
 import log from './logger'
 
-import { incMoves } from './data/model/answer'
+import { applyMove } from './data/model/answer'
 
 const state = {
   left: 8,
@@ -8,7 +8,8 @@ const state = {
 }
 
 log(
-  incMoves()
-    .chain(incMoves)
+  applyMove()
+    .chain(applyMove)
+    .chain(applyMove)
     .execWith(state)
 )

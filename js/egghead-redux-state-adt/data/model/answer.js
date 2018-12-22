@@ -1,3 +1,5 @@
+import composeK from 'crocks/helpers/composeK'
+
 import {
   clampAfter, dec, inc, over
 } from '../helpers'
@@ -13,3 +15,7 @@ export const decLeft = () =>
 // incMoves :: () -> State AppState ()
 export const incMoves = () =>
   over('moves', limitMoves(inc))
+
+// applyMove :: () -> State AppState ()
+export const applyMove =
+  composeK(incMoves, decLeft)
