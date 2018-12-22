@@ -4,9 +4,10 @@ import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
 import curry from 'crocks/helpers/curry'
 import mapProps from 'crocks/helpers/mapProps'
+import prop from 'crocks/Maybe/prop'
 import when from 'crocks/logic/when'
 
-const { modify } = State
+const { modify, get } = State
 
 // inc :: Number -> Number
 export const inc =
@@ -32,3 +33,7 @@ export const over = (key, fn) =>
 // assignBy :: ((a -> Boolean), Object) -> Object -> Object
 export const assignBy = (pred, obj) =>
   when(pred, assign(obj))
+
+// getState :: String -> State Object (Maybe a)
+export const getState = key =>
+  get(prop(key))

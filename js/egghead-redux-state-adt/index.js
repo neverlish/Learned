@@ -1,5 +1,6 @@
-import answer from './data/model/answer'
 import log from './logger'
+
+import { getHint, getCard } from './data/model/feedback'
 
 const state = {
   cards: [
@@ -7,11 +8,13 @@ const state = {
     { id: 'orange-square', color: 'orange', shape: 'square' },
     { id: 'blue-triangle', color: 'blue', shape: 'triangle' },
   ],
-  left: 8,
-  moves: 0,
+  hint: {
+    color: 'green',
+    shape: 'square'
+  },
 }
 
 log(
-  answer('green-square')
-    .execWith(state)
+  getCard('green-square')
+    .evalWith(state)
 )
