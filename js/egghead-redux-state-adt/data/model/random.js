@@ -44,3 +44,7 @@ export const random =
 export const between = (min, max) =>
   random()
     .map(normalize(min, max))
+
+// randomIndex :: [ a ] -> State AppState a
+export const randomIndex =
+  arr => between(0, arr.length)

@@ -3,6 +3,7 @@ import State from 'crocks/State'
 import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
 import curry from 'crocks/helpers/curry'
+import map from 'crocks/pointfree/map'
 import mapProps from 'crocks/helpers/mapProps'
 import prop from 'crocks/Maybe/prop'
 import when from 'crocks/logic/when'
@@ -45,3 +46,11 @@ export const getState = key =>
 // liftState :: (a -> b) -> a -> State s b
 export const liftState = fn =>
   compose(State.of, fn)
+
+// selectState :: (String, (a -> b)) -> State Object (Maybe b)
+export const selectState = (key, fn) =>
+  get(compose(map(fn), prop(key)))
+
+// getAt :: Integer -> [ a ] -> a
+export const getAt =
+  index => arr => arr[index]
