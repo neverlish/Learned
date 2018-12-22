@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 
 import Async from 'crocks/Async'
 import pick from 'crocks/helpers/pick'
-import unit from 'crocks/helpers/unit'
 
 import { connect } from 'react-redux'
 
-import { startGame, hideAllCards } from './data/reducers/game'
+import { startGame, hideAllCards, resetGame } from './data/reducers/game'
 import { selectCard, startTurn, showFeedback } from './data/reducers/turn';
 
 import './Game.css'
@@ -59,7 +58,7 @@ const mapDispatch = dispatch => ({
     Async.resolveAfter(500, showFeedback(id)),
     Async.resolveAfter(2000, startTurn()),
   ]),
-  restart: unit,
+  restart: () => dispatch(resetGame()),
   start: () => dispatch([
     startGame(),
     Async.resolveAfter(1000, hideAllCards()),
