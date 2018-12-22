@@ -6,7 +6,6 @@ import converge from 'crocks/combinators/converge'
 import equals from 'crocks/pointfree/equals'
 import find from 'crocks/Maybe/find'
 import liftA2 from 'crocks/helpers/liftA2'
-import omit from 'crocks/helpers/omit'
 import option from 'crocks/pointfree/option'
 import propEq from 'crocks/predicates/propEq'
 

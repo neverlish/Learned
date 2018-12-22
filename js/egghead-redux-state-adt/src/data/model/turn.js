@@ -5,7 +5,6 @@ import filter from 'crocks/pointfree/filter'
 import identity from 'crocks/combinators/identity'
 import liftA2 from 'crocks/helpers/liftA2'
 import option from 'crocks/pointfree/option'
-import pick from 'crocks/helpers/pick'
 
 import {
   getAt, liftState, over,

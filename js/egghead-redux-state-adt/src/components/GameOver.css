@@ -1,0 +1,45 @@
+.gameOver {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.gameOver__modal {
+  position: absolute;
+  top: 24.3rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(211, 211, 211, 0.9);
+  padding: 3rem 0;
+  width: 130%;
+  border-radius: 1rem;
+  box-shadow: 3px 3px 8px #777;
+}
+
+@media only screen and (min-width: 600px) {
+  .gameOver__modal {
+    top: 31.6rem;
+    font-size: 2rem;
+  }
+}
+
+.gameOver__text {
+  text-align: center;
+  padding: 1rem 0;
+  color: #333;
+  font-weight: 900;
+}
+
+.gameOver__buttons {
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.gameOver__buttons .button {
+  display: inline-block;
+  background-color: gray;
+  color: #333;
+  font-weight: 700;
+}

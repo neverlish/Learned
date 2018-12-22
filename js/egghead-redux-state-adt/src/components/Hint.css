@@ -1,0 +1,59 @@
+.hint {
+  position: relative;
+  flex: 0 0 1;
+  height: 4.5rem;
+  width: 4.5rem;
+  background-color: lightgray;
+  border-radius: 50%;
+}
+
+@media only screen and (min-width: 600px) {
+  .hint {
+    height: 6rem;
+    width: 6rem;
+  }
+}
+
+.hint .shape {
+  position: static;
+  background-color: transparent;
+}
+
+.hint .shape__glyph {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .hint .shape__glyph {
+    height: 3rem;
+    width: 3rem;
+  }
+}
+
+.shape .square {
+  border-radius: 0.2rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .shape .square {
+    border-radius: 0.2rem;
+  }
+}
+
+.hint .shape .triangle {
+  background-color: transparent;
+  border-left-width:  1.1rem ;
+  border-right-width:  1.1rem;
+  border-bottom-width:  2.2rem;
+  margin-top: -0.3rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .hint .shape .triangle {
+    border-left-width:  1.5rem ;
+    border-right-width:  1.5rem;
+    border-bottom-width:  3rem;
+    margin-top: -0.3rem;
+  }
+}

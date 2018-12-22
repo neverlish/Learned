@@ -1,0 +1,35 @@
+.feedback {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.feedback__box {
+  position: absolute;
+  top: 24.3rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem 6rem;
+  border-radius: 10rem;
+  background-color: rgba(211, 211, 211, 0.9);
+}
+
+@media only screen and (min-width: 600px) {
+  .feedback__box {
+    top: 31.6rem;
+  }
+}
+
+.feedback__text {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 900;
+}
+
+@media only screen and (min-width: 600px) {
+  .feedback__text {
+    font-size: 2rem;
+  }
+}

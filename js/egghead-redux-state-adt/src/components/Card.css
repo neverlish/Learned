@@ -1,0 +1,42 @@
+.card {
+  display: inline-block;
+  flex: 0 0 32%;
+  width: 8rem;
+  height: 8rem;
+  perspective: 100rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .card {
+    height: 10.3rem;
+  }
+}
+
+.card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card__inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card__front, .card__back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: .4rem;
+}
+
+.card__front {
+  background-color: gray;
+  cursor: pointer;
+}
+
+.card__back {
+  transform: rotateY(180deg);
+}

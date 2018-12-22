@@ -1,7 +1,6 @@
 import composeK from 'crocks/helpers/composeK'
 import map from 'crocks/pointfree/map'
 import propEq from 'crocks/predicates/propEq'
-import State from 'crocks/State'
 
 import {
   assignBy, clampAfter, dec, inc, over
