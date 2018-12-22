@@ -1,6 +1,4 @@
-import State from 'crocks/State'
-
-import { selectCard } from './data/model/answer'
+import answer from './data/model/answer'
 import log from './logger'
 
 const state = {
@@ -14,8 +12,6 @@ const state = {
 }
 
 log(
-  // selectCard('green-square')
-  State.of('green-square')
-    .chain(selectCard)
+  answer('green-square')
     .execWith(state)
 )

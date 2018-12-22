@@ -1,6 +1,7 @@
 import composeK from 'crocks/helpers/composeK'
 import map from 'crocks/pointfree/map'
 import propEq from 'crocks/predicates/propEq'
+import State from 'crocks/State'
 
 import {
   assignBy, clampAfter, dec, inc, over
@@ -30,3 +31,9 @@ export const applyMove =
 // selectCard :: String -> State AppState ()
 export const selectCard = id =>
   over('cards', map(markSelected(id)))
+
+// answer :: String -> State AppState ()
+const answer = 
+  composeK(applyMove, selectCard)
+
+export default answer
