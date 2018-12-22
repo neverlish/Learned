@@ -1,10 +1,13 @@
-import { createStore, compose } from 'redux'
+import { applyMiddleware, createStore, compose } from 'redux'
 
-import identity from 'crocks/combinators/identity'
+import multiMiddleware from './middleware/multi'
 
 import { initialState } from './model/initialize'
-
 import reducer from './reducers'
+
+const middleware = applyMiddleware(
+  multiMiddleware
+)
 
 const composeEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -12,5 +15,5 @@ const composeEnhancers =
 export default createStore(
   reducer,
   initialState(),
-  composeEnhancers(identity)
+  composeEnhancers(middleware)
 )

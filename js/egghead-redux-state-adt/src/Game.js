@@ -6,7 +6,7 @@ import unit from 'crocks/helpers/unit'
 
 import { connect } from 'react-redux'
 
-import { startGame } from './data/reducers/game'
+import { startGame, hideAllCards } from './data/reducers/game'
 
 import './Game.css'
 
@@ -54,7 +54,10 @@ const mapState = pick([
 const mapDispatch = dispatch => ({
   answer: unit,
   restart: unit,
-  start: () => dispatch(startGame()),
+  start: () => dispatch([
+    startGame(),
+    hideAllCards()
+  ]),
 })
 
 export default connect(mapState, mapDispatch)(Game)
