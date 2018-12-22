@@ -12,6 +12,7 @@ import {
 } from '../helpers'
 
 import { randomIndex } from './random'
+import endGame from './end'
 
 // notSelected :: Card -> Boolean
 const notSelected =
@@ -46,6 +47,6 @@ const resetIsCorrect = () =>
 
 // turn :: () -> State AppState ()
 const turn =
-  composeK(resetIsCorrect, nextHint)
+  composeK(resetIsCorrect, nextHint, endGame)
 
 export default turn

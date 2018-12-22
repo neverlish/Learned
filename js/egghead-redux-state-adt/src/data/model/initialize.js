@@ -7,6 +7,7 @@ export const initialState = () => ({
   colors: [ 'orange', 'green', 'blue', 'yellow' ],
   shapes: [ 'triangle', 'circle', 'square' ],
   cards: [],
+  hasWon: null,
   hint: {},
   isCorrect: null,
   left: 8,
