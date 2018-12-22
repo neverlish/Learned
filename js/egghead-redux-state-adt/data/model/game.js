@@ -1,8 +1,13 @@
+import bimap from 'crocks/pointfree/bimap'
+import compose from 'crocks/helpers/compose'
 import converge from 'crocks/combinators/converge'
 import curry from 'crocks/helpers/curry'
+import fanout from 'crocks/helpers/fanout'
+import identity from 'crocks/combinators/identity'
 import liftA2 from 'crocks/helpers/liftA2'
 import option from 'crocks/pointfree/option'
-import { getState } from '../helpers'
+
+import { getAt, getState, unsetAt } from '../helpers'
 
 // buildCard :: String -> String -> Card
 const buildCard = curry((color, shape) => ({
@@ -28,4 +33,12 @@ export const generateCards = converge(
   liftA2(buildCards),
   getColors,
   getShapes
+)
+
+// Deck :: Pair [ Card ] [ Card ]
+
+// drawCartAt :: Integer -> [ Card ] -> Deck
+export const drawCardAt = index => compose(
+  bimap(Array.of, identity),
+  fanout(getAt(index), unsetAt(index))
 )

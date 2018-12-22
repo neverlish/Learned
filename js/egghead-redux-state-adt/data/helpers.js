@@ -54,3 +54,7 @@ export const selectState = (key, fn) =>
 // getAt :: Integer -> [ a ] -> a
 export const getAt =
   index => arr => arr[index]
+
+// unsetAt :: Integer -> [ a ] -> [ a ]
+export const unsetAt = index => arr =>
+  arr.slice(0, index).concat(arr.slice(index + 1))

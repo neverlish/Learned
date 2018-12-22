@@ -1,6 +1,7 @@
 import log from './logger'
+import chain from 'crocks/pointfree/chain'
 
-import { generateCards } from './data/model/game'
+import { drawCardAt, generateCards } from './data/model/game'
 
 const state = {
   colors: ['orange', 'green',' blue', 'yellow'],
@@ -9,5 +10,8 @@ const state = {
 
 log(
   generateCards()
-    .evalWith(state).length
+    .map(drawCardAt(0))
+    .map(chain(drawCardAt(2)))
+    .map(chain(drawCardAt(7)))
+    .evalWith(state).fst()
 )
