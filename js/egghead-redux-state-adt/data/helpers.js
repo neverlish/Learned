@@ -1,11 +1,14 @@
+import First from 'crocks/First'
 import State from 'crocks/State'
 
 import applyTo from 'crocks/combinators/applyTo'
 import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
 import curry from 'crocks/helpers/curry'
+import flip from 'crocks/combinators/flip'
 import map from 'crocks/pointfree/map'
 import mapProps from 'crocks/helpers/mapProps'
+import mreduceMap from 'crocks/helpers/mreduceMap'
 import prop from 'crocks/Maybe/prop'
 import when from 'crocks/logic/when'
 
@@ -79,3 +82,8 @@ export const createReducer = actionReducers =>
   ({ type, payload }) =>
     prop(type, actionReducers)
       .map(applyTo(payload))
+
+// combineReducers :: [ Reducer ] -> Reducer
+export const combineReducers = flip(
+  compose(mreduceMap(First), applyTo)
+)

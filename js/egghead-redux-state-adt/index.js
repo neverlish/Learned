@@ -1,31 +1,33 @@
 import log from './logger'
 
-import { createAction } from './data/helpers'
 import { showFeedback, selectCard } from './data/reducers/turn'
 import reducer from './data/reducers'
-
-const sillyVerb =
-  createAction('SILLY_VERB')
+import start, { markCardsUnselected } from './data/model/game'
+import { hideAllCards } from './data/reducers/game';
 
 const state = {
-  cards: [
-    { id: 'orange-square', color: 'orange', shape: 'square' },
-    { id: 'blue-circle', color: 'blue', shape: 'circle' },
-    { id: 'green-circle', color: 'greeen', shape: 'circle' },
-  ],
-  hint: {
-    color: 'orange',
-    shape: 'square'
-  },
+  colors: [ 'orange', 'green', 'blue', 'yellow' ],
+  shapes: [ 'square', 'circle', 'triangle' ],
+  cards: [],
   isCorrect: null,
+  hint: {
+    color: 'green',
+    shape: 'triangle'
+  },
   left: 8,
   moves: 0,
   rank: 4,
+  seed: 42,
 }
+
+const gameState =
+  start()
+    .chain(markCardsUnselected)
+    .execWith(state)
 
 log(
   reducer(
-    state,
-    showFeedback('orange-square')
-  )
+    gameState,
+    hideAllCards()
+  ).cards
 )

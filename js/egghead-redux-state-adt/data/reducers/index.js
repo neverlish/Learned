@@ -6,10 +6,17 @@ import isSameType from 'crocks/predicates/isSameType'
 import safe from 'crocks/Maybe/safe'
 
 import turn from './turn'
+import game from './game'
+
+import { combineReducers } from '../helpers'
+
+// reducers :: Reducer
+const reducers = 
+  combineReducers([ game,  turn ])
 
 // reducer :: (AppState, Action a) -> AppState
 const reducer = (prev, action) =>
-  turn(action)
+  reducers(action)
     .chain(safe(isSameType(State)))
     .map(execWith(prev))
     .option(prev)
