@@ -10,7 +10,7 @@ import omit from 'crocks/helpers/omit'
 import option from 'crocks/pointfree/option'
 import propEq from 'crocks/predicates/propEq'
 
-import { clampAfter, getState, liftState, over, decOrInc } from '../helpers'
+import { clampAfter, getState, liftState, over, decOrInc, toHint } from '../helpers'
 
 // Card :: { id: String, color: String, shape: String }
 // Hint :: { color: String, shape: String }
@@ -36,7 +36,7 @@ export const setIsCorrect = isCorrect =>
 
 // cardToHint :: String -> State AppState Hint
 const cardToHint = composeK(
-  liftState(omit(['id'])), 
+  liftState(toHint), 
   getCard
 )
 

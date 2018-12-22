@@ -4,13 +4,18 @@ import State from 'crocks/State'
 import applyTo from 'crocks/combinators/applyTo'
 import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
+import composeK from 'crocks/helpers/composeK'
 import curry from 'crocks/helpers/curry'
 import flip from 'crocks/combinators/flip'
 import map from 'crocks/pointfree/map'
 import mapProps from 'crocks/helpers/mapProps'
 import mreduceMap from 'crocks/helpers/mreduceMap'
+import pick from 'crocks/helpers/pick'
 import prop from 'crocks/Maybe/prop'
 import when from 'crocks/logic/when'
+
+import log from '../logger'
+import tap from 'crocks/helpers/tap'
 
 const { modify, get } = State
 
@@ -87,3 +92,11 @@ export const createReducer = actionReducers =>
 export const combineReducers = flip(
   compose(mreduceMap(First), applyTo)
 )
+
+// logAfter :: (a -> State s b) -> a -> State s b
+export const logAfter = fn =>
+  composeK(liftState(tap(log)), fn)
+
+// toHint :: Object -> Hint
+export const toHint =
+  pick([ 'color', 'shape' ])
