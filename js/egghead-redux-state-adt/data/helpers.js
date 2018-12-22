@@ -1,8 +1,10 @@
 import State from 'crocks/State'
 
+import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
 import curry from 'crocks/helpers/curry'
 import mapProps from 'crocks/helpers/mapProps'
+import when from 'crocks/logic/when'
 
 const { modify } = State
 
@@ -26,3 +28,7 @@ export const clampAfter = curry(
 // over :: (String, (a -> b)) -> Object -> State Object ()
 export const over = (key, fn) =>
   modify(mapProps({ [key]: fn }))
+
+// assignBy :: ((a -> Boolean), Object) -> Object -> Object
+export const assignBy = (pred, obj) =>
+  when(pred, assign(obj))
