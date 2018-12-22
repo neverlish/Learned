@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "nodemon index.js -q -x 'clear && node -r esm index.js'",
+    "lint": "eslint .",
+    "setup": "rm -rf node_modules && npm i --no-save",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "crocks": "0.11.1",
+    "esm": "3.0.84",
+    "eyes": "0.1.8",
+    "nodemon": "1.18.5"
+  },
+  "devDependencies": {
+    "eslint": "5.8.0"
+  }
+}
