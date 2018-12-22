@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Async from 'crocks/Async'
 import pick from 'crocks/helpers/pick'
 import unit from 'crocks/helpers/unit'
 
@@ -15,6 +16,7 @@ import Feedback from './components/Feedback'
 import Messages  from './components/Messages'
 import PlayArea from './components/PlayArea'
 import GameOver from './components/GameOver'
+import { startTurn } from './data/reducers/turn';
 
 const Game = props => {
   const {
@@ -56,7 +58,8 @@ const mapDispatch = dispatch => ({
   restart: unit,
   start: () => dispatch([
     startGame(),
-    hideAllCards()
+    Async.resolveAfter(5000, hideAllCards()),
+    Async.resolveAfter(5000, startTurn()),
   ]),
 })
 
