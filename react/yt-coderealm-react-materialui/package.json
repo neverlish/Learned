@@ -1,0 +1,39 @@
+{
+  "name": "yt-coderealm-react-materialui",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "node dist/main",
+    "watch": "webpack --mode development --watch & nodemon dist/main",
+    "dev": "rm -rf dist public && webpack --mode development --progress",
+    "build": "rm -rf dist public && webpack --mode production --progress",
+    "stats": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json dist"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.6.2",
+    "@material-ui/icons": "^3.0.1",
+    "express": "^4.16.3",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-jss": "8.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.2",
+    "babel-plugin-import": "^1.9.1",
+    "nodemon": "^1.18.4",
+    "reload": "^2.3.1",
+    "standard": "^12.0.1",
+    "webpack": "^4.19.1",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
