@@ -1,17 +1,19 @@
 import log from './logger'
-import chain from 'crocks/pointfree/chain'
 
-import { drawCardAt, generateCards } from './data/model/game'
+import { drawRandom, getDeck } from './data/model/game'
 
 const state = {
   colors: ['orange', 'green',' blue', 'yellow'],
-  shapes: ['square', 'triangle', 'circle']
+  shapes: ['square', 'triangle', 'circle'],
+  seed: Date.now()
 }
 
 log(
-  generateCards()
-    .map(drawCardAt(0))
-    .map(chain(drawCardAt(2)))
-    .map(chain(drawCardAt(7)))
+  getDeck()
+    .chain(drawRandom)
+    .chain(drawRandom)
+    .chain(drawRandom)
+    .chain(drawRandom)
+    .chain(drawRandom)
     .evalWith(state).fst()
 )
