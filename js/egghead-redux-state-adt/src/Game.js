@@ -8,6 +8,7 @@ import unit from 'crocks/helpers/unit'
 import { connect } from 'react-redux'
 
 import { startGame, hideAllCards } from './data/reducers/game'
+import { selectCard, startTurn, showFeedback } from './data/reducers/turn';
 
 import './Game.css'
 
@@ -16,7 +17,6 @@ import Feedback from './components/Feedback'
 import Messages  from './components/Messages'
 import PlayArea from './components/PlayArea'
 import GameOver from './components/GameOver'
-import { startTurn } from './data/reducers/turn';
 
 const Game = props => {
   const {
@@ -54,12 +54,16 @@ const mapState = pick([
 ])
 
 const mapDispatch = dispatch => ({
-  answer: unit,
+  answer: id => dispatch([
+    selectCard(id),
+    Async.resolveAfter(500, showFeedback(id)),
+    Async.resolveAfter(2000, startTurn()),
+  ]),
   restart: unit,
   start: () => dispatch([
     startGame(),
-    Async.resolveAfter(5000, hideAllCards()),
-    Async.resolveAfter(5000, startTurn()),
+    Async.resolveAfter(1000, hideAllCards()),
+    Async.resolveAfter(1600, startTurn()),
   ]),
 })
 
