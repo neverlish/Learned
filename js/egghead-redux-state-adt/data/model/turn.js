@@ -40,3 +40,13 @@ export const nextHint = composeK(
   pickCard,
   getUnselectedCards
 )
+
+// resetIsCorrect :: () -> State AppState ()
+const resetIsCorrect = () =>
+  over('isCorrect', constant(null))
+
+// turn :: () -> State AppState ()
+const turn =
+  composeK(resetIsCorrect, nextHint)
+
+export default turn

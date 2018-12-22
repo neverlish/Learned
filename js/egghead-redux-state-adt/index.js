@@ -1,29 +1,33 @@
 import log from './logger'
 
-import constant from 'crocks/combinators/constant'
-import liftA2 from 'crocks/helpers/liftA2'
+import {
+  startGame, hideAllCards
+} from './data/reducers/game'
 
-import initialize from './data/model/initialize'
+import {
+  selectCard, showFeedback, startTurn
+} from './data/reducers/turn'
 
-import startGame, {
-  markCardsUnselected
-} from './data/model/game'
+import store from './data/store'
 
-import { nextHint } from './data/model/turn'
-import answer from './data/model/answer'
-import feedback from './data/model/feedback'
+const { dispatch, getState } = store
 
-const start =
-  initialize()
-    .chain(startGame)
-    .chain(markCardsUnselected)
-    .chain(nextHint)
+dispatch(startGame())
+dispatch(hideAllCards())
+dispatch(startTurn())
 
-const select =
-  answer('blue-square')
-    .chain(constant(feedback('blue-square')))
+dispatch(selectCard('blue-square'))
+dispatch(showFeedback('blue-square'))
+dispatch(startTurn())
+
+dispatch(selectCard('orange-triangle'))
+dispatch(showFeedback('orange-triangle'))
+dispatch(startTurn())
+
+dispatch(selectCard('green-triangle'))
+dispatch(showFeedback('green-triangle'))
+dispatch(startTurn())
 
 log(
-  liftA2(constant, start, select)
-    .execWith(null)
+  getState()
 )

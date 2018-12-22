@@ -9,7 +9,8 @@
     "crocks": "0.11.1",
     "esm": "3.0.84",
     "eyes": "0.1.8",
-    "nodemon": "1.18.5"
+    "nodemon": "1.18.5",
+    "redux": "4.0.1"
   },
   "devDependencies": {
     "eslint": "5.8.0"
