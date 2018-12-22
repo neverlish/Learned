@@ -58,3 +58,9 @@ export const getAt =
 // unsetAt :: Integer -> [ a ] -> [ a ]
 export const unsetAt = index => arr =>
   arr.slice(0, index).concat(arr.slice(index + 1))
+
+// repeat :: (Integer, a) => [ a ]
+export const repeat = (num, elem) =>
+  num === 1
+    ? [elem]
+    : repeat(num - 1, elem).concat([ elem ])
