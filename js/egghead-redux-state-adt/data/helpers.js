@@ -64,3 +64,9 @@ export const repeat = (num, elem) =>
   num === 1
     ? [elem]
     : repeat(num - 1, elem).concat([ elem ])
+
+// Action a :: { type: String, payload: a }
+
+// createAction :: String -> a -> Action a
+export const createAction =
+  type => payload => ({ type, payload })
