@@ -1,6 +1,6 @@
 import log from './logger'
 
-import { getHint, getCard } from './data/model/feedback'
+import feedback from './data/model/feedback'
 
 const state = {
   cards: [
@@ -12,9 +12,10 @@ const state = {
     color: 'green',
     shape: 'square'
   },
+  isCorrect: null,
 }
 
 log(
-  getCard('green-square')
-    .evalWith(state)
+  feedback('green-square')
+    .execWith(state)
 )

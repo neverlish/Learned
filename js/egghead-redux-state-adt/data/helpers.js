@@ -37,3 +37,7 @@ export const assignBy = (pred, obj) =>
 // getState :: String -> State Object (Maybe a)
 export const getState = key =>
   get(prop(key))
+
+// liftState :: (a -> b) -> a -> State s b
+export const liftState = fn =>
+  compose(State.of, fn)
