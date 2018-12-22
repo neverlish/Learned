@@ -1,22 +1,12 @@
 import log from './logger'
 
-import feedback from './data/model/feedback'
+import { between } from './data/model/random'
 
 const state = {
-  cards: [
-    { id: 'green-square', color: 'green', shape: 'square' },
-    { id: 'orange-square', color: 'orange', shape: 'square' },
-    { id: 'blue-triangle', color: 'blue', shape: 'triangle' },
-  ],
-  hint: {
-    color: 'green',
-    shape: 'square'
-  },
-  isCorrect: null,
-  rank: 4
+  seed: Date.now(),
 }
 
 log(
-  feedback('green-square')
-    .execWith(state)
+  between(0, 200)
+    .evalWith(state)  
 )
