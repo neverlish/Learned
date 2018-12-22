@@ -1,5 +1,6 @@
 import State from 'crocks/State'
 
+import applyTo from 'crocks/combinators/applyTo'
 import assign from 'crocks/helpers/assign'
 import compose from 'crocks/helpers/compose'
 import curry from 'crocks/helpers/curry'
@@ -18,7 +19,7 @@ export const inc =
 export const dec =
   x => x - 1
 
-// decOrInc : Boolean -> Number -> Number
+// decOrInc :: Boolean -> Number -> Number
 export const decOrInc = x =>
   x ? dec : inc
 
@@ -59,14 +60,22 @@ export const getAt =
 export const unsetAt = index => arr =>
   arr.slice(0, index).concat(arr.slice(index + 1))
 
-// repeat :: (Integer, a) => [ a ]
+// repeat :: (Integer, a) -> [ a ]
 export const repeat = (num, elem) =>
   num === 1
-    ? [elem]
+    ? [ elem ]
     : repeat(num - 1, elem).concat([ elem ])
 
 // Action a :: { type: String, payload: a }
+// Reducer :: Action a -> Maybe (State AppState ())
+// ActionReducer :: Object (a -> State AppState ())
 
 // createAction :: String -> a -> Action a
 export const createAction =
   type => payload => ({ type, payload })
+
+// createReducer :: ActionReducer -> Reducer
+export const createReducer = actionReducers =>
+  ({ type, payload }) =>
+    prop(type, actionReducers)
+      .map(applyTo(payload))
