@@ -1,11 +1,17 @@
-import React, { Component, Fragment } from 'react'
-import { Dialog, DialogContent, DialogContentText, DialogTitle, Fab } from '@material-ui/core'
+import React, { Component } from 'react'
+import {
+  Dialog as MuiDialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab
+} from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 
-import Form from './Form'
+import { Form } from './'
 import { ExercisesContext } from '../../context'
 
-class CreateDialog extends Component {
+class Dialog extends Component {
   static contextType = ExercisesContext
 
   state = {
@@ -28,7 +34,7 @@ class CreateDialog extends Component {
     const { muscles } = this.context
 
     return (
-      <Fragment>
+      <>
         <Fab
           onClick={this.handleToggle}
           color='secondary'
@@ -36,7 +42,7 @@ class CreateDialog extends Component {
         >
           <Add />
         </Fab>
-        <Dialog
+        <MuiDialog
           open={open}
           onClose={this.handleToggle}
           fullWidth
@@ -55,10 +61,10 @@ class CreateDialog extends Component {
               onSubmit={this.handleFormSubmit}
             />
           </DialogContent>
-        </Dialog>
-      </Fragment>
+        </MuiDialog>
+      </>
     )
   }
 }
 
-export default CreateDialog
+export default Dialog

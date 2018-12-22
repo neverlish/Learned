@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { CssBaseline } from '@material-ui/core'
 import { Header, Footer } from './Layouts'
-import Exercises from './Exercises'
+import { Viewer } from './Exercises'
 import { muscles, exercises } from '../store'
 import { Provider } from '../context'
 
@@ -89,7 +89,7 @@ class App extends PureComponent {
         <CssBaseline />
         <Header />
 
-        <Exercises />
+        <Viewer />
 
         <Footer />
       </Provider>

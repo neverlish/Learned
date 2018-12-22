@@ -1,6 +1,6 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
-import CreateDialog from '../Exercises/Dialog'
+import { Dialog } from '../Exercises/'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = {
@@ -20,7 +20,7 @@ const Header = ({ classes }) => (
         Exercise Database
       </Typography>
 
-      <CreateDialog />
+      <Dialog />
     </Toolbar>
   </AppBar>
 )

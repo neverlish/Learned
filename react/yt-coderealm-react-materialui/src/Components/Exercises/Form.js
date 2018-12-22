@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TextField, Select, Button, FormControl, InputLabel, MenuItem } from '@material-ui/core'
 
-export default class extends Component {
+class Form extends Component {
   state = this.getInitState()
 
   getInitState () {
@@ -14,14 +14,14 @@ export default class extends Component {
     }
   }
 
-  handleChange = name => ({ target: { value } }) =>
+  handleChange = ({ target: { name, value } }) =>
     this.setState({
       [name]: value
     })
 
   handleSubmit = () => {
     this.props.onSubmit({
-      id: this.state.title.toLocaleLowerCase().replace(/ /g, '-'),
+      id: this.state.title.toLowerCase().replace(/ /g, '-'),
       ...this.state
     })
   }
@@ -35,18 +35,19 @@ export default class extends Component {
       <TextField
         label='Title'
         value={title}
-        onChange={this.handleChange('title')}
+        name='title'
+        onChange={this.handleChange}
         margin='normal'
         fullWidth
       />
-      <br />
-      <FormControl fullWidth>
+      <FormControl fullWidth margin='normal'>
         <InputLabel htmlFor='muscles'>
           Muscles
         </InputLabel>
         <Select
           value={muscles}
-          onChange={this.handleChange('muscles')}
+          name='muscles'
+          onChange={this.handleChange}
         >
           {categories.map(category =>
             <MenuItem value={category} key={category}>
@@ -55,17 +56,16 @@ export default class extends Component {
           )}>
         </Select>
       </FormControl>
-      <br />
       <TextField
         multiline
         rows='4'
         label='Description'
         value={description}
-        onChange={this.handleChange('description')}
+        name='description'
+        onChange={this.handleChange}
         margin='normal'
         fullWidth
       />
-      <br />
       <Button
         color='primary'
         variant='contained'
@@ -76,3 +76,5 @@ export default class extends Component {
     </form>
   }
 }
+
+export default Form
