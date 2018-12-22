@@ -17,6 +17,10 @@ export const inc =
 export const dec =
   x => x - 1
 
+// decOrInc : Boolean -> Number -> Number
+export const decOrInc = x =>
+  x ? dec : inc
+
 // clamp :: (Number, Number) -> Number -> Number
 export const clamp = (min, max) =>
   x => Math.min(Math.max(min, x), max)

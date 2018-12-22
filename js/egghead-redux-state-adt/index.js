@@ -13,6 +13,7 @@ const state = {
     shape: 'square'
   },
   isCorrect: null,
+  rank: 4
 }
 
 log(
