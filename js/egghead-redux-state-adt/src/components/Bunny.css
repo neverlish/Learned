@@ -1,0 +1,15 @@
+.bunny {
+  height: 12rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .bunny {
+    height: 16rem;
+  }
+}
+
+.bunny__image {
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+}

@@ -1,0 +1,13 @@
+.start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.start__button {
+  color: #f0f0f0;
+  font-size: 2rem;
+  font-weight: 900;
+  padding: 1rem 3rem;
+  background-color: #55c80c;
+}

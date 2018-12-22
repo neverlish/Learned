@@ -1,0 +1,12 @@
+.messages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 0.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .messages {
+    padding-top: 1rem;
+  }
+}

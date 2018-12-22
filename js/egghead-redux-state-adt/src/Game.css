@@ -1,0 +1,11 @@
+.game {
+  position: relative;
+  margin: 0 auto;
+  width: 27rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .game {
+    width: 35rem;
+  }
+}
