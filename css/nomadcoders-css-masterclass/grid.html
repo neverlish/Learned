@@ -9,34 +9,34 @@
     .father {
       display: grid;
       grid-gap: 10px;
-      /* grid-template-columns: minmax(400px, 2fr) repeat(3, 1fr); */
-      grid-template-columns: min-content repeat(3, 1fr);
+      grid-auto-rows: 100px;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     }
 
-    .first {
-      background-color: #f1c40f;
-    }
-
-    .second {
-      background-color: #27ae60;
-    }
-
-    .third {
+    .box:nth-child(even) {
       background-color: #3498db;
     }
 
-    .fourth {
-      background-color: #d35400;
+    .box:nth-child(odd) {
+      background-color: #34495e;
     }
   </style>
 </head>
 
 <body>
   <div class="father">
-    <div class="first">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia velit perferendis, impedit iste obcaecati voluptate doloribus veniam explicabo magnam, aut eligendi odit minima culpa inventore repellat mollitia. Nulla, deleniti soluta.</div>
-    <div class="second"></div>
-    <div class="third"></div>
-    <div class="fourth"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
   </div>
 </body>
 </html>
