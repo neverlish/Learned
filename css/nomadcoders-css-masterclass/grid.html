@@ -8,10 +8,9 @@
   <style>
     .father {
       display: grid;
-      grid-auto-rows: 200px;
-      grid-gap: 5px;
-      /* grid-template-columns: 1fr 1fr 5fr 1fr; */
-      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+      /* grid-template-columns: minmax(400px, 2fr) repeat(3, 1fr); */
+      grid-template-columns: min-content repeat(3, 1fr);
     }
 
     .first {
@@ -34,7 +33,7 @@
 
 <body>
   <div class="father">
-    <div class="first"></div>
+    <div class="first">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia velit perferendis, impedit iste obcaecati voluptate doloribus veniam explicabo magnam, aut eligendi odit minima culpa inventore repellat mollitia. Nulla, deleniti soluta.</div>
     <div class="second"></div>
     <div class="third"></div>
     <div class="fourth"></div>
