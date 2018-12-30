@@ -28,11 +28,11 @@ CSS Masterclass course (Flexbox, Grid, PostCSS, CSSNext)
 - [x] Configuring PostCSS
 - [x] Testing
 
-### CSS4 Selectors
+### CSS4 Awesomeness
 - [x] :matches , :not
 - [x] CSS Variables
 - [x] @custom-selector
 - [x] @custom-media
 - [x] Media Query Ranges
 - [x] color-mod, gray(), system-ui
-- [ ] Nesting Rules
+- [x] Nesting Rules
