@@ -30,8 +30,9 @@ CSS Masterclass course (Flexbox, Grid, PostCSS, CSSNext)
 
 ### CSS4 Selectors
 - [x] :matches , :not
-- [ ] CSS Variables
-- [ ] @custom-media, @custom-selector
+- [x] CSS Variables
+- [x] @custom-selector
+- [ ] @custom-media
 - [ ] Media Query Ranges
 - [ ] font-variant, gray(), system-ui
 - [ ] Nesting Rules
