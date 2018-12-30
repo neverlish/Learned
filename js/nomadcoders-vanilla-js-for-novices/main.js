@@ -1,13 +1,4 @@
-/*
-String
-const wat = 'Nicolas'
+const something = 'Something'
+const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 54, true, 'stuff', 'lalala', something]
 
-Boolean
-const wat = true
-
-Number
-const wat = 666
-
-Float
-const wat = 55.1;
-*/
+console.log(daysOfWeek)
