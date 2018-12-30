@@ -1,19 +1,5 @@
-const nicoInfo = {
-  name: 'Nico',
-  age: 33,
-  gender: 'Male',
-  isHandsome: true,
-  favMovies: ['Along the gods', 'LOTR', 'Oldboy'],
-  favFood: [
-    { 
-      name: 'Kimchi', 
-      fatty: false 
-    }, 
-    { 
-      name: 'Cheese burger', 
-      fatty: true 
-    }
-  ]
+function sayHello(potato, age) {
+  console.log('Hello!', potato, ' you have ', age, ' years of age.')
 }
 
-console.log(nicoInfo.favFood[0].name)
+sayHello('Nicolas', 15)
