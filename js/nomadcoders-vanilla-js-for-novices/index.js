@@ -1,3 +1,4 @@
-const title = document.getElementById('title')
+const title = document.querySelector('#title')
 title.innerHTML = 'Hi! From JS'
-console.log(title)
+title.style.color = 'red'
+document.title = 'I own you now'
