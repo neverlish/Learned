@@ -29,7 +29,7 @@ CSS Masterclass course (Flexbox, Grid, PostCSS, CSSNext)
 - [x] Testing
 
 ### CSS4 Selectors
-- [ ] :any-link , :matches , :not
+- [x] :matches , :not
 - [ ] CSS Variables
 - [ ] @custom-media, @custom-selector
 - [ ] Media Query Ranges
