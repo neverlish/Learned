@@ -23,8 +23,8 @@ Custom Selectors
 :--headers {
   color: #8e44ad;
 }
-*/
 
+Custom Media & Media Query Ranges
 @custom-media --ipad-size (450px <= width <= 850px) {
 
 }
@@ -33,4 +33,9 @@ Custom Selectors
   body {
     background-color: red;
   }
+}
+*/
+
+h1 {
+  font-family: system-ui;
 }
