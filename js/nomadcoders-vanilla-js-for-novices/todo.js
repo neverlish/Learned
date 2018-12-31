@@ -4,8 +4,19 @@ const toDoForm = document.querySelector('.js-toDoForm'),
 
 const TODOS_LS = 'toDos'
 
-const toDos = []
+let toDos = []
 
+function deleteToDo(event) {
+  const button = event.target
+  const li = button.parentNode
+  toDoList.removeChild(li)
+  const cleanTodos = toDos.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id)
+  })
+  toDos = cleanTodos
+  saveTodos()
+}
+ 
 function saveTodos() {
   localStorage.setItem(TODOS_LS, JSON.stringify(toDos))
 }
@@ -16,6 +27,7 @@ function paintTodo(text) {
   const span = document.createElement('span')
   const newId = toDos.length + 1
   delBtn.innerText = '❌'
+  delBtn.addEventListener('click', deleteToDo)
   span.innerText = text
   li.appendChild(span)
   li.appendChild(delBtn)
