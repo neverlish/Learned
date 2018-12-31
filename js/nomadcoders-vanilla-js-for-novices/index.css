@@ -2,6 +2,15 @@ body {
   background-color: #ecf0f1;
 }
 
+.btn {
+  cursor: pointer;
+}
+
 h1 {
-  
+  color: #34495e;  
+  transition: color .5s ease-out
+}
+
+.clicked {
+  color: #7f8c8d;
 }
