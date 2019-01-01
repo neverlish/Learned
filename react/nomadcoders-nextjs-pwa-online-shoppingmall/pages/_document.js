@@ -12,7 +12,6 @@ export default class MyDocument extends Document {
         <Head>
           <title>Nomad Store</title>
           <meta name='author' content='neverlish' />
-          <link href="/static/styles.css" rel="stylesheet" />
         </Head>
         <body>
           <Main />
