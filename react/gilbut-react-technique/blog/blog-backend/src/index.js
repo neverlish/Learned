@@ -4,10 +4,12 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const mongoose = require('mongoose');
+const session = require('koa-session');
 
 const {
   PORT: port = 4000,
   MONGO_URI: mongoURI,
+  COOKIE_SIGN_KEY: signKey
 } = process.env;
 
 mongoose.Promise = global.Promise;
@@ -25,6 +27,13 @@ const router = new Router();
 router.use('/api', api.routes());
 
 app.use(bodyParser());
+
+const sessionConfig = {
+  maxAge: 86400000
+};
+
+app.use(session(sessionConfig, app));
+app.keys = [signKey];
 
 app.use(router.routes()).use(router.allowedMethods());
 
