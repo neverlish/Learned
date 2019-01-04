@@ -6,6 +6,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.1",
+    "koa-static": "^4.0.3",
     "mongoose": "^5.2.12"
   },
   "devDependencies": {
