@@ -4,9 +4,11 @@ import PostBody from 'components/post/PostBody';
 import * as postActions from 'store/modules/post';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import shouldCancel from 'lib/shouldCancel';
 
 class Post extends Component {
   initialize = async () => {
+    if (shouldCancel()) return;
     const { PostActions, id } = this.props;
     try {
       await PostActions.getPost(id);
