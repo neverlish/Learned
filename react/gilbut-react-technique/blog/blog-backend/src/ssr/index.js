@@ -1,7 +1,7 @@
 const render = require('./render').default;
 const manifest = require('../../../blog-frontend/build/asset-manifest.json');
 
-function buildHtml(rendered) {
+function buildHtml({ html, preloadedState }) {
   return `
 <!doctype html>
 <html lang="en">
@@ -18,7 +18,10 @@ function buildHtml(rendered) {
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root">${rendered}</div>
+  <div id="root">${html}</div>
+  <script>
+    window.__PRELOADED_STATE__ = ${preloadedState}
+  </script>
   <script type="text/javascript" src="/${manifest['vendor.js']}"></script>
   <script type="text/javascript" src="/${manifest['app.js']}"></script>
 </body>

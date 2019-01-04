@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configure from 'store/configure';
 import routes from './routes';
 import axios from 'axios';
+import transit from 'transit-immutable-js';
 
 import App from 'components/App';
 
@@ -47,7 +48,10 @@ const render = async (ctx) => {
     </Provider>
   );
 
-  return html;
+  const preloadedState = JSON.stringify(transit.toJSON(store.getState()))
+                             .replace(/</g, '\\u003c');
+
+  return { html, preloadedState };
 }
 
 export default render;
