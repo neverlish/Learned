@@ -1,0 +1,28 @@
+@import 'utils';
+
+.box {
+  display: inline-block;
+  width: $size  ;
+  height: $size ;
+  border: 1px solid black;
+  position: fixed;
+  @include place-at-center();
+
+  &.blue {
+    background: blue;
+  }
+
+  &:hover {
+    background: yellow;
+  }
+
+  &:active {
+    background: red;
+  }
+
+  .box-inside {
+    background: black;
+    width: 50px;
+    height: 50px;
+  }
+}
