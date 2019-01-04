@@ -13,6 +13,7 @@ const LOGOUT = 'base/LOGOUT';
 const CHECK_LOGIN = 'base/CHECK_LOGIN';
 const CHANGE_PASSWORD_INPUT = 'base/CHANGE_PASSWORD_INPUT';
 const INITIALIZE_LOGIN_MODAL = 'base/INITIALIZE_LOGIN_MODAL';
+const TEMP_LOGIN = 'base/TEMP_LOGIN';
 
 // action creators
 export const showModal = createAction(SHOW_MODAL);
@@ -22,6 +23,7 @@ export const logout = createAction(LOGOUT, api.logout);
 export const checkLogin = createAction(CHECK_LOGIN, api.checkLogin);
 export const changePasswordInput = createAction(CHANGE_PASSWORD_INPUT);
 export const initializeLoginModal = createAction(INITIALIZE_LOGIN_MODAL);
+export const tempLogin = createAction(TEMP_LOGIN);
 
 // initial state
 const initialState = Map({
@@ -69,5 +71,8 @@ export default handleActions({
   },
   [INITIALIZE_LOGIN_MODAL]: (state, action) => {
     return state.set('loginModal', initialState.get('loginModal'));
+  },
+  [TEMP_LOGIN]: (state, action) => {
+    return state.set('logged', true);
   }
 }, initialState);
