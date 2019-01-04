@@ -6,6 +6,8 @@ const bodyParser = require('koa-bodyparser');
 const mongoose = require('mongoose');
 const session = require('koa-session');
 
+const ssr = require('./ssr');
+
 const {
   PORT: port = 4000,
   MONGO_URI: mongoURI,
@@ -25,6 +27,7 @@ const app = new Koa();
 const router = new Router();
 
 router.use('/api', api.routes());
+router.get('/', ssr);
 
 app.use(bodyParser());
 
