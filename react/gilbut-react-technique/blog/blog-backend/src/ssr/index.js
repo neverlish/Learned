@@ -28,6 +28,11 @@ function buildHtml(rendered) {
 }
 
 module.exports = async (ctx) => {
-  const rendered = render(ctx);
-  ctx.body = buildHtml(rendered);
+  try {
+    const rendered = await render(ctx);
+    ctx.body = buildHtml(rendered);
+  } catch (e) {
+    // 오류가 발생하면 일반 html 응답
+    ctx.body = buildHtml({});
+  }
 };
