@@ -18,6 +18,13 @@ Conference.presentationFactory = function presentationFactory() {
         }
       }
       // 나중에 Presentation에서 유래한 객체를 반환할 예정
+      for (ix = 0; ix < vendorProperties.length; ++ix) {
+        if (obj.hasOwnProperty(vendorProperties[ix])) {
+          return new Conference.VendorPresentation(
+            obj.title, obj.presenter, obj.vendor, obj.product);
+        }
+      }
+      return new Conference.Presentation(obj.title, obj.presenter);
     }
   };
 };
