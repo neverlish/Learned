@@ -9,7 +9,7 @@ Conference.attendeeWebApiDecorator = function(baseWebapi) {
     },
 
     getAll: function getAll() {
-      
+      return baseWebapi.getAll();
     }
   }
 }
