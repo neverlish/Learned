@@ -17,7 +17,7 @@ Conference.fakeAttendeeWebApi = function () {
         setTimeout(function pretendPostingToServer() {
           var copyOfAttendee = attendee.copy();
           copyOfAttendee.setId(attendees.length + 1);
-          attendee.push(copyOfAttendee);
+          attendees.push(copyOfAttendee);
           resolve(copyOfAttendee);
         }, 5);
       });
