@@ -1,8 +1,8 @@
 import { InputType, Field } from 'type-graphql';
-import { PasswordInput } from '../../../modules/shared/PasswordInput';
+import { PasswordMixin } from '../../../modules/shared/PasswordInput';
 
 @InputType()
-export class ChangePasswordInput extends PasswordInput {
+export class ChangePasswordInput extends PasswordMixin(class { }) {
   @Field()
   token: string;
 }
