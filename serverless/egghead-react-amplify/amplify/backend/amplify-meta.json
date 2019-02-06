@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/auth/cognitob316a802-cloudformation-template.yml",
 				"logicalId": "authcognitob316a802"
 			},
-			"lastPushTimeStamp": "2019-02-06T07:35:50.611Z",
+			"lastPushTimeStamp": "2019-02-06T09:43:57.989Z",
 			"output": {
 				"AppClientSecret": "1rdb37lradhgjccpv69cf04sds3irmnmq2qe2l8506s7lfqkkhm",
 				"UserPoolId": "us-east-1_4k36PMzgx",
@@ -30,6 +30,24 @@
 				"UserPoolName": "cognitob316a802_userpool_b316a802"
 			},
 			"lastPushDirHash": "4ZTH3AWdPb1V9+l+6jJxms0wBz8="
+		}
+	},
+	"api": {
+		"AmplifyTodoApp": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "API_KEY",
+				"GraphQLAPIIdOutput": "ordxdmc2b5gcjbmkm7e54gcl3u",
+				"GraphQLAPIEndpointOutput": "https://7od5wky4lnge7goabxzihqcjm4.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-icuvypwlbjd6zltnxqnw7c5mbm"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apiAmplifyTodoApp"
+			},
+			"lastPushTimeStamp": "2019-02-06T09:44:00.241Z",
+			"lastPushDirHash": "xptTBl/WBaG7vBWmrPGfvCyn15s="
 		}
 	}
 }

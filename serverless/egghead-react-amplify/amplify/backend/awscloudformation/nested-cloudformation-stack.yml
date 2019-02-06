@@ -127,6 +127,19 @@
 					"authSelections": "identityPoolAndUserPool"
 				}
 			}
+		},
+		"apiAmplifyTodoApp": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"Parameters": {
+					"AppSyncApiName": "AmplifyTodoApp",
+					"schemaGraphql": "s3://eggheadreactamplify-20190206162801-deployment/amplify-appsync-files/schema.graphql.1549446107788",
+					"ResolverBucket": "eggheadreactamplify-20190206162801-deployment",
+					"ResolverRootKey": "amplify-appsync-files",
+					"DeploymentTimestamp": "1549446107788"
+				}
+			}
 		}
 	},
 	"Outputs": {
