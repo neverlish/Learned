@@ -26,3 +26,5 @@ yarn.lock
 .amplifyrc
 amplify/#current-cloud-backend
 amplify/.config
+
+src/aws-exports.js
