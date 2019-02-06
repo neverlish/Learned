@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/auth/cognitob316a802-cloudformation-template.yml",
 				"logicalId": "authcognitob316a802"
 			},
-			"lastPushTimeStamp": "2019-02-06T10:44:12.293Z",
+			"lastPushTimeStamp": "2019-02-06T10:54:09.937Z",
 			"output": {
 				"AppClientSecret": "1rdb37lradhgjccpv69cf04sds3irmnmq2qe2l8506s7lfqkkhm",
 				"UserPoolId": "us-east-1_4k36PMzgx",
@@ -46,7 +46,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiAmplifyTodoApp"
 			},
-			"lastPushTimeStamp": "2019-02-06T10:44:12.293Z",
+			"lastPushTimeStamp": "2019-02-06T10:54:09.938Z",
 			"lastPushDirHash": "xptTBl/WBaG7vBWmrPGfvCyn15s="
 		},
 		"peopleapi": {
@@ -66,7 +66,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/peopleapi-cloudformation-template.json",
 				"logicalId": "apipeopleapi"
 			},
-			"lastPushTimeStamp": "2019-02-06T10:44:12.295Z",
+			"lastPushTimeStamp": "2019-02-06T10:54:09.939Z",
 			"output": {
 				"ApiName": "peopleapi",
 				"RootUrl": "https://24z2v5hcyj.execute-api.us-east-1.amazonaws.com/Prod"
@@ -87,7 +87,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/function/peoplefunction-cloudformation-template.json",
 				"logicalId": "functionpeoplefunction"
 			},
-			"lastPushTimeStamp": "2019-02-06T10:44:12.295Z",
+			"lastPushTimeStamp": "2019-02-06T10:54:09.940Z",
 			"output": {
 				"Region": "us-east-1",
 				"Arn": "arn:aws:lambda:us-east-1:367416660003:function:peoplefunction",
@@ -104,12 +104,30 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageEggheadReactAmplifyStorage"
 			},
-			"lastPushTimeStamp": "2019-02-06T10:44:12.296Z",
+			"lastPushTimeStamp": "2019-02-06T10:54:09.940Z",
 			"output": {
 				"BucketName": "eggheadreactamplify25bc9a9a9c934b778040fb7b8fc4a762",
 				"Region": "us-east-1"
 			},
 			"lastPushDirHash": "0XPxQ9l8ijuZHs04twAL/o4oPSI="
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2019-02-06T10:54:09.941Z",
+			"output": {
+				"S3BucketSecureURL": "https://egghead-react-amplify.s3.amazonaws.com",
+				"WebsiteURL": "http://egghead-react-amplify.s3-website-us-east-1.amazonaws.com",
+				"Region": "us-east-1",
+				"HostingBucketName": "egghead-react-amplify"
+			},
+			"lastPushDirHash": "+TnjWxAsE9VpkTL+9Im/UCxaZ6Q="
 		}
 	}
 }

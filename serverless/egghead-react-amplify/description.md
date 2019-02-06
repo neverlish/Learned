@@ -39,3 +39,11 @@
   - name: EggheadReactAmplifyStorage
   - access: auth user only / read/write
 - `amplify push`
+
+## 8 Deploy Your React Application to AWS Using the Amplify CLI
+- `amplify add hosting`
+  - environment: DEV
+  - bucket-name: egghead-react-amplify
+  - index doc: index.html
+  - error doc: index.html
+- `amplify publish`
