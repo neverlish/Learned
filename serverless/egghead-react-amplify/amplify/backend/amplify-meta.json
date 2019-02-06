@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "eggheadreactamplify-20190206162801-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367416660003:role/eggheadreactamplify-20190206162801-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367416660003:role/eggheadreactamplify-20190206162801-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "eggheadreactamplify-20190206162801-deployment",
+            "UnauthRoleName": "eggheadreactamplify-20190206162801-unauthRole",
+            "StackName": "eggheadreactamplify-20190206162801",
+            "StackId": "arn:aws:cloudformation:us-east-1:367416660003:stack/eggheadreactamplify-20190206162801/bd51f970-29e0-11e9-a83e-12c395c1242e"
+        }
+    }
+}
