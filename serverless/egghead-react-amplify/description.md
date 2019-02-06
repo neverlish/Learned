@@ -20,3 +20,15 @@
   - Single object with fields
   - edit schema now? Yes
 - `amplify push`
+
+## 6 Create & Interact with a Serverless REST API with AWS Lambda from React
+- `amplify add api`
+  - REST
+  - name: peopleapi
+  - path: /people
+  - Createt a new Lambda function - peoplefunction
+  - lambda function name: peoplefunction
+  - function template: Serverless express function
+  - edit now? Yes
+  - restrict? Yes / Authenticated users only / read
+- `amplify push`

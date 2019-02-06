@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/auth/cognitob316a802-cloudformation-template.yml",
 				"logicalId": "authcognitob316a802"
 			},
-			"lastPushTimeStamp": "2019-02-06T09:43:57.989Z",
+			"lastPushTimeStamp": "2019-02-06T10:35:44.791Z",
 			"output": {
 				"AppClientSecret": "1rdb37lradhgjccpv69cf04sds3irmnmq2qe2l8506s7lfqkkhm",
 				"UserPoolId": "us-east-1_4k36PMzgx",
@@ -46,8 +46,54 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiAmplifyTodoApp"
 			},
-			"lastPushTimeStamp": "2019-02-06T09:44:00.241Z",
+			"lastPushTimeStamp": "2019-02-06T10:35:44.792Z",
 			"lastPushDirHash": "xptTBl/WBaG7vBWmrPGfvCyn15s="
+		},
+		"peopleapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "peoplefunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/peopleapi-cloudformation-template.json",
+				"logicalId": "apipeopleapi"
+			},
+			"lastPushTimeStamp": "2019-02-06T10:35:44.793Z",
+			"output": {
+				"ApiName": "peopleapi",
+				"RootUrl": "https://24z2v5hcyj.execute-api.us-east-1.amazonaws.com/Prod"
+			},
+			"lastPushDirHash": "4w6RlbShhH1U52RC81nzWVW+2ng="
+		}
+	},
+	"function": {
+		"peoplefunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [],
+			"lastBuildTimeStamp": "2019-02-06T10:34:24.271Z",
+			"lastPackageTimeStamp": "2019-02-06T10:34:24.751Z",
+			"distZipFilename": "peoplefunction-1549449264-latest-build.zip",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/function/peoplefunction-cloudformation-template.json",
+				"logicalId": "functionpeoplefunction"
+			},
+			"lastPushTimeStamp": "2019-02-06T10:35:44.795Z",
+			"output": {
+				"Region": "us-east-1",
+				"Arn": "arn:aws:lambda:us-east-1:367416660003:function:peoplefunction",
+				"Name": "peoplefunction"
+			},
+			"lastPushDirHash": "Rnc4jryYus+PVebJVrnPk2CNYGs="
 		}
 	}
 }

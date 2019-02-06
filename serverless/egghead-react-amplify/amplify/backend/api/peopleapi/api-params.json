@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/people",
+            "lambdaFunction": "peoplefunction",
+            "privacy": {
+                "private": true,
+                "auth": "r"
+            }
+        }
+    ],
+    "resourceName": "peopleapi",
+    "apiName": "eggheadreactamplify26410832",
+    "functionArns": [
+        {
+            "lambdaFunction": "peoplefunction"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "eggheadreactamplify-20190206162801-authRole",
+        "unAuthRoleName": "eggheadreactamplify-20190206162801-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "peoplefunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

@@ -140,6 +140,33 @@
 					"DeploymentTimestamp": "1549446107788"
 				}
 			}
+		},
+		"apipeopleapi": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/api/peopleapi-cloudformation-template.json",
+				"Parameters": {
+					"functionpeoplefunctionName": {
+						"Fn::GetAtt": [
+							"functionpeoplefunction",
+							"Outputs.Name"
+						]
+					},
+					"functionpeoplefunctionArn": {
+						"Fn::GetAtt": [
+							"functionpeoplefunction",
+							"Outputs.Arn"
+						]
+					}
+				}
+			}
+		},
+		"functionpeoplefunction": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/eggheadreactamplify-20190206162801-deployment/amplify-cfn-templates/function/peoplefunction-cloudformation-template.json",
+				"Parameters": {}
+			}
 		}
 	},
 	"Outputs": {
