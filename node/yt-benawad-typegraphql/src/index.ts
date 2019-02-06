@@ -6,10 +6,11 @@ import { createConnection } from 'typeorm';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
+import QueryComplexity, { fieldConfigEstimator, simpleEstimator } from 'graphql-query-complexity';
 
 import { redis } from './redis';
 import { createSchema } from './utils/createSchema';
-import QueryComplexity, { fieldConfigEstimator, simpleEstimator } from 'graphql-query-complexity';
+import { createAuthorsLoader } from './utils/authorsLoader';
 
 const main = async () => {
   await createConnection();
@@ -19,7 +20,11 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     schema,
     formatError: formatArgumentValidationError,
-    context: ({ req, res }: any) => ({ req, res }),
+    context: ({ req, res }: any) => ({
+      req,
+      res,
+      authorsLoader: createAuthorsLoader(),
+    }),
     validationRules: [
       QueryComplexity({
         maximumComplexity: 8,
