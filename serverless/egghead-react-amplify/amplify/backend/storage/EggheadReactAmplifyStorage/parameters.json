@@ -1,0 +1,9 @@
+{
+    "bucketName": "eggheadreactamplify25bc9a9a9c934b778040fb7b8fc4a762",
+    "authPolicyName": "s3_amplify_2cf36020",
+    "unauthPolicyName": "s3_amplify_2cf36020",
+    "authRoleName": "eggheadreactamplify-20190206162801-authRole",
+    "unauthRoleName": "eggheadreactamplify-20190206162801-unauthRole",
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}
