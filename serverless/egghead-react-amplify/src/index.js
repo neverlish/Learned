@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App3';
+import App from './App4';
 
 import Amplify from 'aws-amplify';
 import config from './aws-exports';

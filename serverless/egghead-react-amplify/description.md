@@ -32,3 +32,10 @@
   - edit now? Yes
   - restrict? Yes / Authenticated users only / read
 - `amplify push`
+
+## 7 Store Data in Amazon S3 with React
+- `amplify add storage`
+  - Content
+  - name: EggheadReactAmplifyStorage
+  - access: auth user only / read/write
+- `amplify push`
