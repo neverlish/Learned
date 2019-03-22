@@ -8,5 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }
