@@ -18,6 +18,7 @@ const Layout: React.FunctionComponent<Props> = ({ children, title = 'This is the
         <Link href='/'><a>Home</a></Link> | {' '}
         <Link href='/hello'><a>hello</a></Link> | {' '}
         <Link href='/register'><a>register</a></Link> | {' '}
+        <Link href='/forgot-password'><a>forgot password</a></Link> | {' '}
         <Link href='/login'><a>login</a></Link> | {' '}
       </nav>
     </header>
