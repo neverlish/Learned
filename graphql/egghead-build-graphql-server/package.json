@@ -1,0 +1,9 @@
+{
+  "name": "egghead-build-graphql-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "graphql": "^14.3.1"
+  }
+}
