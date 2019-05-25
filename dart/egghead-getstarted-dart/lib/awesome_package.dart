@@ -1,0 +1,1 @@
+getCurrentTimestamp() => DateTime.now().millisecondsSinceEpoch;
