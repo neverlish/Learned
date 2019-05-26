@@ -1,6 +1,16 @@
-var requestStream = Rx.Observable.of('https://api.github.com/users');
+var refreshButton = document.querySelector('.refresh');
 
-var responseStream = requestStream
+var refreshClickStream = Rx.Observable.fromEvent(refreshButton, 'click');
+
+var startupRequestStream = Rx.Observable.just('https://api.github.com/users');
+
+var requestOnRefreshStream = refreshClickStream
+  .map(ev => {
+    var randomOffset = Math.floor(Math.random() * 500);
+    return 'https://api.github.com/users?since=' + randomOffset;
+  });
+
+var responseStream = requestOnRefreshStream.merge(startupRequestStream)
   .flatMap(requestUrl => Rx.Observable.fromPromise(jQuery.getJSON(requestUrl)));
 
 function createSuggestionStream(responseStream) {
