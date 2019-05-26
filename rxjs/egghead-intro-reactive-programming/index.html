@@ -1,0 +1,75 @@
+<head>
+	<script src="https://code.jquery.com/jquery-1.7.2.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.3.0/Rx.js"></script>
+	<style>
+		body {
+			font-family: sans-serif;
+			padding: 10px;
+		}
+
+		h3 {
+			font-weight: bold;
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+		}
+
+		.refresh {
+			font-size: 80%;
+			margin-left: 10px;
+		}
+
+		.header {
+			background: #ECECEC;
+			padding: 5px;
+		}
+
+		.suggestions {
+			border: 2px solid #ECECEC;
+		}
+
+		li {
+			padding: 5px;
+		}
+
+		li img {
+			width: 40px;
+			height: 40px;
+			border-radius: 20px;
+		}
+
+		li .username,
+		li .close {
+			display: inline-block;
+			position: relative;
+			bottom: 15px;
+			left: 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="header">
+			<h3>Who to follow</h3><a href="#" class="refresh">Refresh</a>
+		</div>
+		<ul class="suggestions">
+			<li class="suggestion1">
+				<img />
+				<a href="#" target="_blank" class="username">this will not be displayed</a>
+				<a href="#" class="close close1">x</a>
+			</li>
+			<li class="suggestion2">
+				<img />
+				<a href="#" target="_blank" class="username">neither this</a>
+				<a href="#" class="close close2">x</a>
+			</li>
+			<li class="suggestion3">
+				<img />
+				<a href="#" target="_blank" class="username">nor this</a>
+				<a href="#" class="close close3">x</a>
+			</li>
+		</ul>
+	</div>
+	<script src='index.js'></script>
+</body>
