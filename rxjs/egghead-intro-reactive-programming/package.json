@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.5.2"
+  }
+}
