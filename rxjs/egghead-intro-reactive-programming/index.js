@@ -11,7 +11,11 @@ var requestOnRefreshStream = refreshClickStream
   });
 
 var responseStream = requestOnRefreshStream.merge(startupRequestStream)
-  .flatMap(requestUrl => Rx.Observable.fromPromise(jQuery.getJSON(requestUrl)));
+  .flatMap(requestUrl => {
+    console.log('do network request');
+    return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl));
+  })
+  .shareReplay(1);
 
 function createSuggestionStream(responseStream) {
   return responseStream.map(listUser =>
