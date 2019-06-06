@@ -4,6 +4,8 @@ import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 
 import withApollo from '../lib/withApollo'
+import withNProgress from "next-nprogress";
+import NProgress from "next-nprogress/component";
 const { Footer } = Layout;
 
 class MyApp extends App {
@@ -18,16 +20,17 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, apollo } = this.props
     return (
-      <ApolloProvider client={apollo}>
-        <Container>
+      <Container>
+        <NProgress color="black" spinner={true} />
+        <ApolloProvider client={apollo}>
           <Layout>
             <Component {...pageProps} />
             <Footer>This is important</Footer>
           </Layout>
-        </Container>
-      </ApolloProvider>
+        </ApolloProvider>
+      </Container>
     )
   }
 }
 
-export default withApollo(MyApp)
+export default withNProgress()(withApollo(MyApp));
