@@ -18,7 +18,13 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "nodemon": "^1.18.6",
+    "prettier": "^1.18.2"
   },
   "scripts": {
     "start": "nodemon --exec babel-node init.js --delay 2"
