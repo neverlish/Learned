@@ -23,6 +23,7 @@
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-prettier": "^3.1.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "nodemon": "^1.18.6",
     "prettier": "^1.18.2",
     "webpack": "^4.25.1",
@@ -30,6 +31,7 @@
   },
   "scripts": {
     "dev:server": "nodemon --exec babel-node init.js --delay 2",
-    "dev:assets": "webpack"
+    "dev:assets": "WEBPACK_ENV=development webpack",
+    "build:assets": "WEBPACK_ENV=production webpack"
   }
 }
