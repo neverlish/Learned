@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import store from '../common/store';
+import firebase from '../common/firebase';
 
 class Index extends React.Component {
   login = () => {
