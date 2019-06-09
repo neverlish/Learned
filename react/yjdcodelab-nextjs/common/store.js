@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 class Store {
-  @observable mode = 'development';
+  @observable user = null;
 }
 
 export default (new Store);
