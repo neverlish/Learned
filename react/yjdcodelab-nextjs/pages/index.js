@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import faker from 'faker';
-import { observable, decorate } from 'mobx';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import store from '../common/store';
 
 class Data {
-  name = {
+  @observable avatar = faker.image.avatar();
+  @observable email = faker.internet.email();
+  @observable name = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
   };
-  avatar = faker.image.avatar();
-  email = faker.internet.email();
 }
 
-decorate(Data, {
-  name: observable,
-  avatar: observable,
-  email: observable
-});
-
+@observer
 class Index extends Component {
   data = new Data();
 
@@ -42,11 +38,12 @@ class Index extends Component {
           <dt className='col-sm-9'>{this.data.email}</dt>
         </dl>
         <button onClick={this.generate}>Generate</button>
+        <div>
+          mode: {store.mode}
+        </div>
       </div>
     );
   }
 }
-
-Index = observer(Index);
 
 export default Index;
