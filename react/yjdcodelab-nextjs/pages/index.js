@@ -16,7 +16,9 @@ class Index extends React.Component {
   data = new Data();
 
   static async getInitialProps() {
-    const result = await db.collection('feeds').get();
+    const result = await db.collection('feeds')
+      .orderBy('updated_at', 'desc')
+      .get();
     const newFeeds = [];
     result.forEach(doc => {
       const docData = doc.data();
@@ -32,6 +34,17 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.data.feeds = props.feeds;
+    db.collection('feeds')
+      .orderBy('updated_at', 'desc')
+      .onSnapshot(result => {
+        const newFeeds = [];
+        result.forEach(doc => {
+          const docData = doc.data();
+          docData.uid = doc.id;
+          newFeeds.push(docData);
+        });
+        this.data.feeds = newFeeds;
+      });
   }
 
   login = () => {
@@ -61,8 +74,8 @@ class Index extends React.Component {
         photoURL: store.user.photoURL,
         email: store.user.email,
       },
-      create_at: now,
-      update_at: now,
+      created_at: now,
+      updated_at: now,
     };
 
     const uid = uuid();
