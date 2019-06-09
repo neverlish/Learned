@@ -24,7 +24,7 @@ class Layout extends React.Component {
                 '로그인 해주세요'
               )}
               {store.user !== null && (
-                store.user.name + '님 반갑습니다.'
+                store.user.displayName + '님 반갑습니다.'
               )}
             </form>
           </div>
