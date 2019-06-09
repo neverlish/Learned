@@ -5,7 +5,8 @@
     "mobx-react": "^5.4.3",
     "next": "^7.0.2",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "dev": "next",

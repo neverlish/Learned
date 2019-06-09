@@ -1,11 +1,28 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import store from '../common/store';
+import db from '../common/db';
 import firebase from '../common/firebase';
 import { observer } from 'mobx-react';
+import uuid from 'uuid/v4';
 
 @observer
 class Index extends React.Component {
+  constructor() {
+    super();
+    db.collection('feeds')
+      .get()
+      .then(result => {
+        result.forEach(doc => {
+          console.log(doc.data());
+        });
+      })
+      .catch(error => {
+        alert('error: ' + error.message);
+        console.log(error);
+      })
+  }
+
   login = () => {
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithPopup(provider)
@@ -37,14 +54,13 @@ class Index extends React.Component {
       update_at: now,
     };
 
-    const db = firebase.firestore();
-    const settings = { timestampsInSnapshots: true };
-    db.settings(settings);
+    const uid = uuid();
+
     db.collection('feeds')
-      .doc('path-0')
+      .doc(uid)
       .set(feed)
       .then(res => {
-        console.log(res);
+        this.textarea.value = '';
       })
       .catch(error => {
         alert('error: ' + error.message);
