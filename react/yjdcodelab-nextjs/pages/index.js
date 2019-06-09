@@ -5,22 +5,33 @@ import db from '../common/db';
 import firebase from '../common/firebase';
 import { observer } from 'mobx-react';
 import uuid from 'uuid/v4';
+import { observable } from 'mobx';
+
+class Data {
+  @observable feeds = [];
+}
 
 @observer
 class Index extends React.Component {
-  constructor() {
-    super();
-    db.collection('feeds')
-      .get()
-      .then(result => {
-        result.forEach(doc => {
-          console.log(doc.data());
-        });
-      })
-      .catch(error => {
-        alert('error: ' + error.message);
-        console.log(error);
-      })
+  data = new Data();
+
+  static async getInitialProps() {
+    const result = await db.collection('feeds').get();
+    const newFeeds = [];
+    result.forEach(doc => {
+      const docData = doc.data();
+      docData.uid = doc.id;
+      newFeeds.push(docData);
+    });
+
+    return {
+      feeds: newFeeds
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.data.feeds = props.feeds;
   }
 
   login = () => {
@@ -82,6 +93,18 @@ class Index extends React.Component {
             <button className='btn btn-primary' onClick={this.write}>전송</button>
           </div>
         )}
+
+        <ul>
+          {this.data.feeds.map(feed => (
+            <li key={feed.uid}>
+              {feed.content}
+
+              <div>
+                {feed.author.displayName}
+              </div>
+            </li>
+          ))}
+        </ul>
       </Layout>
     );
   }
