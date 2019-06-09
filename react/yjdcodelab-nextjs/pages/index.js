@@ -5,8 +5,17 @@ import firebase from '../common/firebase';
 
 class Index extends React.Component {
   login = () => {
-    store.user = { name: 'John' }
+    const provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider)
+      .then(res => {
+        console.log(res.credential);
+        console.log(res.user);
+      });
+    store.user = {
+      name: 'John'
+    }
   }
+
   render() {
     return (
       <Layout>
