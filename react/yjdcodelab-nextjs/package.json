@@ -1,15 +1,15 @@
 {
   "dependencies": {
-    "next": "7.0.2",
-    "react": "16.6.3",
-    "react-dom": "16.6.3"
+    "faker": "^4.1.0",
+    "mobx": "^5.8.0",
+    "mobx-react": "^5.4.3",
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
-  },
-  "devDependencies": {
-    "faker": "^4.1.0"
   }
 }
