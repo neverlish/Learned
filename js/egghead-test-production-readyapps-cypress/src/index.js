@@ -12,6 +12,10 @@ const sagaMiddleware = createSagaMiddleware()
 const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 sagaMiddleware.run(rootSaga)
 
+if (window.Cypress) {
+  window.store = store
+}
+
 render(
   <Provider store={store}>
     <App store={store} />
