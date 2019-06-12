@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, put, all, select } from "redux-saga/effects";
+import { takeEvery, takeLatest, put, all, select, retry } from "redux-saga/effects";
 import axios from "axios";
 
 function getBaseUrl() {
@@ -6,7 +6,16 @@ function getBaseUrl() {
 }
 
 function* createTodo(action) {
-  yield axios.post(`${getBaseUrl()}/api/todos`, {text: action.text, completed: false})
+  try {
+    yield retry(3, 1000, createTodoAttempt, action)
+    yield put({ type: 'ADD_TODO_SUCCESS' })
+  } catch (e) {
+    yield put({ ...action, type: 'ADD_TODO_FAIL' })
+  }
+}
+
+function* createTodoAttempt(action) {
+  yield axios.post(`${getBaseUrl()}/api/todos`, { text: action.text, completed: false })
 }
 
 export function* fetchTodos() {
@@ -22,9 +31,9 @@ export function* destroyTodo(action) {
 
 export function* destroyAllTodos() {
   let filtered = yield select(state => state.todos.filter(todo => todo.completed))
-  yield put({type: 'LOCAL_CLEAR_COMPLETED'})
-  
-  yield axios.post(`${getBaseUrl()}/api/todos/bulk_delete`, {ids: filtered.map(f => f.id)})
+  yield put({ type: 'LOCAL_CLEAR_COMPLETED' })
+
+  yield axios.post(`${getBaseUrl()}/api/todos/bulk_delete`, { ids: filtered.map(f => f.id) })
 }
 
 export function* editTodo(action) {
@@ -42,7 +51,7 @@ export function* completeAllTodos() {
 }
 
 export function* bulkEditTodos(action) {
-  yield axios.put(`${getBaseUrl()}/api/todos/bulk_update`, {todos: action.todos})
+  yield axios.put(`${getBaseUrl()}/api/todos/bulk_update`, { todos: action.todos })
 }
 
 export function* rootSaga() {

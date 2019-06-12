@@ -9,6 +9,19 @@
       "id": 4,
       "completed": true,
       "text": "Goodnight moon"
+    },
+    {
+      "text": "3rd Todo",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "completed": false,
+      "id": 6
+    },
+    {
+      "completed": false,
+      "id": 7
     }
   ]
 }
