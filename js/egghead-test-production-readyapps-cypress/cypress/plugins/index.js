@@ -21,11 +21,16 @@ module.exports = (on, config) => {
       console.log(`hello ${name}`)
       return null
     },
+
     'db:seed': (seeds) => {
       let defaultSeed = { todos: [] }
       let seedsToUse = seeds ? seeds : defaultSeed
       db.seed(seedsToUse)
       return null
+    },
+
+    'db:snapshot': function (table) {
+      return db.snapshot(table)
     }
   })
 }

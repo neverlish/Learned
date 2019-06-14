@@ -6,5 +6,11 @@ module.exports = {
     let adapter = new FileSync('db.test.json')
     let db = low(adapter)
     db.setState(state).write()
+  },
+
+  snapshot: function (table) {
+    let adapter = new FileSync('db.test.json')
+    let db = low(adapter)
+    return db.get(table)
   }
 }

@@ -1,14 +1,9 @@
 {
   "todos": [
     {
-      "text": "Hello World",
+      "text": "3rd Todo",
       "completed": false,
       "id": 1
-    },
-    {
-      "text": "Hello World 2",
-      "completed": true,
-      "id": 2
     }
   ]
 }
