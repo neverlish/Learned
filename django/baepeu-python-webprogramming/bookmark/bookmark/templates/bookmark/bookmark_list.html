@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <div class="btn-group">
+        <a href="#" class="btn btn-ifo">Add Bookmark</a>
+    </div>
+    <p></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col">#</th>
+                <th class="col">Site</th>
+                <th class="col">URL</th>
+                <th class="col">Modify</th>
+                <th class="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bookmark in object_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="#">{{bookmark.site_name}}</a></td>
+                <td><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a></td>
+                <td><a href="#" class="btn btn-success btn-sm">Modify</a></td>
+                <td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
