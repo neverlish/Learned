@@ -1,14 +1,8 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% block title %}Detail{% endblock %}
 
-<body>
-    {{ object.site_name }}<br />
-    {{ object.url }}
-</body>
-
-</html>
+{% block content %}
+{{ object.site_name }}<br />
+{{ object.url }}
+{% endblock %}
