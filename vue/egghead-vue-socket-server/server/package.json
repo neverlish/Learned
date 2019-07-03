@@ -1,0 +1,10 @@
+{
+  "name": "egghead-vue-socket-server",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "dotenv": "^6.2.0",
+    "winston": "^2.2.0",
+    "winston-papertrail": "^1.0.5"
+  }
+}
