@@ -16,6 +16,11 @@ export default {
       this.notification_text = socket_data.message;
       this.color = socket_data.color || "success";
       this.snackbar = true;
+    },
+    disconnect: function() {
+      this.notification_text = "CAUTION SERVER DISCONNECTED";
+      this.color = "red";
+      this.snackbar = true;
     }
   }
 };
