@@ -25,5 +25,17 @@ exports.initialize = function (server) {
 
       socket.join(data.group);
     });
+
+    socket.on('SEND_MESSAGE', function (data) {
+      let recipent = '';
+      if (data.name) {
+        const user = users.get(data.name);
+        recipent = user.socket_id
+      } else {
+        recipent = data.group;
+      }
+      logger.debug(`POPUP_NOTIFICATION triggered for ${recipent}`);
+      io.to(recipent).emit('POPUP_NOTIFICATION', data);
+    })
   });
 }

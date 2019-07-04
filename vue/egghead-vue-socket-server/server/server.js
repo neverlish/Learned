@@ -17,15 +17,6 @@ const global_socket = require('./io').io();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-app.post('/notification', function (req, res) {
-  logger.debug(`Message Receiverd: ${req.body.message}`);
-  global_socket.emit('POPUP_NOTIFICATION', {
-    message: req.body.message,
-    color: req.body.color
-  });
-  res.send();
-});
-
 server.listen(port);
 
 logger.info(`${pjson.name} Server Started >> `);

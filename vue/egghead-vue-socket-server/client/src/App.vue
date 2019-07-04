@@ -10,6 +10,9 @@
           <v-flex class="mx-1">
             <UserProfile></UserProfile>
           </v-flex>
+          <v-flex>
+            <ComposeMessage></ComposeMessage>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-content>
@@ -21,10 +24,12 @@
 <script>
 import PopupMessage from "@/components/PopupMessage";
 import UserProfile from "@/components/UserProfile";
+import ComposeMessage from "@/components/ComposeMessage";
 export default {
   components: {
     PopupMessage,
-    UserProfile
+    UserProfile,
+    ComposeMessage
   }
 };
 </script>
