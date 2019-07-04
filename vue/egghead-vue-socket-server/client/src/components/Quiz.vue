@@ -13,6 +13,12 @@
       </v-layout>
 
       <v-card-actions>
+        <v-alert
+          :value="server_result"
+          type="success"
+          icon="check_circle"
+          outline
+        >{{ server_result }}</v-alert>
         <v-spacer></v-spacer>
         <v-btn color="primary" @click="dialog = false">Close</v-btn>
       </v-card-actions>
@@ -27,18 +33,22 @@ export default {
       this.image = "data:image/jpeg;base64," + socket_data.buffer;
       this.dialog = true;
       this.answer = "";
+      this.server_result = "";
     }
   },
   data: () => ({
     dialog: false,
     answer: "",
-    image: ""
+    image: "",
+    server_result: ""
   }),
   methods: {
     send_response() {
       const message_data = {};
       message_data.response = this.answer;
-      this.$socket.emit("QUIZ_RESPONSE", message_data);
+      this.$socket.emit("QUIZ_RESPONSE", message_data, result => {
+        this.server_result = result;
+      });
     }
   }
 };

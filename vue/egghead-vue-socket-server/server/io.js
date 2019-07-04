@@ -45,10 +45,17 @@ exports.initialize = function (server) {
       io.to(recipent).emit('POPUP_NOTIFICATION', data);
     });
 
-    socket.on('QUIZ_RESPONSE', function (data) {
+    socket.on('QUIZ_RESPONSE', function (data, fn) {
       const user_data = ids.get(socket.id);
       if (user_data) {
         logger.debug(`${user_data.name} has pressed ${data.response}`);
+      }
+
+      if (fn) {
+        const yes_no = Math.floor(Math.random() * Math.floor(2));
+        const result = (yes_no > 8) ? 'Correct' : 'Incorrect';
+        logger.debug(`Calling callback function with ${data.response} was ${result}`);
+        fn(`Your answer is ${data.response} which is ${result}`);
       }
     });
   });
