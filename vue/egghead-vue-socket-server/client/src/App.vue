@@ -10,26 +10,25 @@
           <v-flex class="mx-1">
             <UserProfile></UserProfile>
           </v-flex>
-          <v-flex>
-            <ComposeMessage></ComposeMessage>
-          </v-flex>
         </v-layout>
+        <v-layout row mb-4></v-layout>
       </v-container>
     </v-content>
     <v-footer dark></v-footer>
     <PopupMessage></PopupMessage>
+    <Quiz></Quiz>
   </v-app>
 </template>
 
 <script>
-import PopupMessage from "@/components/PopupMessage";
 import UserProfile from "@/components/UserProfile";
-import ComposeMessage from "@/components/ComposeMessage";
+import PopupMessage from "@/components/PopupMessage";
+import Quiz from "@/components/Quiz";
 export default {
   components: {
-    PopupMessage,
     UserProfile,
-    ComposeMessage
+    PopupMessage,
+    Quiz
   }
 };
 </script>

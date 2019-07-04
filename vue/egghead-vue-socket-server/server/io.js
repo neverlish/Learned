@@ -43,6 +43,13 @@ exports.initialize = function (server) {
       }
       logger.debug(`POPUP_NOTIFICATION triggered for ${recipent}`);
       io.to(recipent).emit('POPUP_NOTIFICATION', data);
-    })
+    });
+
+    socket.on('QUIZ_RESPONSE', function (data) {
+      const user_data = ids.get(socket.id);
+      if (user_data) {
+        logger.debug(`${user_data.name} has pressed ${data.response}`);
+      }
+    });
   });
 }
