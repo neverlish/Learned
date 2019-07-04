@@ -14,14 +14,17 @@
       </v-container>
     </v-content>
     <v-footer dark></v-footer>
+    <PopupMessage></PopupMessage>
   </v-app>
 </template>
 
 <script>
 import Graph from "@/components/Graph";
+import PopupMessage from "@/components/PopupMessage";
 export default {
   components: {
-    Graph
+    Graph,
+    PopupMessage
   }
 };
 </script>
