@@ -7,8 +7,8 @@
     <v-content>
       <v-container fluid>
         <v-layout row mb-4>
-          <v-flex>
-            <Graph></Graph>
+          <v-flex class="mx-1">
+            <UserProfile></UserProfile>
           </v-flex>
         </v-layout>
       </v-container>
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import Graph from "@/components/Graph";
 import PopupMessage from "@/components/PopupMessage";
+import UserProfile from "@/components/UserProfile";
 export default {
   components: {
-    Graph,
-    PopupMessage
+    PopupMessage,
+    UserProfile
   }
 };
 </script>
