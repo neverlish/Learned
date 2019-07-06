@@ -161,3 +161,6 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 CART_ID = 'cart_in_session'
+
+IAMPORT_KEY = os.environ['IAMPORT_KEY']
+IAMPORT_SECRET = os.environ['IAMPORT_SECRET']
