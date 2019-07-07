@@ -91,29 +91,29 @@ class App extends Component {
                         <Loader />
                     </div>
                 ) : (
-                        <div className='home'>
-                            <CreatePost onSubmit={this.createNewPost} />
-                            <Welcome />
-                            {this.state.posts.length && (
-                                <div className='posts'>
-                                    {this.state.posts.map(({ id }) => (
-                                        <Post id={id} key={id} user={this.props.user} />
-                                    ))}
-                                </div>
-                            )}
+                        <div className="home">
+                            <Welcome key="welcome" />
                             <div>
-                                <button className='block' onClick={this.getPosts}>
+                                <CreatePost onSubmit={this.createNewPost} />
+                                {this.state.posts.length && (
+                                    <div className="posts">
+                                        {this.state.posts.map(({ id }) => {
+                                            return <Post id={id} key={id} user={this.props.user} />;
+                                        })}
+                                    </div>
+                                )}
+                                <button className="block" onClick={this.getPosts}>
                                     Load more posts
-                                </button>
+                            </button>
                             </div>
                             <div>
                                 <Ad
-                                    url='https://ifelse.io/book'
-                                    imageUrl='/static/assets/ads/ria.png'
+                                    url="https://ifelse.io/book"
+                                    imageUrl="/static/assets/ads/ria.png"
                                 />
                                 <Ad
-                                    url='https://ifelse.io/book'
-                                    imageUrl='/static/assets/ads/orly.jpg'
+                                    url="https://ifelse.io/book"
+                                    imageUrl="/static/assets/ads/orly.jpg"
                                 />
                             </div>
                         </div>

@@ -52,3 +52,7 @@ firebase-admin-key.json
 flow-typed
 
 package-lock.json
+
+
+config/development.json
+config/production.json

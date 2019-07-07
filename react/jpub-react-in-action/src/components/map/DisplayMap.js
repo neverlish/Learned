@@ -31,7 +31,7 @@ export default class DisplayMap extends Component {
         displayOnly: true,
         location: {
             lat: 34.1435641,
-            lng: -118.1428114,
+            lng: -11.1428114,
             name: null
         }
     };

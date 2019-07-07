@@ -7,22 +7,13 @@ import Image from './Image';
 import Link from './Link';
 import PostActionSection from './PostActionSection';
 import Comments from '../comment/Comments';
-import Loader from '../Loader';
+import DisplayMap from '../map/DisplayMap';
 import UserHeader from "./UserHeader";
+import Loader from '../Loader';
 
 export class Post extends Component {
     static propTypes = {
-        post: PropTypes.shape({
-            comments: PropTypes.array,
-            content: PropTypes.string,
-            date: PropTypes.number,
-            id: PropTypes.string.isRequired,
-            image: PropTypes.string,
-            links: PropTypes.array,
-            location: PropTypes.object,
-            user: PropTypes.object,
-            userId: PropTypes.string
-        })
+        post: PropTypes.object
     };
 
     constructor(props) {
@@ -59,6 +50,7 @@ export class Post extends Component {
                 <Content post={this.state.post} />
                 <Image post={this.state.post} />
                 <Link link={this.state.post.link} />
+                {this.state.post.location && <DisplayMap displayOnly location={this.state.post.location} />}
                 <PostActionSection showComments={this.state.showComments} />
                 <Comments
                     comments={this.state.comments}
