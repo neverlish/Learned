@@ -13,6 +13,7 @@ export default initialState => {
         rootReducer,
         initialState,
         compose(
+            applyMiddleware(thunk),
             window.devToolsExtension()
         )
     );
