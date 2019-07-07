@@ -8,16 +8,24 @@ class CreatePost extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            content: ''
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePostChange = this.handlePostChange.bind(this);
     }
 
     handlePostChange(e) {
-        console.log('Handling an update to the post body!');
+        const content = e.target.value;
+        this.setState(() => {
+            return {
+                content
+            };
+        });
     }
 
     handleSubmit() {
-        console.log('Handling submission!');
+        console.log(this.state)
     }
 
     render() {
