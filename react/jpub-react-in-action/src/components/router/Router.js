@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import enroute from 'enroute';
+import invariant from 'invariant';
 
 export default class Router extends Component {
     static propTypes = {
@@ -10,6 +12,7 @@ export default class Router extends Component {
     constructor(props) {
         super(props);
         this.routes = {};
+        this.router = enroute(this.routes);
     }
 
     cleanPath(path) {
@@ -27,5 +30,9 @@ export default class Router extends Component {
         return `${parent.route}/${path}`;
     }
 
-    render() { }
+    render() {
+        const { location } = this.props;
+        invariant(location, '<Router /> nned a location to work');
+        return this.router(location);
+    }
 }
