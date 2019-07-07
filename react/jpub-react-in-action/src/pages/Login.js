@@ -10,7 +10,7 @@ class Login extends Component {
     }
 
     login() {
-        loginWithGithub().then(() => {
+        loginWithGithub().then((res) => {
             history.push('/');
         });
     }
