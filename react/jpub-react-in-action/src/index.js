@@ -13,6 +13,11 @@ import NotFound from './pages/404';
 import Login from './pages/Login';
 import { getFirebaseToken } from './backend/auth';
 
+import configureStore from './store/configureStore';
+import initialReduxState from './constants/initialState';
+
+import './store/exampleUse';
+
 import './shared/crash';
 import './shared/service-worker';
 import './shared/vendor';
