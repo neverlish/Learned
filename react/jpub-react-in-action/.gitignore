@@ -56,3 +56,5 @@ package-lock.json
 
 config/development.json
 config/production.json
+
+__snapshots__
