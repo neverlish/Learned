@@ -8,6 +8,7 @@ import Router from './components/router/Router';
 import App from './app';
 import Home from './pages/Home';
 import SinglePost from './pages/Post';
+import NotFound from './pages/404';
 
 import './shared/crash';
 import './shared/service-worker';
@@ -20,6 +21,7 @@ export const renderApp = (state, callback = () => { }) => {
             <Route path='' component={App}>
                 <Route path='/' component={Home} />
                 <Route path='/posts/:postId' component={SinglePost} />
+                <Route path='*' component={NotFound} />
             </Route>
         </Router>,
         document.getElementById('app'),
