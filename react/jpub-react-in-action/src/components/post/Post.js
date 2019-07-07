@@ -11,6 +11,8 @@ import DisplayMap from '../map/DisplayMap';
 import UserHeader from "./UserHeader";
 import Loader from '../Loader';
 
+import RouterLink from '../router/Link';
+
 export class Post extends Component {
     static propTypes = {
         post: PropTypes.object
@@ -40,16 +42,17 @@ export class Post extends Component {
     }
 
     render() {
-        if (!this.state.post) {
-            return <Loader />;
-        }
-        return (
+        return this.state.post ? (
             <div className='post'>
-                <UserHeader date={this.state.post.date}
-                    user={this.state.post.user} />
-                <Content post={this.state.post} />
-                <Image post={this.state.post} />
-                <Link link={this.state.post.link} />
+                <RouterLink to={`/posts/${this.state.post.id}`}>
+                    <span>
+                        <UserHeader date={this.state.post.date}
+                            user={this.state.post.user} />
+                        <Content post={this.state.post} />
+                        <Image post={this.state.post} />
+                        <Link link={this.state.post.link} />
+                    </span>
+                </RouterLink>
                 {this.state.post.location && <DisplayMap displayOnly location={this.state.post.location} />}
                 <PostActionSection showComments={this.state.showComments} />
                 <Comments
@@ -59,7 +62,7 @@ export class Post extends Component {
                     user={this.state.user}
                 />
             </div>
-        );
+        ) : null;
     }
 }
 
