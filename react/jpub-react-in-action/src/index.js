@@ -1,11 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+import * as API from './shared/http';
+import { history } from './history';
+import Route from './components/router/Route';
+import Router from './components/router/Router';
 import App from './app';
 import Home from './pages/Home';
-import Router from './components/router/Router';
-import Route from './components/router/Route';
-import { history } from './history';
+import SinglePost from './pages/Post';
 
 import './shared/crash';
 import './shared/service-worker';
@@ -17,6 +19,7 @@ export const renderApp = (state, callback = () => { }) => {
         <Router {...state}>
             <Route path='' component={App}>
                 <Route path='/' component={Home} />
+                <Route path='/posts/:postId' component={SinglePost} />
             </Route>
         </Router>,
         document.getElementById('app'),
