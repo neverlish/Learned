@@ -10,6 +10,7 @@ import Ad from './components/ad/Ad';
 import NavBar from './components/nav/navbar';
 import Welcome from './components/welcome/Welcome';
 import Post from './components/post/Post';
+import CreatePost from './components/post/Create';
 
 class App extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
         };
 
         this.getPosts = this.getPosts.bind(this);
+        this.createNewPost = this.createNewPost.bind(this);
     }
 
     static propTypes = {
@@ -58,7 +60,29 @@ class App extends Component {
             });
     }
 
+    createNewPost(post) {
+        return API.createPost(post)
+            .then(res => res.json())
+            .then(newPost => {
+                this.setState(prevState => {
+                    return {
+                        posts: orderBy(prevState.posts.concat(newPost), 'date', 'desc')
+                    };
+                });
+            })
+            .catch(err => {
+                this.setState(() => ({ error: err }));
+            })
+    }
+
     render() {
+        if (this.state.error) {
+            return (
+                <div className="app">
+                    <ErrorMessage error={this.state.error} />
+                </div>
+            );
+        }
         return (
             <div className='app'>
                 <NavBar />
@@ -68,6 +92,7 @@ class App extends Component {
                     </div>
                 ) : (
                         <div className='home'>
+                            <CreatePost onSubmit={this.createNewPost} />
                             <Welcome />
                             {this.state.posts.length && (
                                 <div className='posts'>

@@ -6,8 +6,8 @@ const filter = new Filter();
 
 class CreatePost extends Component {
     static propTypes = {
-
-    }
+        onSubmit: PropTypes.func.isRequired
+    };
 
     constructor(props) {
         super(props);
@@ -29,14 +29,23 @@ class CreatePost extends Component {
         });
     }
 
-    handleSubmit() {
+    handleSubmit(event) {
+        event.preventDefault();
         if (!this.state.valid) {
             return;
         }
-        const newPost = {
-            content: this.state.content
-        };
-        console.log(this.state);
+        if (this.props.onSubmit) {
+            const newPost = {
+                date: Date.now(),
+                id: Date.now(),
+                content: this.state.content,
+            };
+            this.props.onSubmit(newPost);
+            this.setState({
+                content: '',
+                valid: null,
+            });
+        }
     }
 
     render() {
