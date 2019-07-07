@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Ad from '../components/ad/Ad';
 import Post from '../components/post/Post';
+import Link from '../components/router/Link';
 
 class SinglePost extends Component {
     static propTypes = {
@@ -13,6 +14,11 @@ class SinglePost extends Component {
     render() {
         return (
             <div className='single-post'>
+                <Link to="/">
+                    <div className="back">
+                        <i className="fa fa-arrow-left" /> Back
+                    </div>
+                </Link>
                 <Post id={this.props.params.postId} />
                 <Ad
                     url='https://www.manning.com/books/react-in-action'
