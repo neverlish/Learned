@@ -1,34 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { logout } from '../../actions/auth';
 import Link from '../router/Link';
 import Logo from './logo';
-import { logUserOut } from '../../backend/auth';
 
-export const Navigation = ({ user }) => (
+export const Navigation = ({ user, handleLogout }) => (
     <nav className="navbar">
-        <Logo />
+        <Logo logoOnly={false} />
         {user.authenticated ? (
-            <span className='user-nav-widget'>
+            <span className="user-nav-widget">
                 <span>{user.name}</span>
-                <img width={40} className='img-circle' src={user.profilePicture} alt={user.name} />
-                <span onClick={() => logUserOut()}>
-                    <i className='fa fa-sign-out' />
+                <img width={40} className="img-circle" src={user.profilePicture} alt={user.name} />
+                <span onClick={handleLogout}>
+                    <i className="fa fa-sign-out" />
                 </span>
             </span>
         ) : (
-                <Link to='/login'>
-                    <button type='button'>Log in or sign up</button>
+                <Link to="/login">
+                    <button type="button">Log in or sign up</button>
                 </Link>
             )}
     </nav>
 );
-
-Navigation.propTypes = {
-    user: PropTypes.shape({
-        name: PropTypes.string,
-        authenticated: PropTypes.bool,
-        profilePicture: PropTypes.string
-    }).isRequired
-};
-
-export default Navigation;
+export const mapStateToProps = state => ({ user: state.user });
+export const mapDispatchToProps = dispatch => ({
+    handleLogout() {
+        dispatch(logout());
+    }
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

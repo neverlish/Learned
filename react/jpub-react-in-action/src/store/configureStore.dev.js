@@ -1,4 +1,3 @@
-
 import thunk from 'redux-thunk';
 import { createStore, compose, applyMiddleware } from 'redux';
 
@@ -14,7 +13,9 @@ export default initialState => {
         initialState,
         compose(
             applyMiddleware(thunk),
-            window.devToolsExtension()
+            typeof window !== 'undefined' && window.devToolsExtension
+                ? window.devToolsExtension()
+                : f => f
         )
     );
     store = createdStore;

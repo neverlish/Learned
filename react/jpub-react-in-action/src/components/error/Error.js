@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const ErrorMessage = ({ error }) => {
     return (
@@ -19,4 +20,5 @@ const ErrorMessage = ({ error }) => {
         </div>
     );
 };
-export default ErrorMessage;
+export const mapStateToProps = state => ({ error: state.erro });
+export default connect(mapStateToProps)(ErrorMessage);

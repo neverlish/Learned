@@ -1,3 +1,5 @@
+export const providers = ['Github'];
+
 export const app = {
     ERROR: 'letters-social/app/error',
     LOADED: 'letters-social/app/loaded',

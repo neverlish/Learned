@@ -1,14 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import orderBy from 'lodash/orderBy';
 
+import { createError } from '../actions/error';
+import { createNewPost, getPostsForPage } from '../actions/posts';
+import { showComments } from '../actions/comments';
 import Ad from '../components/ad/Ad';
 import CreatePost from '../components/post/Create';
 import Post from '../components/post/Post';
 import Welcome from '../components/welcome/Welcome';
 
 class Home extends Component {
+    componentDidMount() {
+        this.props.actions.getPostsForPage();
+    }
+    componentDidCatch(err, info) {
+        this.props.actions.createError(err, info);
+    }
+
     render() {
         return (
             <div className="home">
@@ -19,8 +30,9 @@ class Home extends Component {
                         <div className="posts">
                             {this.props.posts.map((post) => (
                                 <Post
-                                    key={id}
+                                    key={post.id}
                                     post={post}
+                                    openCommentsDrawer={this.props.actions.showComments}
                                 />
                             ))}
                         </div>
@@ -54,4 +66,19 @@ export const mapStateToProps = state => {
     return { posts };
 }
 
-export default connect(mapStateToProps)(Home);
+export const mapDispatchToProps = dispatch => {
+    return {
+        actions: bindActionCreators(
+            {
+                createNewPost,
+                getPostsForPage,
+                showComments,
+                createError,
+                getNextPageOfPosts: getPostsForPage.bind(this, 'next')
+            },
+            dispatch
+        )
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
