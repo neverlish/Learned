@@ -2,7 +2,7 @@ jest.mock('mapbox');
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import Home from '../../src/pages/home';
+import Home from '../../src/pages/Home';
 
 const now = new Date().getTime();
 describe('Single post page', () => {
