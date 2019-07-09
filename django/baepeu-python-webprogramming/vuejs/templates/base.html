@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Django Todo with Vue.js{% endblock %}</title>
+    {% load static %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/todomvc-app-css@2.0.6/index.css">
+
+</head>
+
+<body>
+    <section class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo"
+                @keyup.enter="addTodo">
+        </header>
+        {% block content %}
+
+        {% endblock %}
+    </section>
+    <footer class="info">
+        <p>Double-click to edit a todo</p>
+        <p>Written by <a href="http://evanyou.me">Evan You</a></p>
+        <p>Edited by <a href="https://github.com/baepeu">Baepeu</a> Ver. Django</p>
+        <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+    </footer>
+
+    {% block extra_script_footer %}
+    {% endblock %}
+</body>
+
+</html>
