@@ -48,3 +48,40 @@ exports.createResolvers = ({ createResolvers }) => {
 }
 
 // 4 query for event and create pages
+exports.createPages = async ({ actions, graphql, reporter }) => {
+  const basePath = '/';
+  actions.createPage({
+    path: basePath,
+    component: require.resolve('./src/templates/events.js')
+  });
+
+  const result = await graphql(`
+    query {
+      allEvent(sort: { fields: startDate, order: ASC }) {
+        nodes {
+          id
+          slug
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panic('error loading events', reporter.errors);
+    return;
+  }
+
+  const events = result.data.allEvent.nodes;
+
+  events.forEach(event => {
+    const slug = event.slug;
+
+    actions.createPage({
+      path: slug,
+      component: require.resolve('./src/templates/event.js'),
+      context: {
+        eventID: event.id
+      }
+    });
+  });
+}
