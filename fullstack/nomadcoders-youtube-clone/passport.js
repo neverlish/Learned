@@ -26,8 +26,8 @@ passport.use(
       clientID: process.env.FB_ID,
       clientSecret: process.env.FB_SECRET,
       callbackURL: `https://fast-frog-15.localtunnel.me${routes.facebookCallback}`,
-      profileFields: ['id', 'displayName', 'photos', 'email'],
-      scope: ['public_profile', 'email']
+      profileFields: ["id", "displayName", "photos", "email"],
+      scope: ["public_profile", "email"]
     },
     facebookLoginCallback
   )
