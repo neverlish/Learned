@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from './Button1';
-import Box from './Box1';
+import Button from './Button2';
+import Box from './Box2';
 
 function App() {
   return (
