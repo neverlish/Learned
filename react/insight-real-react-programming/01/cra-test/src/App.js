@@ -6,6 +6,7 @@ import smallImage from './small.jpeg';
 import bigImage from './big.jpeg';
 
 import TodoList from './TodoList';
+import './test.css';
 
 function App() {
   return (
@@ -30,5 +31,9 @@ function App() {
     </div>
   );
 }
+
+console.log(`NODE_ENV = ${process.env.NODE_ENV}`);
+console.log(`REACT_APP_DATA_API = ${process.env.REACT_APP_DATA_API}`);
+console.log(`REACT_APP_LOGIN_API = ${process.env.REACT_APP_LOGIN_API}`);
 
 export default App;
