@@ -155,6 +155,7 @@ export const postAddComment = async (req, res) => {
     video.comments.push(newComment.id);
     video.save();
   } catch (error) {
+    console.log("!@#!@#!@#!", id);
     res.status(400);
   } finally {
     res.end();
