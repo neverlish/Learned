@@ -1,11 +1,6 @@
 import React from 'react';
-import MyContainer from './MyContainer';
-import MyChild from './MyChild';
+import MyList from './MyList';
 
-const App = () => (
-  <MyContainer>
-    <MyChild>child text</MyChild>
-  </MyContainer>
-);
+const App = () => <MyList />;
 
 export default App;
