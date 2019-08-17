@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Intro from './primitive-property-values/Intro';
+import Person from './object-property-values/Person';
 
 type Props = {};
 
@@ -25,6 +26,7 @@ class App extends Component<Props> {
           </a>
         </header>
         <Intro name='React' version={16} />
+        <Person person={{ name: 'Roger', age: 20 }} />
       </div>
     );
   }
