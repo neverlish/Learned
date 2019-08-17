@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Intro from './primitive-property-values/Intro';
 
 type Props = {};
 
@@ -23,6 +24,7 @@ class App extends Component<Props> {
             Learn React
           </a>
         </header>
+        <Intro name='React' version={16} />
       </div>
     );
   }
