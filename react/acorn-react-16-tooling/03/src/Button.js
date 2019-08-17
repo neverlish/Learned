@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
+const style = { fontWeight: 'bold' }
 class Button extends Component {
-  style = { fontWeight: 'bold' }
 
   state = {
     count: 0
@@ -15,7 +15,6 @@ class Button extends Component {
     const { count } = this.state;
     const {
       onClick,
-      style
     } = this;
 
     return (

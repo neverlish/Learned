@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Heading from './Heading';
 import Button from './Button';
+import { hot } from 'react-hot-loader/root';
 
 class App extends Component {
   render() {
@@ -16,4 +17,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(App);
