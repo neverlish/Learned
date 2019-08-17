@@ -3,31 +3,12 @@ import MyItem from './MyItem';
 
 class MyList extends Component {
   timer = null;
-  state = { items: [] };
-
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      if (this.state.items.length === 10) {
-        clearInterval(this.timer);
-        return;
-      }
-
-      this.setState(state => ({
-        ...state,
-        items: [
-          ...state.items,
-          {
-            label: `Item ${state.items.length + 1}`,
-            strikethrough: false
-          }
-        ]
-      }));
-    }, 3000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
+  state = {
+    items: new Array(10).fill(null).map((v, i) => ({
+      label: `Item ${i + 1}`,
+      strikethrough: false
+    }))
+  };
 
   onItemClick = index => () => {
     this.setState(state => ({
