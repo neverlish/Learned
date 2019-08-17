@@ -1,19 +1,48 @@
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { withKnobs, text, object } from '@storybook/addon-knobs';
+import MyComponent from '../MyComponent';
 
-import { Button, Welcome } from '@storybook/react/demo';
+storiesOf('MyComponent Properties', module)
+  .add('No Props', () => <MyComponent />)
+  .add('Just "title"', () => <MyComponent title="The Title" />)
+  .add('Just "Content"', () => <MyComponent content="The Content" />)
+  .add('Both "title" and "content"', () => (
+    <MyComponent title="The Title" content="The Content" />
+  ))
+  .add('Just "titleStyle"', () => (
+    <MyComponent
+      title="The Title"
+      content="The Content"
+      titleStyle={{ fontWeight: 'normal' }}
+    />
+  ))
+  .add('Just "contentStyle"', () => (
+    <MyComponent
+      title="The Title"
+      content="The Content"
+      contentStyle={{ fontFamily: 'arial', fontSize: '1.2em' }}
+    />
+  ))
+  .add('Both "titleStyle" and "contentStyle"', () => (
+    <MyComponent
+      title="The Title"
+      content="The Content"
+      titleStyle={{ fontWeight: 'normal' }}
+      contentStyle={{ fontFamily: 'arial', fontSize: '1.2em' }}
+    />
+  ));
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
+storiesOf('MyComponent Prop Knobs', module)
+  .addDecorator(withKnobs)
+  .add('default', () => (
+    <MyComponent
+      title={text('Title', 'The Title')}
+      content={text('Content', 'The Content')}
+      titleStyle={object('Title Style', { fontWeight: 'normal' })}
+      contentStyle={object('Content Style', {
+        fontFamily: 'arial',
+        fontSize: '1.2em'
+      })}
+    />
   ));
