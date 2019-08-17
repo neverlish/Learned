@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-info": "^5.1.11",
     "@storybook/addon-knobs": "^5.1.11",
     "@storybook/addon-links": "^5.1.11",
     "@storybook/addons": "^5.1.11",
