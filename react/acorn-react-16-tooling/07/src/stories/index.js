@@ -1,7 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import MyComponent from '../MyComponent';
+import MyButton from '../MyButton';
+import MyRangeInput from '../MyRangeInput';
 
 storiesOf('MyComponent Properties', module)
   .add('No Props', () => <MyComponent />)
@@ -46,3 +49,16 @@ storiesOf('MyComponent Prop Knobs', module)
       })}
     />
   ));
+
+storiesOf('MyButton', module)
+  .add('clicks', () => (
+    <MyButton onClick={action('my component clicked')} />
+  ));
+
+storiesOf('MyRangeInput', module)
+  .add('slides', () => (
+    <MyRangeInput
+      onChange={action('range input changed')}
+      onRender={action('range input rendered')}
+    />
+  ))
