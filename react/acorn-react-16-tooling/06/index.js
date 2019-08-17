@@ -1,5 +1,10 @@
-// const maybe = v => v ? v : 'default';
-const maybe = (v = 'default') => v;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MyComponent from './MyComponent';
 
-console.log(maybe('yes'));
-console.log(maybe());
+const root = document.getElementById('root');
+
+ReactDOM.render(
+  <MyComponent />,
+  root,
+);
