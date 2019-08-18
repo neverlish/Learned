@@ -1,22 +1,25 @@
 import React from 'react'
-import Link from 'gatsby-link'
 
-const IndexPage = () => (
+import StoryItem from '../components/story-item'
+
+const IndexPage = ({ data, active }) => (
   <div>
-    <h1>Home</h1>
-    <p>Choose an article category</p>
-    <ul>
-      <li>
-        <Link to='/global/'>Global</Link>
-      </li>
-      <li>
-        <Link to='/local/'>Local</Link>
-      </li>
-      <li>
-        <Link to='/sports/'>Sports</Link>
-      </li>
-    </ul>
+    <div>
+      {data.allHnStory.edges.map(({ node }) => <StoryItem key={node.id} story={node} active={false} />)}
+    </div>
   </div>
 )
 
 export default IndexPage
+
+export const pageQuery = graphql`
+  query PageQuery {
+    allHnStory(sort: { fields: [order] }, limit: 10) {
+      edges {
+        node {
+          ...Story
+        }
+      }
+    }
+  }
+`

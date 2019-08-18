@@ -1,27 +1,29 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "gatsby-hacker-news",
+  "description": "Gatsby implementation of Hacker News",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Ajay NS",
   "dependencies": {
-    "gatsby": "^1.9.238",
-    "gatsby-link": "^1.6.39",
-    "gatsby-plugin-react-helmet": "^2.0.8",
-    "gatsby-source-filesystem": "^1.5.27",
-    "gatsby-transformer-json": "^1.0.16",
+    "gatsby": "^1.9.199",
+    "gatsby-link": "^1.6.37",
+    "gatsby-plugin-manifest": "^1.0.14",
+    "gatsby-plugin-offline": "^1.0.14",
+    "gatsby-plugin-react-helmet": "^2.0.5",
+    "gatsby-source-hacker-news": "^1.0.10",
     "react-helmet": "^5.2.0"
   },
   "keywords": [
     "gatsby"
   ],
   "license": "MIT",
+  "main": "n/a",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write 'src/**/*.js'",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "prettier": "^1.11.1"
+    "prettier": "^1.10.2"
   }
 }
