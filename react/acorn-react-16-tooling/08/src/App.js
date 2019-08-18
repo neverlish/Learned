@@ -3,8 +3,8 @@ import Group from './Group';
 
 class App extends Component {
   state = {
-    groupCount: 10,
-    memberCount: 20,
+    groupCount: 1,
+    memberCount: 200,
     groups: []
   };
 
@@ -87,7 +87,7 @@ class App extends Component {
             type='range'
             value={this.state.memberCount}
             min='1'
-            max='20'
+            max='200'
             onChange={this.onMemberCountChange}
           />
         </div>
