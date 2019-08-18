@@ -46,6 +46,14 @@ export const fetchBooks = () =>
     }, LATENCY);
   });
 
+export const createBook = (title, author, imgURL) =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      BOOKS.push({ title, author, imgURL });
+      resolve();
+    }, LATENCY);
+  });
+
 export const fetchBook = title =>
   new Promise(resolve => {
     setTimeout(() => {
