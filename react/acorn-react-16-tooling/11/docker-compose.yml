@@ -7,8 +7,8 @@ api:
 ui:
   image: barely-sms-ui
   expose:
-    - 3000
+    - 80
   links:
     - api
   ports:
-    - "3000:3000"
+    - "3000:80"
