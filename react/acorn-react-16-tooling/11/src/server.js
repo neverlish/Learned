@@ -112,6 +112,6 @@ app.delete('/api/message/:id', authenticate, (req, res) => {
   res.status(200).end();
 });
 
-app.listen(3001, '192.168.100.95', () =>
+app.listen(3001, () =>
   console.log('API server listening on port 3001!')
 );
