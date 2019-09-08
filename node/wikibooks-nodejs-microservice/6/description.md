@@ -20,3 +20,6 @@
 - `docker run --rm -t -i --network imagini node:latest bash`
   - `# ping imagini-database -c 5`
 - `docker run --name imagini-service --network imagini -p 80:3000 -d -v $(pwd)/settings.json:/opt/app/settings.json imagini:0.0.1`
+
+## 6 - 5 도커 컴포즈 사용
+- `docker-compose up -d`
