@@ -23,3 +23,8 @@
 
 ## 6 - 5 도커 컴포즈 사용
 - `docker-compose up -d`
+
+## 6 - 5 - 1 도커 컴포즈 고급 활용
+- `docker-compose logs service`
+- `docker-compose ps`
+- `docker-compose down`
