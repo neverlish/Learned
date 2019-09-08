@@ -12,3 +12,11 @@
 ## 6 - 3 - 4 컨테이너 정리
 - `docker rm $(docker ps -qa)`
 - `docker rmi $(docker images -q)`
+
+## 6 - 4 MySQL 배포
+- `docker network create imagini`
+- `docker network ls`
+- `docker run --name imagini-database --network imagini -v $(pwd)/mysql:/var/lib/mysql -e MYSQL_DATABASE=imagini -e MYSQL_ROOT_PASSWORD=secret -d mysql:5.7`
+- `docker run --rm -t -i --network imagini node:latest bash`
+  - `# ping imagini-database -c 5`
+- `docker run --name imagini-service --network imagini -p 80:3000 -d -v $(pwd)/settings.json:/opt/app/settings.json imagini:0.0.1`
