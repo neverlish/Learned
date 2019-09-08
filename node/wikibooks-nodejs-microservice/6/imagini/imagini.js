@@ -135,7 +135,15 @@ db.connect((err) => {
     });
   })
 
-  app.listen(3000);
+  app.listen(3000, () => {
+    console.log('ready');
+  });
+
+  process.on('SIGTERM', () => {
+    db.end(() => {
+      process.exit(0);
+    });
+  });
 })
 
 module.exports = app;
