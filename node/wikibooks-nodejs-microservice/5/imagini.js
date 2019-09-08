@@ -10,8 +10,6 @@ const app = express();
 db.connect((err) => {
   if (err) throw err;
 
-  console.log('db: ready');
-
   db.query(`
     CREATE TABLE IF NOT EXISTS images
     (
@@ -127,7 +125,7 @@ db.connect((err) => {
     });
   })
 
-  app.listen(3000, () => {
-    console.log('app: ready');
-  });
+  app.listen(3000);
 })
+
+module.exports = app;
