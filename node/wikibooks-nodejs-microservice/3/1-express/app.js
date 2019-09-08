@@ -44,7 +44,7 @@ app.head('/uploads/:image', (req, res) => {
   );
 });
 
-function download_image(req, res) {
+app.get("/uploads/:image", (req, res) => {
   fs.access(req.localpath, fs.constants.R_OK, (err) => {
     if (err) return res.status(404).end();
 
@@ -52,7 +52,11 @@ function download_image(req, res) {
 
     let width = +req.query.width;
     let height = +req.query.height;
+    let blur = +req.query.blur;
+    let sharpen = +req.query.sharpen;
     let greyscale = ['y', 'yes', '1', 'on'].includes(req.query.greyscale);
+    let flip = ['y', 'yes', '1', 'on'].includes(req.query.flip);
+    let flop = ['y', 'yes', '1', 'on'].includes(req.query.flop);
 
     if (width > 0 && height > 0) {
       image.ignoreAspectRatio();
@@ -62,17 +66,17 @@ function download_image(req, res) {
       image.resize(width || null, height || null);
     }
 
-    if (greyscale) {
-      image.greyscale();
-    }
+    if (flip) image.flip();
+    if (flop) image.flop();
+    if (blur > 0) image.blur(blur);
+    if (sharpen > 0) image.sharpen(sharpen);
+    if (greyscale) image.greyscale();
 
     res.setHeader('Content-Type', 'image/' + path.extname(req.image).substr(1));
 
     image.pipe(res);
   });
-}
-
-app.get("/uploads/:image", download_image);
+});
 
 app.get(/\/thumbnail\.(jpg|png)/, (req, res, next) => {
   let format = (req.params[0] === 'png' ? 'png' : 'jpeg');
