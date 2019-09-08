@@ -29,6 +29,17 @@ app.post('/uploads/:image', bodyparser.raw({
   });
 });
 
+app.head('/uploads/:image', (req, res) => {
+  fs.access(
+    path.join(__dirname, 'uploads', req.params.image),
+    fs.constants.R_OK,
+    (err) => {
+      res.status(err ? 404 : 200);
+      res.end();
+    },
+  );
+});
+
 app.get(/\/thumbnail\.(jpg|png)/, (req, res, next) => {
   let format = (req.params[0] === 'png' ? 'png' : 'jpeg');
   let width = +req.query.width || 300;
