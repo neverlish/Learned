@@ -8,3 +8,7 @@
 ## 6 - 3 - 3 컨테이너 관리
 - `time docker stop CONTAINER_ID`
 - `docker run -d -p 80:3000 -v $(pwd)/settings.json:/opt/app/settings.json imagini:0.0.1`
+
+## 6 - 3 - 4 컨테이너 정리
+- `docker rm $(docker ps -qa)`
+- `docker rmi $(docker images -q)`
