@@ -7,6 +7,8 @@ const bodyparser = require('body-parser');
 const path = require('path');
 const app = express();
 
+app.db = db;
+
 db.connect((err) => {
   if (err) throw err;
 
