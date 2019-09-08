@@ -17,6 +17,38 @@ app.param('image', (req, res, next, image) => {
   return next();
 });
 
+app.param('width', (req, res, next, width) => {
+  req.width = +width;
+
+  return next();
+});
+
+app.param('height', (req, res, next, height) => {
+  req.height = +height;
+
+  return next();
+});
+
+function download_image(req, res) {
+  fs.access(req.localpath, fs.constants.R_OK, (err) => {
+    if (err) return res.status(404).end();
+
+    let image = sharp(req.localpath);
+
+    if (req.width && req.height) {
+      image.ignoreAspectRatio();
+    }
+
+    if (req.width || req.height) {
+      image.resize(req.width, req.height);
+    }
+
+    res.setHeader('Content-Type', 'image/' + path.extname(req.image).substr(1));
+
+    image.pipe(res);
+  });
+}
+
 app.post('/uploads/:image', bodyparser.raw({
   limit: '10mb',
   type: 'image/*'
@@ -44,17 +76,10 @@ app.head('/uploads/:image', (req, res) => {
   );
 });
 
-app.get('/uploads/:image', (req, res) => {
-  let fd = fs.createReadStream(req.localpath);
-
-  fd.on('error', (e) => {
-    res.status(e.code === 'ENOENT' ? 404 : 500).end();
-  });
-
-  res.setHeader('Content-Type', 'image/' + path.extname(req.image).substr(1));
-
-  fd.pipe(res);
-});
+app.get("/uploads/:width(\\d+)x:height(\\d+)-:image", download_image); // http://localhost:3000/uploads/300x150-example.png
+app.get("/uploads/_x:height(\\d+)-:image", download_image); // http://localhost:3000/uploads/_x150-example.png
+app.get("/uploads/:width(\\d+)x_-:image", download_image); // http://localhost:3000/uploads/300x_-example.png
+app.get("/uploads/:image", download_image); // http://localhost:3000/uploads/example.png
 
 app.get(/\/thumbnail\.(jpg|png)/, (req, res, next) => {
   let format = (req.params[0] === 'png' ? 'png' : 'jpeg');
