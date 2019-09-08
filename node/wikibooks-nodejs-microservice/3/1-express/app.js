@@ -29,6 +29,14 @@ app.param('height', (req, res, next, height) => {
   return next();
 });
 
+app.param('greyscale', (req, res, next, greyscale) => {
+  if (greyscale != 'bw') return next('route');
+
+  req.greyscale = true;
+
+  return next();
+});
+
 function download_image(req, res) {
   fs.access(req.localpath, fs.constants.R_OK, (err) => {
     if (err) return res.status(404).end();
@@ -41,6 +49,10 @@ function download_image(req, res) {
 
     if (req.width || req.height) {
       image.resize(req.width, req.height);
+    }
+
+    if (req.greyscale) {
+      image.greyscale();
     }
 
     res.setHeader('Content-Type', 'image/' + path.extname(req.image).substr(1));
@@ -76,9 +88,13 @@ app.head('/uploads/:image', (req, res) => {
   );
 });
 
+app.get("/uploads/:width(\\d+)x:height(\\d+)-:greyscale-:image", download_image); // http://localhost:3000/uploads/300x150-bw-example.png
 app.get("/uploads/:width(\\d+)x:height(\\d+)-:image", download_image); // http://localhost:3000/uploads/300x150-example.png
+app.get("/uploads/_x:height(\\d+)-:greyscale-:image", download_image); // http://localhost:3000/uploads/_x150-bw-example.png
 app.get("/uploads/_x:height(\\d+)-:image", download_image); // http://localhost:3000/uploads/_x150-example.png
+app.get("/uploads/:width(\\d+)x_-:greyscale-:image", download_image); // http://localhost:3000/uploads/300x_-bw-example.png
 app.get("/uploads/:width(\\d+)x_-:image", download_image); // http://localhost:3000/uploads/300x_-example.png
+app.get("/uploads/:greyscale-:image", download_image); // http://localhost:3000/uploads/bw-example.png
 app.get("/uploads/:image", download_image); // http://localhost:3000/uploads/example.png
 
 app.get(/\/thumbnail\.(jpg|png)/, (req, res, next) => {
