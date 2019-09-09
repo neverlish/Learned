@@ -1,0 +1,4 @@
+- Lambda 생성 시 template을 lambda-test-harness를 선택하고 생성
+- DynamoDB 생성
+  - 파티션 키: testId(문자열)
+  - 정렬 키: iteration(번호)

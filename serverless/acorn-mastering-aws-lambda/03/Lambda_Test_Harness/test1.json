@@ -1,0 +1,12 @@
+{
+  "operation": "unit",
+  "function": "FUNCTION",
+  "resultsTable": "DYNAMO_TABLE",
+  "iteration": 1,
+  "testId": "MyFirstRun1",
+  "event": {
+    "num1": 3,
+    "num2": 7,
+    "operand": "add"
+  }
+}
