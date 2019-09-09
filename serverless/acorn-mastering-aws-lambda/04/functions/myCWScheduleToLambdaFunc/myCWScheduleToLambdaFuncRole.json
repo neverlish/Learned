@@ -1,0 +1,33 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "myLogsPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Sid": "myS3Permissions",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::neverlish-dynamodb-backup-s3*"
+    },
+    {
+      "Sid": "myDynadbPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:Scan"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-northeast-2:ACCOUNT_ID:table/LambdaExportToS3*"
+      ]
+    }
+  ]
+}

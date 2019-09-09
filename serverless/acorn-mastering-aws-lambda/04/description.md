@@ -25,3 +25,13 @@
     - 엔드포인트: mySnsToLambdaFunc 람다 함수
 - 구독 생성 후 람다 페이지에서 트리거 확인
 - 주제 에서 '메세지 게시'에 userName 입력
+
+## Lambda와 CloudWatch 이벤트 매핑하기
+- DynamoDB 테이블 생성
+  - 테이블명: LambdaExportToS3
+  - 기본키: userName(문자열)
+- S3 버킷 생성: neverlish-dynamodb-backup-s3
+- `apex --env dev deploy myCWScheduleToLambdaFunc -r ap-northeast-2 -p default`
+- Cloudwatch - 규칙 - 이벤트 -> 규칙 생성
+  - 일정: 고정 비율 / 1일
+  - 대상: Lambda 함수 / eventDriven_myCWScheduleToLambdaFunc
