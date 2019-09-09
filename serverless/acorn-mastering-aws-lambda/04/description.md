@@ -5,3 +5,11 @@
   - neverlish-lambda-image-processing-01
   - neverlish-lambda-image-processing-01-output
 - 생성된 함수에 neverlish-lambda-image-processing-01 S3 트리거 이벤트 설정
+
+## Lambda와 DynamoDB 매핑하기
+- `apex --env dev deploy myDynamoToLambdaFunc -r ap-northeast-2 -p default`
+- DynamoDB 테이블 생성
+  - 테이블명: LambdaTriggerDB
+  - 기본키: IP_ADDRESS(문자열)
+- myDynamoToLambdaFunc 함수에 트리거 설정
+  - DynamoDB : LambdaTriggerDB

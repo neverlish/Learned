@@ -1,0 +1,6 @@
+{
+  "description": "Node.js lambda function using Dynamodb as a trigger to validate the avlue of the inserted IP addr and deletes it if it's invalid.",
+  "role": "arn:aws:iam::ACCOUNT_ID:role/myLambdaDynamoFuncRole",
+  "handler": "index.handler",
+  "environment": {}
+}
