@@ -1,0 +1,36 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "myKinesisPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "kinesis:DescribeStream",
+        "kinesis:GetRecords",
+        "kinesis:GetShardIterator",
+        "kinesis:ListStreams"
+      ],
+      "Resource": "arn:aws:kinesis:ap-northeast-2:ACCOUNT_ID:stream/myKinesisStream"
+    },
+    {
+      "Sid": "myLogsPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Sid": "mySnsPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Resource": [
+        "arn:aws:sns:ap-northeast-2:ACCOUNT_ID:myHTTPSns"
+      ]
+    }
+  ]
+}

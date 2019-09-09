@@ -35,3 +35,13 @@
 - Cloudwatch - 규칙 - 이벤트 -> 규칙 생성
   - 일정: 고정 비율 / 1일
   - 대상: Lambda 함수 / eventDriven_myCWScheduleToLambdaFunc
+
+## Lambda와 Kinesis 매핑하기
+- Kinesis 스트림 생성 : myKinesisStream
+  - 샤드: 1
+- SNS 주제 생성: myHTTPSns
+  - 구독 생성
+    - 프로토콜: Email
+- `apex --env dev deploy myKinesisToLambdaFunc -r ap-northeast-2 -p default`
+  - 람다 트리거에 Kinesis 스트림 설정
+- `aws kinesis put-record --stream-name myKinesisStream --partition-key KEY --data DATA`
