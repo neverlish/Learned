@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Simple Calc web service. State is stored in a DynamoDB table.
+Resources:
+  CalcGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Role: arn:aws:iam::ACCOUNT_ID:role/MyCalcSAMDeployment
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Table
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /calc/{operand1}/{operand2}/{operator}
+            Method: post
+      CodeUri: s3://neverlish-lambda/99952c79f34f0fcd2171d87844771ff6
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: calcAnswer
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
