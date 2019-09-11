@@ -1,0 +1,97 @@
+{
+  "Comment": "AWS Lambda 함수를 사용하는 Amazon State Lauguage 예제",
+  "StartAt": "FetchAndCheck",
+  "States": {
+    "FetchAndCheck": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:fetchAndCheck",
+      "Next": "ChoiceStateX",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "InvalidInputError",
+            "InvalidOperandEror"
+          ],
+          "Next": "FailState"
+        }
+      ]
+    },
+    "ChoiceStateX": {
+      "Type": "Choice",
+      "Choies": [
+        {
+          "Variable": "$.op",
+          "StringEquals": "add",
+          "Next": "Addition"
+        },
+        {
+          "Variable": "$.op",
+          "StringEquals": "sub",
+          "Next": "Subtraction"
+        },
+        {
+          "Variable": "$.op",
+          "StringEquals": "mul",
+          "Next": "Multiplicaction"
+        },
+        {
+          "Variable": "$.op",
+          "StringEquals": "div",
+          "Next": "Division"
+        }
+      ],
+      "Default": "DefaultState"
+    },
+    "Addition": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:addition",
+      "Next": "InsertInDB"
+    },
+    "Subtraction": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:subtraction",
+      "Next": "InsertInDB"
+    },
+    "Multiplicaction": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:multiplicaction",
+      "Next": "InsertInDB"
+    },
+    "Division": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:division",
+      "Next": "InsertInDB",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "ZeroDivisorError"
+          ],
+          "Next": "FailState"
+        }
+      ]
+    },
+    "DefaultState": {
+      "Type": "Pass",
+      "Next": "FailState"
+    },
+    "InsertInDB": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-northeast-2:ACCOUNT_ID:function:insertInDBLambda",
+      "Next": "SuccessState",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "FailState"
+        }
+      ]
+    },
+    "FailState": {
+      "Type": "Fail"
+    },
+    "SuccessState": {
+      "Type": "Succeed"
+    }
+  }
+}
