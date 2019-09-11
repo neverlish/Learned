@@ -1,0 +1,44 @@
+service: my-serverless-app
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  state: dev
+  region: ap-northeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+        - "dynamodb:PutItem"
+      Resource: "*"
+functions:
+  hello:
+    handler: index.handler
+    name: serverless-apiGW-Dynamodb
+    events:
+      - http:
+          path: /food/{name}/{description}
+          method: post
+    environment:
+      TABLE_NAME: ${self:resources.Resources.foodTable.Properties.TableName}
+resources:
+  Resources:
+    foodTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: foodTable-serverless
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

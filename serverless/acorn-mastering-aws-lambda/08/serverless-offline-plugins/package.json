@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "serverless-offline": "^5.10.1"
+  },
+  "dependencies": {
+    "serverless-dynamodb-client": "0.0.2",
+    "serverless-dynamodb-local": "^0.2.38"
+  }
+}
