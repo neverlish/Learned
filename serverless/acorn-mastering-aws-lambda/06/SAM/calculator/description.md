@@ -1,0 +1,2 @@
+- `$ aws cloudformation package --template-file template.yaml --output-template-file output.yaml --s3-bucket neverlish-lambda`
+- `$ aws cloudformation deploy --template-file output.yaml --stack-name MyCalcSAMDeployment --capabilities CAPABILITY_IAM`
