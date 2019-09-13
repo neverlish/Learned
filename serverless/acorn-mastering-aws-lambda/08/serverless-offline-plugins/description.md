@@ -1,0 +1,3 @@
+- `$sls dynamodb install` 실행 후 `$ sls offline start`
+  - 데이터 삽입: `$ curl -d POST HTTP://localhost:3000/food/taco/yummy`
+  - 데이터 확인: http://localhost:8000/shell

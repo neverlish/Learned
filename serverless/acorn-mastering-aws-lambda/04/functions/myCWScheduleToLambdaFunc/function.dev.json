@@ -1,0 +1,6 @@
+{
+  "description": "Node.js lambda function using CloudWatch Scheduled events as a trigger to export a dynamodb table to s3",
+  "role": "arn:aws:iam::ACCOUNT_ID:role/myCWScheduleToLambdaFuncRole",
+  "handler": "index.handler",
+  "environment": {}
+}

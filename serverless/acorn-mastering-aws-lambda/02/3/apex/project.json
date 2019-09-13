@@ -1,0 +1,9 @@
+{
+  "name": "apex-helloworld",
+  "description": "",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::ACCOUNT_ID:role/apex-helloworld_lambda_function",
+  "environment": {},
+  "runtime": "nodejs10.x"
+}

@@ -1,0 +1,18 @@
+service: my-helloWorld-service
+provider:
+  name: aws
+  runtime: nodejs10.x
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - "logs:CreateLogGroup"
+      - "logs:CreateLogStream"
+      - "logs:PutLogEvents"
+    Resource: "*"
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - schedule: rate(1 minute)
+    environment:
+      testEnvVariable: 'it works!'

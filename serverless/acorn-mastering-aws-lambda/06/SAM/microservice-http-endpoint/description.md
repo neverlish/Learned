@@ -1,0 +1,4 @@
+- 콘솔에서 Lambda 코드 다운로드
+  - 블루프린트: microservice-http-endpoint 선택 후 '내보내기'
+- `$ aws cloudformation package --template-file template.yaml --output-template-file output.yaml --s3-bucket neverlish-lambda`
+- `$ aws cloudformation deploy --template-file output.yaml --stack-name MyFirstSAMDeployment --capabilities CAPABILITY_IAM`

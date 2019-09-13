@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "\uACC4\uC0B0\uAE30 \uC6F9 \uC11C\uBE44\uC2A4. \uC0C1\uD0DC\uB294 DynamoDB\
+  \ \uD14C\uC774\uBE14\uC5D0 \uC800\uC7A5\uD55C\uB2E4."
+Resources:
+  CalcGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Role: <role arn>
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Table
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /calc/{operand1}/{operand2}/{operator}
+            Method: get
+      CodeUri: s3://neverlish-lambda/500d6bde5f864ccfd0157a6d8df3c434
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: calcAnswer
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5

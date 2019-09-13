@@ -1,0 +1,14 @@
+{
+  "operation": "load",
+  "function": "myTestHarnessFuncrtion",
+  "iterations": 10,
+  "event": {
+    "function": "FUNCTION",
+    "resultsTable": "DYNAMO_TABLE",
+    "operation": "unit",
+    "testId": "MyFirstRun2",
+    "num1": 8,
+    "num2": 2,
+    "operand": "+"
+  }
+}
