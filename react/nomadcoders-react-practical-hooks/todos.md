@@ -1,4 +1,4 @@
-- [ ] useInput
+- [x] useInput
 - [ ] useTitle
 - [ ] useTabs
 - [ ] usePageLeave
