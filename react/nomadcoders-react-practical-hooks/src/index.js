@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './2/02-useClick';
+import App from './2/03-usePreventLeave';
 
 const rootElement = document.getElementById('root');
 
