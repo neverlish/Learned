@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './2/06-useFullScreen';
+import App from './2/07-useNotification';
 
 const rootElement = document.getElementById('root');
 
