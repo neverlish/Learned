@@ -14,6 +14,7 @@
     "@babel/core": "^7.6.0",
     "@babel/runtime": "^7.6.0",
     "babel-jest": "^24.9.0",
+    "detox": "9.0.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jest": "^24.9.0",
@@ -26,5 +27,16 @@
     "setupFiles": [
       "./tests/setup.js"
     ]
+  },
+  "detox": {
+    "test-runner": "jest",
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/TDDRN/Build/Products/Debug-iphonesimulator/TDDRN.app",
+        "build": "xcodebuild -project ios/example.xcodeproj -scheme example -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    }
   }
 }
