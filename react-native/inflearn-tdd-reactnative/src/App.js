@@ -17,13 +17,25 @@ export default class App extends Component {
     });
   };
 
+  onCompleted = (index) => {
+    this.setState({
+      items: this.state.items.map((item, i) => {
+        if (index != i) return item;
+        return {
+          ...item,
+          completed: !item.completed,
+        };
+      }),
+    });
+  };
+
   render() {
     const { items } = this.state;
     return (
       <View testID='welcome'>
         <Text>Todo TDD</Text>
         <AddToDo onAdded={this.onAdded}></AddToDo>
-        <ToDoList items={items} />
+        <ToDoList items={items} onCompleted={this.onCompleted} />
       </View>
     );
   }
