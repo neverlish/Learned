@@ -109,6 +109,8 @@ app.use(
   }),
 );
 
+app.use('/files', express.static('files'));
+
 const server = createServer(app);
 
 models.sequelize.sync().then(() => {
