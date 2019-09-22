@@ -1,12 +1,12 @@
 import { ApolloClient } from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink, split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import createFileLink from './createFileLink';
 
-const httpLink = createHttpLink({ uri: 'http://localhost:8081/graphql' });
+const httpLink = createFileLink({ uri: 'http://localhost:8081/graphql' });
 
 const middlewareLink = setContext(() => ({
   headers: {
@@ -15,8 +15,8 @@ const middlewareLink = setContext(() => ({
   },
 }));
 
-const afterwareLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map((response) => {
+const afterwareLink = new ApolloLink((operation, forward) =>
+  forward(operation).map((response) => {
     const { response: { headers } } = operation.getContext();
 
     if (headers) {
@@ -32,8 +32,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
       }
     }
     return response;
-  });
-});
+  }));
 
 const httpLinkWithMiddleware = afterwareLink.concat(middlewareLink.concat(httpLink));
 
