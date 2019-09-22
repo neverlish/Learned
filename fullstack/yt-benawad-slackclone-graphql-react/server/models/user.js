@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'user', 
+    'user',
     {
       username: {
         type: DataTypes.STRING,
@@ -59,6 +59,14 @@ export default (sequelize, DataTypes) => {
 
     User.belongsToMany(models.Channel, {
       through: 'channel_member',
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id',
+      },
+    });
+
+    User.belongsToMany(models.Channel, {
+      through: models.PCMember,
       foreignKey: {
         name: 'userId',
         field: 'user_id',

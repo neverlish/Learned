@@ -23,3 +23,12 @@ export const meQuery = gql`
 `;
 
 export const idk = {};
+
+export const getTeamMemberQuery = gql`
+  query($teamId: Int!) {
+    getTeamMembers(teamId: $teamId) {
+      id
+      username
+    }
+  }
+`;

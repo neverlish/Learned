@@ -73,7 +73,7 @@ class MessageContainer extends React.Component {
 
         return {
           ...prev,
-          messages: [...prev.messages, subscriptionData.newChannelMessage],
+          messages: [...prev.messages, subscriptionData.data.newChannelMessage],
         };
       },
     });
