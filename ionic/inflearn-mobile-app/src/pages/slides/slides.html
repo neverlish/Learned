@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Slides</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class='slides-page'>
+  <ion-slides pager>
+    <ion-slide *ngFor='let slide of slides'>
+      <ion-toolbar>
+        <ion-buttons end>
+          <button ion-button color='primary' (click)='skip()'>Skip</button>
+        </ion-buttons>
+      </ion-toolbar>
+      <img [src]='slide.img' class='slide-image'>
+      <h2 [innerHTML]='slide.title' class='slide-title'></h2>
+      <p [innerHTML]='slide.content'></p>
+    </ion-slide>
+    <ion-slide>
+      <h2>The end of slides</h2>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

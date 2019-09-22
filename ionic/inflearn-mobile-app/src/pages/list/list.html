@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>Lists Page</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class='outer-content'>
+  <ion-list>
+    <ion-list-header>
+      BUSTERS
+    </ion-list-header>
+    <ion-item-sliding *ngFor='let person of persons'>
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="{{person.avatar}}">
+        </ion-avatar>
+        <h2>{{person.name}}</h2>
+        <p>{{person.detail}}</p>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color='light' (click)='openDetailPage(person)'>
+          <ion-icon name='ios-more'></ion-icon>
+          More
+        </button>
+        <button ion-button color='primary'>
+          <ion-icon name='text'></ion-icon>
+          Text
+        </button>
+        <button ion-button color='secondary'>
+          <ion-icon name='call'></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

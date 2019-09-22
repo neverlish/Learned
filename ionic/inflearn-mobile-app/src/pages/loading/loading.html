@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>Loading Page</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class='outer-content'>
+  <ion-list>
+    <button ion-item (click)='presentLoadingCircles()'>
+      <ion-spinner item-left name='circles'></ion-spinner>
+      Loading Circles
+    </button>
+    <button ion-item (click)='presentLoadingBubbles()'>
+      <ion-spinner item-left name='bubbles'></ion-spinner>
+      Loading Bubbles
+    </button>
+    <button ion-item (click)='presentLoadingCrescent()'>
+      <ion-spinner item-left name='crescent'></ion-spinner>
+      Loading Crescent
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle='left'>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Action Sheet Page</ion-title>
+    <ion-buttons end>
+      <button ion-button menuToggle='right'>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <input [(ngModel)]='name'/>
+  <p>Hello, {{name}}</p>
+  <p *ngIf="name != ''">Welcome</p>
+  <button ion-button block (click)='presentActionSheet()'>
+    Show Action Sheet
+  </button>
+</ion-content>
