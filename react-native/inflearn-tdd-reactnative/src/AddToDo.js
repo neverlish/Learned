@@ -17,8 +17,8 @@ export default class AddToDo extends Component {
   render() {
     return (
       <View>
-        <TextInput onChangeText={this.onChangeText}></TextInput>
-        <Button title='A' onPress={this.onPress}></Button>
+        <TextInput testID='textInput' onChangeText={this.onChangeText}></TextInput>
+        <Button testID='addButton' title='A' onPress={this.onPress}></Button>
       </View>
     )
   }
