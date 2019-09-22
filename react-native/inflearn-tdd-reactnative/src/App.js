@@ -29,13 +29,19 @@ export default class App extends Component {
     });
   };
 
+  onDeleted = (index) => {
+    this.setState({
+      items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)],
+    });
+  }
+
   render() {
     const { items } = this.state;
     return (
       <View testID='welcome'>
         <Text>Todo TDD</Text>
         <AddToDo onAdded={this.onAdded}></AddToDo>
-        <ToDoList items={items} onCompleted={this.onCompleted} />
+        <ToDoList items={items} onCompleted={this.onCompleted} onDeleted={this.onDeleted} />
       </View>
     );
   }

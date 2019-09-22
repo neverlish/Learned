@@ -27,7 +27,7 @@ export default class TodoItem extends Component {
       <View style={item.completed ? styles.completed : styles.default}>
         <Text testID={item.completed ? 'completed' : 'uncompleted'}>{item.text}</Text>
         <Button testID='completeButton' title='C' onPress={this.onCompleted} />
-        <Button title='D' onPress={this.onDeleted} />
+        <Button testID='deleteButton' title='D' onPress={this.onDeleted} />
       </View>
     );
   }
