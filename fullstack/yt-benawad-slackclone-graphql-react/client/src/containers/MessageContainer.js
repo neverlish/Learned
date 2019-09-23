@@ -77,14 +77,14 @@ class MessageContainer extends React.Component {
 
         return {
           ...prev,
-          messages: [...prev.messages, subscriptionData.data.newChannelMessage],
+          messages: [subscriptionData.data.newChannelMessage, ...prev.messages],
         };
       },
     });
   }
 
   render() {
-    const { data: { loading, messages }, channelId } = this.props;
+    const { data: { loading, messages, fetchMore }, channelId } = this.props;
     return loading ? null : (
       <FileUpload
         style={{
@@ -100,13 +100,13 @@ class MessageContainer extends React.Component {
         disableClick
       >
         <Comment.Group>
-          {this.state.hasMoreItems && (
+          {this.state.hasMoreItems && messages.length >= 35 && (
             <Button
               onClick={() => {
-                this.props.data.fetchMore({
+                fetchMore({
                   variables: {
-                    channelId: this.props.channelId,
-                    offset: this.props.data.messages.length,
+                    channelId,
+                    cursor: messages[messages.length - 1].created_at,
                   },
                   updateQuery: (previousResult, { fetchMoreResult }) => {
                     if (!fetchMoreResult) {
@@ -127,7 +127,7 @@ class MessageContainer extends React.Component {
               Load more
             </Button>
           )}
-          {messages.map(m => (
+          {messages.slice().reverse().map(m => (
             <Comment key={`${m.id}-message`}>
               <Comment.Content>
                 <Comment.Author as="a">{m.user.username}</Comment.Author>
@@ -148,8 +148,8 @@ class MessageContainer extends React.Component {
 }
 
 const messagesQuery = gql`
-  query($offset: Int!, $channelId: Int!){
-    messages(offset: $offset, channelId: $channelId) {
+  query($cursor: String, $channelId: Int!){
+    messages(cursor: $cursor, channelId: $channelId) {
       text
       id
       user {
@@ -167,7 +167,6 @@ export default graphql(messagesQuery, {
     fetchPolicy: 'network-only',
     variables: {
       channelId: props.channelId,
-      offset: 0,
     },
   }),
 })(MessageContainer);
