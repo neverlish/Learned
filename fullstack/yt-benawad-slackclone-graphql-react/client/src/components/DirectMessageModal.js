@@ -69,9 +69,9 @@ export default compose(
     mapPropsToValues: () => ({ members: [] }),
     handleSubmit: async (
       { members },
-      { props: { history, onClose, teamId, mutate }, resetForm },
+      { props: { history, teamId, mutate } },
     ) => {
-      const response = await mutate({
+      await mutate({
         variables: { members, teamId },
         update: (store, { data: { getOrCreateChannel } }) => {
           const { id, name } = getOrCreateChannel;
@@ -91,9 +91,6 @@ export default compose(
           history.push(`/view-team/${teamId}/${id}`);
         },
       });
-      console.log(response);
-      onClose();
-      resetForm();
     },
   }),
 )(DirectMessageModal);
