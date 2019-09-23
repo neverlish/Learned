@@ -6,7 +6,7 @@ import { getTeamMemberQuery } from '../graphql/teams';
 const MultiSelectUsers = ({
   data: {
     loading,
-    getTeamMembers,
+    getTeamMembers = [],
   },
   value,
   handleChange,
