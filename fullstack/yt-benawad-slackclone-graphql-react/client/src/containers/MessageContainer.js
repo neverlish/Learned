@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { Comment } from 'semantic-ui-react';
+import { Button, Comment } from 'semantic-ui-react';
 
 import FileUpload from '../components/FileUpload';
 import RenderText from '../components/RenderText';
@@ -41,6 +41,10 @@ const Message = ({ message: { url, text, filetype } }) => {
 };
 
 class MessageContainer extends React.Component {
+  state = {
+    hasMoreItems: true,
+  };
+
   componentWillMount() {
     this.unsubscribe = this.subscribe(this.props.channelId);
   }
@@ -96,6 +100,33 @@ class MessageContainer extends React.Component {
         disableClick
       >
         <Comment.Group>
+          {this.state.hasMoreItems && (
+            <Button
+              onClick={() => {
+                this.props.data.fetchMore({
+                  variables: {
+                    channelId: this.props.channelId,
+                    offset: this.props.data.messages.length,
+                  },
+                  updateQuery: (previousResult, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) {
+                      return previousResult;
+                    }
+
+                    if (fetchMoreResult.messages.length < 35) {
+                      this.setState({ hasMoreItems: false });
+                    }
+                    return {
+                      ...previousResult,
+                      messages: [...previousResult.messages, ...fetchMoreResult.messages],
+                    };
+                  },
+                });
+              }}
+            >
+              Load more
+            </Button>
+          )}
           {messages.map(m => (
             <Comment key={`${m.id}-message`}>
               <Comment.Content>
@@ -117,8 +148,8 @@ class MessageContainer extends React.Component {
 }
 
 const messagesQuery = gql`
-  query($channelId: Int!){
-    messages(channelId: $channelId) {
+  query($offset: Int!, $channelId: Int!){
+    messages(offset: $offset, channelId: $channelId) {
       text
       id
       user {
@@ -132,10 +163,11 @@ const messagesQuery = gql`
 `;
 
 export default graphql(messagesQuery, {
-  variables: props => ({
-    channelId: props.channelId,
-  }),
-  options: {
+  options: props => ({
     fetchPolicy: 'network-only',
-  },
+    variables: {
+      channelId: props.channelId,
+      offset: 0,
+    },
+  }),
 })(MessageContainer);

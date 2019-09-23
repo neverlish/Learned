@@ -2,3 +2,4 @@ node_modules
 yarn.lock
 dump.sql
 files
+dump.rdb

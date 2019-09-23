@@ -85,6 +85,7 @@ const createChannelMutation = gql`
       channel {
         id
         name
+        dm
       }
     }
   }
@@ -105,6 +106,7 @@ export default compose(
               __typename: 'Channel',
               id: -1,
               name: values.name,
+              dm: false,
             },
           },
         },
