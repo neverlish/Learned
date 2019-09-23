@@ -31,11 +31,17 @@ const SideBarListItem = styled.li`
   }
 `;
 
-const SideBarListHeader = styled.li`${paddingLeft};`;
+const SideBarListHeader = styled.li`
+  ${paddingLeft};
+`;
 
-const PushLeft = styled.div`${paddingLeft};`;
+const PushLeft = styled.div`
+  ${paddingLeft};
+`;
 
-const Green = styled.span`color: #38978d`;
+const Green = styled.span`
+  color: #38978d;
+`;
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○');
 
@@ -45,9 +51,9 @@ const channel = ({ id, name }, teamId) => (
   </Link>
 );
 
-const user = ({ id, username }, teamId) => (
+const dmChannel = ({ id, name }, teamId) => (
   <SideBarListItem key={`user-${id}`}>
-    <Link to={`/view-team/user/${teamId}/${id}`}><Bubble /> {username}</Link>
+    <Link to={`/view-team/user/${teamId}/${id}`}><Bubble /> {name}</Link>
   </SideBarListItem>
 );
 
@@ -55,7 +61,7 @@ export default ({
   teamName,
   username,
   channels,
-  users,
+  dmChannels,
   onAddChannelClick,
   teamId,
   onInvitePeopleClick,
@@ -80,7 +86,7 @@ export default ({
         <SideBarListHeader>
           Direct Message <Icon onClick={onDirectMessageClick} name="add circle" />
         </SideBarListHeader>
-        {users.map(u => user(u, teamId))}
+        {dmChannels.map(u => dmChannel(u, teamId))}
       </SideBarList>
     </div>
     {isOwner &&
