@@ -10,3 +10,8 @@
 ## 60 Starting to Setup Docker
 - `$ docker build -t slack-clone-server .`
 - `$ docker run -p 8081:8081 slack-clone-server`
+
+## 61 Docker Compose Node.js, Redis, and PostgreSQL
+- `$ docker-compose up`
+- `$ docker-compose down`
+- `$ docker-compose up -d`

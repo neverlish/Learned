@@ -4,4 +4,5 @@ COPY package-lock.json .
 COPY package.json .
 RUN npm install
 COPY dist .
+copy wait-for-it.sh .
 CMD node index.js
