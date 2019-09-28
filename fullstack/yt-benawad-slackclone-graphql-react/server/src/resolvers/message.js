@@ -15,7 +15,7 @@ export default {
     },
   },
   Message: {
-    url: parent => parent.url ? `http://localhost:8081/${parent.url}` : parent.url,
+    url: (parent, args, { serverUrl }) => parent.url ? `${serverUrl}/${parent.url}` : parent.url,
     user: ({ user, userId }, args, { models }) => {
       if (user) {
         return user;
@@ -25,7 +25,7 @@ export default {
   },
   Query: {
     messages: requiresAuth.createResolver(async (parent, { cursor, channelId }, { models, user }) => {
-      const channel = await models.Channel.findOne({ raw: true, where: { id: channelId }});
+      const channel = await models.Channel.findOne({ raw: true, where: { id: channelId } });
       if (!channel.public) {
         const member = await models.PCMember.findOne({
           raw: true,

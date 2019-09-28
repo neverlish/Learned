@@ -3,3 +3,4 @@ yarn.lock
 dump.sql
 files
 dump.rdb
+dist
