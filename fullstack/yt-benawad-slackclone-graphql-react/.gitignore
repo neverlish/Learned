@@ -6,3 +6,5 @@ files
 dump.rdb
 dist
 pgdata
+.env.production
+build
