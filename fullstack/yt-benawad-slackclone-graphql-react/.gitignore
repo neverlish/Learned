@@ -5,3 +5,4 @@ dump.sql
 files
 dump.rdb
 dist
+pgdata

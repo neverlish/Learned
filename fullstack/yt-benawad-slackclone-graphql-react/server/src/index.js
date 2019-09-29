@@ -12,7 +12,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import formidable from 'formidable';
 import DataLoader from 'dataloader';
 
-import models from './models';
+import getModels from './models';
 import { refreshTokens } from './auth';
 import { channelBatcher } from './batchFunctions';
 
@@ -65,46 +65,7 @@ const fileMiddleware = (req, res, next) => {
 
 app.use(cors('*'));
 
-const addUser = async (req, res, next) => {
-  const token = req.headers['x-token'];
-  if (token) {
-    try {
-      const { user } = jwt.verify(token, SECRET);
-      req.user = user;
-    } catch (err) {
-      const refreshToken = req.headers['x-refresh-token'];
-      const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
-      if (newTokens.token && newTokens.refreshToken) {
-        res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
-        res.set('x-token', newTokens.token);
-        res.set('x-refresh-token', newTokens.refreshToken);
-      }
-      req.user = newTokens.user;
-    }
-  }
-  next();
-};
-
-app.use(addUser);
-
 const graphqlEndpoint = '/graphql';
-
-app.use(
-  graphqlEndpoint,
-  bodyParser.json(),
-  fileMiddleware,
-  graphqlExpress(req => ({
-    schema,
-    context: {
-      models,
-      user: req.user,
-      SECRET,
-      SECRET2,
-      channelLoader: new DataLoader(ids => channelBatcher(ids, models, req.user)),
-      serverUrl: `${req.protocol}://${req.get('host')}`,
-    },
-  })),
-);
 app.use(
   '/graphiql',
   graphiqlExpress({
@@ -117,31 +78,77 @@ app.use('/files', express.static('files'));
 
 const server = createServer(app);
 
-models.sequelize.sync().then(() => {
-  server.listen(8081, () => {
-    // eslint-disable-next-line no-new
-    new SubscriptionServer(
-      {
-        execute,
-        subscribe,
-        schema,
-        onConnect: async ({ token, refreshToken }) => {
-          if (token && refreshToken) {
-            try {
-              const { user } = jwt.verify(token, SECRET);
-              return { models, user };
-            } catch (err) {
-              const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
-              return { models, user: newTokens.user };
+getModels().then((models) => {
+  if (!models) {
+    console.log('Could not connect to database');
+    return;
+  }
+
+  const addUser = async (req, res, next) => {
+    const token = req.headers['x-token'];
+    if (token) {
+      try {
+        const { user } = jwt.verify(token, SECRET);
+        req.user = user;
+      } catch (err) {
+        const refreshToken = req.headers['x-refresh-token'];
+        const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+        if (newTokens.token && newTokens.refreshToken) {
+          res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
+          res.set('x-token', newTokens.token);
+          res.set('x-refresh-token', newTokens.refreshToken);
+        }
+        req.user = newTokens.user;
+      }
+    }
+    next();
+  };
+
+  app.use(addUser);
+
+  app.use(
+    graphqlEndpoint,
+    bodyParser.json(),
+    fileMiddleware,
+    graphqlExpress(req => ({
+      schema,
+      context: {
+        models,
+        user: req.user,
+        SECRET,
+        SECRET2,
+        channelLoader: new DataLoader(ids => channelBatcher(ids, models, req.user)),
+        serverUrl: `${req.protocol}://${req.get('host')}`,
+      },
+    })),
+  );
+
+  models.sequelize.sync().then(() => {
+    server.listen(8081, () => {
+      // eslint-disable-next-line no-new
+      new SubscriptionServer(
+        {
+          execute,
+          subscribe,
+          schema,
+          onConnect: async ({ token, refreshToken }) => {
+            if (token && refreshToken) {
+              try {
+                const { user } = jwt.verify(token, SECRET);
+                return { models, user };
+              } catch (err) {
+                const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+                return { models, user: newTokens.user };
+              }
             }
-          }
-          return { models };
+            return { models };
+          },
         },
-      },
-      {
-        server,
-        path: '/subscriptions',
-      },
-    );
+        {
+          server,
+          path: '/subscriptions',
+        },
+      );
+    });
   });
 });

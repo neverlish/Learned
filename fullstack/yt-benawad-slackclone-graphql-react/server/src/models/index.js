@@ -1,32 +1,56 @@
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize(process.env.TEST_DB || 'slack', 'postgres', 'postgres', {
-  dialect: 'postgres',
-  operatorsAliases: Sequelize.Op,
-  host: process.env.DB_HOST || 'localhost',
-  define: {
-    underscored: true,
-  },
-});
-
-const models = {
-  User: sequelize.import('./user'),
-  Channel: sequelize.import('./channel'),
-  Message: sequelize.import('./message'),
-  Team: sequelize.import('./team'),
-  Member: sequelize.import('./member'),
-  DirectMessage: sequelize.import('./directMessage'),
-  PCMember: sequelize.import('./pcmember'),
+const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-Object.keys(models).forEach((modelName) => {
-  if ('associate' in models[modelName]) {
-    models[modelName].associate(models);
+export default async () => {
+  let maxReconnects = 20;
+  let connected = false;
+  let sequelize;
+
+  while (!connected && maxReconnects) {
+    try {
+      sequelize = new Sequelize(process.env.TEST_DB || 'slack', 'postgres', 'postgres', {
+        dialect: 'postgres',
+        operatorsAliases: Sequelize.Op,
+        host: process.env.DB_HOST || 'localhost',
+        define: {
+          underscored: true,
+        },
+      });
+      connected = true;
+    } catch (err) {
+      console.log('reconnecting in 5 secondds');
+      // eslint-disable-next-line
+      await sleep(5000);
+      maxReconnects -= 1;
+    }
   }
-});
 
-models.sequelize = sequelize;
-models.Sequelize = Sequelize;
-models.op = Sequelize.Op;
+  if (!connected) {
+    return null;
+  }
 
-export default models;
+  const models = {
+    User: sequelize.import('./user'),
+    Channel: sequelize.import('./channel'),
+    Message: sequelize.import('./message'),
+    Team: sequelize.import('./team'),
+    Member: sequelize.import('./member'),
+    DirectMessage: sequelize.import('./directMessage'),
+    PCMember: sequelize.import('./pcmember'),
+  };
+
+  Object.keys(models).forEach((modelName) => {
+    if ('associate' in models[modelName]) {
+      models[modelName].associate(models);
+    }
+  });
+
+  models.sequelize = sequelize;
+  models.Sequelize = Sequelize;
+  models.op = Sequelize.Op;
+
+  return models;
+};
