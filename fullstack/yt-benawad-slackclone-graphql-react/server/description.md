@@ -15,3 +15,9 @@
 - `$ docker-compose up`
 - `$ docker-compose down`
 - `$ docker-compose up -d`
+
+## 63 Populating PostgreSQL Database in Docker
+- `$ pg_dump slack -f dump.sql`
+- `$ dropdb -h localhost -p 3030 -U postgres slack`
+- `$ createdb -h localhost -p 3030 -U postgres slack`
+- `$ psql -h localhost -p 3030 -U postgres slack < dump.sql`
