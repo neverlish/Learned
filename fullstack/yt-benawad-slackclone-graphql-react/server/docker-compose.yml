@@ -35,7 +35,7 @@ services:
       - ./mysite.template:/etc/nginx/conf.d/mysite.template
       - ./files:/files
     ports:
-      - "8081:80"
+      - "80:80"
     networks:
       - webnet
     depends_on:
