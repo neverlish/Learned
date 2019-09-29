@@ -6,6 +6,7 @@ import firebase from '../common/firebase';
 import { observer } from 'mobx-react';
 import uuid from 'uuid/v4';
 import { observable } from 'mobx';
+import { Link } from '../routes';
 
 class Data {
   @observable feeds = [];
@@ -114,6 +115,12 @@ class Index extends React.Component {
 
               <div>
                 {feed.author.displayName}
+              </div>
+
+              <div>
+                <Link href={'#'}>
+                  <a className='btn btn-link'>자세히 보기</a>
+                </Link>
               </div>
             </li>
           ))}

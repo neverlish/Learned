@@ -9,9 +9,9 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "NODE_ENV=development node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production PORT=80 node server.js"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.1",
