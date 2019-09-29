@@ -21,3 +21,8 @@
 - `$ dropdb -h localhost -p 3030 -U postgres slack`
 - `$ createdb -h localhost -p 3030 -U postgres slack`
 - `$ psql -h localhost -p 3030 -U postgres slack < dump.sql`
+
+## 66 Sharing Docker Images
+- `$ docker build -t neverlish/slack-clone-server:latest .`
+- `$ docker push neverlish/slack-clone-server:latest`
+- `$ docker pull neverlish/slack-clone-server:latest`

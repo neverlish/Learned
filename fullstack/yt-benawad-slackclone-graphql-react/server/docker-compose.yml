@@ -17,7 +17,7 @@ services:
     ports:
       - "3030:5432"
   web:
-    image: slack-clone-server
+    image: neverlish/slack-clone-server:latest
     networks:
       - webnet
     environment:
