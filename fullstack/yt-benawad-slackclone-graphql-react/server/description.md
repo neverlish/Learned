@@ -26,3 +26,13 @@
 - `$ docker build -t neverlish/slack-clone-server:latest .`
 - `$ docker push neverlish/slack-clone-server:latest`
 - `$ docker pull neverlish/slack-clone-server:latest`
+
+## 69 Deploying Slack Clone to AWS
+- `$ ssh -i KEYFILE.pem ubuntu@PUBLIC_DNS`
+  - `$ curl -fsSL get.docker.com -o get-docker.sh`
+  - `$ sudo sh get-docker.sh`
+  - `$ sudo usermod -aG docker ubuntu`
+  - https://docs.docker.com/compose/install/#install-compose
+    - `ubuntu$ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
+    - `ubuntu$ sudo chmod +x /usr/local/bin/docker-compose`
+  - `$ scp -i .ssh/KEYFILE docker-compose.yml mysite.template ubuntu@PUBLIC_DNS:~`

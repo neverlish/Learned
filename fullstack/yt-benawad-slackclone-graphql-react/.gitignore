@@ -8,3 +8,4 @@ dist
 pgdata
 .env.production
 build
+.ssh
