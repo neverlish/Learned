@@ -118,7 +118,7 @@ class Index extends React.Component {
               </div>
 
               <div>
-                <Link href={'/feed/' + feed.uid}>
+                <Link route={'/feed/' + feed.uid}>
                   <a className='btn btn-link'>자세히 보기</a>
                 </Link>
               </div>
