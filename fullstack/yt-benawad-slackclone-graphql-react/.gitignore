@@ -1,0 +1,11 @@
+node_modules
+yarn.lock
+package-lock.json
+dump.sql
+files
+dump.rdb
+dist
+pgdata
+.env.production
+build
+.ssh
