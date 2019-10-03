@@ -1,9 +1,12 @@
 {
   "dependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "dotenv": "^8.1.0",
     "graphql-yoga": "^1.18.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "nodemon": "^1.19.3"
   },
   "scripts": {
