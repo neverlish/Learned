@@ -15,7 +15,7 @@
 - [x] See the full photo
 - [x] Upload a photo
 - [x] Edit the photo (Delete)
-- [ ] See the feed
+- [x] See the feed
 - [ ] See rooms
 - [ ] See room
 - [ ] Send private Message
