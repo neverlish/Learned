@@ -1,19 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import { gql } from 'apollo-boost';
 import Input from "./Input";
 import useInput from "../Hooks/useInput";
 import { Compass, HeartEmpty, User, Logo } from "./Icons";
 import { useQuery } from 'react-apollo-hooks';
-
-const ME = gql`
-  {
-    me {
-      username
-    }
-  }
-`;
+import { ME } from "../SharedQueries";
 
 const Header = styled.header`
   width: 100%;
