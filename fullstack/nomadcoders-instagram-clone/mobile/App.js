@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import ApolloClient from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { persistCache } from 'apollo-cache-persist';
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
-import { Text, View, AsyncStorage } from 'react-native';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { persistCache } from 'apollo-cache-persist';
-import ApolloClient from 'apollo-boost';
-import { ThemeProvider } from "styled-components";
+import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from 'react-apollo-hooks';
+import { AsyncStorage } from 'react-native';
+import { ThemeProvider } from "styled-components";
 import apolloClientOptions from './apollo';
+import { AuthProvider } from './AuthContext';
+import NavController from './components/NavController';
 import styles from "./styles";
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [client, setClient] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const preload = async () => {
     try {
       await Font.loadAsync({
@@ -32,12 +32,6 @@ export default function App() {
         cache,
         ...apolloClientOptions
       });
-      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-      if (isLoggedIn === null || isLoggedIn === 'false') {
-        setIsLoggedIn(false);
-      } else {
-        setIsLoggedIn(true);
-      }
       setLoaded(true);
       setClient(client);
     } catch (e) {
@@ -49,38 +43,12 @@ export default function App() {
     preload();
   }, []);
 
-  const logUserIn = async () => {
-    try {
-      await AsyncStorage.setItem('isLoggedIn', 'true');
-      setIsLoggedIn(true);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const logUserOut = async () => {
-    try {
-      await AsyncStorage.setItem('isLoggedIn', 'false');
-      setIsLoggedIn(false);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  return loaded && client && isLoggedIn !== null ? (
+  return loaded && client ? (
     <ApolloProvider client={client}>
       <ThemeProvider theme={styles}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          {isLoggedIn === true ? (
-            <TouchableOpacity onPress={logUserOut}>
-              <Text>Log Out</Text>
-            </TouchableOpacity>
-          ) : (
-              <TouchableOpacity onPress={logUserIn}>
-                <Text>Log In</Text>
-              </TouchableOpacity>
-            )}
-        </View>
+        <AuthProvider>
+          <NavController />
+        </AuthProvider>
       </ThemeProvider>
     </ApolloProvider>
   ) : (
