@@ -11,6 +11,7 @@ import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from 'react-apollo-hooks';
 import apolloClientOptions from './apollo';
 import styles from "./styles";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +33,7 @@ export default function App() {
         ...apolloClientOptions
       });
       const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-      if (isLoggedIn === null || isLoggedIn === false) {
+      if (isLoggedIn === null || isLoggedIn === 'false') {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
@@ -48,11 +49,37 @@ export default function App() {
     preload();
   }, []);
 
+  const logUserIn = async () => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'true');
+      setIsLoggedIn(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logUserOut = async () => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'false');
+      setIsLoggedIn(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return loaded && client && isLoggedIn !== null ? (
     <ApolloProvider client={client}>
       <ThemeProvider theme={styles}>
-        <View>
-          {isLoggedIn === true ? <Text>I'm in</Text> : <Text>I'm out</Text>}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          {isLoggedIn === true ? (
+            <TouchableOpacity onPress={logUserOut}>
+              <Text>Log Out</Text>
+            </TouchableOpacity>
+          ) : (
+              <TouchableOpacity onPress={logUserIn}>
+                <Text>Log In</Text>
+              </TouchableOpacity>
+            )}
         </View>
       </ThemeProvider>
     </ApolloProvider>
