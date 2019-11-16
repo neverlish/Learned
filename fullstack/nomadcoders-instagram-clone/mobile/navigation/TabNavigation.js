@@ -10,6 +10,7 @@ import Detail from "../screens/Detail";
 import Search from "../screens/Tabs/Search";
 import { stackStyles } from "./config";
 import styles from "../styles";
+import UserDetail from "../screens/UserDetail";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -27,10 +28,18 @@ const stackFactory = (initialRoute, customConfig) =>
           headerTintColor: styles.blackColor,
           title: 'Photo'
         }
+      },
+      UserDetail: {
+        screen: UserDetail,
+        navigationOptions: {
+          title: 'User'
+        }
       }
     },
     {
       defaultNavigationOptions: {
+        headerBackTitle: null,
+        headerTintColor: styles.blackColor,
         headerStyle: { ...stackStyles }
       }
     }
