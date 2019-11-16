@@ -4,3 +4,4 @@ yarn.lock
 generated
 prisma.yml
 server/uploads/
+build
