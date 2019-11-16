@@ -73,14 +73,20 @@ export default ({ navigation }) => {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(
         "329644654379394",
         {
-          permissions: ["public_profile"]
+          permissions: ["public_profile", 'email']
         }
       );
       if (type === "success") {
         const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
+          `https://graph.facebook.com/me?access_token=${token}&fields=id,last_name,first_name,email`
         );
-        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+        const { email, first_name, last_name } = await response.json();
+        emailInput.setValue(email);
+        fNameInput.setValue(first_name);
+        lNameInput.setValue(last_name);
+        const [username] = email.split("@");
+        usernameInput.setValue(username);
+        setLoading(false);
       } else {
         // type === 'cancel'
       }
