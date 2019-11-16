@@ -9,17 +9,32 @@ import Profile from "../screens/Tabs/Profile";
 import Detail from "../screens/Detail";
 import Search from "../screens/Tabs/Search";
 import { stackStyles } from "./config";
+import styles from "../styles";
 
-const stackFactory = (initialRoute, customConfig) => createStackNavigator({
-  InitialRoute: {
-    screen: initialRoute,
-    navigationOptions: {
-      ...customConfig,
-      headerStyle: { ...stackStyles }
+const stackFactory = (initialRoute, customConfig) =>
+  createStackNavigator(
+    {
+      InitialRoute: {
+        screen: initialRoute,
+        navigationOptions: {
+          ...customConfig,
+          headerStyle: { ...stackStyles }
+        },
+      },
+      Detail: {
+        screen: Detail,
+        navigationOptions: {
+          headerTintColor: styles.blackColor,
+          title: 'Photo'
+        }
+      }
     },
-  },
-  Detail
-});
+    {
+      defaultNavigationOptions: {
+        headerStyle: { ...stackStyles }
+      }
+    }
+  );
 
 export default createBottomTabNavigator(
   {
@@ -38,7 +53,9 @@ export default createBottomTabNavigator(
       }
     },
     Search: {
-      screen: stackFactory(Search),
+      screen: stackFactory(Search, {
+        headerBAckTitle: null
+      }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <NavIcon
