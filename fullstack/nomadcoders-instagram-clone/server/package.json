@@ -19,6 +19,7 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "prisma": "^1.34.10",
     "prisma-client-lib": "^1.34.8"
   },
   "devDependencies": {
@@ -30,6 +31,7 @@
     "generate": "prisma generate",
     "prisma": "yarn run deploy && yarn run generate",
     "dev": "nodemon --exec babel-node src/server.js",
+    "prebuild": "yarn run generate",
     "build": "babel src -d build",
     "postbuild": "cd src && copy ./api/**/*.graphql ../build/api/",
     "start": "node build/server.js"
