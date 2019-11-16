@@ -119,7 +119,7 @@ export default createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: 'Search',
+    initialRouteName: 'Profile',
     tabBarOptions: {
       showLabel: false,
       style: {
