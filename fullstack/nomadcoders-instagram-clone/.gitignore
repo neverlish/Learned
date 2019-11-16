@@ -3,3 +3,4 @@ yarn.lock
 .env
 generated
 prisma.yml
+server/uploads/
