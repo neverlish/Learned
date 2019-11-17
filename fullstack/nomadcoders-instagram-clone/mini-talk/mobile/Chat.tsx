@@ -36,7 +36,7 @@ function Chat() {
 
   const sendMessageMutation = useMutation(SEND_MESSAGE, {
     variables: {
-      message,
+      text: message,
     }
   });
   const {
