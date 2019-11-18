@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/runtime": "^7.7.2",
+    "aws-sdk": "^2.573.0",
+    "copy": "^0.3.2",
+    "dotenv": "^8.1.0",
+    "graphql-tools": "^4.0.5",
+    "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
+    "merge-graphql-schemas": "^1.7.0",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
+    "nodemailer": "^6.3.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "prisma": "^1.34.10",
+    "prisma-client-lib": "^1.34.8"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "nodemon": "^1.19.3"
+  },
+  "scripts": {
+    "deploy": "prisma deploy",
+    "generate": "prisma generate",
+    "prisma": "yarn run deploy && yarn run generate",
+    "dev": "nodemon --exec babel-node src/server.js",
+    "prebuild": "yarn run generate",
+    "build": "babel src -d build",
+    "postbuild": "cd src && copy ./api/**/*.graphql ../build/api/",
+    "start": "node build/server.js"
+  }
+}
