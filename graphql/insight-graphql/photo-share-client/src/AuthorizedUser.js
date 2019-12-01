@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import { Query, Mutation, withApollo, compose } from "react-apollo"
 import { gql } from 'apollo-boost'
 import { ROOT_QUERY } from './App'
@@ -12,7 +12,7 @@ const GITHUB_AUTH_MUTATION = gql`
 
 const Me = ({ logout, requestCode, signingIn }) =>
   <Query query={ROOT_QUERY}>
-    {({ loading, data }) => data && data.me ? <CurrentUser {...data.me} logout={logout} />
+    {({ loading, data }) => data.me ? <CurrentUser {...data.me} logout={logout} />
       : loading
         ? <p>loading...</p>
         : <button
@@ -27,6 +27,7 @@ const CurrentUser = ({ name, avatar, logout }) =>
     <img src={avatar} width={48} height={48} alt='' />
     <h1>{name}</h1>
     <button onClick={logout}>logout</button>
+    <NavLink to='/newPhoto'>Post Photo</NavLink>
   </div>
 
 class AuthorizedUser extends Component {
