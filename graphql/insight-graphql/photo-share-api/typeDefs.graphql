@@ -32,6 +32,7 @@ input PostPhotoInput {
   name: String!
   category: PhotoCategory=PORTRAIT
   description: String
+  file: Upload!
 }
 type Query {
   totalPhotos: Int!

@@ -5,6 +5,7 @@ const { readFileSync } = require('fs')
 const { MongoClient } = require('mongodb')
 const { createServer } = require('http')
 require('dotenv').config()
+const path = require('path')
 
 const typeDefs = readFileSync('./typeDefs.graphql', 'UTF-8')
 const resolvers = require('./resolvers')
@@ -39,6 +40,11 @@ async function start() {
   app.get('/', (req, res) => res.send('PhotoShare API에 오신 것을 환영합니다.'))
 
   app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+
+  app.use(
+    '/img/photos',
+    express.static(path.join(__dirname, 'assets', 'photos'))
+  )
 
   const httpServer = createServer(app)
   server.installSubscriptionHandlers(httpServer)
