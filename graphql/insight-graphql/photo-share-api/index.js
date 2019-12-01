@@ -7,6 +7,7 @@ const { createServer } = require('http')
 require('dotenv').config()
 const path = require('path')
 const depthLimit = require('graphql-depth-limit')
+const { createComplexityLimitRule } = require('graphql-validation-complexity')
 
 const typeDefs = readFileSync('./typeDefs.graphql', 'UTF-8')
 const resolvers = require('./resolvers')
@@ -27,7 +28,12 @@ async function start() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    validationRules: [depthLimit(5)],
+    validationRules: [
+      depthLimit(5),
+      createComplexityLimitRule(1000, {
+        onCost: cost => console.log('query cost: ', cost)
+      })
+    ],
     context: async ({ req, connection }) => {
       const githubToken = req ? req.headers.authorization : connection.context.Authorization
       const currentUser = await db.collection('users').findOne({
