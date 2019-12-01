@@ -9,7 +9,9 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-playground-middleware-express": "^1.7.12",
+    "graphql-subscriptions": "^1.1.0",
     "mongodb": "^3.3.5",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "subscriptions-transport-ws": "^0.9.16"
   }
 }
