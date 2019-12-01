@@ -40,7 +40,8 @@ async function start() {
         githubToken
       })
       return { db, currentUser, pubsub }
-    }
+    },
+    engine: true
   })
 
   server.applyMiddleware({ app })
