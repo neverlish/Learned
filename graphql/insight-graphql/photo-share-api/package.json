@@ -4,8 +4,10 @@
     "start": "nodemon -e js,json,graphql"
   },
   "dependencies": {
-    "apollo-server": "^2.9.12",
+    "apollo-server-express": "^2.9.12",
+    "express": "^4.17.1",
     "graphql": "^14.5.8",
+    "graphql-playground-middleware-express": "^1.7.12",
     "nodemon": "^2.0.1"
   }
 }
