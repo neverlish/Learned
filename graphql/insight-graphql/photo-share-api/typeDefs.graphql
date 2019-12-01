@@ -7,6 +7,10 @@ enum PhotoCategory {
   LANDSCAPE
   GRAPHIC
 }
+type AuthPayload {
+  token: String!
+  user: User!
+}
 type User {
   githubLogin: ID!
   name: String
@@ -37,4 +41,5 @@ input PostPhotoInput {
 }
 type Mutation {
   postPhoto(input: PostPhotoInput!): Photo!
+  githubAuth(code: String!): AuthPayload!
 }
