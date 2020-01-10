@@ -1,12 +1,12 @@
 class Print {
-	public static String delimiter = "";
+	public String delimiter = "";
 	
-	public static void A() {
+	public void A() {
         System.out.println(delimiter);
         System.out.println("A");
         System.out.println("A");
     }
-    public static void B() {
+    public void B() {
         System.out.println(delimiter);
         System.out.println("B");
         System.out.println("B");
