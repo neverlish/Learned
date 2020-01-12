@@ -1,5 +1,3 @@
-// VIPCustomer 클래스 구현하기
-
 package inheritance;
 
 public class VIPCustomer extends Customer {
@@ -17,5 +15,12 @@ public class VIPCustomer extends Customer {
 	
 	public int getAgentID() {
 		return agentID;
+	}
+	
+	@Override
+	public int calcPrice(int price) {
+		bonusPoint += price * bonusRatio;
+		
+		return price - (int)(price * saleRatio);
 	}
 }
