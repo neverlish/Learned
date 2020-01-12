@@ -9,9 +9,12 @@ public class Customer {
 	int bonusPoint;
 	double bonusRatio;
 	
-	public Customer() {
+	public Customer(int customerID, String customerName) {
+		this.customerID = customerID;
+		this.customerName = customerName;
 		customerGrade = "SILVER";
 		bonusRatio = 0.01;
+		System.out.println("Customer(int, String) 생성자 호출");
 	}
 	
 	public int calcPrice(int price) {
