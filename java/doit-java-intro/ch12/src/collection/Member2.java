@@ -1,12 +1,14 @@
-// Member 클래스 구현하기
+// Comparator 인터페이스 구현하기
 
 package collection;
 
-public class Member implements Comparable<Member> {
+import java.util.Comparator;
+
+public class Member2 implements Comparator<Member2> {
 	private int memberId;
 	private String memberName;
 	
-	public Member(int memberId, String memberName) {
+	public Member2(int memberId, String memberName) {
 		this.setMemberId(memberId);
 		this.setMemberName(memberName);
 	}
@@ -40,8 +42,8 @@ public class Member implements Comparable<Member> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Member) {
-			Member member = (Member)obj;
+		if (obj instanceof Member2) {
+			Member2 member = (Member2)obj;
 			if (this.memberId == member.memberId)
 				return true;
 			else
@@ -51,7 +53,7 @@ public class Member implements Comparable<Member> {
 	}
 	
 	@Override
-	public int compareTo(Member member) {
-		return (this.memberId - member.memberId) * (-1);
-	}
+	public int compare(Member2 mem1, Member2 mem2) {
+		return mem1.getMemberId() - mem2.getMemberId();
+ 	}
 }
