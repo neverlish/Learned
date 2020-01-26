@@ -1,0 +1,2 @@
+- menus.json을 만들고 Fetch API를 사용해서 메뉴를 불러오자. 데이터를 불러오는 방법은 5장을 참고하기 바란다.
+- node_modules에 설치된 react npm 패키지에서 react.js를 index.html에서 사용할 수 있도록 프로젝트 폴더로 복사하는 npm 스크립트를 생성해보자. 이렇게 하면 react.js가 업데이트되었을 때, 직접 내려받지 않고도 npm i react로 설치한 후 스크립트를 실행해서 파일을 업데이트할 수 있다.

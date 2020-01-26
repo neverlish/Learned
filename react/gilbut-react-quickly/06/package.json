@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "build-button": "./node_modules/.bin/babel button/jsx -d button/js -w",
+    "build-mouse": "./node_modules/.bin/babel mouse/jsx -d mouse/js -w",
+    "build-mouse-capture": "./node_modules/.bin/babel mouse-capture/jsx -d mouse-capture/js -w",
+    "build-onclick": "./node_modules/.bin/babel onclick/jsx -d onclick/js -w",
+    "build-onclick-props": "./node_modules/.bin/babel onclick-props/jsx -d onclick-props/js -w",
+    "build-onclick-parent": "./node_modules/.bin/babel onclick-parent/jsx -d onclick-parent/js -w",
+    "build-radio": "./node_modules/.bin/babel radio/jsx -d radio/js -w",
+    "build-slider": "./node_modules/.bin/babel slider/jsx -d slider/js -w"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-preset-react": "6.24.1"
+  }
+}

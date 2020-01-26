@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "build-clock": "./node_modules/.bin/babel clock/jsx -d clock/js -w",
+    "build-clock-analog-digital": "./node_modules/.bin/babel clock-analog-digital/jsx -d clock-analog-digital/js -w"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-preset-react": "6.24.1"
+  }
+}
