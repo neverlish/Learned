@@ -1,0 +1,61 @@
+<head>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css' rel='stylesheet'>
+
+  <link href='./style/showpost.css' rel='stylesheet'>
+
+  <script src='http://code.jquery.com/jquery-3.2.1.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js'></script>
+  <script src="https://cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>    
+
+  <script>
+      
+    $(document).ready(function() { 
+      
+      CKEDITOR.env.isCompatible = true;
+      CKEDITOR.replace('contents');
+    });
+    
+  </script>
+</head>
+
+<body>
+  <div class="container">
+      
+    <div class="ui raised segment">
+      <a class="ui blue ribbon label">게시판</a>
+      <span id="board_title">글쓰기</span>
+    
+      <div class="ui blue fluid card">
+        <div class="content">        
+          <form class="content ui form" method="post" action="/process/addpost">
+            <h4 class="ui dividing header">글 쓰기 입력 항목</h4>
+            
+            <div class="two fields">
+              <div class="field">
+                <label>제목</label>
+                <input type="text" name="title" placeholder="제목 입력">
+              </div>
+              <div class="field"></div>
+            </div>
+                
+            <div class="field">
+              <label>내용</label>
+              <textarea id="contents" name="contents" rows="10" cols="80"></textarea>
+            </div>		
+                
+            <div class="two fields">
+              <div class="field">
+                <label>작성자</label>
+                <input type="text" name="writer" placeholder="작성자아이디 입력">
+              </div>
+              <div class="field"></div>
+            </div>
+                  
+            <input class="ui submit button" type="submit" value="추가" name="" />
+            <input class="ui button" type="button" value="취소" name="" onclick="javascript:history.back()" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
