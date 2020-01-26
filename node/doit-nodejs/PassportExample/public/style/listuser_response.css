@@ -1,0 +1,63 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  color: #000;
+  background-color: #fff;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#cardbox {
+  width: 70%;
+}
+
+#iconImage {
+  display: inline;
+}
+
+#titleText {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #777;
+}
+
+#contentsText {
+  color: #999;
+}
+
+#form1 {
+  padding: 1em;
+}
+
+.row {
+  height: 3em;
+}
+
+.col1 {
+  width: 5em;
+}
+
+.inputbox {
+  width: 20em;
+}
+
+#buttonContainer {
+  padding-top: 0.6em;
+  text-align: right;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>구글맵 1</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 95%;
+    }
+  </style>
+  <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDsTSiQZDvIn1go0DiDOZsDVGVChyniJJo'></script>
+  <script>
+    function onLoad() {
+      initMap();
+    }
+
+    var map;
+    var centerLocation = {lat: 37.5079523, lng: 127.0632954};
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: centerLocation,
+        zoom: 17
+      });
+
+      var marker = new google.maps.Marker({
+        position: centerLocation,
+        icon: 'mylocation.png',
+        animation: google.maps.Animation.BOUNCE
+      });
+
+      marker.setMap(map);
+    }
+  </script>
+</head>
+<body onload='onLoad()'>
+  <p>구글 맵으로 내 위치 표시하기</p>
+  <div id='map'></div>
+</body>
+</html>

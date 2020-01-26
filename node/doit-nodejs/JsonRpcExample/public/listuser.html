@@ -1,0 +1,67 @@
+<body>
+  <h3>JSON-RPC listuser 테스트</h3>
+  <br>
+  <input type='button' name='requestButton' id='requestButton' value='요청하기'>
+  <br>
+  <p>결과</p>
+  <div id='results'></div>
+  <script src='http://code.jquery.com/jquery-3.2.1.min.js'></script>
+  <script src='./scripts/jquery.jsonrpc.js'></script>
+  <script>
+    $(function() {
+      $.jsonRPC.setup({
+        endPoint: 'http://localhost:3000/api',
+        namespace: ''
+      });
+
+      $('#requestButton').click(function() {
+        var method = 'listuser';
+        var id = 1004;
+        var params = [];
+
+        sendRequest(method, id, params);
+
+        println('[' + method + '] method로 요청을 보냈습니다.');
+      });
+    });
+
+    // 요청에 필요한 기본 함수
+    function sendRequest(method, id, params) {
+      $.jsonRPC.request(method, {
+        id: id,
+        params: params,
+        success: function(data) {
+          println('정상 응답을 받았습니다.');
+          console.dir(data);
+          processReponse(data);
+        },
+        error: function(data) {
+          println('오류 응답을 받았습니다.');
+          console.dir(data);
+          processError(data);
+        }
+      });
+    }
+
+    // 성공 응답을 받은 경우 호출되는 함수
+    function processReponse(data) {
+      if (Array.isArray(data.result)) {
+        println('사용자 수 : ' + data.result.length);
+        data.result.forEach(function(item, index) {
+          println('#' + index + ' : ' + item.id + ', ' + item.name);
+        });
+      } else {
+        println('결과 데이터가 배열 타입이 아닙니다.');
+      }
+    }
+
+    // 에러 응답을 받은 경우 호출되는 함수
+    function processError(data) {
+      println(data.error.code + ', ' + data.error.message);
+    }
+
+    function println(data) {
+      $("#results").append('<p>' + data + '</p>');
+    }
+  </script>
+</body>
