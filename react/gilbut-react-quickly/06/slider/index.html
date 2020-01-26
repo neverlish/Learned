@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css'>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js'></script>
+
+    <script>
+      $(function() {
+        let handleChange = (e, ui)=>{
+          var slideEvent = new CustomEvent('slide', {
+            detail: {ui: ui, jQueryEvent: e}
+          })
+          window.dispatchEvent(slideEvent)
+        }
+        $('#slider').slider({
+          'change': handleChange,
+          'slide': handleChange
+        })
+      })
+    </script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <h1>Slider Integration</h1>
+      <div id="slider"></div>
+
+      <div id="content"></div>
+      <script src="js/slider-buttons.js"></script>
+      <script src="js/slider-value.js"></script>
+      <script src="js/script.js"></script>
+    </div>
+  </body>
+
+</html>
