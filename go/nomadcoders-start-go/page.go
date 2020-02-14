@@ -23,11 +23,16 @@ type extractedJob struct {
 
 func main() {
 	var jobs []extractedJob
+	c := make(chan []extractedJob)
 
 	totalPages := getPages()
 
 	for i := 0; i < totalPages; i++ {
-		extractedJobs := getPage(i)
+		go getPage(i, c)
+	}
+
+	for i := 0; i < totalPages; i++ {
+		extractedJobs := <- c
 		jobs = append(jobs, extractedJobs...)
 	}
 
@@ -35,7 +40,7 @@ func main() {
 	fmt.Println("Done, extracted", len(jobs))
 }
 
-func getPage(page int) []extractedJob {
+func getPage(page int, mainC chan []extractedJob) {
 	var jobs []extractedJob
 	c := make(chan extractedJob)
 	pageURL := baseURL + "&start=" + strconv.Itoa(page * 50)
@@ -60,7 +65,7 @@ func getPage(page int) []extractedJob {
 		jobs = append(jobs, job)
 	}
 
-	return jobs
+	mainC <- jobs
 }
 
 func extractJob(card *goquery.Selection, c chan <- extractedJob) {
