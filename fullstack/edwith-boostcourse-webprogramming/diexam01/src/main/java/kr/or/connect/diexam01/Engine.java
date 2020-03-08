@@ -1,5 +1,8 @@
 package kr.or.connect.diexam01;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Engine {
 
 	public Engine() {
