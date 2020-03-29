@@ -1,7 +1,11 @@
 package kr.or.connect.guestbook.controller;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +39,34 @@ public class FileController {
 		}
 		
 		return "uploadok";
+	}
+	
+	@GetMapping("/download")
+	public void download(HttpServletResponse response) {
+		String fileName = "connect.png";
+		String saveFileName = "/tmp/connect.png";
+		String contentType = "image/png";
+		int fileLength = 1116303;
+		
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.setHeader("Content-Type", contentType);
+        response.setHeader("Content-Length", "" + fileLength);
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        
+        try(
+            FileInputStream fis = new FileInputStream(saveFileName);
+            OutputStream out = response.getOutputStream();
+        ){
+    	    int readCount = 0;
+    	    byte[] buffer = new byte[1024];
+            while ((readCount = fis.read(buffer)) != -1){
+            		out.write(buffer,0,readCount);
+            }
+        } catch(Exception ex){
+            throw new RuntimeException("file Save Error");
+        }
+        
 	}
 }
