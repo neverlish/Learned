@@ -1,0 +1,7 @@
+[package]
+name = "say-my-name"
+version = "0.1.0"
+authors = ["Jinho Hyeon <neverlish@gmail.com>"]
+edition = "2018"
+
+[dependencies]
