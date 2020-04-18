@@ -12,6 +12,15 @@ app.prepare().then(() => {
 
   server.get('/', (req, res) => res.redirect(301, '/blog'));
 
+  server.get('/blog/:id', (req, res) => {
+    return app.render(req, res, '/post', Object.assign({ id: req.params.id }, req.query));
+  });
+
+  server.get('/post', (req, res) => {
+    if (req.query.id) return res.redirect(`/blog/${req.query.id}`);
+    res.redirect(301, '/blog');
+  });
+
   server.get('/*', (req, res) => handle(req, res));
 
   server.listen(port, err => {
