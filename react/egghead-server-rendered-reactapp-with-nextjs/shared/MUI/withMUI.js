@@ -23,10 +23,10 @@ const withMaterialUi = ComposedComponent => {
     static async getInitialProps(ctx) {
       const { req } = ctx;
       const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
-      // const subProps = await ComposedComponent.getInitialProps(ctx);
+      const subProps = await ComposedComponent.getInitialProps(ctx);
 
       return {
-        // ...subProps,
+        ...subProps,
         userAgent
       };
     }
