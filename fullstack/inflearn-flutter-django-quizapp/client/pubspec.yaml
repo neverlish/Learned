@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   flutter_swiper:
   auto_size_text:
+  http:
 
 dev_dependencies:
   flutter_test:
