@@ -32,5 +32,5 @@ export default ({ navigation }) => {
     getData();
   }, []);
 
-  return <MoviesPresenter />;
+  return <MoviesPresenter {...movies} />;
 };
