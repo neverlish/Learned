@@ -3,13 +3,10 @@ import styled from "styled-components/native";
 import HorizontalSlider from "../../components/HorizontalSlider";
 import Input from "../../components/Search/Input";
 import Vertical from "../../components/Vertical";
-
-const Container = styled.ScrollView`
-  background-color: black;
-`;
+import ScrollContainer from "../../components/ScrollContainer";
 
 export default ({ movies, shows, keyword, onChange, onSubmit }) => (
-  <Container
+  <ScrollContainer
     contentContainerStyle={{
       paddingTop: 10
     }}
@@ -46,5 +43,5 @@ export default ({ movies, shows, keyword, onChange, onSubmit }) => (
         ))}
       </HorizontalSlider>
     )}
-  </Container>
+  </ScrollContainer>
 );
