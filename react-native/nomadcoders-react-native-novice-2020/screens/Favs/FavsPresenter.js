@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, PanResponder, Animated } from "react-native";
 import styled from "styled-components/native";
 import { apiImage } from "../../api";
@@ -18,7 +18,7 @@ const Poster = styled.Image`
 `;
 
 const styles = {
-  top: 80,
+  top: 50,
   height: HEIGHT / 1.5,
   width: "90%",
   position: "absolute"
@@ -26,19 +26,36 @@ const styles = {
 
 export default ({ results }) => {
   const [topIndex, setTopIndex] = useState(0);
+  const nextCard = () => setTopIndex(currentValue => currentValue + 1);
   const position = new Animated.ValueXY();
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (evt, { dx, dy }) => {
       position.setValue({ x: dx, y: dy });
     },
-    onPanResponderRelease: () => {
-      Animated.spring(position, {
-        toValue: {
-          x: 0,
-          y: 0
-        }
-      }).start();
+    onPanResponderRelease: (evt, { dx, dy }) => {
+      if (dx >= 250) {
+        Animated.spring(position, {
+          toValue: {
+            x: WIDTH + 100,
+            y: dy
+          }
+        }).start(nextCard);
+      } else if (dx <= -250) {
+        Animated.spring(position, {
+          toValue: {
+            x: -WIDTH - 100,
+            y: dy
+          }
+        }).start(nextCard);
+      } else {
+        Animated.spring(position, {
+          toValue: {
+            x: 0,
+            y: 0
+          }
+        }).start();
+      }
     }
   });
 
@@ -58,10 +75,16 @@ export default ({ results }) => {
     extrapolate: "clamp"
   });
 
+  useEffect(() => {
+    position.setValue({ x: 0, y: 0 });
+  }, [topIndex]);
+
   return (
     <Container>
       {results.map((result, index) => {
-        if (index === topIndex) {
+        if (index < topIndex) {
+          return null;
+        } else if (index === topIndex) {
           return (
             <Animated.View
               style={{
