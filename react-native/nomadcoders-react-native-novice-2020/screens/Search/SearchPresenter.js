@@ -7,6 +7,8 @@ import ScrollContainer from "../../components/ScrollContainer";
 
 export default ({ movies, shows, keyword, onChange, onSubmit }) => (
   <ScrollContainer
+    refreshFn={onSubmit}
+    loading={false}
     contentContainerStyle={{
       paddingTop: 10
     }}

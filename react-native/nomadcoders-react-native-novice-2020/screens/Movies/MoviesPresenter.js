@@ -19,8 +19,8 @@ const SliderContainer = styled.View`
 
 const Container = styled.View``;
 
-export default ({ loading, nowPlaying, popular, upcoming }) => (
-  <ScrollContainer loading={loading}>
+export default ({ refreshFn, loading, nowPlaying, popular, upcoming }) => (
+  <ScrollContainer refreshFn={refreshFn} loading={loading}>
     <>
       <SliderContainer>
         <Swiper controlsEnabled={false} loop timeout={3}>
