@@ -43,13 +43,20 @@ export default ({ results }) => {
   });
 
   const rotationValues = position.x.interpolate({
-    inputRange: [-100, 0, 100],
-    outputRange: ["-5deg", "0deg", "5deg"],
+    inputRange: [-255, 0, 255],
+    outputRange: ["-8deg", "0deg", "8deg"],
     extrapolate: "clamp"
   });
-  setInterval(() => {
-    console.log(rotationValues);
-  }, 500);
+  const secondCardOpacity = position.x.interpolate({
+    inputRange: [-255, 0, 255],
+    outputRange: [1, 0.2, 1],
+    extrapolate: "clamp"
+  });
+  const secondCardScale = position.x.interpolate({
+    inputRange: [-255, 0, 255],
+    outputRange: [1, 0.8, 1],
+    extrapolate: "clamp"
+  });
 
   return (
     <Container>
@@ -71,19 +78,37 @@ export default ({ results }) => {
               <Poster source={{ uri: apiImage(result.poster_path) }} />
             </Animated.View>
           );
+        } else if (index === topIndex + 1) {
+          return (
+            <Animated.View
+              style={{
+                ...styles,
+                zIndex: -index,
+                opacity: secondCardOpacity,
+                transform: [{ scale: secondCardScale }]
+              }}
+              key={result.id}
+              {...panResponder.panHandlers}
+            >
+              <Poster source={{ uri: apiImage(result.poster_path) }} />
+            </Animated.View>
+          );
+        } else {
+          return (
+            <Animated.View
+              style={{
+                ...styles,
+                zIndex: -index,
+                opacity: 0
+              }}
+              key={result.id}
+              {...panResponder.panHandlers}
+            >
+              <Poster source={{ uri: apiImage(result.poster_path) }} />
+            </Animated.View>
+          );
         }
-        return (
-          <Animated.View
-            style={{
-              ...styles,
-              zIndex: -index
-            }}
-            key={result.id}
-            {...panResponder.panHandlers}
-          >
-            <Poster source={{ uri: apiImage(result.poster_path) }} />
-          </Animated.View>
-        );
+
       })}
     </Container>
   );
