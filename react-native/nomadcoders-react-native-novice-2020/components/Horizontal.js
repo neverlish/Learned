@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { trimText } from "../utils";
+import { trimText, formatDate } from "../utils";
 import Poster from "./Poster";
 
 const Container = styled.View`
@@ -40,7 +40,9 @@ const Horizontal = ({ id, title, poster, overview, releaseDate }) => (
       <Poster url={poster} />
       <Data>
         <Title>{trimText(title, 30)}</Title>
-        {releaseDate ? <ReleaseDate>{releaseDate}</ReleaseDate> : null}
+        {releaseDate ? (
+          <ReleaseDate>{formatDate(releaseDate)}</ReleaseDate>
+        ) : null}
         <Overview>{trimText(overview, 130)}</Overview>
       </Data>
     </Container>
