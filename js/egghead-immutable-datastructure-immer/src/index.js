@@ -56,6 +56,12 @@ function GiftList() {
     })
   }, [])
 
+  const handleReset = () => {
+    updateState(draft => {
+      return getInitialState()
+    })
+  }
+
   return (
     <div className='app'>
       <div className='header'>
@@ -63,6 +69,7 @@ function GiftList() {
       </div>
       <div className='actions'>
         <button onClick={handleAdd}>Add</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
       <div className='gifts'>
         {gifts.map((gift) => (
