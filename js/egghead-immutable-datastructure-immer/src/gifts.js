@@ -1,4 +1,4 @@
-import produce, { original } from 'immer'
+import produce from 'immer'
 import { allUsers, getCurrentUser } from './misc/users'
 import defaultGifts from './misc/gifts'
 
@@ -16,7 +16,7 @@ export const toggleReservation = produce((draft, giftId) => {
   gift.reservedBy =
     gift.reservedBy === undefined
       ? draft.currentUser.id
-      : gift.reservedBy === original(draft.currentUser).id
+      : gift.reservedBy === draft.currentUser.id
         ? undefined
         : gift.reservedBy
 })
