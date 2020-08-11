@@ -1,4 +1,4 @@
-import { getBookDetails, giftsReducer } from './gifts'
+import { getBookDetails, giftsReducer, patchGeneratingGiftsReducer } from './gifts'
 
 const initialState = {
   users: [
@@ -74,6 +74,27 @@ describe('Reserving an unreserved gift', () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `"Cannot assign to read only property 'reservedBy' of object '#<Object>'"`
     )
+  })
+})
+
+describe('Reserving an unreserved gift with patches', () => {
+  const [nextState, patches] = patchGeneratingGiftsReducer(initialState, {
+    type: 'TOGGLE_RESERVATION',
+    id: 'egghead_subscription'
+  })
+
+  test('correctly stores reservedBy', () => {
+    expect(nextState.gifts[1].reservedBy).toBe(1)
+  })
+
+  test('generates correct patches', () => {
+    expect(patches).toEqual([
+      {
+        op: 'replace',
+        path: ['gifts', 1, 'reservedBy'],
+        value: 1
+      }
+    ])
   })
 })
 

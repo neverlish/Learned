@@ -1,10 +1,8 @@
-import React, { useState, useCallback, memo, useReducer } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
-import uuidv4 from 'uuid/v4'
-
-import './misc/index.css'
-
-import { getInitialState, addGift, toggleReservation, addBook, getBookDetails, giftsReducer } from './gifts'
+import uuidv4 from 'uuid/v4';
+import { getBookDetails, getInitialState, patchGeneratingGiftsReducer } from './gifts';
+import './misc/index.css';
 
 const Gift = memo(function Gift({ gift, users, currentUser, onReserve }) {
   return <div className={`gift ${gift.reservedBy ? 'reserved' : ''}`}>
@@ -25,8 +23,16 @@ const Gift = memo(function Gift({ gift, users, currentUser, onReserve }) {
 })
 
 function GiftList() {
-  const [state, dispatch] = useReducer(giftsReducer, getInitialState())
+  const [state, setState] = useState(() => getInitialState())
   const { users, gifts, currentUser } = state
+
+  const dispatch = useCallback(action => {
+    setState(currentState => {
+      const [nextState, patches] = patchGeneratingGiftsReducer(currentState, action)
+      console.log(patches)
+      return nextState
+    })
+  }, [])
 
   const handleAdd = () => {
     const description = prompt('Gift to add')
