@@ -1,12 +1,10 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, memo, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import uuidv4 from 'uuid/v4'
-import produce from 'immer'
-import { useImmer } from 'use-immer'
 
 import './misc/index.css'
 
-import { getInitialState, addGift, toggleReservation, addBook, getBookDetails } from './gifts'
+import { getInitialState, addGift, toggleReservation, addBook, getBookDetails, giftsReducer } from './gifts'
 
 const Gift = memo(function Gift({ gift, users, currentUser, onReserve }) {
   return <div className={`gift ${gift.reservedBy ? 'reserved' : ''}`}>
@@ -27,24 +25,32 @@ const Gift = memo(function Gift({ gift, users, currentUser, onReserve }) {
 })
 
 function GiftList() {
-  const [state, setState] = useState(() => getInitialState())
+  const [state, dispatch] = useReducer(giftsReducer, getInitialState())
   const { users, gifts, currentUser } = state
 
   const handleAdd = () => {
     const description = prompt('Gift to add')
     if (description) {
-      setState(state =>
-        addGift(state, uuidv4(), description, `https://picsum.photos/id/${Math.round(Math.random() * 1000)}/200/200`)
-      )
+      dispatch({
+        type: 'ADD_GIFT',
+        id: uuidv4(),
+        description,
+        image: `https://picsum.photos/id/${Math.round(Math.random() * 1000)}/200/200`
+      })
     }
   }
 
   const handleReserve = useCallback(id => {
-    setState(state => toggleReservation(state, id))
+    dispatch({
+      type: 'TOGGLE_RESERVATION',
+      id
+    })
   }, [])
 
   const handleReset = () => {
-    setState(getInitialState)
+    dispatch({
+      type: 'RESET'
+    })
   }
 
   const handleAddBook = async () => {
@@ -52,8 +58,10 @@ function GiftList() {
 
     if (isbn) {
       const book = await getBookDetails(isbn)
-      const nextState = addBook(state, book)
-      setState(nextState)
+      dispatch({
+        type: 'ADD_BOOK',
+        book
+      })
     }
   }
 

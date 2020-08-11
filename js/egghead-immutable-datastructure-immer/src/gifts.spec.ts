@@ -1,6 +1,6 @@
-import { addGift, toggleReservation, addBook, getBookDetails, State } from './gifts'
+import { getBookDetails, giftsReducer } from './gifts'
 
-const initialState: State = {
+const initialState = {
   users: [
     {
       id: 1,
@@ -32,7 +32,12 @@ const initialState: State = {
 }
 
 describe('Reserving an unreserved gift', () => {
-  const nextState = addGift(initialState, 'mug', 'Coffee mug', '')
+  const nextState = giftsReducer(initialState, {
+    type: 'ADD_GIFT',
+    id: 'mug',
+    description: 'Coffee mug',
+    image: ''
+  })
 
   test('added a gift to the collection', () => {
     expect(nextState.gifts.length).toBe(3)
@@ -44,7 +49,10 @@ describe('Reserving an unreserved gift', () => {
 })
 
 describe('Reserving an unreserved gift', () => {
-  const nextState = toggleReservation(initialState, 'egghead_subscription')
+  const nextState = giftsReducer(initialState, {
+    type: 'TOGGLE_RESERVATION',
+    id: 'egghead_subscription'
+  })
 
   test('correctly stores reservedBy', () => {
     expect(nextState.gifts[1].reservedBy).toBe(1)
@@ -70,7 +78,10 @@ describe('Reserving an unreserved gift', () => {
 })
 
 describe('Reserving an already reserved gift', () => {
-  const nextState = toggleReservation(initialState, 'immer_license')
+  const nextState = giftsReducer(initialState, {
+    type: 'TOGGLE_RESERVATION',
+    id: 'immer_license'
+  })
 
   test('preserves stores reservedBy', () => {
     expect(nextState.gifts[0].reservedBy).toBe(2)
@@ -85,15 +96,28 @@ describe('Reserving an already reserved gift', () => {
 
 describe('Can add book async', () => {
   test('Can add math book', async () => {
-    const nextState = addBook(initialState, await getBookDetails('0201558025'))
+    const book = await getBookDetails('0201558025')
+    const nextState = giftsReducer(initialState, {
+      type: 'ADD_BOOK',
+      book
+    })
     expect(nextState.gifts[2].description).toBe('Concrete mathematics')
   })
 
   test('Can add two books in parallel', async () => {
     const promise1 = getBookDetails('0201558025')
     const promise2 = getBookDetails('9781598560169')
+    const addBook1 = {
+      type: 'ADD_BOOK',
+      book: await promise1
+    }
 
-    const nextState = addBook(addBook(initialState, await promise1), await promise2)
+    const addBook2 = {
+      type: 'ADD_BOOK',
+      book: await promise2
+    }
+
+    const nextState = [addBook1, addBook2].reduce(giftsReducer, initialState)
     expect(nextState.gifts.length).toBe(4)
   })
 })
