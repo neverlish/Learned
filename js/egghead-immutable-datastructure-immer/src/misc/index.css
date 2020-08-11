@@ -1,0 +1,82 @@
+body {
+  font: 12pt "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  background: #3a2418;
+  color: white;
+}
+
+h1 {
+  color: orange;
+  font-size: 40pt;
+}
+
+h2 {
+  color: orange;
+}
+
+.app {
+  margin: auto;
+  max-width: 800px;
+}
+
+.actions {
+  padding: 8px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed orangered;
+  border-top: 1px dashed orangered;
+}
+
+.actions button {
+  margin-right: 8px;
+}
+
+button {
+  cursor: pointer;
+  font-size: 14pt;
+  padding: 4px 8px;
+}
+
+.gift {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.gift img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border: 4px solid orange;
+  border-radius: 80px;
+}
+
+.gift .description {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.gift.reserved h2 {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.gift .reservation {
+  width: 120px;
+  text-align: center;
+}
+
+.gift .reservation span {
+  font-size: 30pt;
+}
+
+.gift .reservation span::before {
+  content: "reserved by";
+  font-size: 12pt;
+  color: gray;
+}
+
+.gift .reservation button {
+  margin-left: 8px;
+}
