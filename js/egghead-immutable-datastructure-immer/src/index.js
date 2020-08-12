@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import uuidv4 from 'uuid/v4';
 import { getBookDetails, getInitialState, patchGeneratingGiftsReducer, giftsReducer } from './gifts';
@@ -26,12 +26,17 @@ const Gift = memo(function Gift({ gift, users, currentUser, onReserve }) {
 
 function GiftList() {
   const [state, setState] = useState(() => getInitialState())
+  const undoStack = useRef([])
+
   const { users, gifts, currentUser } = state
 
-  const dispatch = useCallback(action => {
+  const dispatch = useCallback((action, undoable = true) => {
     setState(currentState => {
-      const [nextState, patches] = patchGeneratingGiftsReducer(currentState, action)
+      const [nextState, patches, inversePatches] = patchGeneratingGiftsReducer(currentState, action)
       send(patches)
+      if (undoable) {
+        undoStack.current.push(inversePatches)
+      }
       return nextState
     })
   }, [])
@@ -77,6 +82,12 @@ function GiftList() {
     }
   }
 
+  const handleUndo = () => {
+    if (!undoStack.current.length) return
+    const patches = undoStack.current.pop()
+    dispatch({ type: 'APPLY_PATCHES', patches }, false)
+  }
+
   return (
     <div className='app'>
       <div className='header'>
@@ -86,6 +97,7 @@ function GiftList() {
         <button onClick={handleAdd}>Add</button>
         <button onClick={handleAddBook}>Add Book</button>
         <button onClick={handleReset}>Reset</button>
+        <button onClick={handleUndo} disabled={!undoStack.current.length}>Undo</button>
       </div>
       <div className='gifts'>
         {Object.values(gifts).map((gift) => (
