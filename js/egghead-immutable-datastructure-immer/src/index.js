@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import uuidv4 from 'uuid/v4';
-import { getBookDetails, getInitialState, patchGeneratingGiftsReducer } from './gifts';
+import { getBookDetails, getInitialState, patchGeneratingGiftsReducer, giftsReducer } from './gifts';
 import './misc/index.css';
 
 import { useSocket } from './misc/useSocket'
@@ -37,7 +37,7 @@ function GiftList() {
   }, [])
 
   const send = useSocket('ws://localhost:5001', function onMessage(patches) {
-    console.dir(patches)
+    setState(state => giftsReducer(state, { type: 'APPLY_PATCHES', patches }))
   })
 
   const handleAdd = () => {

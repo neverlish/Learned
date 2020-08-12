@@ -1,4 +1,4 @@
-import produce, { Draft, produceWithPatches } from 'immer'
+import produce, { Draft, produceWithPatches, applyPatches } from 'immer'
 import { allUsers, getCurrentUser } from './misc/users'
 import defaultGifts from './misc/gifts.json'
 
@@ -63,6 +63,8 @@ const giftsRecipe = (draft: Draft<State>, action: any) => {
       break
     case 'RESET':
       return getInitialState()
+    case 'APPLY_PATCHES':
+      return applyPatches(draft, action.patches)
   }
 }
 
