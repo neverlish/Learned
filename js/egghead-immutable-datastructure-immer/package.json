@@ -1,0 +1,47 @@
+{
+  "name": "egghead-immutable-datastructure-immer",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "immer": "4.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.2",
+    "use-immer": "^0.4.1",
+    "uuid": "^3.3.3",
+    "ws": "^7.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start-server": "node -r esm server.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.9",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^16.9.8",
+    "esm": "^3.2.25",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.7"
+  }
+}
