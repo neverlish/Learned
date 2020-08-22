@@ -12,6 +12,9 @@ export class TodoAppStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_12_X,
       memorySize: 256,
       timeout: cdk.Duration.seconds(10),
+      environment: {
+        isProduction: 'absolutely not'
+      }
     });
 
     new apiGateWay.LambdaRestApi(this, 'Endpoint', {
