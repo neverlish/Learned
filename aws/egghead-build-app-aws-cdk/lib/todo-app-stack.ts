@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as apiGateWay from '@aws-cdk/aws-apigateway';
+import * as s3 from '@aws-cdk/aws-s3';
 
 export class TodoAppStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -20,5 +21,7 @@ export class TodoAppStack extends cdk.Stack {
     new apiGateWay.LambdaRestApi(this, 'Endpoint', {
       handler: helloLambda
     })
+
+    const logoBucket = new s3.Bucket(this, 'LogoBucket-neverlish', {});
   }
 }
