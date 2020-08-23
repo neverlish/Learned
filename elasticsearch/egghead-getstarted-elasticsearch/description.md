@@ -345,3 +345,47 @@
 
 ## 14 Delete an index using the Elasticsearch API
 - `curl -XDELETE localhost:9200/foo`
+
+
+## 15 Create a type and map in an index
+- `curl -s localhost:9200/simpsons/_mappings | jq .`
+- `curl -s localhost:9200/simpsons/episode/_search\?q=\* | jq .`
+
+- PUT `localhost:9200/logs`
+
+  - 
+  ```
+  {
+      "mappings": {
+          "client": {
+              "properties": {
+                  "timestamp": { "type": "date" },
+                  "servername": { "type": "text" },
+                  "loglevel": { "type": "keyword" },
+                  "client_ip": { "type": "ip" },
+                  "client_coords": { "type": "geo_point" },
+                  "logevent": { "type": "text" }
+              }
+          }
+      }
+  }
+  ```
+
+- GET `localhost:9200/logs/_mappings`
+
+- POST `localhost:9200/logs/client`
+
+  - 
+  ```
+  {
+      "timestamp": "2017-02-19T17:22:44.428748+00:00",
+      "servername": "appserver01",
+      "loglevel": "INFO",
+      "client_ip": "192.168.0.15",
+      "client_coords": "51.546506, -0.105806",
+      "logevent": "Client logged in"
+  }
+  ```
+
+- GET `localhost:9200/logs/_search?q=*`
+
