@@ -159,3 +159,123 @@
   }
   ```
   
+
+## 10 Perform analytics using Elasticsearch aggregation queries
+- POST `localhost:9200/simpsons/_search`
+
+  -
+  ```
+  {
+      "properties": {
+          "raw_character_text": {
+              "type": "text",
+              "fielddata": true
+          }
+      }
+  }
+  ```
+
+- POST `localhost:9200/simpsons/_search`
+  
+  - 
+  ```
+  {
+      "size": 0,
+      "aggs": {
+          "avg_word_count": {
+              "avg": {
+                  "field": "word_count"
+              }
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "size": 0,
+      "aggs": {
+          "speaking_line_count": {
+              "cardinality": {
+                  "field": "raw_character_text"
+              }
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "size": 0,
+      "aggs": {
+          "word_count_percentiles": {
+              "percentiles": {
+                  "field": "word_count"
+              }
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "size": 0,
+      "aggs": {
+          "homer_word_count": {
+              "filter": {
+                  "term": {
+                      "raw_character_text": "homer"
+                  }
+              },
+              "aggs": {
+                  "avg_word_count": {
+                      "avg": {
+                          "field": "word_count"
+                      }
+                  }
+              }
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "size": 0,
+      "aggs": {
+          "simpsons": {
+              "filters": {
+                  "other_bucket": true,
+                  "other_bucket_key": "Non-Simpsons Cast",
+                  "filters": {
+                      "Homer": { "match": {"raw_character_text": "homer"}},
+                      "Marge": { "match": {"raw_character_text": "marge"}},
+                      "Bart": { "match": {"raw_character_text": "bart"}},
+                      "Lisa": { "match": {"raw_character_text": "lisa"}},
+                      "Maggie": { "match": {"raw_character_text": "maggie"}}
+                  }
+              }
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "terms": {
+              "raw_character_text": [
+                  "homer"
+              ]
+          }
+      },
+      "size": 0,
+      "aggregations": {
+          "SignificantWords": {
+              "significant_terms": {
+                  "field": "spoken_words"
+              }
+          }
+      }
+  }
+  ```
