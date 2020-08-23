@@ -389,3 +389,16 @@
 
 - GET `localhost:9200/logs/_search?q=*`
 
+
+## 16 Bulk import data into Elasticsearch
+- 
+```
+curl -XPOST localhost:9200/_bulk\?pretty -H 'Content-Type: application/json' -d'
+{ "index": { "_index": "logs", "_type": "client" } }
+{ "timestamp": "2017-02-19T17:22:42", "servername": "server1", "loglevel": "ERROR", "client_ip": "192.68.0.100", "client_coords": "50, -1", "logevent": "Invalid password" }
+{ "index": { "_index": "logs", "_type": "client" } }
+{ "timestamp": "2017-02-19T17:22:42", "servername": "server1", "loglevel": "ERROR", "client_ip": "192.68.0.100", "client_coords": "50, -1", "logevent": "Invalid password" }
+{ "index": { "_index": "logs", "_type": "client" } }
+{ "timestamp": "2017-02-19T17:22:42", "servername": "server1", "loglevel": "ERROR", "client_ip": "192.68.0.100", "client_coords": "50, -1", "logevent": "Invalid password" }
+'
+```
