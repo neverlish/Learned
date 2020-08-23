@@ -427,3 +427,53 @@ curl -XPOST localhost:9200/_bulk\?pretty -H 'Content-Type: application/json' -d'
 ## 19 Monitor Elasticsearch cluster health and status with the _cluster and _nodes APIs
 - `curl localhost:9200/_cluster/health`
 - `curl localhost:9200/_nodes/stats`
+
+
+## 20 Reindex data from an existing Elasticsearch index
+- POST `localhost:9200/_reindex`
+
+  - 
+  ```
+  {
+      "source": {
+          "index": "simpsons"
+      },
+      "dest": {
+          "index": "local_news"
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "source": {
+          "index": "simpsons"
+      },
+      "dest": {
+          "index": "nomoremilhouse",
+          "version_type": "external"
+      },
+      "script": {
+          "inline": "if (ctx._source.raw_character_text == 'Milhoouse') { ctx._version++; ctx._sourc.remove('raw_character_text') }",
+          "lang": "painless"
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "source": {
+          "index": "simpsons",
+          "query": {
+              "match": {
+                  "raw_character_text": "Krusty the Clown"
+              }
+          }
+      },
+      "dest": {
+          "index": "krusty"
+      }
+  }
+  ```
+  
+- GET `localhost:9200/nomoremilhouse/script/_search?q=raw_character_text:milhouse`
