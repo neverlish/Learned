@@ -341,3 +341,7 @@
 ## 13 Close and open an Elasticsearch index
 - POST `localhost:9200/simpsons/_close`
 - POST `localhost:9200/simpsons/_open`
+
+
+## 14 Delete an index using the Elasticsearch API
+- `curl -XDELETE localhost:9200/foo`
