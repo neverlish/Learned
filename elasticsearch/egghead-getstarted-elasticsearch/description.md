@@ -295,3 +295,45 @@
   }
   ```
 - GET `localhost:9200/_cat/indices`
+
+## 12 Create an alias for an Elasticsearch index
+- POST `localhost:9200/_aliases`
+
+  -
+  ```
+  {
+      "actions": [
+          {
+              "add": {
+                  "index" : "simpsons",
+                  "alias": "s"
+              }
+          }
+      ]
+  }
+  ```
+
+- GET `localhost:9200/s`
+
+- POST `localhost:9200/_aliases`
+
+  -
+  ```
+  {
+      "actions": [
+          {
+              "add": {
+                  "index" : "simpsons",
+                  "alias": "homer",
+                  "filter": {
+                      "term": {
+                          "raw_characcter_text": "homer"
+                      }
+                  }
+              }
+          }
+      ]
+  }
+  ```
+
+- GET `localhost:9200/homer`
