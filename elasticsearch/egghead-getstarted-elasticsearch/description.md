@@ -402,3 +402,23 @@ curl -XPOST localhost:9200/_bulk\?pretty -H 'Content-Type: application/json' -d'
 { "timestamp": "2017-02-19T17:22:42", "servername": "server1", "loglevel": "ERROR", "client_ip": "192.68.0.100", "client_coords": "50, -1", "logevent": "Invalid password" }
 '
 ```
+
+
+## 17 Monitor Elasticsearch cluster health and status with the _cat API
+- `curl localhost:9200/_cat`
+- `curl localhost:9200/_cat/master`
+- `curl localhost:9200/_cat/master\?v`
+- `curl localhost:9200/_cat/indices\?h=h,i,dc,ss`
+- `curl localhost:9200/_cat/indices\?h=h,i,dc,ss\&s=ss`
+- `curl localhost:9200/_cat/health\?v`
+
+- PUT `localhost:9200/simpsons/_settings`
+
+  - 
+  ```
+  {
+      "index": {
+          "number_of_replicas": 0
+      }
+  }
+  ```
