@@ -422,3 +422,8 @@ curl -XPOST localhost:9200/_bulk\?pretty -H 'Content-Type: application/json' -d'
       }
   }
   ```
+
+
+## 19 Monitor Elasticsearch cluster health and status with the _cluster and _nodes APIs
+- `curl localhost:9200/_cluster/health`
+- `curl localhost:9200/_nodes/stats`
