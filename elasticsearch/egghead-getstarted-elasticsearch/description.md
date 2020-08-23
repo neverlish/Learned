@@ -27,6 +27,11 @@
 
 
 ## 06 Paginate through search results in Elasticsearch
-
-
 - `curl -s localhost:9200/simpsons/episode/_search\?size=5 | jq .`
+- `curl -s localhost:9200/simpsons/episode/_search\?size=5&from=5 | jq .`
+
+
+## 07 Search Elasticsearch using Query Parameters
+- `curl -s localhost:9200/_all/episode/_search\?q=title:Homer | jq .`
+- `curl -s localhost:9200/_all/episode/_search\?q=%2Btitle%3AHomer+%2Bseason%3A5 | jq .` # q=+title:Homer++season:5
+- `curl -s localhost:9200/_all/episode/_search\?q=%2Btitle%3A%28Homer%2BBart%29+%2Bimdb_rating%3A%3E8 | jq .` # q=+title:(Homer+Bart)++imdb_rating:>8
