@@ -17,3 +17,10 @@
 
 - `curl -XPOST -d '{"script": "ctx._source.views += 1"}' localhost:9200/egghead/lessons/3/_update -H 'Content-Type: application/json'`
 
+
+## 05 Search for data in Elasticsearch using the _search endpoint
+- `curl -s localhost:9200/_search | jq .`
+- `curl -s localhost:9200/simpsons/_search | jq .`
+- `curl -s localhost:9200/simpsons,egghead/_search | jq .`
+- `curl -s localhost:9200/s\*,e\*,egghead/_search | jq .`
+- `curl -s localhost:9200/simpsons/episode/_search | jq .`
