@@ -84,3 +84,78 @@
       }
   }
   ```
+
+
+## 09 Search for data in Elasticsearch using full text search
+- `curl -s localhost:9200/_search\?q=homer | jq .`
+
+- POST `localhost:9200/simpsons/_search`
+
+  -
+  ```
+  {
+      "query": {
+          "match": {
+              "spoken_words": "makes me laugh"
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "match_phrase": {
+              "spoken_words": "makes me laugh"
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "multi_match": {
+              "query": "homer simpson",
+              "fields": [
+                  "spoken_words",
+                  "raw_character_text"
+              ]
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "query_string": {
+              "fields": ["spoken_words"],
+              "query": "homer OR donut"
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "query_string": {
+              "fields": ["spoken_words"],
+              "query": "fri*"
+          }
+      }
+  }
+  ```
+  -
+  ```
+  {
+      "query": {
+          "query_string": {
+              "fields": ["spoken_words"],
+              "query": "dnout~"
+          }
+      }
+  }
+  ```
+  
