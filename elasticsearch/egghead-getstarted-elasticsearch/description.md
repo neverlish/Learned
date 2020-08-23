@@ -24,3 +24,9 @@
 - `curl -s localhost:9200/simpsons,egghead/_search | jq .`
 - `curl -s localhost:9200/s\*,e\*,egghead/_search | jq .`
 - `curl -s localhost:9200/simpsons/episode/_search | jq .`
+
+
+## 06 Paginate through search results in Elasticsearch
+
+
+- `curl -s localhost:9200/simpsons/episode/_search\?size=5 | jq .`
