@@ -279,3 +279,19 @@
       }
   }
   ```
+
+## 11 Create an index using the Elasticsearch API
+- PUT `localhost:9200/foo`
+  
+  -
+  ```
+  {
+      "settings": {
+          "index": {
+              "number_of_shards": 2,
+              "number_of_replicas": 1
+          }
+      }
+  }
+  ```
+- GET `localhost:9200/_cat/indices`
