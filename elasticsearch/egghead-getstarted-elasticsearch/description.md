@@ -35,3 +35,52 @@
 - `curl -s localhost:9200/_all/episode/_search\?q=title:Homer | jq .`
 - `curl -s localhost:9200/_all/episode/_search\?q=%2Btitle%3AHomer+%2Bseason%3A5 | jq .` # q=+title:Homer++season:5
 - `curl -s localhost:9200/_all/episode/_search\?q=%2Btitle%3A%28Homer%2BBart%29+%2Bimdb_rating%3A%3E8 | jq .` # q=+title:(Homer+Bart)++imdb_rating:>8
+
+
+## 08 Search for data in Elasticsearch using queryDSL language
+- POST `localhost:9200/simpsons/_search`
+  
+  -  
+  ```
+  {
+      "query": {
+          "match": {
+              "title": "Homer"
+          }
+      }
+  }
+  ```
+  - 
+  ```
+  {
+      "query": {
+          "bool": {
+              "must": {
+                  "match": { "title": "homer" }
+              },
+              "must_not": {
+                  "range": {
+                      "imdb_rating": { "gt": 8 }
+                  }
+              }
+          }
+      }
+  }
+  ```
+  - 
+  ```
+  {
+      "query": {
+          "bool": {
+              "must": {
+                  "match": { "title": "homer" }
+              },
+              "filter": { 
+                  "range": {
+                      "imdb_rating": { "gt": 4, "lt": 8 }
+                  } 
+              }
+          }
+      }
+  }
+  ```
