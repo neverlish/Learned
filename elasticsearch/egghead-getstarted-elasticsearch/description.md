@@ -10,3 +10,10 @@
 - `curl -XPUT -d '{"title": "Add data to elasticsearch", "summary": "Learn to index into elasticsearch", "views": 1000}' http://localhost:9200/egghead/lessons/3 -H 'Content-Type: application/json'`
 
 - `curl -XPOST -d '{"title": "Add some more data", "summary": "Lots of data to add", "views": 12}' http://localhost:9200/egghead/lessons -H 'Content-Type: application/json'`
+
+
+## 04 Update data in Elasticsearch
+- `curl -XPOST -d '{"doc" :{"views": 1001, "tags": ["elasticsearch"] } }' localhost:9200/egghead/lessons/3/_update -H 'Content-Type: application/json'`
+
+- `curl -XPOST -d '{"script": "ctx._source.views += 1"}' localhost:9200/egghead/lessons/3/_update -H 'Content-Type: application/json'`
+
