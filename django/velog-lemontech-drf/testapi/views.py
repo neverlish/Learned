@@ -9,3 +9,8 @@ from .task import send_email
 def send_test_email(requset):
     send_email.delay()
     return Response({"message": "ok"})
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def occur_error(request):
+    raise ValueError
