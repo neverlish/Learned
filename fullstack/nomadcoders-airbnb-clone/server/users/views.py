@@ -4,7 +4,6 @@ from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import FormView, DetailView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
-from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.base import ContentFile
 from django.contrib import messages
@@ -15,7 +14,6 @@ from . import forms, models, mixins
 class LoginView(mixins.LoggedOutOnlyView, FormView):
     template_name = "users/login.html"
     form_class = forms.LoginForm
-    success_url = reverse_lazy("core:home")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
@@ -25,6 +23,13 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
+
+    def get_success_url(self):
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
 
 
 def log_out(request):
@@ -49,6 +54,7 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
         user.verify_email()
         return super().form_valid(form)
 
+
 def complete_verification(request, key):
     try:
         user = models.User.objects.get(email_secret=key)
@@ -61,12 +67,14 @@ def complete_verification(request, key):
         pass
     return redirect(reverse("core:home"))
 
+
 def github_login(request):
     client_id = os.environ.get("GH_ID")
     redirect_uri = "http://127.0.0.1:8000/users/login/github/callback"
     return redirect(
         f"https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&scope=read:user"
     )
+
 
 class GithubException(Exception):
     pass
@@ -127,6 +135,7 @@ def github_callback(request):
     except GithubException as e:
         messages.error(request, e)
         return redirect(reverse("users:login"))
+
 
 def kakao_login(request):
     client_id = os.environ.get("KAKAO_ID")
@@ -190,12 +199,14 @@ def kakao_callback(request):
         messages.error(request, e)
         return redirect(reverse("users:login"))
 
+
 class UserProfileView(DetailView):
 
     model = models.User
     context_object_name = "user_obj"
 
-class UpdateProfileView(SuccessMessageMixin, UpdateView):
+
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"
@@ -223,8 +234,13 @@ class UpdateProfileView(SuccessMessageMixin, UpdateView):
         form.fields["first_name"].widget.attrs = {"placeholder": "First name"}
         return form
 
-class UpdatePasswordView(SuccessMessageMixin, PasswordChangeView):
 
+class UpdatePasswordView(
+    mixins.EmailLoginOnlyView,
+    mixins.LoggedInOnlyView,
+    SuccessMessageMixin,
+    PasswordChangeView,
+):
     template_name = "users/update-password.html"
     success_message = "Password Updated"
     
