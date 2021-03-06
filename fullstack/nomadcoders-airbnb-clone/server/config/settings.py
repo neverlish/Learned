@@ -154,3 +154,8 @@ EMAIL_FROM = "neverlish@gmail.com"
 # Auth
 
 LOGIN_URL = "/users/login/"
+
+
+# Locale
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
