@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from django_countries.fields import CountryField
 from core import models as core_models
+from cal import Calendar
 
 
 class AbstractItem(core_models.TimeStampedModel):
@@ -52,7 +53,8 @@ class Photo(core_models.TimeStampedModel):
 
     caption = models.CharField(max_length=80)
     file = models.ImageField(upload_to="room_photos")
-    room = models.ForeignKey("Room", related_name="photos", on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        "Room", related_name="photos", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.caption
@@ -81,9 +83,12 @@ class Room(core_models.TimeStampedModel):
     room_type = models.ForeignKey(
         "RoomType", related_name="rooms", on_delete=models.SET_NULL, null=True
     )
-    amenities = models.ManyToManyField("Amenity", related_name="rooms", blank=True)
-    facilities = models.ManyToManyField("Facility", related_name="rooms", blank=True)
-    house_rules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
+    amenities = models.ManyToManyField(
+        "Amenity", related_name="rooms", blank=True)
+    facilities = models.ManyToManyField(
+        "Facility", related_name="rooms", blank=True)
+    house_rules = models.ManyToManyField(
+        "HouseRule", related_name="rooms", blank=True)
 
     def __str__(self):
         return self.name
@@ -114,3 +119,8 @@ class Room(core_models.TimeStampedModel):
     def get_next_four_photos(self):
         photos = self.photos.all()[1:5]
         return photos
+
+    def get_calendars(self):
+        calendar = Calendar(2019, 11)
+        print(calendar.get_month())
+        return False
