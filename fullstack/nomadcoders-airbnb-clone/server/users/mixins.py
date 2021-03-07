@@ -20,7 +20,7 @@ class LoggedOutOnlyView(UserPassesTestMixin):
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
-        messages.error(self.request, "Can't go there")
+        messages.error(self.request, _("Can't go there"))
         return redirect("core:home")
 
 
