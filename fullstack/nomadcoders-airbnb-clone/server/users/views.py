@@ -1,5 +1,6 @@
 import os
 import requests
+from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import FormView, DetailView, UpdateView
@@ -270,5 +271,6 @@ def switch_hosting(request):
 def switch_language(request):
     lang = request.GET.get("lang", None)
     if lang is not None:
-        pass
-    return HttpResponse(status=200)
+        response = HttpResponse(200)
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response
