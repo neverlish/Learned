@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+
+.search-box {
+  transition: box-shadow 0.2s linear;
+}
+
+.nav_link {
+  @apply ml-6 border-b-2 border-white h-full flex items-center;
+  a {
+    @apply py-10 px-5;
+  }
+  &:hover {
+    @apply border-gray-600;
+  }
+}
+
+.btn {
+  @apply text-center rounded-sm py-5 font-light text-lg w-full;
+}
+
+.btn-link {
+  @apply text-center py-3 rounded-lg font-light text-lg w-full text-white bg-red-500;
+}
+
+input,
+textarea,
+select {
+  @apply rounded-sm py-5 font-light text-lg w-full text-left border border-gray-600 px-5;
+  &:focus {
+    @apply outline-none border-teal-500;
+  }
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+select {
+  height: 50px;
+}
+
+form {
+  .input {
+    @apply mb-3 w-full;
+    &.has_error {
+      input {
+        @apply bg-red-200 border-gray-600;
+        &:focus {
+          @apply border-gray-600;
+        }
+      }
+    }
+  }
+}
+
+@keyframes messageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  5% {
+    opacity: 1;
+    transform: translateY(50px);
+  }
+  95% {
+    opacity: 1;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+.message {
+  animation: messageFadeIn 5s ease-in-out forwards;
+  &.error {
+    @apply bg-red-600;
+  }
+  &.info {
+    @apply bg-blue-500;
+  }
+  &.success {
+    @apply bg-green-500;
+  }
+  &.warning {
+    @apply bg-yellow-400;
+  }
+}
+
+.border-section {
+  @apply border-b border-gray-400 pb-8 mt-8;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
+}
+
+.cal-number {
+  @apply w-full text-center rounded p-1 cursor-pointer;
+}
+
+@tailwind utilities;

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load is_booked on_favs i18n %}
+
+{% block page_title %}
+{{room.name}}
+{% endblock page_title %}
+
+{% block content %}
+
+  <div class="-mt-5 container max-w-full h-75vh flex mb-20">
+    <div class="h-full w-1/2 bg-center bg-cover" style="background-image:url({{room.first_photo}})"></div>
+    <div class="h-full w-1/2 flex flex-wrap">
+      {% for photo in room.get_next_four_photos %}
+        <div style="background-image:url({{photo.file.url}})" class="w-1/2 h-auto bg-cover bg-center border-gray-700 border"></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container mx-auto flex justify-around pb-56">
+    <div class="w-1/2">
+      <div class="flex justify-between">
+        <div class="mb-5">
+          <h4 class="text-3xl font-medium mb-px">{{room.name}}</h4>
+          <span class="text-gray-700 font-light">{{room.city}}</span>
+        </div>
+        <a href="{{room.host.get_absolute_url}}" class="flex flex-col items-center">
+          {% include "mixins/user_avatar.html" with user=room.host %}
+          <span class="mt-2 text-gray-500">{{room.host.first_name}}</span>
+        </a>
+      </div>
+      {% on_favs room as on_favs_boolean %}
+      {% if on_favs_boolean %}
+        <a class="block mb-10 w-2/6 text-teal-600 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=remove">{% trans "Remove from Favourites" %}</a>
+      {% else %}
+        <a class="block mb-10 w-2/6 text-teal-600 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=add">{% trans "Save to Favourites" %}</a>
+      {% endif %}
+
+      <div class="flex border-section">
+        <span class="mr-5 font-light">{{room.room_type}}</span>
+        <span class="mr-5 font-light">{{room.beds}} bed{{room.beds|pluralize}}</span>
+        <span class="mr-5 font-light">{{room.bedrooms}} bedroom{{room.bedrooms|pluralize}}</span>
+        <span class="mr-5 font-light">{{room.baths}} bath{{room.baths|pluralize}}</span>
+        <span class="mr-5 font-light">{{room.guests}} guest{{room.guests|pluralize}}</span>
+      </div>
+      <p class="border-section">
+        {{room.description}}
+      </p>
+      <div class="border-section">
+        <h4 class="font-medium text-lg mb-5">Amenities</h4>
+        {% for a in room.amenities.all %}
+          <li class="mb-2">{{a}}</li>
+        {% endfor %}
+      </div>
+      <div class="border-section">
+        <h4 class="font-medium text-lg mb-5">Facilities</h4>
+        {% for a in room.facilities.all %}
+          <li class="mb-2">{{a}}</li>
+        {% endfor %}
+      </div>
+      <div class="border-section">
+        <h4 class="font-medium text-lg mb-5">House Rules</h4>
+        {% for a in room.house_rules.all %}
+          <li class="mb-2">{{a}}</li>
+        {% endfor %}
+      </div>
+      <div class="mt-10">
+        <h4 class="font-medium text-2xl mb-5">Reviews</h4>
+        <div class="flex items-center">
+          <div>
+            <i class="fas fa-star text-teal-500"></i>
+            <span class="font-bold text-xl">{{room.total_rating}}</span>
+          </div>
+          <div class="h-4 w-px bg-gray-400 mx-5"></div>
+          <div>
+            <span class="font-bold text-xl">{{room.reviews.count}}</span>
+            <span>review{{room.reviews.count|pluralize}}</span>
+          </div>
+        </div>
+        <div class="mt-10">
+          {% for review in room.reviews.all  %}
+            <div class="border-section">
+              <div class="mb-3 flex">
+                <div>
+                  {% include "mixins/user_avatar.html" with user=review.user h_and_w='w-10 h-10' text='text-xl' %}
+                </div>
+                <div class="flex flex-col ml-5">
+                  <span class="font-medium">{{review.user.first_name}}</span>
+                  <span class="text-sm text-gray-500">{{review.created|date:'F Y'}}</span>
+                </div>
+              </div>
+              <p>{{review.review}}</p>
+            </div>
+          {% endfor %}    
+        </div>
+      </div>
+    </div>
+    <div class="w-1/3">
+      {% if room.host == user %}
+        <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block">Edit Room</a>
+      {% else %}
+        {% if not request.session.is_hosting %}
+          {% for calendar in room.get_calendars %}
+          <div class="mb-20">
+            <span class="text-center font-semibold text-lg block mb-8">{{calendar.get_month}} / {{calendar.year}}</span>
+            <div class="cal-grid font-medium mb-4">
+              {% for day in calendar.day_names  %}
+                <span>{{day}}</span>
+              {% endfor %}
+            </div>
+            <div class="cal-grid">
+              {% for day in calendar.get_days  %}
+                {% is_booked room day as is_booked_bool %}
+                {% if day.number != 0 %}
+                  {% if day.past %}
+                    <span class="cal-number bg-gray-200 text-gray-400">{{day}}</span>
+                  {% elif is_booked_bool %}
+                    <span class="cal-number bg-gray-200 text-gray-400 line-through">{{day}}</span>
+                  {% else %}
+                    <a href="{% url 'reservations:create' room.pk day.year day.month day.number %}" class="cal-number bg-gray-200 text-gray-700 hover:bg-teal-400 hover:text-white hover:font-medium">{{day}}</a>
+                  {% endif %}
+
+                {% else %}
+                  <span></span>
+                {% endif %}
+
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
