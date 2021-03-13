@@ -15,7 +15,7 @@ django-countries = "*"
 django-seed = "*"
 django-dotenv = "*"
 requests = "*"
-
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"
