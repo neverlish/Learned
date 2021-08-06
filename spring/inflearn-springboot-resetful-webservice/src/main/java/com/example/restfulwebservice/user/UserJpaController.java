@@ -56,4 +56,15 @@ public class UserJpaController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @GetMapping("/users/{id}/posts")
+    public List<Post> retrieveAllPostsByUser(@PathVariable int id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (!user.isPresent()) {
+            throw new UserNotFoundException(String.format("ID{%s} not found", id));
+        }
+
+        return user.get().getPosts();
+    }
 }
