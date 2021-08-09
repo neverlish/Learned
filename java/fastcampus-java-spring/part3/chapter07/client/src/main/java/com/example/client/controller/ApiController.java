@@ -1,5 +1,6 @@
 package com.example.client.controller;
 
+import com.example.client.dto.Req;
 import com.example.client.dto.UserResponse;
 import com.example.client.service.RestTemplateService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ public class ApiController {
     }
 
     @GetMapping("/hello")
-    public UserResponse getHello() {
-        return restTemplateService.post();
+    public Req<UserResponse> getHello() {
+        return restTemplateService.genericExchange();
     }
 }
