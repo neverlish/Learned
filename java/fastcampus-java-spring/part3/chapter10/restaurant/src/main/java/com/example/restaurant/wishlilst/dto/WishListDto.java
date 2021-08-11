@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WishListDto  {
-    private int index;
+    private Integer index;
     private String title;
     private String category;
     private String address;
