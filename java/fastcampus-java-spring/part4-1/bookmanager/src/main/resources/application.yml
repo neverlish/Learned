@@ -2,3 +2,9 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
