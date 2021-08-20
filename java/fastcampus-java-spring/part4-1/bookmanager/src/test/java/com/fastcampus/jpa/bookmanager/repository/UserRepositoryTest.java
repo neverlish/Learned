@@ -1,6 +1,7 @@
 package com.fastcampus.jpa.bookmanager.repository;
 
 import com.fastcampus.jpa.bookmanager.domain.User;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,5 +53,16 @@ class UserRepositoryTest {
         System.out.println("findByCreatedAtBetween : " + userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1)));
         System.out.println("findByIdBetween : " + userRepository.findByIdBetween(1L, 3L));
         System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : " + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
+
+        System.out.println("findByIdIsNotNull : " + userRepository.findByIdIsNotNull());
+//        System.out.println("findByAddressIsNotEmpty : " + userRepository.findByAddressIsNotEmpty());
+
+        System.out.println("findByNameIn : " + userRepository.findByNameIn(Lists.newArrayList("martin", "dennis")));
+
+        System.out.println("findByNameStartingWith : " + userRepository.findByNameStartingWith("mar"));
+        System.out.println("findByNameEndingWith : " + userRepository.findByNameEndingWith("tin"));
+        System.out.println("findByNameContains : " + userRepository.findByNameContains("art"));
+
+        System.out.println("findByNameLike : " + userRepository.findByNameLike("%art%"));
     }
 }
