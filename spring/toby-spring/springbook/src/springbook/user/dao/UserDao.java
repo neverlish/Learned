@@ -4,10 +4,15 @@ import springbook.user.domain.User;
 
 import java.sql.*;
 
-public abstract class UserDao {
+public class UserDao {
+    private SimpleConnectionMaker simpleConnectionMaker;
+
+    public UserDao() {
+        simpleConnectionMaker = new SimpleConnectionMaker();
+    }
 
     public void add(User user) throws SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "insert into users(id, name, password) values (?, ?, ?)"
@@ -23,7 +28,7 @@ public abstract class UserDao {
     }
 
     public User get(String id) throws SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from users where id = ?"
@@ -44,36 +49,22 @@ public abstract class UserDao {
         return user;
     }
 
-    public abstract Connection getConnection() throws SQLException;
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        UserDao dao = new UserDao();
 
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//        UserDao dao = new UserDao();
-//
-//        User user = new User();
-//        user.setId("whiteship");
-//        user.setName("백기선");
-//        user.setPassword("married");
-//
-//        dao.add(user);
-//
-//        System.out.println(user.getId() + " 등록 성공");
-//
-//        User user2 = dao.get(user.getId());
-//        System.out.println(user2.getName());
-//        System.out.println(user2.getPassword());
-//
-//        System.out.println(user2.getId() + " 조회 성공");
-//    }
-}
+        User user = new User();
+        user.setId("whiteship");
+        user.setName("백기선");
+        user.setPassword("married");
 
-class NUSerDao extends UserDao {
-    public Connection getConnection() throws SQLException {
-        // N 사 DB connection
-    }
-}
+        dao.add(user);
 
-class DUSerDao extends UserDao {
-    public Connection getConnection() throws SQLException {
-        // N 사 DB connection
+        System.out.println(user.getId() + " 등록 성공");
+
+        User user2 = dao.get(user.getId());
+        System.out.println(user2.getName());
+        System.out.println(user2.getPassword());
+
+        System.out.println(user2.getId() + " 조회 성공");
     }
 }
