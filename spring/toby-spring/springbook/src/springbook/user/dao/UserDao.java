@@ -4,7 +4,7 @@ import springbook.user.domain.User;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
 
     public void add(User user) throws SQLException {
         Connection c = getConnection();
@@ -44,29 +44,36 @@ public class UserDao {
         return user;
     }
 
-    private Connection getConnection() throws SQLException {
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/springbook", "root", ""
-        );
-        return c;
+    public abstract Connection getConnection() throws SQLException;
+
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//        UserDao dao = new UserDao();
+//
+//        User user = new User();
+//        user.setId("whiteship");
+//        user.setName("백기선");
+//        user.setPassword("married");
+//
+//        dao.add(user);
+//
+//        System.out.println(user.getId() + " 등록 성공");
+//
+//        User user2 = dao.get(user.getId());
+//        System.out.println(user2.getName());
+//        System.out.println(user2.getPassword());
+//
+//        System.out.println(user2.getId() + " 조회 성공");
+//    }
+}
+
+class NUSerDao extends UserDao {
+    public Connection getConnection() throws SQLException {
+        // N 사 DB connection
     }
+}
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao();
-
-        User user = new User();
-        user.setId("whiteship");
-        user.setName("백기선");
-        user.setPassword("married");
-
-        dao.add(user);
-
-        System.out.println(user.getId() + " 등록 성공");
-
-        User user2 = dao.get(user.getId());
-        System.out.println(user2.getName());
-        System.out.println(user2.getPassword());
-
-        System.out.println(user2.getId() + " 조회 성공");
+class DUSerDao extends UserDao {
+    public Connection getConnection() throws SQLException {
+        // N 사 DB connection
     }
 }
