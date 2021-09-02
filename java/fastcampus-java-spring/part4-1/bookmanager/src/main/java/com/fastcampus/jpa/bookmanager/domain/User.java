@@ -4,6 +4,8 @@ import com.fastcampus.jpa.bookmanager.domain.listener.UserEntityListener;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -44,4 +46,8 @@ public class User extends BaseEntity {
 //    public void preUpdate() {
 //        this.updatedAt = LocalDateTime.now();
 //    }
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    public List<UserHistory> userHistories = new ArrayList<>();
 }
