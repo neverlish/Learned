@@ -22,8 +22,20 @@ public class User {
     private String name;
     @NonNull
     private String email;
+
+    @Enumerated 
+    private Gender gender;
+
+//    @Column(name = "crtdat")
+//    @Column(nullable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
+
+//    @Column(insertable = false)
     private LocalDateTime updatedAt;
+
+    @Transient
+    private String testData;
 
 //    @OneToMany(fetch = FetchType.EAGER)
 //    private List<Address> address;
