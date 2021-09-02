@@ -1,4 +1,4 @@
-package com.fastcampus.jpa.bookmanager.domain;
+package com.fastcampus.jpa.bookmanager.domain.listener;
 
 import java.time.LocalDateTime;
 

@@ -1,10 +1,9 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
+import com.fastcampus.jpa.bookmanager.domain.listener.UserEntityListener;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +11,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 @Entity
-@EntityListeners(value = MyEntityListener.class)
-//@Table(name = "user", indexes = { @Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User implements Auditable {
+//@EntityListeners(value = { MyEntityListener.class, UserEntityListener.class })
+@EntityListeners(value = { UserEntityListener.class })
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,14 +26,6 @@ public class User implements Auditable {
 
     @Enumerated
     private Gender gender;
-
-//    @Column(name = "crtdat")
-//    @Column(nullable = false)
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-//    @Column(insertable = false)
-    private LocalDateTime updatedAt;
 
     @Transient
     private String testData;

@@ -1,22 +1,26 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
-import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Book extends BaseEntity {
+public class UserHistory extends BaseEntity  {
+
     @Id
     @GeneratedValue
     private Long id;
 
+    private Long userId;
+
     private String name;
 
-    private String author;
+    private String email;
 }
