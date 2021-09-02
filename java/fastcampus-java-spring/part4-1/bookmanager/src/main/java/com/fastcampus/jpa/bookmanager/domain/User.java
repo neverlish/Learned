@@ -14,9 +14,10 @@ import javax.persistence.*;
 //@EntityListeners(value = { MyEntityListener.class, UserEntityListener.class })
 @EntityListeners(value = { UserEntityListener.class })
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
