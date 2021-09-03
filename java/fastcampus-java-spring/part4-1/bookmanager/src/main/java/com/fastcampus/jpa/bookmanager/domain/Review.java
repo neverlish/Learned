@@ -7,22 +7,26 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Data
 @ToString(callSuper = true)
-public class UserHistory extends BaseEntity  {
+@EqualsAndHashCode(callSuper = true)
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
-    private String email;
+    private String content;
+
+    private Float score;
 
     @ManyToOne
-    @ToString.Exclude
     private User user;
+
+    @ManyToOne
+    private Book book;
 }
