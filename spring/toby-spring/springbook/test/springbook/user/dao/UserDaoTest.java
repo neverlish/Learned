@@ -26,10 +26,14 @@ public class UserDaoTest {
         user.setPassword("springno1");
 
         dao.add(user);
+        assertThat(dao.getCount(), is(1));
         
         User user2 = dao.get(user.getId());
         assertThat(user2.getName(), is(user.getName()));
         assertThat(user2.getPassword(), is(user.getPassword()));
+
+        dao.deleteAll();
+        assertThat(dao.getCount(), is(0));
     }
 
     public static void main(String[] args) {
