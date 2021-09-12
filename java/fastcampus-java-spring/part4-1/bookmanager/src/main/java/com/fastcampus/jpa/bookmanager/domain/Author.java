@@ -20,6 +20,7 @@ public class Author extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Transient
     private String name;
 
     private String country;
