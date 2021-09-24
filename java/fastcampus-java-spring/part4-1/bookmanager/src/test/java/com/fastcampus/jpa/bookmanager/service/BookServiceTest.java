@@ -21,7 +21,7 @@ class BookServiceTest {
     void transactionTest() {
         try {
             bookService.putBookAndAuthor();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println(">>> " + e.getMessage());
         }
 

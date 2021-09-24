@@ -14,8 +14,12 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
+//    public void put() { // 요렇게 할 경우  putBookAndAuthor 의 Transactional이 무시됨
+//        this.putBookAndAuthor();
+//    }
+
     @Transactional
-    public void putBookAndAuthor() throws Exception {
+    public void putBookAndAuthor() {
         Book book = new Book();
         book.setName("JPA  시작하기");
 
@@ -26,6 +30,6 @@ public class BookService {
 
         authorRepository.save(author);
 
-        throw new Exception("오류가 나서 db commit이 발생하지 않습니다.");
+        throw new RuntimeException("오류가 나서 db commit이 발생하지 않습니다.");
     }
 }
