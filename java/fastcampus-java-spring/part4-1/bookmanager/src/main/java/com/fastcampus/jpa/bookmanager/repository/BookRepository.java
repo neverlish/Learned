@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
@@ -17,4 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByDeletedFalse();
 
     List<Book> findByCategoryIsNullAndDeletedFalse();
+
+    List<Book> findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual(String name, LocalDateTime createdAt, LocalDateTime updatedAt);
 }
