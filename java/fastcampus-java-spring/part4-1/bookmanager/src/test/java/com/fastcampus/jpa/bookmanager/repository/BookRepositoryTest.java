@@ -7,6 +7,7 @@ import com.fastcampus.jpa.bookmanager.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -116,9 +117,17 @@ public class BookRepositoryTest {
 
         System.out.println(bookRepository.findBookNamdAndCategory());
 
-        bookRepository.findBookNamdAndCategory().forEach(tuple -> {
-            System.out.println(tuple.get(0) + " : " + tuple.get(1));
+        bookRepository.findBookNamdAndCategory().forEach(b -> {
+            System.out.println(b.getName() + " : " + b.getCategory());
         });
+
+        bookRepository.findBookNamdAndCategory(PageRequest.of(1, 1)).forEach(
+            bookNameAndCategory -> System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory())
+        );
+
+        bookRepository.findBookNamdAndCategory(PageRequest.of(0, 1)).forEach(
+                bookNameAndCategory -> System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory())
+        );
     }
 
     @Test
