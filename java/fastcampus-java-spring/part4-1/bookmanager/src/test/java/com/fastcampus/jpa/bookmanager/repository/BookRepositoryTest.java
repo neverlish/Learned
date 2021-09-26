@@ -106,6 +106,19 @@ public class BookRepositoryTest {
                     LocalDateTime.now().minusDays(1L),
                     LocalDateTime.now().minusDays(1L)
             ));
+
+        System.out.println("findByNameRecently : " +
+                bookRepository.findByNameRecently(
+                        "JPA 초격차 패키지",
+                        LocalDateTime.now().minusDays(1L),
+                        LocalDateTime.now().minusDays(1L)
+                ));
+
+        System.out.println(bookRepository.findBookNamdAndCategory());
+
+        bookRepository.findBookNamdAndCategory().forEach(tuple -> {
+            System.out.println(tuple.get(0) + " : " + tuple.get(1));
+        });
     }
 
     @Test
