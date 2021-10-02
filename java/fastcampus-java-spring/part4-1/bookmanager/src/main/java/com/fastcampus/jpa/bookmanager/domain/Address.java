@@ -1,10 +1,23 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
-    @Id
-    private String id;
+    public String city;
+
+    private String district;
+
+    @Column(name = "address_detail")
+    private String detail;
+
+    private String zipCode;
 }
