@@ -16,3 +16,6 @@ spring:
     username: root
     password:
     initialization-mode: always
+logging:
+  level:
+    root: trace
