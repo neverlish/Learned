@@ -7,7 +7,11 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
+import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,7 +32,11 @@ public class UserDaoTest {
     @Autowired
     private ApplicationContext context;
 
+    @Autowired
     private UserDao dao;
+
+    @Autowired
+    private DataSource dataSource;
 
     private User user1;
     private User user2;
@@ -110,6 +118,28 @@ public class UserDaoTest {
         checkSameUser(user1, users3.get(1));
         checkSameUser(user2, users3.get(2));
 
+    }
+
+    @Test(expected = DataAccessException.class)
+    public void duplicateKey() {
+        dao.deleteAll();
+
+        dao.add(user1);
+        dao.add(user1);
+    }
+
+    @Test
+    public void sqlExceptionTranslate() {
+        dao.deleteAll();
+
+        try {
+            dao.add(user1);
+            dao.add(user1);
+        } catch (DuplicateKeyException ex) {
+            SQLException sqlEx = (SQLException) ex.getRootCause();
+            SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);
+            assertThat(set.translate(null, null, sqlEx), is(DuplicateKeyException.class));
+        }
     }
 
     private void checkSameUser(User user1, User user2) {
