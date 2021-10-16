@@ -46,4 +46,10 @@ public class HomeController {
     public String adminPage(){
         return "AdminPage";
     }
+
+    @ResponseBody
+    @GetMapping("/auth")
+    public Authentication auth(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 }
