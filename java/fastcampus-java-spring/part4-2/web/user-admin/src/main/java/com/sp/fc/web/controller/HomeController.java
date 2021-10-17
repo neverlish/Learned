@@ -21,8 +21,13 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "loginForm";
+    }
+
+    @GetMapping("/login-required")
+    public String loginRequired() {
+        return "loginRequired";
     }
 
     @GetMapping("/login-error")
@@ -31,16 +36,22 @@ public class HomeController {
         return "loginForm";
     }
 
-
-
     @GetMapping("/access-denied")
     public String accessDenied(){
         return "AccessDenied";
     }
 
+    @GetMapping("/access-denied2")
+    public String accessDenied2(){
+        return "AccessDenied2";
+    }
+
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @GetMapping("/user-page")
-    public String userPage(){
+    public String userPage() throws YouCannotAccessUserPage {
+        if (true) {
+            throw new YouCannotAccessUserPage();
+        }
         return "UserPage";
     }
 

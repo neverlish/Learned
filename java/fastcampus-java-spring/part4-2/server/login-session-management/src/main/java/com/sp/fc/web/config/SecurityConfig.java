@@ -112,6 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(request->
                     request.antMatchers("/").permitAll()
+                            .antMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                 )
                 .formLogin(login->
@@ -123,7 +124,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout(logout->
                         logout.logoutSuccessUrl("/"))
                 .exceptionHandling(error->
-                        error.accessDeniedPage("/access-denied")
+                        error
+//                                .accessDeniedPage("/access-denied")
+                                .accessDeniedHandler(new CustomDeniedHandler())
+                                .authenticationEntryPoint(new CustomEntryPoint())
                 )
                 .rememberMe(r->r
                         .rememberMeServices(rememberMeServices())
