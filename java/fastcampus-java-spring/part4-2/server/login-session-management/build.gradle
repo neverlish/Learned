@@ -1,0 +1,14 @@
+
+apply from: "../web-common.gradle"
+
+dependencies {
+
+    implementation("$boot:spring-boot-starter-data-jpa")
+
+    implementation("com.h2database:h2")
+
+    implementation project(":comp-user-admin")
+    implementation project(":web-user-admin")
+}
+
+
