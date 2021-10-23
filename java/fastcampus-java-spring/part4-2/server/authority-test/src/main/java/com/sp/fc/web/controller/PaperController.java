@@ -30,10 +30,16 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
+    @Secured({"ROLE_USER","RUN_AS_PRIMARY"})
+    @GetMapping("/allpapers")
+    public List<Paper> allpapers(@AuthenticationPrincipal User user){
+        return paperService.getAllPapers();
+    }
+
     @CustomSecurityTag("SCHOOL_PRIMARY")
     @GetMapping("/getPapersByPrimary")
     public List<Paper> getPapersByPrimary(@AuthenticationPrincipal User user){
-        return paperService.getAllPapers(user.getUsername());
+        return paperService.getAllPapers();
     }
 
     @PostAuthorize("returnObject.studentIds.contains(principal.username)")
@@ -41,5 +47,6 @@ public class PaperController {
     public Paper getPaper(@AuthenticationPrincipal User user, @PathVariable Long paperId){
         return paperService.getPaper(paperId);
     }
+
 
 }
