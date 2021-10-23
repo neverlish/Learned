@@ -1,6 +1,7 @@
 package com.sp.fc.web.controller;
 
 
+import com.sp.fc.web.config.CustomSecurityTag;
 import com.sp.fc.web.service.Paper;
 import com.sp.fc.web.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
-    @Secured({"SCHOOL_PRIMARY"})
+    @CustomSecurityTag("SCHOOL_PRIMARY")
     @GetMapping("/getPapersByPrimary")
     public List<Paper> getPapersByPrimary(@AuthenticationPrincipal User user){
         return paperService.getAllPapers(user.getUsername());

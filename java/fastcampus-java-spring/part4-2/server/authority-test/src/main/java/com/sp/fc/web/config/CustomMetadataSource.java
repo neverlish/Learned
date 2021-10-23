@@ -2,10 +2,13 @@ package com.sp.fc.web.config;
 
 import com.sp.fc.web.controller.PaperController;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.access.method.MethodSecurityMetadataSource;
+import org.springframework.util.ClassUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
@@ -13,8 +16,9 @@ import java.util.List;
 public class CustomMetadataSource implements MethodSecurityMetadataSource {
     @Override
     public Collection<ConfigAttribute> getAttributes(Method method, Class<?> targetClass) {
-        if (method.getName().equals("getPapersByPrimary") && targetClass == PaperController.class) {
-            return List.of(new SecurityConfig("SCHOOL_PRIMARY"));
+        CustomSecurityTag annotation = findAnnotation(method, targetClass, CustomSecurityTag.class);
+        if (annotation != null) {
+            return List.of(new SecurityConfig(annotation.value()));
         }
         return null;
     }
@@ -32,5 +36,14 @@ public class CustomMetadataSource implements MethodSecurityMetadataSource {
     @Override
     public boolean supports(Class<?> clazz) {
         return MethodInvocation.class.isAssignableFrom(clazz);
+    }
+
+    private <A extends Annotation> A findAnnotation(Method method, Class<?> targetClass, Class<A> annotationClass) {
+        Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
+        A annotation = AnnotationUtils.findAnnotation(specificMethod, annotationClass);
+        if (annotation != null) {
+            return annotation;
+        }
+        return annotation;
     }
 }
