@@ -20,6 +20,7 @@ public class CustomVoter implements AccessDecisionVoter<MethodInvocation> {
 
     @Override
     public int vote(Authentication authentication, MethodInvocation object, Collection<ConfigAttribute> attributes) {
+
         return ACCESS_GRANTED;
     }
 }

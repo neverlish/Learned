@@ -1,5 +1,6 @@
 package com.sp.fc.web.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import java.util.Collection;
 
@@ -23,19 +25,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser(
                         User.withDefaultPasswordEncoder()
-                            .username("user1")
-                            .password("1111")
-                            .roles("USER")
+                        .username("user1")
+                        .password("1111")
+                        .roles("USER", "STUDENT")
+                )
+                .withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("user2")
+                                .password("1111")
+                                .roles("USER", "STUDENT")
+                )
+                .withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("tutor1")
+                                .password("1111")
+                                .roles("USER", "TUTOR")
                 )
                 ;
     }
 
-    AccessDecisionManager filterAccessDecisionManager() {
+    FilterSecurityInterceptor filterSecurityInterceptor;
+
+    AccessDecisionManager filterAccessDecisionManager(){
         return new AccessDecisionManager() {
             @Override
             public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-//                throw new AccessDeniedException("접근 금지");
-                return;
+                throw new AccessDeniedException("접근 금지");
+//                return;
             }
 
             @Override
@@ -50,16 +66,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    @Autowired
+    private NameCheck nameCheck;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .httpBasic().and()
                 .authorizeRequests(
-                        authority -> authority
-                                .mvcMatchers("/greeting").hasRole("USER")
+                        authority->authority
+                                .mvcMatchers("/greeting/{name}")
+                                    .access("@nameCheck.check(#name)")
                                 .anyRequest().authenticated()
-                                .accessDecisionManager(filterAccessDecisionManager())
-                );
+//                        .accessDecisionManager(filterAccessDecisionManager())
+                )
+                ;
     }
 }
