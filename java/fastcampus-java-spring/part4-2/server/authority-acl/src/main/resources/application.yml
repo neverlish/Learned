@@ -1,0 +1,23 @@
+server:
+  port: 9059
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/acldemo2?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+    jdbc-url: jdbc:mysql://localhost:3306/acldemo2?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true

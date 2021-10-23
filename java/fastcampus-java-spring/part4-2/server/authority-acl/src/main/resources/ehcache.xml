@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         maxBytesLocalHeap="300M"
+         updateCheck="false">
+
+    <diskStore path="java.io.tmpdir" />
+    <sizeOfPolicy maxDepth="100000" maxDepthExceededBehavior="continue" />
+    <defaultCache
+            eternal="false"
+            timeToIdleSeconds="0"
+            timeToLiveSeconds="1200"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+    <cache name="papers"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+</ehcache>
