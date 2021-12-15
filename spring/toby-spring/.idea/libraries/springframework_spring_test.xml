@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="springframework.spring.test" type="repository">
+    <properties maven-id="org.springframework:spring-test:3.0.6.RELEASE" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/3.0.6.RELEASE/spring-test-3.0.6.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
