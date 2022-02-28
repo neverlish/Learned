@@ -17,6 +17,7 @@
     "expo-asset": "^8.4.6",
     "expo-blur": "^11.0.0",
     "expo-font": "^10.0.4",
+    "expo-linear-gradient": "^11.0.3",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
