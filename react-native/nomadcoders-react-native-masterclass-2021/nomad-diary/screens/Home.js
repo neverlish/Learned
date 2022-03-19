@@ -5,13 +5,14 @@ import colors from "../colors";
 
 const View = styled.View`
   flex: 1;
-  padding: 0px 50px;
+  padding: 0px 30px;
   padding-top: 100px;
   background-color: ${colors.bgColor};
 `;
 const Title = styled.Text`
   color: ${colors.textColor};
   font-size: 38px;
+  font-weight: 500;
   margin-bottom: 100px;
 `;
 const Btn = styled.TouchableOpacity`
@@ -25,7 +26,7 @@ const Btn = styled.TouchableOpacity`
   align-items: center;
   background-color: ${colors.btnColor};
   elevation: 5;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 3px rgba(41, 30, 95, 0.2);
 `;
 
 const Home = ({ navigation: { navigate } }) => (
