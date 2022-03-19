@@ -67,6 +67,8 @@ export default function App() {
     toValue: -500,
     tension: 5,
     useNativeDriver: true,
+    restDisplacementThreshold: 100,
+    restSpeedThreshold: 100,
   });
   const goRight = Animated.spring(position, {
     toValue: 500,
@@ -95,8 +97,8 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const onDismiss = () => {
     scale.setValue(1);
-    position.setValue(0);
     setIndex((prev) => prev + 1);
+    position.setValue(0);
     // Animated.timing(position, { toValue: 0, useNativeDriver: true }).start();
   }
   const closePress = () => {
