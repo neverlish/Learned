@@ -69,17 +69,21 @@ const Write = ({ navigation: { goBack }}) => {
     if (feelings === "" || selectedEmotion == null) {
       return Alert.alert("Please complete form.");
     }
-    realm.write(() => {
-      realm.create("Feeling", {
-        _id: Date.now(),
-        emotion: selectedEmotion,
-        message: feelings,
-      });
-    });
     await AdMobRewarded.setAdUnitID("ca-app-pub-3940256099942544/1712485313");
     await AdMobRewarded.requestAdAsync();
     await AdMobRewarded.showAdAsync();
-    // goBack();
+    AdMobRewarded.addEventListener("rewardedVideoUserDidEarnReward", () => {
+      AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
+        realm.write(() => {
+          realm.create("Feeling", {
+            _id: Date.now(),
+            emotion: selectedEmotion,
+            message: feelings,
+          });
+        });
+        goBack();
+      });
+    });
   };
   return (
     <View>
