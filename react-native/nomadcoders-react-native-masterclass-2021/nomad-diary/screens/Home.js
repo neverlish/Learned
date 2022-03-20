@@ -56,7 +56,7 @@ const Home = ({ navigation: { navigate } }) => {
   const [feelings, setFeelings] = useState([]);
   useEffect(() => {
     const feelings = realm.objects("Feeling");
-    feelings.addListener((feelings, changes) => {
+    feelings.addListener((feelings) => {
       LayoutAnimation.spring();
       setFeelings(feelings.sorted("_id", true));
     });

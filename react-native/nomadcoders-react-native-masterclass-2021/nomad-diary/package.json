@@ -14,6 +14,7 @@
     "@types/styled-components": "^5.1.24",
     "@types/styled-components-react-native": "^5.1.3",
     "expo": "~44.0.2",
+    "expo-ads-admob": "~12.0.0",
     "expo-app-loading": "^1.3.0",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
