@@ -14,6 +14,7 @@
     "@types/styled-components": "^5.1.24",
     "@types/styled-components-react-native": "^5.1.3",
     "expo": "~44.0.2",
+    "expo-app-loading": "^1.3.0",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
@@ -22,6 +23,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1",
+    "realm": "^10.13.0",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
