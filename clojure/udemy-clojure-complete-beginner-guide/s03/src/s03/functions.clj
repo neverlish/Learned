@@ -24,7 +24,9 @@
   (def e nil)
   (def f true)
   (def g "Hello")
-  (def h 'thanks)
+
+  (def status true)
+  (def STATUS false)
 
   (println a)
   (println b)
@@ -33,4 +35,5 @@
   (println e)
   (println f)
   (println g)
-  (println h))
+  (println status)
+  (println STATUS))
