@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import NumberContainer from '../components/game/NumberContainer';
 import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
@@ -27,6 +27,7 @@ function GameScreen({ userNumber, onGameOver }) {
     userNumber
   );
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
@@ -63,6 +64,7 @@ function GameScreen({ userNumber, onGameOver }) {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
+    setGuessRounds(prevGuessRounds => [newRndNumber, ...prevGuessRounds]);
   }
 
   return (
@@ -81,11 +83,14 @@ function GameScreen({ userNumber, onGameOver }) {
           </View>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
-            <Ionicons name='md-add' size={24} color='white' />
+              <Ionicons name='md-add' size={24} color='white' />
             </PrimaryButton>
           </View>
         </View>
       </Card>
+      <View>
+        {guessRounds.map(guessRound => <Text key={guessRound}>{guessRound}</Text>)}
+      </View>
     </View>
   );
 }
