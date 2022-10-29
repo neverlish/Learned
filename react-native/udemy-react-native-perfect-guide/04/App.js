@@ -1,3 +1,5 @@
+
+
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -27,8 +29,9 @@ export default function App() {
     setUserNumber(pickedNumber);
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(numberOfRounds) {
     setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
   }
 
   function startNewGameHandler() {
@@ -72,4 +75,3 @@ const styles = StyleSheet.create({
     opacity: 0.15,
   },
 });
-Footer
