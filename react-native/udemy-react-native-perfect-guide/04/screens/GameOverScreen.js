@@ -1,9 +1,11 @@
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
 import Colors from "../constants/colors";
 
 function GameOverScreen({ roundsNumber, userNumber, onStartNewGame }) {
+  const { width, height } = useWindowDimensions();
+
   return (
     <View style={styles.rootContainer}>
       <Title>GAME OVER!</Title>
@@ -25,7 +27,7 @@ function GameOverScreen({ roundsNumber, userNumber, onStartNewGame }) {
 
 export default GameOverScreen;
 
-const deviceWidth = Dimensions.get('window').width;
+// const deviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   rootContainer: {
