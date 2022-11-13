@@ -15,15 +15,15 @@ function ManageExpense({ route, navigation }) {
   }, [navigation, isEditing]);
 
   function deleteExpenseHandler() {
-
+    navigation.goBack();
   }
 
   function cancelHandler() {
-
+    navigation.goBack();
   }
 
   function confirmHandler() {
-
+    navigation.goBack();
   }
 
   return <View style={styles.container}>
