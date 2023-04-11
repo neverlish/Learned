@@ -1,6 +1,7 @@
 package com.example.productorderservice.order;
 
 import com.example.productorderservice.ApiTest;
+import com.example.productorderservice.order.application.service.CreateOrderRequest;
 import com.example.productorderservice.product.ProductSteps;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

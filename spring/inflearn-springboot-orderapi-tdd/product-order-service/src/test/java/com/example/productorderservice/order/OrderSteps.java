@@ -1,5 +1,6 @@
 package com.example.productorderservice.order;
 
+import com.example.productorderservice.order.application.service.CreateOrderRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

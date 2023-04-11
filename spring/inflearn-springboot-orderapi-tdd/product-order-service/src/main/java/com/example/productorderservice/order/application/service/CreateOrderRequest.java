@@ -1,9 +1,9 @@
-package com.example.productorderservice.order;
+package com.example.productorderservice.order.application.service;
 
 import org.springframework.util.Assert;
 
-record CreateOrderRequest(Long productId, int quantity) {
-    CreateOrderRequest(Long productId, int quantity) {
+public record CreateOrderRequest(Long productId, int quantity) {
+    public CreateOrderRequest(Long productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
         Assert.notNull(productId, "상품 ID는 필수 입니다.");
