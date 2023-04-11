@@ -3,10 +3,7 @@ package com.example.productorderservice.product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
@@ -25,13 +22,15 @@ class ProductService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public GetProductResponse getProduct(long productId) {
+    @GetMapping("/{productId}")
+    public ResponseEntity<GetProductResponse> getProduct(@PathVariable long productId) {
         final Product product = productPort.getProduct(productId);
-        return new GetProductResponse(
-            product.getId(),
-            product.getName(),
-            product.getPrice(),
-            product.getDiscountPolicy()
+        GetProductResponse response = new GetProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getDiscountPolicy()
         );
+        return ResponseEntity.ok(response);
     }
 }
