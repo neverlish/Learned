@@ -1,12 +1,15 @@
 {
   "scripts": {
-    "dev": "nodemon --exec node server.js"
+    "dev": "nodemon --exec babel-node server.js"
   },
   "dependencies": {
     "apollo-server": "^2.25.2",
     "graphql": "^15.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "nodemon": "^2.0.22"
   }
 }
