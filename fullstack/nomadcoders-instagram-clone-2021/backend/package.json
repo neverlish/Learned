@@ -5,6 +5,9 @@
     "studio": "npx prisma studio"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.6.1",
+    "@graphql-tools/merge": "^8.4.1",
+    "@graphql-tools/schema": "^9.0.19",
     "@prisma/client": "^4.13.0",
     "apollo-server": "^2.25.2",
     "graphql": "^15.4.0"
