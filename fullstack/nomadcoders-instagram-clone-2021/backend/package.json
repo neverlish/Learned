@@ -1,3 +1,12 @@
 {
-  
+  "scripts": {
+    "dev": "nodemon --exec node server.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.25.2",
+    "graphql": "^15.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
