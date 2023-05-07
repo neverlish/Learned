@@ -3,6 +3,7 @@
     "dev": "nodemon --exec babel-node server.js"
   },
   "dependencies": {
+    "@prisma/client": "^4.13.0",
     "apollo-server": "^2.25.2",
     "graphql": "^15.4.0"
   },
