@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon --exec babel-node server.js",
-    "migrate": "npx prisma migrate dev --preview-feature"
+    "migrate": "npx prisma migrate dev --preview-feature",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
