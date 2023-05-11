@@ -1,7 +1,7 @@
 {
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "dev": "nodemon --exec babel-node server --delay 2",
+    "dev": "nodemon --exec ts-node src/server --delay 2 --ext ts,js",
     "migrate": "npx prisma migrate dev --preview-feature",
     "studio": "npx prisma studio"
   },
@@ -23,8 +23,11 @@
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "@types/jsonwebtoken": "^9.0.2",
     "nodemon": "^2.0.22",
-    "prisma": "^4.13.0"
+    "prisma": "^4.13.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
   "resolutions": {
     "fs-capacitor": "^8.0.0",
