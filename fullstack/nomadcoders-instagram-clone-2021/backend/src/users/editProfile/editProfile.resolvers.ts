@@ -2,13 +2,12 @@ import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import client from "../../client";
 import { protectedResolver } from "../users.utils";
-
-console.log(process.cwd());
+import { Context, Resolvers } from "../../types";
 
 const resolverFn = async (
   _,
   { firstName, lastName, username, email, password: newPassword, bio, avatar },
-  { loggedInUser }
+  { loggedInUser }: Context
 ) => {
   let avatarUrl = null;
   if (avatar) {
@@ -51,8 +50,10 @@ const resolverFn = async (
   }
 };
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
     editProfile: protectedResolver(resolverFn),
   },
 };
+
+export default resolvers;

@@ -1,7 +1,8 @@
 import client from "../../client";
+import { Resolvers } from "../../types";
 import { protectedResolver } from "../users.utils";
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
     followUser: protectedResolver(async (_, { username }, { loggedInUser }) => {
       const ok = await client.user.findUnique({ where: { username } });
@@ -29,3 +30,5 @@ export default {
     }),
   },
 };
+
+export default resolvers;
