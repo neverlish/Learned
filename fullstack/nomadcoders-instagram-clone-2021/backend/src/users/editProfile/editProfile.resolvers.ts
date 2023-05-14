@@ -1,8 +1,8 @@
-import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import client from "../../client";
 import { protectedResolver } from "../users.utils";
 import { Context, Resolvers } from "../../types";
+import { uploadPhoto } from "../../shared/shared.utils";
 
 const resolverFn = async (
   _,
@@ -11,14 +11,7 @@ const resolverFn = async (
 ) => {
   let avatarUrl = null;
   if (avatar) {
-    const { filename, createReadStream } = await avatar;
-    const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
-    const readStream = createReadStream();
-    const writeStream = createWriteStream(
-      process.cwd() + "/uploads/" + newFilename,
-    );
-    readStream.pipe(writeStream);
-    avatarUrl = `http://localhost:4000/static/${newFilename}`;
+    avatarUrl = await uploadPhoto(avatar, loggedInUser.id);
   }
   let uglyPassword = null;
   if (newPassword) {
