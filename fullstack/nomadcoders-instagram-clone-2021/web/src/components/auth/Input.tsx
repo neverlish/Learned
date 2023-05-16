@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-const Input = styled.input<InputHTMLAttributes<string> & { hasError: boolean }>`
+const Input = styled.input<InputHTMLAttributes<string> & { hasError?: boolean }>`
   width: 100%;
   border-radius: 3px;
   padding: 7px;
