@@ -13,6 +13,7 @@ import Separator from "../components/auth/Separator";
 import PageTitle from "../components/PageTitle";
 import routes from "../routes";
 import { FieldValues, useForm } from "react-hook-form";
+import FormError from "../components/auth/FormError";
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -23,12 +24,11 @@ const FacebookLogin = styled.div`
 `;
 
 function Login() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors, formState } = useForm({
+    mode: "onChange",
+  });
   const onSubmitValid = (data: FormData) => {
-    console.log(data);
-  };
-  const onSubmitInvalid = (data: FieldValues) => {
-    console.log(data, "invalid");
+    //console.log(data);
   };
   return (
     <AuthLayout>
@@ -37,16 +37,21 @@ function Login() {
         <div>
           <FontAwesomeIcon icon={faInstagram} size="3x" />
         </div>
-        <form onSubmit={handleSubmit(onSubmitValid, onSubmitInvalid)}>
+        <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
             ref={register({
               required: "Username is required",
-              minLength: 5,
+              minLength: {
+                value: 5,
+                message: "Username should be longer than 5 chars.",
+              },
             })}
             name="username"
             type="text"
             placeholder="Username"
+            hasError={Boolean(errors?.username?.message)}
           />
+          <FormError message={errors?.username?.message} />
           <Input
             ref={register({
               required: "Password is required.",
@@ -54,8 +59,10 @@ function Login() {
             name="password"
             type="password"
             placeholder="Password"
+            hasError={Boolean(errors?.password?.message)}
           />
-          <Button type="submit" value="Log in" />
+          <FormError message={errors?.password?.message} />
+          <Button type="submit" value="Log in" disabled={!formState.isValid} />
         </form>
         <Separator />
         <FacebookLogin>
