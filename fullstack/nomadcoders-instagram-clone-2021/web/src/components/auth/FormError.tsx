@@ -7,7 +7,7 @@ const SFormError = styled.span`
   margin: 5px 0px 10px 0px;
 `;
 
-function FormError({ message }: { message: string }) {
+function FormError({ message }: { message?: string }) {
   return message === "" || !message ? null : <SFormError>{message}</SFormError>;
 }
 
