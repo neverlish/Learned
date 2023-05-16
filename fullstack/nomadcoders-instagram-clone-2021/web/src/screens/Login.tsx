@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
 import { gql, useMutation } from "@apollo/client";
 import { login, loginVariables } from "../__generated/login";
+import { logUserIn } from "../apollo";
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -43,6 +44,7 @@ function Login() {
     formState,
     getValues,
     setError,
+    clearErrors,
   } = useForm({
     mode: "onChange",
   });
@@ -51,9 +53,12 @@ function Login() {
       login: { ok, error, token },
     } = data;
     if (!ok) {
-      setError("result", {
+      return setError("result", {
         message: error || undefined,
       });
+    }
+    if (token) {
+      logUserIn(token);
     }
   };
   const [login, { loading }] = useMutation<login, loginVariables>(LOGIN_MUTATION, {
@@ -67,6 +72,9 @@ function Login() {
     login({
       variables: { username, password },
     });
+  };
+  const clearLoginError = () => {
+    clearErrors("result");
   };
   return (
     <AuthLayout>
@@ -84,6 +92,7 @@ function Login() {
                 message: "Username should be longer than 5 chars.",
               },
             })}
+            onChange={clearLoginError}
             name="username"
             type="text"
             placeholder="Username"
@@ -94,6 +103,7 @@ function Login() {
             ref={register({
               required: "Password is required.",
             })}
+            onChange={clearLoginError}
             name="password"
             type="password"
             placeholder="Password"
