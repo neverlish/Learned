@@ -2,6 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FatText } from "../shared";
+import { ApolloCache, FetchResult, gql, useMutation } from "@apollo/client";
+import { deleteComment } from "../../__generated/deleteComment";
+
+const DELETE_COMMENT_MUTATION = gql`
+  mutation deleteComment($id: Int!) {
+    deleteComment(id: $id) {
+      ok
+    }
+  }
+`;
 
 const CommentContainer = styled.div`
   margin-bottom: 7px;
@@ -18,7 +28,30 @@ const CommentCaption = styled.span`
   }
 `;
 
-function Comment({ author, payload }: { author: string, payload: string }) {
+function Comment({ id, photoId, isMine, author, payload }: { author: string, payload: string, id?: number, photoId?: number, isMine?: boolean }) {
+  const updateDeleteComment = (cache: ApolloCache<string>, result: FetchResult<deleteComment>) => {
+    const ok = result.data?.deleteComment.ok;
+    if (ok) {
+      cache.evict({ id: `Comment:${id}` });
+      cache.modify({
+        id: `Photo:${photoId}`,
+        fields: {
+          commentNumber(prev) {
+            return prev - 1;
+          },
+        },
+      });
+    }
+  };
+  const [deleteCommentMutation] = useMutation(DELETE_COMMENT_MUTATION, {
+    variables: {
+      id,
+    },
+    update: updateDeleteComment,
+  });
+  const onDeleteClick = () => {
+    deleteCommentMutation();
+  };
   return (
     <CommentContainer>
       <FatText>{author}</FatText>
@@ -33,6 +66,7 @@ function Comment({ author, payload }: { author: string, payload: string }) {
           )
         )}
       </CommentCaption>
+      {isMine ? <button onClick={onDeleteClick}>❌</button> : null}
     </CommentContainer>
   );
 }
