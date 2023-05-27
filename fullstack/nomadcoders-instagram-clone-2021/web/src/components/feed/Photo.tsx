@@ -12,6 +12,7 @@ import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import { seeFeed_seeFeed } from "../../__generated/seeFeed";
 import { toggleLike } from "../../__generated/toggleLike";
+import { BSName } from "../../__generated/BSName";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -76,17 +77,28 @@ function Photo({ id, user, file, isLiked, likes }: seeFeed_seeFeed) {
   const updateToggleLike = (cache: ApolloCache<string>, result: FetchResult<toggleLike>) => {
     const ok = result.data?.toggleLike.ok;
     if (ok) {
-      cache.writeFragment({
-        id: `Photo:${id}`,
-        fragment: gql`
-          fragment BSName on Photo {
-            isLiked
-          }
-        `,
-        data: {
-          isLiked: !isLiked,
-        },
+      const fragmentId = `Photo:${id}`;
+      const fragment = gql`
+        fragment BSName on Photo {
+          isLiked
+          likes
+        }
+      `;
+      const result = cache.readFragment<BSName>({
+        id: fragmentId,
+        fragment,
       });
+      if (result && "isLiked" in result && "likes" in result) {
+        const { isLiked: cacheIsLiked, likes: cacheLikes } = result;
+        cache.writeFragment({
+          id: fragmentId,
+          fragment,
+          data: {
+            isLiked: !cacheIsLiked,
+            likes: cacheIsLiked ? cacheLikes - 1 : cacheLikes + 1,
+          },
+        });
+      }
     }
   };
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
