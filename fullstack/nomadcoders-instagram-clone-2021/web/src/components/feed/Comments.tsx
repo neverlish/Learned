@@ -1,6 +1,17 @@
 import styled from "styled-components";
 import {  seeFeed_seeFeed_comments } from "../../__generated/seeFeed";
 import Comment from "./Comment";
+import { useForm } from "react-hook-form";
+import { gql, useMutation } from "@apollo/client";
+
+const CREATE_COMMENT_MUTATION = gql`
+  mutation createComment($photoId: Int!, $payload: String!) {
+    createComment(photoId: $photoId, payload: $payload) {
+      ok
+      error
+    }
+  }
+`;
 
 const CommentsContainer = styled.div`
   margin-top: 20px;
@@ -13,7 +24,24 @@ const CommentCount = styled.span`
   font-size: 10px;
 `;
 
-function Comments({ author, caption, commentNumber, comments }: { author: string, caption: string | null, commentNumber: number | null, comments: (seeFeed_seeFeed_comments | null)[] | null }) {
+function Comments({ photoId, author, caption, commentNumber, comments }: { photoId: number, author: string, caption: string | null, commentNumber: number | null, comments: (seeFeed_seeFeed_comments | null)[] | null }) {
+  const [createCommentMutation, { loading }] = useMutation(
+    CREATE_COMMENT_MUTATION
+  );
+  const { register, handleSubmit, setValue } = useForm();
+  const onValid = (data: { payload: string }) => {
+    const { payload } = data;
+    if (loading) {
+      return;
+    }
+    createCommentMutation({
+      variables: {
+        photoId,
+        payload,
+      },
+    });
+    setValue("payload", "");
+  };
   return (
     <CommentsContainer>
       <Comment author={author} payload={caption!} />
@@ -27,6 +55,16 @@ function Comments({ author, caption, commentNumber, comments }: { author: string
           payload={comment!.payload}
         />
       ))}
+      <div>
+        <form onSubmit={handleSubmit(onValid)}>
+          <input
+            name="payload"
+            ref={register({ required: true })}
+            type="text"
+            placeholder="Write a comment..."
+          />
+        </form>
+      </div>
     </CommentsContainer>
   );
 }
