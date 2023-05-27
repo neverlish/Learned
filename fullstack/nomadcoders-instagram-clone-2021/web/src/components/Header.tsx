@@ -34,14 +34,6 @@ const Icon = styled.span`
   margin-left: 15px;
 `;
 
-const Btn = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  color: white;
-  border-radius: 4px;
-  padding: 5px 15px;
-  font-weight: 600;
-`;
-
 const Button = styled.span`
   background-color: ${(props) => props.theme.accent};
   border-radius: 4px;
