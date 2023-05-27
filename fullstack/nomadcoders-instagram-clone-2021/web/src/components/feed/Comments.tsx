@@ -2,13 +2,16 @@ import styled from "styled-components";
 import {  seeFeed_seeFeed_comments } from "../../__generated/seeFeed";
 import Comment from "./Comment";
 import { useForm } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
+import { ApolloCache, FetchResult, gql, useMutation } from "@apollo/client";
+import useUser from "../../hooks/useUser";
+import { createComment } from "../../__generated/createComment";
 
 const CREATE_COMMENT_MUTATION = gql`
   mutation createComment($photoId: Int!, $payload: String!) {
     createComment(photoId: $photoId, payload: $payload) {
       ok
       error
+      id
     }
   }
 `;
@@ -24,11 +27,57 @@ const CommentCount = styled.span`
   font-size: 10px;
 `;
 
+const PostCommentContainer = styled.div`
+  margin-top: 10px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  border-top: 1px solid ${(props) => props.theme.borderColor};
+`;
+
+const PostCommentInput = styled.input`
+  width: 100%;
+  &::placeholder {
+    font-size: 12px;
+  }
+`;
+
 function Comments({ photoId, author, caption, commentNumber, comments }: { photoId: number, author: string, caption: string | null, commentNumber: number | null, comments: (seeFeed_seeFeed_comments | null)[] | null }) {
+  const { data: userData } = useUser();
+  const { register, handleSubmit, setValue, getValues } = useForm();
+  const createCommentUpdate = (cache: ApolloCache<string>, result: FetchResult<createComment>) => {
+    const { payload } = getValues();
+    setValue("payload", "");
+    const { ok, id } = result.data?.createComment || {};
+    if (ok && userData?.me) {
+      const newComment = {
+        __typename: "Comment",
+        createdAt: Date.now() + "",
+        id,
+        isMine: true,
+        payload,
+        user: {
+          ...userData.me,
+        },
+      };
+      cache.modify({
+        id: `Photo:${photoId}`,
+        fields: {
+          comments(prev) {
+            return [...prev, newComment];
+          },
+          commentNumber(prev) {
+            return prev + 1;
+          },
+        },
+      });
+    }
+  };
   const [createCommentMutation, { loading }] = useMutation(
-    CREATE_COMMENT_MUTATION
+    CREATE_COMMENT_MUTATION,
+    {
+      update: createCommentUpdate,
+    }
   );
-  const { register, handleSubmit, setValue } = useForm();
   const onValid = (data: { payload: string }) => {
     const { payload } = data;
     if (loading) {
@@ -40,7 +89,6 @@ function Comments({ photoId, author, caption, commentNumber, comments }: { photo
         payload,
       },
     });
-    setValue("payload", "");
   };
   return (
     <CommentsContainer>
@@ -55,16 +103,16 @@ function Comments({ photoId, author, caption, commentNumber, comments }: { photo
           payload={comment!.payload}
         />
       ))}
-      <div>
+      <PostCommentContainer>
         <form onSubmit={handleSubmit(onValid)}>
-          <input
+          <PostCommentInput
             name="payload"
             ref={register({ required: true })}
             type="text"
             placeholder="Write a comment..."
           />
         </form>
-      </div>
+      </PostCommentContainer>
     </CommentsContainer>
   );
 }
