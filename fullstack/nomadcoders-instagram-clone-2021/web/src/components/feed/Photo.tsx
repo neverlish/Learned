@@ -12,7 +12,6 @@ import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import { seeFeed_seeFeed } from "../../__generated/seeFeed";
 import { toggleLike } from "../../__generated/toggleLike";
-import { BSName } from "../../__generated/BSName";
 import Comments from "./Comments";
 
 const TOGGLE_LIKE_MUTATION = gql`
