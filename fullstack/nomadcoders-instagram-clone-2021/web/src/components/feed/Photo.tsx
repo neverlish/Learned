@@ -13,6 +13,7 @@ import { FatText } from "../shared";
 import { seeFeed_seeFeed } from "../../__generated/seeFeed";
 import { toggleLike } from "../../__generated/toggleLike";
 import Comments from "./Comments";
+import { Link } from "react-router-dom";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -112,8 +113,12 @@ function Photo({
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Avatar lg url={user.avatar} />
-        <Username>{user.username}</Username>
+        <Link to={`/users/${user.username}`}>
+          <Avatar lg url={user.avatar} />
+        </Link>
+        <Link to={`/users/${user.username}`}>
+          <Username>{user.username}</Username>
+        </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>
