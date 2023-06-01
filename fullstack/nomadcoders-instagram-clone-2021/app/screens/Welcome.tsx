@@ -10,6 +10,7 @@ const LoginLink = styled.Text`
   color: ${colors.blue};
   font-weight: 600;
   margin-top: 20px;
+  text-align: center;
 `;
 
 export default function Welcome({ navigation }: { navigation: NavigationProp<{ CreateAccount: undefined, LogIn: undefined }>} ) {
