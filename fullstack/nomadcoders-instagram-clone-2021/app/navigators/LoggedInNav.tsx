@@ -2,11 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { View } from "react-native";
 import TabIcon from "../components/nav/TabIcon";
-import Feed from "../screens/Feed";
-import Notifications from "../screens/Notifications";
-import Profile from "../screens/Profile";
-import Search from "../screens/Search";
-import StackNavFactory from "../components/nav/StackNavFactory";
+import SharedStackNav from "./SharedStackNav";
 
 const Tabs = createBottomTabNavigator();
 
@@ -28,7 +24,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName="Feed" />}
+        {() => <SharedStackNav screenName="Feed" />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Search"
@@ -38,7 +34,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName="Search" />}
+        {() => <SharedStackNav screenName="Search" />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Camera"
@@ -57,7 +53,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName="Notifications" />}
+        {() => <SharedStackNav screenName="Notifications" />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Me"
@@ -67,7 +63,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName="Me" />}
+        {() => <SharedStackNav screenName="Me" />}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

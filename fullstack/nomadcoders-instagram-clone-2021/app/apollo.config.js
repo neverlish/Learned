@@ -1,6 +1,6 @@
 module.exports = {
   client: {
-    includes: ["./screens/*.{tsx,ts}"],
+    includes: ["./screens/*.{tsx,ts}", "./fragments.ts"],
     tagName: "gql",
     service: {
       name: 'backend',
