@@ -1,7 +1,8 @@
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
-export default function Feed() {
+export default function Feed({ navigation }: { navigation: NavigationProp<{Photo: undefined}>}) {
   return (
     <View
       style={{
@@ -11,7 +12,9 @@ export default function Feed() {
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: "white" }}>Feed</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
+        <Text style={{ color: "white" }}>Photo</Text>
+      </TouchableOpacity>
     </View>
   );
 }
