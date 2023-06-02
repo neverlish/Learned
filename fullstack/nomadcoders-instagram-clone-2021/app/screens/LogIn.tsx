@@ -4,7 +4,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import AuthButton from "../components/auth/AuthButton";
 import AuthLayout from "../components/auth/AuthLayout";
 import { TextInput } from "../components/auth/AuthShared";
-import { isLoggedInVar } from "../apollo";
+import { logUserIn } from "../apollo";
 import { login } from "../__generated/login";
 
 const LOGIN_MUTATION = gql`
@@ -25,12 +25,12 @@ export default function Login({ params }: { params?: { password: string, usernam
     },
   });
   const passwordRef = useRef(null);
-  const onCompleted = (data: FieldValues) => {
+  const onCompleted = async (data: FieldValues) => {
     const {
       login: { ok, token },
     } = data;
     if (ok) {
-      isLoggedInVar(true);
+      await logUserIn(token);
     }
   };
   const [logInMutation, { loading }] = useMutation<login>(LOGIN_MUTATION, {
