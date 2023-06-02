@@ -2,7 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-export default function Search({ navigation }: { navigation: NavigationProp<{ Photo: undefined }>}) {
+export default function Photo({ navigation }: { navigation: NavigationProp<{ Profile: undefined }>}) {
   return (
     <View
       style={{
@@ -12,8 +12,8 @@ export default function Search({ navigation }: { navigation: NavigationProp<{ Ph
         justifyContent: "center",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
-        <Text style={{ color: "white" }}>Photo</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <Text style={{ color: "white" }}>Profile</Text>
       </TouchableOpacity>
     </View>
   );
