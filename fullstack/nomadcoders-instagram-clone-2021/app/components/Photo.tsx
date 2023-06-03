@@ -4,6 +4,18 @@ import { Image, useWindowDimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
+import { ApolloCache, gql, useMutation, FetchResult } from "@apollo/client";
+import { seeFeed_seeFeed } from "../__generated/seeFeed";
+import { toggleLike } from "../__generated/toggleLike";
+
+const TOGGLE_LIKE_MUTATION = gql`
+  mutation toggleLike($id: Int!) {
+    toggleLike(id: $id) {
+      ok
+      error
+    }
+  }
+`;
 
 const Container = styled.View``;
 const Header = styled.TouchableOpacity`
@@ -17,8 +29,6 @@ const UserAvatar = styled.Image`
   height: 25px;
   border-radius: 12.5px;
 `;
-
-import { seeFeed_seeFeed } from "../__generated/seeFeed";
 
 const Username = styled.Text`
   color: white;
@@ -57,6 +67,32 @@ function Photo({ id, user, caption, file, isLiked, likes }: seeFeed_seeFeed) {
       setImageHeight(height / 3);
     });
   }, [file]);
+  const updateToggleLike = (cache: ApolloCache<string>, result: FetchResult<toggleLike>) => {
+    const ok = result.data?.toggleLike.ok;
+    if (ok) {
+      const photoId = `Photo:${id}`;
+      cache.modify({
+        id: photoId,
+        fields: {
+          isLiked(prev) {
+            return !prev;
+          },
+          likes(prev) {
+            if (isLiked) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+        },
+      });
+    }
+  };
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
+    variables: {
+      id,
+    },
+    update: updateToggleLike,
+  });
   return (
     <Container>
       <Header onPress={() => navigation.navigate("Profile")}>
@@ -73,7 +109,7 @@ function Photo({ id, user, caption, file, isLiked, likes }: seeFeed_seeFeed) {
       />
       <ExtraContainer>
         <Actions>
-          <Action>
+          <Action onPress={() => toggleLikeMutation()}>
             <Ionicons
               name={isLiked ? "heart" : "heart-outline"}
               color={isLiked ? "tomato" : "white"}
