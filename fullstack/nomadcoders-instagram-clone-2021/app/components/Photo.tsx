@@ -59,7 +59,7 @@ const ExtraContainer = styled.View`
 `;
 
 function Photo({ id, user, caption, file, isLiked, likes }: seeFeed_seeFeed) {
-  const navigation = useNavigation<NavigationProp<{ Profile: undefined, Comments: undefined, Likes: undefined }>>();
+  const navigation = useNavigation<NavigationProp<{ Profile: undefined, Comments: undefined, Likes: { photoId: number } }>>();
   const { width, height } = useWindowDimensions();
   const [imageHeight, setImageHeight] = useState(height - 450);
   useEffect(() => {
@@ -120,7 +120,13 @@ function Photo({ id, user, caption, file, isLiked, likes }: seeFeed_seeFeed) {
             <Ionicons name="chatbubble-outline" color="white" size={22} />
           </Action>
         </Actions>
-        <TouchableOpacity onPress={() => navigation.navigate("Likes")}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Likes", {
+              photoId: id,
+            })
+          }
+        >
           <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
         </TouchableOpacity>
         <Caption>
