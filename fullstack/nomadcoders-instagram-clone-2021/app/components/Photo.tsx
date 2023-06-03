@@ -15,7 +15,7 @@ const UserAvatar = styled.Image`
   margin-right: 10px;
   width: 25px;
   height: 25px;
-  border-radius: 12.5;
+  border-radius: 12.5px;
 `;
 
 import { seeFeed_seeFeed } from "../__generated/seeFeed";
