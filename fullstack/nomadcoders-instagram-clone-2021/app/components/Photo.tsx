@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ApolloCache, gql, useMutation, FetchResult } from "@apollo/client";
 import { seeFeed_seeFeed } from "../__generated/seeFeed";
 import { toggleLike } from "../__generated/toggleLike";
+import { seePhoto_seePhoto_user } from "../__generated/seePhoto";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -58,7 +59,7 @@ const ExtraContainer = styled.View`
   padding: 10px;
 `;
 
-function Photo({ id, user, caption, file, isLiked, likes }: seeFeed_seeFeed) {
+function Photo({ id, user, caption, file, isLiked, likes }: { id: number, user: seePhoto_seePhoto_user, caption: string | null, file:  string, isLiked: boolean, likes: number}) {
   const navigation = useNavigation<NavigationProp<{ Profile: { username: string, id: number }, Comments: undefined, Likes: { photoId: number } }>>();
   const { width, height } = useWindowDimensions();
   const [imageHeight, setImageHeight] = useState(height - 450);
