@@ -33,7 +33,7 @@ export default function Login({ params }: { params?: { password: string, usernam
       await logUserIn(token);
     }
   };
-  const [logInMutation, { loading }] = useMutation<login>(LOGIN_MUTATION, {
+  const [logInMutation, { loading, error }] = useMutation<login>(LOGIN_MUTATION, {
     onCompleted,
   });
   const onNext = (nextOne: any) => {
