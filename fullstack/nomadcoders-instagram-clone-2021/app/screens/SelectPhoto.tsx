@@ -67,7 +67,13 @@ export default function SelectPhoto({ navigation }: { navigation: NavigationProp
     }
   };
   const HeaderRight = () => (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("UploadForm", {
+          file: chosenPhoto,
+        })
+      }
+    >
       <HeaderRightText>Next</HeaderRightText>
     </TouchableOpacity>
   );
@@ -101,7 +107,7 @@ export default function SelectPhoto({ navigation }: { navigation: NavigationProp
   );
   return (
     <Container>
-      <StatusBar />
+      <StatusBar hidden={false} />
       <Top>
         {chosenPhoto !== "" ? (
           <Image
