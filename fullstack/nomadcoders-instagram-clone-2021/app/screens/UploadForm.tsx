@@ -1,15 +1,15 @@
-import { gql, useMutation } from "@apollo/client";
+import { ApolloCache, FetchResult, gql, useMutation } from "@apollo/client";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { ReactNativeFile } from "apollo-upload-client";
 import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components/native";
+import { uploadPhoto, uploadPhotoVariables } from "../__generated/uploadPhoto";
 import { colors } from "../colors";
 import DismissKeyboard from "../components/DismissKeyboard";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { FEED_PHOTO } from "../fragments";
-import { uploadPhoto, uploadPhotoVariables } from "../__generated/uploadPhoto";
 
 const UPLOAD_PHOTO_MUTATION = gql`
   mutation uploadPhoto($file: Upload!, $caption: String) {
@@ -46,7 +46,21 @@ const HeaderRightText = styled.Text`
 `;
 
 export default function UploadForm({ route, navigation }: { route: RouteProp<any>, navigation: NavigationProp<any> }) {
-  const [uploadPhotoMutation, { loading, error }] = useMutation<uploadPhoto, uploadPhotoVariables>(
+  const updateUploadPhoto = (cache: ApolloCache<string>, result: FetchResult<uploadPhoto>) => {
+    const uploadPhoto = result.data?.uploadPhoto;
+    if (uploadPhoto?.id) {
+      cache.modify({
+        id: "ROOT_QUERY",
+        fields: {
+          seeFeed(prev) {
+            return [uploadPhoto, ...prev];
+          },
+        },
+      });
+      navigation.navigate("Tabs");
+    }
+  };
+  const [uploadPhotoMutation, { loading }] = useMutation<uploadPhoto, uploadPhotoVariables>(
     UPLOAD_PHOTO_MUTATION
   );
   const HeaderRight = () => (
@@ -80,7 +94,6 @@ export default function UploadForm({ route, navigation }: { route: RouteProp<any
       },
     });
   };
-  console.log(error);
   return (
     <DismissKeyboard>
       <Container>
