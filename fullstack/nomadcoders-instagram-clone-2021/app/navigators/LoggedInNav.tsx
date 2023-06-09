@@ -1,9 +1,10 @@
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import UploadForm from "../screens/UploadForm";
+import MessagesNav from "./MessagesNav";
 import TabsNav from "./TabsNav";
 import UploadNav from "./UploadNav";
-import UploadForm from "../screens/UploadForm";
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,11 @@ export default function LoggedInNav() {
           },
         }}
         component={UploadForm}
+      />
+      <Stack.Screen
+        name="Messages"
+        options={{ headerShown: false }}
+        component={MessagesNav}
       />
     </Stack.Navigator>
   );
