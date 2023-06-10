@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String?
+  username  String    @unique
+  email     String    @unique
+  password  String
+  bio       String?
+  avatar    String?
+  photos    Photo[]
+  likes     Like[]
+  followers User[]    @relation("FollowRelation")
+  following User[]    @relation("FollowRelation")
+  comments  Comment[]
+  rooms     Room[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Message   Message[]
+}
+
+model Photo {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  file      String
+  caption   String?
+  hashtags  Hashtag[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  likes     Like[]
+  comments  Comment[]
+}
+
+model Hashtag {
+  id        Int      @id @default(autoincrement())
+  hashtag   String   @unique
+  photos    Photo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  photo     Photo    @relation(fields: [photoId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  photoId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([photoId, userId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  photo     Photo    @relation(fields: [photoId], references: [id])
+  payload   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  photoId   Int
+}
+
+model Room {
+  id        Int       @id @default(autoincrement())
+  users     User[]
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  payload   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  room      Room     @relation(fields: [roomId], references: [id])
+  roomId    Int
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
