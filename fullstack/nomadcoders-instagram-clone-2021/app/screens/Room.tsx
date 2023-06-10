@@ -1,4 +1,4 @@
-import { ApolloCache, FetchResult, gql, useMutation, useQuery } from "@apollo/client";
+import { ApolloCache, FetchResult, gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useEffect } from "react";
@@ -9,6 +9,7 @@ import { seeRoom, seeRoomVariables, seeRoom_seeRoom_messages } from "../__genera
 import { sendMessage, sendMessageVariables } from "../__generated/sendMessage";
 import ScreenLayout from "../components/ScreenLayout";
 import useMe from "../hooks/useMe";
+import { roomUpdates, roomUpdatesVariables } from "../__generated/roomUpdates";
 
 const SEND_MESSAGE_MUTATION = gql`
   mutation sendMessage($payload: String!, $roomId: Int, $userId: Int) {
@@ -32,6 +33,20 @@ const ROOM_QUERY = gql`
         }
         read
       }
+    }
+  }
+`;
+
+const ROOM_UPDATES = gql`
+  subscription roomUpdates($id: Int!) {
+    roomUpdates(id: $id) {
+      id
+      payload
+      user {
+        username
+        avatar
+      }
+      read
     }
   }
 `;
@@ -123,12 +138,21 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
       update: updateSendMessage,
     }
   );
-
-  const { data, loading } = useQuery<seeRoom, seeRoomVariables>(ROOM_QUERY, {
+  const { data, loading, subscribeToMore } = useQuery<seeRoom, seeRoomVariables>(ROOM_QUERY, {
     variables: {
       id: route?.params?.id,
     },
   });
+  useEffect(() => {
+    if (data?.seeRoom) {
+      subscribeToMore<roomUpdates, roomUpdatesVariables>({
+        document: ROOM_UPDATES,
+        variables: {
+          id: route?.params?.id,
+        },
+      });
+    }
+  }, [data]);
   const onValid = ({ message }: FieldValues) => {
     if (!sendingMessage) {
       sendMessageMutation({
