@@ -1,4 +1,4 @@
-import { ApolloCache, FetchResult, OnSubscriptionDataOptions, SubscriptionDataOptions, gql, useApolloClient, useMutation, useQuery, useSubscription } from "@apollo/client";
+import { ApolloCache, FetchResult, OnSubscriptionDataOptions, Reference, SubscriptionDataOptions, gql, useApolloClient, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
@@ -148,7 +148,7 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
   const updateQuery: UpdateQueryFn<seeRoom, { id: any }, roomUpdates> = (prevQuery, options) => {
     const message = options.subscriptionData.data?.roomUpdates!;
     if (message.id) {
-      const messageFragment = client.cache.writeFragment({
+      const incomingMessage = client.cache.writeFragment({
         fragment: gql`
           fragment NewMessage on Message {
             id
@@ -165,8 +165,14 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
       client.cache.modify({
         id: `Room:${route.params?.id}`,
         fields: {
-          messages(prev) {
-            return [...prev, messageFragment];
+          messages(prev: Array<seeRoom_seeRoom_messages & Reference>) {
+            const existingMessage = prev.find(
+              (aMessage) => aMessage.__ref === incomingMessage?.__ref
+            );
+            if (existingMessage) {
+              return prev;
+            }
+            return [...prev, incomingMessage];
           },
         },
       });
@@ -174,7 +180,7 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
     return prevQuery;
   };
   const [subscribed, setSubscribed] = useState(false)
- useEffect(() => {
+  useEffect(() => {
     if (data?.seeRoom && !subscribed) {
       subscribeToMore({
         document: ROOM_UPDATES,
