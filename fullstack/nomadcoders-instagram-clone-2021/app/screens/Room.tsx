@@ -1,11 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
-import { FlatList, KeyboardAvoidingView } from "react-native";
+import { FlatList, KeyboardAvoidingView, ViewProps } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 import styled from "styled-components/native";
-import { seeRoom, seeRoomVariables, seeRoom_seeRoom, seeRoom_seeRoom_messages } from "../__generated/seeRoom";
+import { seeRoom, seeRoomVariables, seeRoom_seeRoom_messages } from "../__generated/seeRoom";
 
 const ROOM_QUERY = gql`
   query seeRoom($id: Int!) {
@@ -23,20 +22,33 @@ const ROOM_QUERY = gql`
   }
 `;
 
-const MessageContainer = styled.View``;
+const MessageContainer = styled.View<ViewProps & { outGoing: boolean }>`
+  padding: 0px 10px;
+  flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
+  align-items: flex-end;
+`;
 const Author = styled.View``;
-const Avatar = styled.Image``;
-const Username = styled.Text`
-  color: white;
+const Avatar = styled.Image`
+  height: 20px;
+  width: 20px;
+  border-radius: 25px;
 `;
 const Message = styled.Text`
   color: white;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 5px 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: 16px;
+  margin: 0px 10px;
 `;
 const TextInput = styled.TextInput`
   margin-bottom: 50px;
+  margin-top: 25px;
   width: 95%;
-  background-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 10px 20px;
+  color: white;
   border-radius: 1000px;
 `;
 
@@ -47,10 +59,11 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
     },
   });
   const renderItem = ({ item: message }: { item: seeRoom_seeRoom_messages }) => (
-    <MessageContainer>
+    <MessageContainer
+      outGoing={message.user.username !== route?.params?.talkingTo?.username}
+    >
       <Author>
         <Avatar source={{ uri: message.user.avatar }} />
-        <Username>{message.user.username}</Username>
       </Author>
       <Message>{message.payload}</Message>
     </MessageContainer>
@@ -63,8 +76,8 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: "black" }}
-      behavior="height"
-      keyboardVerticalOffset={100}
+      behavior="padding"
+      keyboardVerticalOffset={50}
     >
       <ScreenLayout loading={loading}>
         <FlatList
@@ -75,6 +88,7 @@ export default function Room({ route, navigation }: { route: RouteProp<any>, nav
           renderItem={renderItem}
         />
         <TextInput
+          placeholderTextColor="rgba(255, 255, 255, 0.5)"
           placeholder="Write a message..."
           returnKeyLabel="Send Message"
           returnKeyType="send"
