@@ -1,6 +1,9 @@
 package com.springboot.hello.data.repository;
 
 import com.springboot.hello.data.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -49,4 +52,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameEndsWith(String name);
     List<Product> findByNameEndingWith(String name);
     List<Product> findByNameIsEndingWith(String name);
+
+    List<Product> findByNameOrderByNumberAsc(String name);
+    List<Product> findByNameOrderByNumberDesc(String name);
+    List<Product> findByNameOrderByPriceAscStockDesc(String name);
+    List<Product> findByName(String name, Sort sort);
+
+    Page<Product> findByName(String name, Pageable pageable);
 }
