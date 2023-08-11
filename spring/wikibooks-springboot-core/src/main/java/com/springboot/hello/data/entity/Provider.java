@@ -20,7 +20,7 @@ public class Provider extends BaseEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @ToString.Exclude
     private List<Product> productList = new ArrayList<>();
 }
