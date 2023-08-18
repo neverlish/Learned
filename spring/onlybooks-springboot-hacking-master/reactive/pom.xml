@@ -58,6 +58,12 @@
 			<artifactId>blockhound</artifactId>
 			<version>1.0.8.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>io.projectreactor.tools</groupId>
+			<artifactId>blockhound-junit-platform</artifactId>
+			<version>1.0.8.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
