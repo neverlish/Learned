@@ -15,7 +15,9 @@ public class CartService {
 
     Mono<Cart> addToCart(String cartId, String id) {
         return this.cartRepository.findById(cartId)
+                .log("foundCart")
                 .defaultIfEmpty(new Cart(cartId))
+                .log("emptyCart")
                 .flatMap(cart -> cart.getCartItems().stream()
                         .filter(cartItem -> cartItem.getItem().getId().equals(id))
                         .findAny()
@@ -25,10 +27,14 @@ public class CartService {
                         })
                         .orElseGet(() ->
                             this.itemRepository.findById(id)
+                                    .log("fetchedItem")
                                     .map(CartItem::new)
+                                    .log("cartItem")
                                     .map(cartItem -> cart.getCartItems().add(cartItem))
-                                    .map(cartItem -> cart)
+                                    .map(cartItem -> cart).log("addedCartItem")
                         ))
-                .flatMap(this.cartRepository::save);
+                .log("cartWithAnotherTeam")
+                .flatMap(this.cartRepository::save)
+                .log("savedCart");
     }
 }
