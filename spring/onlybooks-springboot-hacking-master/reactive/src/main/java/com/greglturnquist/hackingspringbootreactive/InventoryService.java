@@ -5,79 +5,78 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.query.Criteria.byExample;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
-public class InventoryService {
-    private ItemRepository repository;
-    private ReactiveFluentMongoOperations fluentOperations;
+class InventoryService {
 
-    InventoryService(ItemRepository repository, ReactiveFluentMongoOperations fluentOperations) {
-        this.repository = repository;
-        this.fluentOperations = fluentOperations;
+    private ItemRepository itemRepository;
+
+    private CartRepository cartRepository;
+
+    InventoryService(ItemRepository repository,
+                     CartRepository cartRepository) {
+        this.itemRepository = repository;
+        this.cartRepository = cartRepository;
     }
 
-    Flux<Item> search(String partialName, String partialDescription, boolean useAnd) {
-        if (partialName != null) {
-            if (partialDescription != null) {
-                if (useAnd) {
-                    return repository //
-                            .findByNameContainingAndDescriptionContainingAllIgnoreCase( //
-                                    partialName, partialDescription);
-                } else {
-                    return repository.findByNameContainingOrDescriptionContainingAllIgnoreCase( //
-                            partialName, partialDescription);
-                }
-            } else {
-                return repository.findByNameContaining(partialName);
-            }
-        } else {
-            if (partialDescription != null) {
-                return repository.findByDescriptionContainingIgnoreCase(partialDescription);
-            } else {
-                return repository.findAll();
-            }
-        }
+    public Mono<Cart> getCart(String cartId) {
+        return this.cartRepository.findById(cartId);
     }
 
-    Flux<Item> searchByExample(String name, String description, boolean useAnd) {
-        Item item = new Item(name, description, 0.0);
-
-        ExampleMatcher matcher = (useAnd
-            ? ExampleMatcher.matchingAll()
-            : ExampleMatcher.matchingAny())
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase()
-                .withIgnorePaths("price");
-
-        Example<Item> probe = Example.of(item, matcher);
-
-        return repository.findAll(probe);
+    public Flux<Item> getInventory() {
+        return this.itemRepository.findAll();
     }
 
-    Flux<Item> searchByFluentExample(String name, String description) {
-        return fluentOperations.query(Item.class)
-                .matching(query(where("TV tray").is(name).and("Smurf").is(description)))
-                .all();
+    Mono<Item> saveItem(Item newItem) {
+        return this.itemRepository.save(newItem);
     }
-    // end::code-4[]
 
-    // tag::code-5[]
-    Flux<Item> searchByFluentExample(String name, String description, boolean useAnd) {
-        Item item = new Item(name, description, 0.0);
+    Mono<Void> deleteItem(String id) {
+        return this.itemRepository.deleteById(id);
+    }
 
-        ExampleMatcher matcher = (useAnd //
-                ? ExampleMatcher.matchingAll() //
-                : ExampleMatcher.matchingAny()) //
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) //
-                .withIgnoreCase() //
-                .withIgnorePaths("price");
+    Mono<Cart> addItemToCart(String cartId, String itemId) {
+        return this.cartRepository.findById(cartId)
+                .defaultIfEmpty(new Cart(cartId)) //
+                .flatMap(cart -> cart.getCartItems().stream()
+                        .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
+                        .findAny() //
+                        .map(cartItem -> {
+                            cartItem.increment();
+                            return Mono.just(cart);
+                        }) //
+                        .orElseGet(() -> {
+                            return this.itemRepository.findById(itemId) //
+                                    .map(item -> new CartItem(item)) //
+                                    .map(cartItem -> {
+                                        cart.getCartItems().add(cartItem);
+                                        return cart;
+                                    });
+                        }))
+                .flatMap(cart -> this.cartRepository.save(cart));
+    }
 
-        return fluentOperations.query(Item.class) //
-                .matching(query(byExample(Example.of(item, matcher)))) //
-                .all();
+    Mono<Cart> removeOneFromCart(String cartId, String itemId) {
+        return this.cartRepository.findById(cartId)
+                .defaultIfEmpty(new Cart(cartId))
+                .flatMap(cart -> cart.getCartItems().stream()
+                        .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
+                        .findAny()
+                        .map(cartItem -> {
+                            cartItem.decrement();
+                            return Mono.just(cart);
+                        }) //
+                        .orElse(Mono.empty()))
+                .map(cart -> new Cart(cart.getId(), cart.getCartItems().stream()
+                        .filter(cartItem -> cartItem.getQuantity() > 0)
+                        .collect(Collectors.toList())))
+                .flatMap(cart -> this.cartRepository.save(cart));
     }
 }

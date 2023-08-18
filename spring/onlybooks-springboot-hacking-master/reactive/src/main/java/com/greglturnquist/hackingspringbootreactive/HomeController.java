@@ -39,18 +39,18 @@ public class HomeController {
                 .thenReturn("redirect:/");
     }
 
-    @GetMapping("/search")
-    Mono<Rendering> search(
-        @RequestParam(required = false) String name,
-        @RequestParam(required = false) String description,
-        @RequestParam boolean useAnd
-    ) {
-        return Mono.just(Rendering.view("home.html")
-                .modelAttribute("items", //
-                        inventoryService.searchByExample(name, description, useAnd)) // <4>
-                .modelAttribute("cart", //
-                        this.cartRepository.findById("My Cart")
-                                .defaultIfEmpty(new Cart("My Cart")))
-                .build());
-    }
+//    @GetMapping("/search")
+//    Mono<Rendering> search(
+//        @RequestParam(required = false) String name,
+//        @RequestParam(required = false) String description,
+//        @RequestParam boolean useAnd
+//    ) {
+//        return Mono.just(Rendering.view("home.html")
+//                .modelAttribute("items", //
+////                        inventoryService.searchByExample(name, description, useAnd)) // <4>
+//                .modelAttribute("cart", //
+//                        this.cartRepository.findById("My Cart")
+//                                .defaultIfEmpty(new Cart("My Cart")))
+//                .build());
+//    }
 }
