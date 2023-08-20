@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/screen/home_screen.dart';
+import 'package:netflix_clone/screen/like_screen.dart';
 import 'package:netflix_clone/screen/more_screen.dart';
 import 'package:netflix_clone/screen/search_screen.dart';
 import 'package:netflix_clone/widget/bottom_bar.dart';
@@ -33,21 +34,19 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.white,
         ),
       ),
-      home: DefaultTabController(
+      home: const DefaultTabController(
         length: 4,
         child: Scaffold(
           body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             children: [
-              const HomeScreen(),
-              const SearchScreen(),
-              Container(
-                child: const Center(child: Text('save')),
-              ),
-              const MoreScreen(),
+              HomeScreen(),
+              SearchScreen(),
+              LikeScreen(),
+              MoreScreen(),
             ],
           ),
-          bottomNavigationBar: const Bottom(),
+          bottomNavigationBar: Bottom(),
         ),
       ),
     );
