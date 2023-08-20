@@ -51,7 +51,7 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
           padding: const EdgeInsets.only(right: 10),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Image.asset('images/${movies[i].poster}'),
+            child: Image.network(movies[i].poster),
           ),
         ),
       ),
