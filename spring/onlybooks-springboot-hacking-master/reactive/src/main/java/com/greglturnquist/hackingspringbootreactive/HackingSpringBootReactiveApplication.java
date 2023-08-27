@@ -2,6 +2,7 @@ package com.greglturnquist.hackingspringbootreactive;
 
 import org.bson.Document;
 import org.bson.json.StrictJsonWriter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 
 import org.springframework.boot.actuate.trace.http.HttpTrace;
@@ -25,6 +26,11 @@ public class HackingSpringBootReactiveApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HackingSpringBootReactiveApplication.class, args);
+	}
+
+	@Bean
+	Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+		return new Jackson2JsonMessageConverter();
 	}
 
 //	@Bean
