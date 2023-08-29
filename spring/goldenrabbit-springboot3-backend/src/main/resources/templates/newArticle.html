@@ -17,19 +17,17 @@
             <article>
                 <input type="hidden" id="article-id" th:value="${article.id}">
                 <header class="mb-4">
-                    <h1 class="fw-bolder mb-1" th:text="${article.title}"></h1>
-                    <div class="text-muted fst-italic mb-2" th:text="|Posted on ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}|"></div>
+                    <input type="text" class="form-control" placeholder="제목" id="title" th:value="${article.title}">
                 </header>
                 <section class="mb-5">
-                    <p class="fs-5 mb-4" th:text="${article.content}"></p>
+                    <textarea class="form-control h-25" rows="10" placeholder="내용" id="content" th:text="${article.content}"></textarea>
                 </section>
-                <button type="button" id="modify-btn" th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|" class="btn btn-primary btn-sm">수정</button>
-                <button type="button" id="delete-btn" class="btn btn-secondary btn-sm">삭제</button>
+                <button th:if="${article.id} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>
+                <button th:if="${article.id} == null" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
             </article>
         </div>
     </div>
 </div>
-
 <script src="/js/article.js"></script>
 </body>
 </html>
