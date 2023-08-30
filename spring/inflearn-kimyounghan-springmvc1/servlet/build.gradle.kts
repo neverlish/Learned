@@ -25,6 +25,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+	implementation("javax.servlet:jstl")
 }
 
 tasks.withType<Test> {
