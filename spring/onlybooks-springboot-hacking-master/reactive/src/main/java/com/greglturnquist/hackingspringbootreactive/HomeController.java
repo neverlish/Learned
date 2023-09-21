@@ -39,9 +39,9 @@ public class HomeController {
     }
 
     @PostMapping
-    Mono<String> createItem(@ModelAttribute Item newItem) {
-        return this.inventoryService.saveItem(newItem) //
-                .thenReturn("redirect:/");
+    @ResponseBody
+    Mono<Item> createItem(@RequestBody Item newItem) {
+        return this.inventoryService.saveItem(newItem);
     }
 
     @DeleteMapping("/delete/{id}")
