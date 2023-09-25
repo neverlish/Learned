@@ -1,16 +1,14 @@
-const { Configuration, OpenAIApi } = require('openai');
+const OpenAI = require('openai');
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-const openai = new OpenAIApi(configuration);
-
 async function apiCall() {
-  const completion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: 'Hello world'
+  const completion = await openai.chat.completions.create({
+    messages: [{role: 'user', content: 'Say this is a test'}],
+    model: 'gpt-3.5-turbo'
   })
-  console.log(completion.data.choices[0].text)
+  console.log(completion.choices)
 }
 apiCall()

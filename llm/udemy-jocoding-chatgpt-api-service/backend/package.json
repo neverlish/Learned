@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openai": "^3.3.0"
+    "openai": "^4.10.0"
   }
 }
