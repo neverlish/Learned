@@ -13,8 +13,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import java.util.Arrays;
 
-@Configuration
-@EnableReactiveMethodSecurity
+//@Configuration
+//@EnableReactiveMethodSecurity
 public class SecurityConfig {
     @Bean
     public ReactiveUserDetailsService userDetailsService(UserRepository repository) {

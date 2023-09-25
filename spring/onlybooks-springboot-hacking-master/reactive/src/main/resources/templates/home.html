@@ -1,24 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Hacking with Spring Boot - Getting Started</title>
 </head>
 <body>
+
+<div sec:authorize="isAuthenticated()">
 <table>
     <tr>
-        <td>Name:</td>
-        <td th:text="${auth.name}"></td>
+            <td>User:</td>
+            <td><span sec:authentication="name"></span></td>
     </tr>
     <tr>
         <td>Authorities:</td>
-        <td th:text="${auth.authorities}"></td>
+            <td th:text="${authorities}"></td>
+        </tr>
+        <tr th:each="userAttribute : ${userAttributes}">
+            <td th:text="${userAttribute.key}"/>
+            <td th:text="${userAttribute.value}"/>
     </tr>
 </table>
-<form action="/logout" method="post">
-    <input type="submit" value="Logout">
+    <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/>
 </form>
 <hr/>
+</div>
+
 <h1>Welcome to Hacking with Spring Boot!</h1>
 
 <!-- tag::1[] -->
