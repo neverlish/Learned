@@ -1,10 +1,20 @@
 const OpenAI = require('openai');
+const express = require('express')
+const cors = require('cors')
+
+const app = express()
+
+app.use(cors())
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-async function apiCall() {
+app.get('/fortuneTell', async function(req, res) {
+  
   const completion = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
     messages: [
@@ -14,6 +24,9 @@ async function apiCall() {
       { role: 'user', content: '오늘의 내 운세는 어때?' },
     ],
   })
-  console.log(completion.choices[0].message['content'])
-}
-apiCall()
+  const fortune = completion.choices[0].message['content']
+  console.log(fortune)
+  res.send(fortune)
+})
+
+app.listen(3000)
