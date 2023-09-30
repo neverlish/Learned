@@ -1,6 +1,7 @@
 const OpenAI = require('openai');
 const express = require('express')
 const cors = require('cors')
+const serverless = require('serverless-http');
 
 const app = express()
 
@@ -48,4 +49,4 @@ app.post('/fortuneTell', async function(req, res) {
   res.json({"assistant": fortune})
 })
 
-app.listen(3000)
+module.exports.handler = serverless(app);

@@ -175,9 +175,10 @@
 
             chatInput.value = '';
 
-            const response = await fetch('http://localhost:3000/fortuneTell', {
+            const response = await fetch('https://qo2vnccxmh7j6yd4fchgtfoog40eiipa.lambda-url.us-east-1.on.aws/fortuneTell', {
                 method: 'POST',
                 headers: {
+                    'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
