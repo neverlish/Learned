@@ -13,7 +13,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-app.get('/fortuneTell', async function(req, res) {
+app.post('/fortuneTell', async function(req, res) {
   
   const completion = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
@@ -26,7 +26,7 @@ app.get('/fortuneTell', async function(req, res) {
   })
   const fortune = completion.choices[0].message['content']
   console.log(fortune)
-  res.send(fortune)
+  res.json({"assistant": fortune})
 })
 
 app.listen(3000)

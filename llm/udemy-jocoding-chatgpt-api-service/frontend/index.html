@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat UI Screen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .chat-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chat-box {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow-y: scroll;
+            height: 300px;
+        }
+
+        .chat-message {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chat-message p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #3e8e41;
+        }
+
+        .assistant {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="chat-message">
+                <p class="assistant">운세에 대해서 물어봐 주세요!</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message here...">
+            <button>Send</button>
+        </div>
+    </div>
+    <script>
+        const chatBox = document.querySelector('.chat-box');
+
+        const sendMessage = async () => {
+            const chatInput = document.querySelector('.chat-input input');
+            const chatMessage = document.createElement('div');
+            chatMessage.classList.add('chat-message');
+            chatMessage.innerHTML = `
+    <p>${chatInput.value}</p>
+  `;
+            chatBox.appendChild(chatMessage);
+            chatInput.value = '';
+
+            const response = await fetch('http://localhost:3000/fortuneTell', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: chatInput.value
+                })
+            });
+
+            const data = await response.json();
+
+            const astrologerMessage = document.createElement('div');
+            astrologerMessage.classList.add('chat-message');
+            astrologerMessage.innerHTML = `
+    <p class='assistant'>${data.assistant}</p>
+  `;
+            chatBox.appendChild(astrologerMessage);
+        };
+
+        document.querySelector('.chat-input button').addEventListener('click', sendMessage);
+    </script>
+</body>
+
+</html>
