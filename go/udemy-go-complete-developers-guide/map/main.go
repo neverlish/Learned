@@ -9,6 +9,9 @@ func main() {
 		"white": "#ffffff",
 	}
 
+	colors["yellow"] = "#lakjdf"
+	delete(colors, "yellow")
+
 	printMap(colors)
 
 }
