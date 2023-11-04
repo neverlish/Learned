@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "659a7e1a7f53bdcef537743ff13bfef109a046e745d45b093bf68d22d0cfd113"
+            "sha256": "4c28061e13c7a498686e84025a077b85c657f964bafc90510ae407641dde398c"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -356,7 +356,7 @@
                 "sha256:ed557f4d680e02d9a05b175cae1ba146b7239d4d429d1d5271d4578b4956dbd6"
             ],
             "index": "pypi",
-            "markers": "python_full_version >= '3.8.1' and python_version < '4.0'",
+            "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
             "version": "==0.0.330"
         },
         "langsmith": {
@@ -364,7 +364,7 @@
                 "sha256:34929afd84cbfd46a8469229e3befc14c7e89186a0bee8ce9d084c7b8b271005",
                 "sha256:d9d466cc45ce5224096ffb820d019b6f83678fc1f1021076ed75728aba60ec2b"
             ],
-            "markers": "python_full_version >= '3.8.1' and python_version < '4.0'",
+            "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
             "version": "==0.0.57"
         },
         "marshmallow": {
@@ -500,6 +500,15 @@
             ],
             "markers": "python_version < '3.13' and python_version >= '3.9'",
             "version": "==1.26.1"
+        },
+        "openai": {
+            "hashes": [
+                "sha256:4be1dad329a65b4ce1a660fe6d5431b438f429b5855c883435f0f7fcb6d2dcc8",
+                "sha256:d18690f9e3d31eedb66b57b88c2165d760b24ea0a01f150dd3f068155088ce68"
+            ],
+            "index": "pypi",
+            "markers": "python_full_version >= '3.7.1'",
+            "version": "==0.28.1"
         },
         "packaging": {
             "hashes": [
@@ -763,6 +772,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==8.2.3"
+        },
+        "tqdm": {
+            "hashes": [
+                "sha256:d302b3c5b53d47bce91fea46679d9c3c6508cf6332229aa1e7d8653723793386",
+                "sha256:d88e651f9db8d8551a62556d3cff9e3034274ca5d66e93197cf2490e2dcb69c7"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==4.66.1"
         },
         "typing-extensions": {
             "hashes": [
