@@ -1,0 +1,392 @@
+{
+  "public_identifier": "johnrmarty",
+  "profile_pic_url": null,
+  "background_cover_image_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/johnrmarty/cover?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20231104%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20231104T113648Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=8d80f88c1c1adf801b0a09a08ccb69111b66b5cc02f3860c7d48e28dbd55b16a",
+  "first_name": "John",
+  "last_name": "Marty",
+  "full_name": "John Marty",
+  "follower_count": 263591,
+  "occupation": "Co-Founder at FF Real Estate",
+  "headline": "LinkedIn Top Voice",
+  "summary": "Most people go through life lost, disengaged, and unhappy at work and in their lives - I'm on a mission to solve that.\n\nI spent 10 years as the founder of Axxis Audio, an electronics company that grew to multi-million dollar sales, which I sold in 2012. At that time, I funneled my earnings into the creation of an Internet of Things company, but numerous factors lead to its demise after 2 hard fought years. \n\nAt 31, I was penny-less, had a baby on the way, and had zero job prospects (despite applying to 150 companies). My desperate situation led me to take a job at Best Buy for $12 an hour while reinventing myself through the completion of an MBA at the University of Colorado, and a 6-month software development boot camp. \n\nAfter graduation, I landed at American Express as a Senior Product Manager and then got poached by Amazon in 2017 (because of my LinkedIn profile). My journey has led to a deep sense of perspective, humility, and purpose that I draw on to help others find clarity, meaning, and happiness in their careers and lives. \n\nCheck out my website for details on my Mindset Reset Podcast, Public Speaking, Consulting, or my free 40 page LinkedIn guide\n\nhttp://www.johnraphaelmarty.com/\n\nFAQ's\n\nQ: Can you speak at my Company, University, event or podcast?\nA: I'd love to! I've shared my message on the future of employment, breaking into big tech, and my personal story of reinventing myself and discovering my sense of purpose (and how you can too!).\n\n\\u2611\\ufe0f  YouTube Channel #1 (John Marty) : http://www.youtube.com/c/JohnMarty-uncommon\n\\u2611\\ufe0f  YouTube Channel #2 (Tech Careers for non-engineers: https://www.youtube.com/channel/UC900gMMPLwRGGXSTW1gdZHA\n\nFUN FACTS:\n\\u2611\\ufe0f I am an Avid cyclist and runner, and I just started learning to skateboard a half-pipe.\n\\u2611\\ufe0f Into the Enneagram? - I'm a #3 (The Achiever)\n\nLETS CONNECT:\n\\u2611\\ufe0f Email: JohnRmarty@gmail.com (don't forget that \"R\"....The other guy gets my emails all the time)",
+  "country": "US",
+  "country_full_name": "United States of America",
+  "city": "Seattle",
+  "state": "Washington",
+  "experiences": [
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 8,
+              "year": 2021
+          },
+          "ends_at": null,
+          "company": "FF Real Estate",
+          "company_linkedin_profile_url": null,
+          "title": "Co-Founder",
+          "description": "Our mission is to provide everyday people seeking financial freedom long before the age of 65 with the ability to contribute to real estate projects that were only accessible in the past for a select few wealthy individuals.",
+          "location": null,
+          "logo_url": null
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2017
+          },
+          "ends_at": null,
+          "company": "YouTube",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/16140/",
+          "title": "Youtube Content Creator - John Marty\"",
+          "description": null,
+          "location": "Seattle, Washington",
+          "logo_url": "https://media.licdn.com/dms/image/C4D0BAQEfoRsyU4yUzg/company-logo_400_400/0/1631053379295/youtube_logo?e=1706140800&v=beta&t=0Po84bP0pww_W9nEiO3u9uiEwzI_bFMDs2v5tqew8qM"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2020
+          },
+          "ends_at": null,
+          "company": "Product School",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/3861577/",
+          "title": "Featured Speaker",
+          "description": "Product School is a global leader in Product Management training with a community of over one million product professionals. As a featured speaker, I help inspire the next generation of Product Managers to create innovative products and apply best practices in their work.",
+          "location": "Seattle, Washington, United States",
+          "logo_url": "https://media.licdn.com/dms/image/D4E0BAQGODY7RuiroaA/company-logo_400_400/0/1688233590017?e=1706140800&v=beta&t=iLqOHFZHi2kzbBYK_5jrmuDVSE_PB2NGudXCUrM5NxA"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2021
+          },
+          "ends_at": null,
+          "company": "Mindset Reset Podcast",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/72004874/",
+          "title": "Founder",
+          "description": "We dive into the mindsets of the world\\u2019s foremost thought leaders and turn them into actionable insights so that others can discover greater happiness, success, and fulfillment.\n\nhttps://podcasts.apple.com/us/podcast/mindset-reset/id1553212607\n\n",
+          "location": "Denver, Colorado, United States",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQF9QJVQm3SOvA/company-logo_400_400/0/1614527476576/mindset_reset_podcast_logo?e=1706140800&v=beta&t=E1hfwLUuq6z807VqU257amMhp5hvjonSj698EVOARB0"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 3,
+              "year": 2017
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 3,
+              "year": 2021
+          },
+          "company": "Amazon",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/1586/",
+          "title": "Sr. Manager of Product",
+          "description": "I had a mix of roles at Amazon from Sr. PM to Sr. Manager of Product\nTwo years were spent on Marketplace Product Quality and 2 years in New Business Innovation",
+          "location": "Greater Seattle Area",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQHTvZwCx4p2Qg/company-logo_400_400/0/1612205615891/amazon_logo?e=1706140800&v=beta&t=3ozMG1pVKISpl3DyZgqaCRyPZg3_fMWyhoKBGNeirew"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 7,
+              "year": 2015
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 3,
+              "year": 2017
+          },
+          "company": "American Express",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/1277/",
+          "title": "Senior Global Product Manager",
+          "description": null,
+          "location": "Phoenix, Arizona Area",
+          "logo_url": "https://media.licdn.com/dms/image/C4D0BAQGRhsociEn4gQ/company-logo_400_400/0/1523269243842?e=1706140800&v=beta&t=0wxzhhcVrWv1WrY7lKDyLYWV6A9b8QBwHOrgLksVlDw"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 3,
+              "year": 2014
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 7,
+              "year": 2014
+          },
+          "company": "Mile High Automation, Inc.",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/3575200/",
+          "title": "Sr. Product Manager",
+          "description": "Mile High Automation is a Smart Home Technology (Internet of Things) software and hardware development company. Our mission is to flawlessly develop and deliver impeccable software, hardware and system design for the high-end consumer market nationally and internationally. \n\n\\u2022  Performed a short term change management engagement to lead a 12 member cross functional team through a major strategy and vision transition\n\\u2022  Developed an international supply chain that increased profit margin by 30% on core products\n\\u2022  Conceptualized, implemented, and rolled out a CRM that led to a 15% higher month over month close rate; trained sales team on newly created key performance indicators to maximize growth\n\\u2022  Developed, implemented and oversaw a training process that scaled to 180+ national subcontractors\n\\u2022  Translated user stories into detailed product requirements documents that the software development team used to build new features and functionality \n\\u2022  Developed benchmarks for customer service, sales, and traffic conversion to maximize profit \n\n",
+          "location": "Denver Colorado",
+          "logo_url": "https://media.licdn.com/dms/image/C4E0BAQHofg3toK4P7A/company-logo_400_400/0/1519903210468?e=1706140800&v=beta&t=Uml3WXWYmU-eVAUq2Sz_Xs9l2ozNQLE8_wE2S3s9vWQ"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 2,
+              "year": 2012
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 5,
+              "year": 2014
+          },
+          "company": "EOS Controls",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/18238721/",
+          "title": "Founder/ Chief Operating Officer",
+          "description": "A Smart Home Technology (Internet of Things) software and hardware development company specializing in the mid to high-end condominium market in the United States and South America. \nEOS Controls supports the advancement of affordable and easy to user smart home technology through a network of non-traditional sales channels of architects, designers, and contractors. \n\n\\u2022  Coordinated engineering, design, and marketing strategy for the launch of 6 iOS apps\n\\u2022  Led a 5 member product team of engineers; conducted daily stand-ups and weekly design review meetings\n\\u2022  Managed and prioritized product backlog for development Sprints as well as tested products before release\n\\u2022  Effectively placed products through non-traditional distribution channels by identifying and developing relationships with over 100 national and international builders, architects, and designers\n\n",
+          "location": "Miami, Florida",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQFV1hvbuwyU-A/company-logo_400_400/0/1519867781218?e=1706140800&v=beta&t=d6KmC5-ZbkmzMTVhtBgoU666tkDEj5j3YHcvy_NRgw8"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 11,
+              "year": 2002
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 1,
+              "year": 2012
+          },
+          "company": "Axxis Audio",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/4677847/",
+          "title": "President/Founder",
+          "description": "Specializing in Smart Home Technology - Home Automation, Internet of Things\n\n\\u2022  Raised $10,000 in investment to develop a home theater and home automation sales and installation business that grew to multi-million dollar sales (sold the company in 2011)\n\\u2022  Developed mission-centric training, responsibility, and accountability framework \n\\u2022  10 Direct Reports\n\\u2022  Responsible for resource planning, scheduling, and project management \n\\u2022  Filled the role of HR and developed a team building program for 10 direct reports, that included formal training, personal and professional peer support, mentoring and professional development; resulting in 20% higher retention rate and improved trust and communication\n\\u2022  Deployed an ERP Solution in 2007 that unified 5 departments and provided a central reporting and accountability framework for a 23% employees productivity gain\n\\u2022  Handled acquisition of 2nd largest competitor Cobalt Automation",
+          "location": "Durango Colorado",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQHI-DLifzJs9Q/company-logo_400_400/0/1519868629336?e=1706140800&v=beta&t=Cpri9UXxYmO6_csl0G6EIIhrbDLE_mEXQxrxDj1BL4c"
+      }
+  ],
+  "education": [
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2013
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 12,
+              "year": 2015
+          },
+          "field_of_study": "Finance + Economics",
+          "degree_name": "Master of Business Administration (MBA)",
+          "school": "University of Colorado Denver",
+          "school_linkedin_profile_url": "https://www.linkedin.com/company/3768/",
+          "description": null,
+          "logo_url": "https://media.licdn.com/dms/image/D560BAQGOE31DN4Qh3g/company-logo_400_400/0/1684849696686/university_of_colorado_denver_logo?e=1706140800&v=beta&t=FYSj9Zo-jE8nLx5Wgk91v8EDqVekh1AjVpPA5IW_El4",
+          "grade": null,
+          "activities_and_societies": null
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2015
+          },
+          "ends_at": {
+              "day": 31,
+              "month": 12,
+              "year": 2015
+          },
+          "field_of_study": null,
+          "degree_name": "School of Software Development",
+          "school": "Galvanize Inc",
+          "school_linkedin_profile_url": "https://www.linkedin.com/company/2652594/",
+          "description": "rails, ruby, rspec, capybara, bootstrap, css, html, api integration, Jquery, Javascript",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQFKNxOZ4X0g8Q/company-logo_400_400/0/1670610916338/galvanize_it_logo?e=1706140800&v=beta&t=IrzhsYfpXzRaXltSSU6h6UHCq6N61_VwgRUGCyTIc_4",
+          "grade": null,
+          "activities_and_societies": null
+      }
+  ],
+  "languages": [
+      "English",
+      "Japanese"
+  ],
+  "accomplishment_organisations": [],
+  "accomplishment_publications": [],
+  "accomplishment_honors_awards": [],
+  "accomplishment_patents": [],
+  "accomplishment_courses": [],
+  "accomplishment_projects": [
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 3,
+              "year": 2015
+          },
+          "ends_at": null,
+          "title": "gMessenger",
+          "description": "gMessenger was built using Ruby on Rails, and the Bootstrap HTML, CSS, and JavaScript framework. It uses a Websocket-Rails integration to post a user's message content to the page in real time, with no page refresh required. gMessenger also includes custom authentication with three different permissions levels.",
+          "url": "http://gmessenger.herokuapp.com/"
+      },
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2015
+          },
+          "ends_at": null,
+          "title": "Taskly",
+          "description": "A task and project management responsive web app utilizing Ruby on Rails - CSS and HTML",
+          "url": "https://hidden-coast-7204.herokuapp.com/"
+      }
+  ],
+  "accomplishment_test_scores": [],
+  "volunteer_work": [
+      {
+          "starts_at": {
+              "day": 1,
+              "month": 1,
+              "year": 2018
+          },
+          "ends_at": null,
+          "title": "Mentor",
+          "cause": "Children",
+          "company": "IDEO",
+          "company_linkedin_profile_url": "https://www.linkedin.com/company/164291/",
+          "description": "Early Childhood Innovation Prize Mentorship",
+          "logo_url": "https://media.licdn.com/dms/image/C560BAQEtno-g_UV4xg/company-logo_400_400/0/1659296502285/ideo_logo?e=1706140800&v=beta&t=-eZK-CGcBlQ9Dka9tujMj61EL74XMNYcAxUwZwoKZBc"
+      }
+  ],
+  "certifications": [
+      {
+          "starts_at": null,
+          "ends_at": null,
+          "name": "SAFe Agile Framework Practitioner - ( Scrum, XP, and Lean Practices in the SAFe Enterprise)",
+          "license_number": null,
+          "display_source": null,
+          "authority": "Scaled Agile, Inc.",
+          "url": null
+      },
+      {
+          "starts_at": null,
+          "ends_at": null,
+          "name": "SCRUM Alliance Certified Product Owner",
+          "license_number": null,
+          "display_source": null,
+          "authority": "Scrum Alliance",
+          "url": null
+      }
+  ],
+  "connections": null,
+  "people_also_viewed": [
+      {
+          "link": "https://www.linkedin.com/in/ashleyjwatkins",
+          "name": "Ashley Watkins Thomas, NCRW, NCOPE",
+          "summary": "Resume Writing Coach | Job Search Strategist | Interview Consultant | Lead Recruiter | LinkedIn Top Voice \\u2605 Positioning emerging leaders for 6-figure salaries at Fortune 500 brands.",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/quinnmi",
+          "name": "Michael Quinn",
+          "summary": "CEO at HireMilitary | 2x LinkedIn Top Voice | Forbes Contributor | Army Veteran",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/sarahdjohnston",
+          "name": "Sarah Johnston",
+          "summary": "Executive Resume Writer + LinkedIn Branding | Interview Coach \\ud83d\\udcbc Former Recruiter \\u2014> Founder of Briefcase Coach | The Future of Work is Here\\u2122  |  Keynote Speaker & LinkedIn Learning Instructor",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/diegogranadosh",
+          "name": "Diego Granados",
+          "summary": "Sr. Product Manager AI & Machine Learning | Consumer & Enterprise experience | ex-LinkedIn, ex-Microsoft",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/mimispinnercoach",
+          "name": "MIRIAM.SPINNER, ACC,PMP",
+          "summary": "I help unemployed leaders feeling overwhelmed figure out what is next for them using  un-traditional tools |   I shine your talent | Career Shift Coach | Positive Intelligence Coach | Book free chat \\ud83d\\udc47.",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/biron",
+          "name": "Biron Clark",
+          "summary": "Founded & Sold CareerSidekick.com | Taking a Career Break",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/langk",
+          "name": "Kenneth Lang",
+          "summary": "Job Search Strategist * LinkedIn\\u2122 Introvert * Named Top 10 LinkedIn\\u2122 Job Search Expert to Follow in 2023 * Frustrated with Job Search?  * Ask me how I can help support you * Speaker * Virtual coffees welcomed!!",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/alokotkova",
+          "name": "Ana Lokotkova",
+          "summary": "Career & Learning Advisor | Personal Branding Strategist | Workshop Designer | Instructional Designer | Content Creator | Speaker",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/niiato",
+          "name": "Nii Ato Bentsi-Enchill, MA, Ed.M",
+          "summary": "LinkedIn Top Voice 2022 | Holistic Career Coach for Professionals of Color | Resume & LinkedIn Writing | Job Search & Networking Strategy | Leadership Coaching | Interviews | Professional Branding | Speaker | Panelist",
+          "location": null
+      },
+      {
+          "link": "https://www.linkedin.com/in/thomasemrich",
+          "name": "Tom Emrich \\ud83c\\udff3\\ufe0f\\u200d\\ud83c\\udf08",
+          "summary": "AR Platforms Product Director at Niantic | 10+ Years Shaping Augmented Reality | Leading strategy and product development in Spatial Computing | AR/VR Evangelist & Investor | LinkedIn Top Voice",
+          "location": null
+      }
+  ],
+  "recommendations": [
+      "Rebecca Canfield\n\n\n\nJohn Marty is a genius at his craft. He is skilled in the art of making people feel empowered to seek out roles that they are qualified for, ask for salaries that they deserve, and creates a kind of pay it forward lifestyle. John helps you to get to places that you only thought were possible for other people. Anyone that is fortunate enough to learn from John should consider themselves extremely lucky. I know I do. ",
+      "Zoe Sanoff\n\n\n\nJohn is so focused on helping guide you through an interview process not just for Amazon but on interviewing in general.  I've generally done well at interviewing, my skills are top notch now.  John is so focused on on his clients and really goes above and beyond.  John is genuine, knowledgeable, well spoken and non-judgemental.  He is so encouraging, so positive and really easy to talk to.  Thank you John!"
+  ],
+  "activities": [],
+  "similarly_named_profiles": [
+      {
+          "name": "John Martinez",
+          "link": "https://www.linkedin.com/in/john-martinez-90384a229",
+          "summary": "Leader Sometimes, Problem Creator, Happy Smile the whole Time !",
+          "location": "Memphis, TN"
+      },
+      {
+          "name": "John Marty",
+          "link": "https://www.linkedin.com/in/john-marty-4226a6132",
+          "summary": "Co-Owner at Stellar Coating Solutions, LLC \nOwner Marty Energy Services (MES)",
+          "location": "Mansfield, TX"
+      },
+      {
+          "name": "John Marty",
+          "link": "https://www.linkedin.com/in/johntmarty",
+          "summary": "Director - Brand Finance",
+          "location": "Portland, OR"
+      },
+      {
+          "name": "John Marty",
+          "link": "https://www.linkedin.com/in/johnmarty",
+          "summary": "Lead Software Engineer, Commerce at Disney Parks  & Resorts Digital",
+          "location": "Orlando, FL"
+      }
+  ],
+  "articles": [],
+  "groups": [
+      {
+          "profile_pic_url": null,
+          "name": "Product Management Underground",
+          "url": "https://www.linkedin.com/groups/13905812"
+      },
+      {
+          "profile_pic_url": "https://media.licdn.com/dms/image/C4E07AQF2EKTooicxbg/group-logo_image-shrink_400x400/0/1631006354581?e=1698825600&v=beta&t=XpFIgUmPgIWkKObQW9h7SjFM9sWpK_KB4AS0sSMp0Sw",
+          "name": "Find Your Why (webinar follow-up)",
+          "url": "https://www.linkedin.com/groups/12431669"
+      }
+  ],
+  "skills": [],
+  "inferred_salary": null,
+  "gender": null,
+  "birth_date": null,
+  "industry": null,
+  "extra": null,
+  "interests": [],
+  "personal_emails": [],
+  "personal_numbers": []
+}
