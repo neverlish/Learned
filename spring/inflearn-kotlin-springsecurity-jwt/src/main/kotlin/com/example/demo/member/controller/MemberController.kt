@@ -1,6 +1,8 @@
 package com.example.demo.member.controller
 
+import com.example.demo.common.authority.TokenInfo
 import com.example.demo.common.dto.BaseResponse
+import com.example.demo.member.dto.LoginDto
 import com.example.demo.member.dto.MemberDtoRequest
 import com.example.demo.member.service.MemberService
 import jakarta.validation.Valid
@@ -19,5 +21,11 @@ class MemberController(
         val resultMsg: String = memberService.signUp(memberDtoRequest)
 
         return BaseResponse(message = resultMsg)
+    }
+
+    @PostMapping("/login")
+    fun login(@RequestBody @Valid loginDto: LoginDto): BaseResponse<TokenInfo> {
+        val tokenInfo = memberService.login(loginDto)
+        return BaseResponse(data = tokenInfo)
     }
 }
