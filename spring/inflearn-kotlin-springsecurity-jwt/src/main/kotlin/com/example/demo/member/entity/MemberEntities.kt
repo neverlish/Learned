@@ -2,6 +2,7 @@ package com.example.demo.member.entity
 
 import com.example.demo.common.status.Gender
 import com.example.demo.common.status.ROLE
+import com.example.demo.member.dto.MemberDtoResponse
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -19,10 +20,11 @@ import jakarta.persistence.Temporal
 import jakarta.persistence.TemporalType
 import jakarta.persistence.UniqueConstraint
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Entity
 @Table(
-    uniqueConstraints = [UniqueConstraint(name = "uk_member_login+_id", columnNames = ["loginId"])]
+    uniqueConstraints = [UniqueConstraint(name = "uk_member_login+_id", columnNames = ["loginId"])],
 )
 class Member(
     @Id
@@ -51,6 +53,12 @@ class Member(
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: List<MemberRole>? = null
+
+    private fun LocalDate.formatDate(): String =
+        this.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+
+    fun toDto(): MemberDtoResponse =
+        MemberDtoResponse(id!!, loginId, name, birthDate.formatDate(), gender.desc, email)
 }
 
 @Entity
