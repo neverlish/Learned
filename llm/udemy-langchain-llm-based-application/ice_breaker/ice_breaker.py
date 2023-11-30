@@ -1,6 +1,7 @@
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
+from typing import Tuple
 
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from agents.twitter_lookup_agent import lookup as twitter_lookup_agent
@@ -11,7 +12,7 @@ from output_parsers import person_intel_parser, PersonIntel
 
 name = "Eden Marco"
 
-def ice_break(name: str) -> PersonIntel:
+def ice_break(name: str) -> Tuple[PersonIntel, str]:
     linkedin_profie_url = linkedin_lookup_agent(name=name)
     linkedin_data = scrape_linkedin_profile(linkedin_profie_url=linkedin_profie_url)
 
@@ -19,7 +20,7 @@ def ice_break(name: str) -> PersonIntel:
     tweets = scrape_user_tweets(username=twitter_username)
 
     summary_template = """
-        given the Linkedin information {linkedin_information} and twitter {twitter_information} about a person from I want you to create:
+        given the Linkedin information {linkedin_information} about a person from I want you to create:
         1. a short summary
         2. two interesting facts about them
         3. A topic that may interest them
@@ -39,7 +40,7 @@ def ice_break(name: str) -> PersonIntel:
 
     result = chain.run(linkedin_information=linkedin_data, twitter_information=tweets)
     print(result)
-    return person_intel_parser.parse(result)
+    return person_intel_parser.parse(result), linkedin_data.get("profile_pic_url")
 
 if __name__ == "__main__":
     print("hello Langchain!")
