@@ -32,13 +32,16 @@ class _WhyProxyProvState extends State<WhyProxyProv> {
         title: const Text('Why ProxyProvider'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const ShowTranslations(),
-            const SizedBox(height: 20.0),
-            IncreaseButton(increment: increment),
-          ],
+        child: Provider<Translations>(
+          create: (_) => Translations(counter),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const ShowTranslations(),
+              const SizedBox(height: 20.0),
+              IncreaseButton(increment: increment),
+            ],
+          ),
         ),
       ),
     );
@@ -50,9 +53,11 @@ class ShowTranslations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'You clicked 0 times',
-      style: TextStyle(fontSize: 28.0),
+    final title = Provider.of<Translations>(context).title;
+
+    return Text(
+      title,
+      style: const TextStyle(fontSize: 28.0),
     );
   }
 }
