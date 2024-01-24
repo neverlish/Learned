@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/dog.dart';
+import 'counter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,115 +12,51 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Dog>(
-      create: (context) => Dog(name: 'dog10', breed: 'breed10', age: 3),
-      child: MaterialApp(
-        title: 'Provider 10',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHomePage(),
+    return MaterialApp(
+      title: 'Provider 11',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Provider 10'),
-      ),
-      body: Selector<Dog, String>(
-        selector: (BuildContext context, Dog dog) => dog.name,
-        builder: (BuildContext context, String name, Widget? child) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                child!,
-                const SizedBox(height: 10.0),
-                Text(
-                  '- name: $name',
-                  style: const TextStyle(fontSize: 20.0),
-                ),
-                const SizedBox(height: 10.0),
-                const BreedAndAge(),
-              ],
-            ),
-          );
-        },
-        child: const Text(
-          'I like dogs very much',
-          style: TextStyle(fontSize: 20.0),
+      body: Center(
+        child: ChangeNotifierProvider<Counter>(
+          create: (_) => Counter(),
+          child: Builder(
+            builder: (context) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${context.watch<Counter>().counter}',
+                    style: const TextStyle(fontSize: 48.0),
+                  ),
+                  const SizedBox(height: 20.0),
+                  ElevatedButton(
+                    child: const Text(
+                      'Increment',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    onPressed: () {
+                      context.read<Counter>().increment();
+                    },
+                  )
+                ],
+              );
+            },
+          ),
         ),
       ),
-    );
-  }
-}
-
-class BreedAndAge extends StatelessWidget {
-  const BreedAndAge({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Selector<Dog, String>(
-      selector: (BuildContext context, Dog dog) => dog.breed,
-      builder: (_, String breed, __) {
-        return Column(
-          children: [
-            Text(
-              '- breed: $breed',
-              style: const TextStyle(fontSize: 20.0),
-            ),
-            const SizedBox(height: 10.0),
-            const Age(),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class Age extends StatelessWidget {
-  const Age({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Selector<Dog, int>(
-      selector: (BuildContext context, Dog dog) => dog.age,
-      builder: (_, int age, __) {
-        return Column(
-          children: [
-            Text(
-              '- age: $age',
-              style: const TextStyle(fontSize: 20.0),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () => context.read<Dog>().grow(),
-              child: const Text(
-                'Grow',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }
