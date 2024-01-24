@@ -53,9 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             const SizedBox(height: 20.0),
-            const CounterA(),
+            CounterA(
+              counter: counter,
+              increment: increment,
+            ),
             const SizedBox(height: 20.0),
-            const Middle(),
+            Middle(counter: counter),
           ],
         ),
       ),
@@ -64,8 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class CounterA extends StatelessWidget {
+  final int counter;
+  final void Function() increment;
+
   const CounterA({
     Key? key,
+    required this.counter,
+    required this.increment,
   }) : super(key: key);
 
   @override
@@ -75,12 +83,12 @@ class CounterA extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          const Text(
-            '0',
-            style: TextStyle(fontSize: 48.0),
+          Text(
+            '$counter',
+            style: const TextStyle(fontSize: 48.0),
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: increment,
             child: const Text(
               'Increment',
               style: TextStyle(fontSize: 20.0),
@@ -93,8 +101,11 @@ class CounterA extends StatelessWidget {
 }
 
 class Middle extends StatelessWidget {
+  final int counter;
+
   const Middle({
     Key? key,
+    required this.counter,
   }) : super(key: key);
 
   @override
@@ -102,13 +113,13 @@ class Middle extends StatelessWidget {
     return Container(
       color: Colors.grey[200],
       padding: const EdgeInsets.all(20.0),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          CounterB(),
-          SizedBox(width: 20.0),
-          Sibling(),
+          CounterB(counter: counter),
+          const SizedBox(width: 20.0),
+          const Sibling(),
         ],
       ),
     );
@@ -116,8 +127,11 @@ class Middle extends StatelessWidget {
 }
 
 class CounterB extends StatelessWidget {
+  final int counter;
+
   const CounterB({
     Key? key,
+    required this.counter,
   }) : super(key: key);
 
   @override
@@ -125,9 +139,9 @@ class CounterB extends StatelessWidget {
     return Container(
       color: Colors.yellow[100],
       padding: const EdgeInsets.all(10.0),
-      child: const Text(
-        '0',
-        style: TextStyle(fontSize: 24.0),
+      child: Text(
+        '$counter',
+        style: const TextStyle(fontSize: 24.0),
       ),
     );
   }
