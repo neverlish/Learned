@@ -8,8 +8,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final Counter _counter = Counter();
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +26,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChangeNotifierProvider<Counter>(
-        create: (context) => Counter(),
-        child: const MyHomePage(),
-      ),
+      routes: {
+        '/': (context) => ChangeNotifierProvider.value(
+              value: _counter,
+              child: const MyHomePage(),
+            ),
+        '/counter': (context) => ChangeNotifierProvider.value(
+              value: _counter,
+              child: const ShowMeCounter(),
+            ),
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    _counter.dispose();
+    super.dispose();
   }
 }
 
@@ -43,15 +62,7 @@ class MyHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) {
-                    return ChangeNotifierProvider.value(
-                      value: context.read<Counter>(),
-                      child: const ShowMeCounter(),
-                    );
-                  }),
-                );
+                Navigator.pushNamed(context, '/counter');
               },
             ),
             const SizedBox(height: 20.0),
