@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Dog>(
-          create: (context) => Dog(name: 'dog06', breed: 'breed06', age: 3),
+          create: (context) => Dog(name: 'dog07', breed: 'breed07', age: 3),
         ),
         FutureProvider<int>(
           initialData: 0,
@@ -26,9 +26,17 @@ class MyApp extends StatelessWidget {
             return babies.getBabies();
           },
         ),
+        StreamProvider<String>(
+          initialData: 'Bark 0 times',
+          create: (context) {
+            final int dogAge = context.read<Dog>().age;
+            final babies = Babies(age: dogAge * 2);
+            return babies.bark();
+          },
+        ),
       ],
       child: MaterialApp(
-        title: 'Provider 06',
+        title: 'Provider 07',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -51,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Provider 05'),
+        title: const Text('Provider 07'),
       ),
       body: Center(
         child: Column(
@@ -107,6 +115,11 @@ class Age extends StatelessWidget {
         const SizedBox(height: 10.0),
         Text(
           '- number of babies: ${context.read<int>()}',
+          style: const TextStyle(fontSize: 20.0),
+        ),
+        const SizedBox(height: 10.0),
+        Text(
+          '- ${context.watch<String>()}',
           style: const TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 20.0),
