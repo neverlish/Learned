@@ -31,16 +31,18 @@ class FilteredTodosState extends Equatable {
   }
 }
 
-class FilteredTodos with ChangeNotifier {
-  FilteredTodosState _state = FilteredTodosState.initial();
+class FilteredTodos {
+  final TodoFilter todoFilter;
+  final TodoSearch todoSearch;
+  final TodoList todoList;
 
-  FilteredTodosState get state => _state;
+  FilteredTodos({
+    required this.todoFilter,
+    required this.todoSearch,
+    required this.todoList,
+  });
 
-  void update(
-    TodoFilter todoFilter,
-    TodoSearch todoSearch,
-    TodoList todoList,
-  ) {
+  FilteredTodosState get state {
     List<Todo> filteredTodos;
 
     switch (todoFilter.state.filter) {
@@ -65,7 +67,6 @@ class FilteredTodos with ChangeNotifier {
           .toList();
     }
 
-    _state = _state.copyWith(filteredTodos: filteredTodos);
-    notifyListeners();
+    return FilteredTodosState(filteredTodos: filteredTodos);
   }
 }

@@ -27,25 +27,16 @@ class ActiveTodoCountState {
   }
 }
 
-class ActiveTodoCount with ChangeNotifier {
-  // ActiveTodoCountState _state = ActiveTodoCountState.initial();
-
-  late ActiveTodoCountState _state;
-  final int initialActiveTodoCount;
+class ActiveTodoCount {
+  final TodoList todoList;
 
   ActiveTodoCount({
-    required this.initialActiveTodoCount,
-  }) {
-    _state = ActiveTodoCountState(activeTodoCount: initialActiveTodoCount);
-  }
+    required this.todoList,
+  });
 
-  ActiveTodoCountState get state => _state;
-
-  void update(TodoList todoList) {
-    final int newActiveTodoCount =
-        todoList.state.todos.where((todo) => !todo.completed).toList().length;
-
-    _state = _state.copyWith(activeTodoCount: newActiveTodoCount);
-    notifyListeners();
-  }
+  ActiveTodoCountState get state => ActiveTodoCountState(
+      activeTodoCount: todoList.state.todos
+          .where((todo) => !todo.completed)
+          .toList()
+          .length);
 }
