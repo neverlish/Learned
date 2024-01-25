@@ -39,10 +39,44 @@ class _MyHomePageState extends State<MyHomePage> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? searchTerm;
 
-  void submit() {}
+  void submit() async {
+    setState(() {
+      autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = formKey.currentState;
+
+    if (form == null || !form.validate()) return;
+
+    form.save();
+
+    try {
+      await context.read<AppProvider>().getResult(searchTerm!);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const SuccessPage();
+          },
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            content: Text('Something went wrong'),
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppProvider>().state;
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -72,10 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 20.0),
                 ElevatedButton(
-                  onPressed: submit,
-                  child: const Text(
-                    'Get Result',
-                    style: TextStyle(fontSize: 24.0),
+                  onPressed: appState == AppState.loading ? null : submit,
+                  child: Text(
+                    appState == AppState.loading ? 'Loading...' : 'Get Result',
+                    style: const TextStyle(fontSize: 24.0),
                   ),
                 ),
               ],
