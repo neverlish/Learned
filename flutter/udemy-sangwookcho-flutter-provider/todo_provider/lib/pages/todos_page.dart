@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_provider/providers/active_todo_count.dart';
+import 'package:todo_provider/providers/todo_list.dart';
 
 class TodosPage extends StatefulWidget {
   const TodosPage({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class _TodosPageState extends State<TodosPage> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
             child: Column(
-              children: [TodoHeader()],
+              children: [
+                TodoHeader(),
+                CreateTodo(),
+              ],
             ),
           ),
         ),
@@ -47,6 +51,37 @@ class TodoHeader extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class CreateTodo extends StatefulWidget {
+  const CreateTodo({Key? key}) : super(key: key);
+
+  @override
+  State<CreateTodo> createState() => _CreateTodoState();
+}
+
+class _CreateTodoState extends State<CreateTodo> {
+  final newTodoController = TextEditingController();
+
+  @override
+  void dispose() {
+    newTodoController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: newTodoController,
+      decoration: const InputDecoration(labelText: 'What to do?'),
+      onSubmitted: (String? todoDesc) {
+        if (todoDesc != null && todoDesc.trim().isNotEmpty) {
+          context.read<TodoList>().addTodo(todoDesc);
+          newTodoController.clear();
+        }
+      },
     );
   }
 }
