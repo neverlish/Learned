@@ -32,7 +32,7 @@ class TodoSearch with ChangeNotifier {
 
   TodoSearchState get state => _state;
 
-  void updateSearchTerm(String searchTerm) {
+  void setSearchTerm(String searchTerm) {
     _state = _state.copyWith(searchTerm: searchTerm);
     notifyListeners();
   }

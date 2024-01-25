@@ -33,7 +33,7 @@ class TodoFilter with ChangeNotifier {
 
   TodoFilterState get state => _state;
 
-  void updateFilter(Filter filter) {
+  void changeFilter(Filter filter) {
     _state = _state.copyWith(filter: filter);
     notifyListeners();
   }
