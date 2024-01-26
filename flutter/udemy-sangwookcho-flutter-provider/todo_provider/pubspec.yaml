@@ -37,6 +37,8 @@ dependencies:
   provider:
   uuid:
   equatable:
+  flutter_state_notifier:
+  state_notifier:
 
 dev_dependencies:
   flutter_test:

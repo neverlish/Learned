@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:todo_provider/models/todo_model.dart';
 
 class TodoListState extends Equatable {
@@ -32,47 +33,41 @@ class TodoListState extends Equatable {
   }
 }
 
-class TodoList with ChangeNotifier {
-  TodoListState _state = TodoListState.initial();
-
-  TodoListState get state => _state;
+class TodoList extends StateNotifier<TodoListState> {
+  TodoList() : super(TodoListState.initial());
 
   void addTodo(String todoDesc) {
     final newTodo = Todo(desc: todoDesc);
-    final newTodos = [..._state.todos, newTodo];
+    final newTodos = [...state.todos, newTodo];
 
-    _state = _state.copyWith(todos: newTodos);
-    notifyListeners();
+    state = state.copyWith(todos: newTodos);
   }
 
   void editTodo(String id, String todoDesc) {
-    final newTodos = _state.todos.map((todo) {
+    final newTodos = state.todos.map((todo) {
       if (todo.id == id) {
         return Todo(id: id, desc: todoDesc, completed: todo.completed);
       }
       return todo;
     }).toList();
 
-    _state = _state.copyWith(todos: newTodos);
-    notifyListeners();
+    state = state.copyWith(todos: newTodos);
   }
 
   void toggleTodo(String id) {
-    final newTodos = _state.todos.map((todo) {
+    final newTodos = state.todos.map((todo) {
       if (todo.id == id) {
         return Todo(id: id, desc: todo.desc, completed: !todo.completed);
       }
       return todo;
     }).toList();
 
-    _state = _state.copyWith(todos: newTodos);
-    notifyListeners();
+    state = state.copyWith(todos: newTodos);
   }
 
   void removeTodo(Todo todo) {
-    final newTodos = _state.todos.where((t) => t.id != todo.id).toList();
+    final newTodos = state.todos.where((t) => t.id != todo.id).toList();
 
-    _state = _state.copyWith(todos: newTodos);
-    notifyListeners();
+    state = state.copyWith(todos: newTodos);
   }
 }

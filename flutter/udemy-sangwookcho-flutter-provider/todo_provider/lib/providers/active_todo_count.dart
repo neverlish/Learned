@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_provider/models/todo_model.dart';
 import 'package:todo_provider/providers/todo_list.dart';
 
 class ActiveTodoCountState {
@@ -27,16 +30,15 @@ class ActiveTodoCountState {
   }
 }
 
-class ActiveTodoCount {
-  final TodoList todoList;
+class ActiveTodoCount extends StateNotifier<ActiveTodoCountState>
+    with LocatorMixin {
+  ActiveTodoCount() : super(ActiveTodoCountState.initial());
 
-  ActiveTodoCount({
-    required this.todoList,
-  });
-
-  ActiveTodoCountState get state => ActiveTodoCountState(
-      activeTodoCount: todoList.state.todos
-          .where((todo) => !todo.completed)
-          .toList()
-          .length);
+  @override
+  void update(Locator watch) {
+    final List<Todo> todos = watch<TodoListState>().todos;
+    state = state.copyWith(
+        activeTodoCount: todos.where((todo) => !todo.completed).length);
+    super.update(watch);
+  }
 }
