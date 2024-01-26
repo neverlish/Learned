@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_provider/providers/weather/weather_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Weather'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Home'),
       ),
     );

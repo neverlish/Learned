@@ -37,6 +37,17 @@ class Weather extends Equatable {
     );
   }
 
+  factory Weather.initial() => Weather(
+        description: '',
+        icon: '',
+        temp: 100.0,
+        tempMin: 100.0,
+        tempMax: 100.0,
+        name: '',
+        country: '',
+        lastUpdated: DateTime(1970),
+      );
+
   @override
   List<Object> get props {
     return [
