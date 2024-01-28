@@ -39,6 +39,8 @@ dependencies:
   http:
   provider:
   recase:
+  flutter_state_notifier:
+  state_notifier:
 
 dev_dependencies:
   flutter_test:
