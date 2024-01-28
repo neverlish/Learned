@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:open_weather_provider/providers/providers.dart';
-import 'package:open_weather_provider/providers/temp_settings/temp_settings_provider.dart';
-import 'package:open_weather_provider/providers/weather/weather_provider.dart';
 import 'package:open_weather_provider/repositories/weather_repository.dart';
 import 'package:open_weather_provider/services/weather_api_services.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/home_page.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -37,14 +35,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TempSettingsProvider>(
           create: (context) => TempSettingsProvider(),
         ),
-        ChangeNotifierProxyProvider<WeatherProvider, ThemeProvider>(
-          create: (context) => ThemeProvider(),
+        ProxyProvider<WeatherProvider, ThemeProvider>(
           update: (
             BuildContext context,
             WeatherProvider weatherProvider,
-            ThemeProvider? themeProvider,
+            _,
           ) =>
-              themeProvider!..update(weatherProvider),
+              ThemeProvider(wp: weatherProvider),
         ),
       ],
       builder: (context, child) => MaterialApp(
