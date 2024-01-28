@@ -19,30 +19,29 @@ class _HomePageState extends State<HomePage> {
   String? _city;
 
   late final WeatherProvider _weatherProv;
+  late final void Function() _removeListener;
 
   @override
   void initState() {
     super.initState();
     _weatherProv = context.read<WeatherProvider>();
-    _weatherProv.addListener(_registerListener);
+    _removeListener = _weatherProv.addListener(_registerListener);
   }
 
   @override
   void dispose() {
-    _weatherProv.removeListener(_registerListener);
+    _removeListener();
     super.dispose();
   }
 
-  void _registerListener() {
-    final WeatherState ws = context.read<WeatherProvider>().state;
-
+  void _registerListener(WeatherState ws) {
     if (ws.status == WeatherStatus.error) {
       errorDialog(context, ws.error.errMsg);
     }
   }
 
   String showTemperature(double temperature) {
-    final tempUnit = context.watch<TempSettingsProvider>().state.tempUnit;
+    final tempUnit = context.watch<TempSettingsState>().tempUnit;
     if (tempUnit == TempUnit.fahrenheit) {
       return '${(temperature * 9 / 5 + 32).toStringAsFixed(2)}℉';
     }
@@ -50,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _showWeather() {
-    final state = context.watch<WeatherProvider>().state;
+    final state = context.watch<WeatherState>();
 
     if (state.status == WeatherStatus.initial) {
       return const Center(

@@ -31,22 +31,17 @@ class MyApp extends StatelessWidget {
         StateNotifierProvider<WeatherProvider, WeatherState>(
           create: (context) => WeatherProvider(),
         ),
-        ChangeNotifierProvider<TempSettingsProvider>(
+        StateNotifierProvider<TempSettingsProvider, TempSettingsState>(
           create: (context) => TempSettingsProvider(),
         ),
-        ProxyProvider<WeatherProvider, ThemeProvider>(
-          update: (
-            BuildContext context,
-            WeatherProvider weatherProvider,
-            _,
-          ) =>
-              ThemeProvider(wp: weatherProvider),
+        StateNotifierProvider<ThemeProvider, ThemeState>(
+          create: (context) => ThemeProvider(),
         ),
       ],
       builder: (context, child) => MaterialApp(
         title: 'Weather App',
         debugShowCheckedModeBanner: false,
-        theme: context.watch<ThemeProvider>().state.appTheme == AppTheme.light
+        theme: context.watch<ThemeState>().appTheme == AppTheme.light
             ? ThemeData.light()
             : ThemeData.dark(),
         home: const HomePage(),
