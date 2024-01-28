@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "242784285519",
+    "project_id": "fb-auth-provider-17da4",
+    "storage_bucket": "fb-auth-provider-17da4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242784285519:android:3730a1be5d856f076b4b3a",
+        "android_client_info": {
+          "package_name": "com.example.fb_auth_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ-3eCHvBHc8C7e4a3zmX3y0nus_XcOBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
