@@ -37,6 +37,8 @@ dependencies:
     sdk: flutter
   provider:
   validators:
+  state_notifier:
+  flutter_state_notifier:
 
 dev_dependencies:
   flutter_test:
