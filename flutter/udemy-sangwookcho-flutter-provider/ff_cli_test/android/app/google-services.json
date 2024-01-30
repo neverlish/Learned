@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "657894930810",
+    "project_id": "ff-cli-test-jinho",
+    "storage_bucket": "ff-cli-test-jinho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657894930810:android:4a8a256652b76843c13ec3",
+        "android_client_info": {
+          "package_name": "com.example.ff_cli_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuWKR6mKHCfU8059_xuNl54_h3Vc-vgeI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
