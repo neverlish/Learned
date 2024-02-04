@@ -48,11 +48,27 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: const Text('홍드로이드'),
             ),
-            const SizedBox(
-              width: 100,
-              height: 300,
-              child: Text('홍드로이드2'),
-            )
+            const Text(
+              '홍드로이드2',
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+            Row(
+              children: [
+                Image.asset(
+                  "assets/car.png",
+                  width: 100,
+                  height: 100,
+                ),
+                const Icon(
+                  Icons.home_filled,
+                  size: 100,
+                ),
+              ],
+            ),
           ],
         ),
       ),
