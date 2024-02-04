@@ -8,8 +8,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List lstHello = ['홍드로이드', '안녕하세요', '반갑습니다', '즐거운 식사시간 되세요'];
   TextEditingController idController = TextEditingController();
+  String msg = '이 곳에 입력 값이 업데이트 됩니다!';
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              print(idController.text);
+              setState(() {
+                msg = idController.text;
+              });
             },
             child: const Text('아이디 입력 값 가져오기 !'),
+          ),
+          Text(
+            msg,
+            style: const TextStyle(fontSize: 30),
           ),
         ],
       ),
