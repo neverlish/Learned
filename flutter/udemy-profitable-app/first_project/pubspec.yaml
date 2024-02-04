@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  image_compare_slider:
 
 dev_dependencies:
   flutter_test:
