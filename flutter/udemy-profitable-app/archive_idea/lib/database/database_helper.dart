@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   late Database database;
 
-  void initDatabase() async {
+  Future<void> initDatabase() async {
     String path = join(await getDatabasesPath(), 'archive_idea.db');
 
     database = await openDatabase(

@@ -1,5 +1,8 @@
+import 'package:archive_idea/data/idea_info.dart';
+import 'package:archive_idea/database/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -9,6 +12,37 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  var dbHelper = DatabaseHelper();
+  List<IdeaInfo> lstIdeaInfo = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getIdeaInfo();
+    // setInsertIdeaInfo();
+  }
+
+  Future getIdeaInfo() async {
+    await dbHelper.initDatabase();
+    lstIdeaInfo = await dbHelper.getAllIdeaInfo();
+    lstIdeaInfo.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    setState(() {});
+  }
+
+  Future setInsertIdeaInfo() async {
+    await dbHelper.initDatabase();
+    await dbHelper.insertIdeaInfo(
+      IdeaInfo(
+        title: '# 환경보존 문제해결 앱 아이디어',
+        motive: '길가다가 쓰레기 주우면서 알게됨',
+        content: '자세한 내용입니다... 자세한 내용',
+        priority: 4,
+        feedback: '피드백 사항입니다.',
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Container(
         margin: const EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: lstIdeaInfo.length,
           itemBuilder: (context, index) {
             return listItem(index);
           },
@@ -60,9 +94,9 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           Container(
             margin: const EdgeInsets.only(left: 16, bottom: 16),
-            child: const Text(
-              '# 환경보존 문제해결 앱 아이디어',
-              style: TextStyle(
+            child: Text(
+              lstIdeaInfo[index].title,
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
@@ -71,9 +105,13 @@ class _MainScreenState extends State<MainScreen> {
             alignment: Alignment.bottomRight,
             child: Container(
               margin: const EdgeInsets.only(right: 16, bottom: 8),
-              child: const Text(
-                '2023.10.03 09:00',
-                style: TextStyle(
+              child: Text(
+                DateFormat("yyyy.MM.dd HH:mm").format(
+                  DateTime.fromMillisecondsSinceEpoch(
+                    lstIdeaInfo[index].createdAt,
+                  ),
+                ),
+                style: const TextStyle(
                   color: Color(0xffaeaeae),
                   fontSize: 10,
                 ),
@@ -85,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Container(
               margin: const EdgeInsets.only(left: 16, bottom: 8),
               child: RatingBar.builder(
-                initialRating: 3,
+                initialRating: lstIdeaInfo[index].priority.toDouble(),
                 minRating: 1,
                 direction: Axis.horizontal,
                 itemCount: 5,
