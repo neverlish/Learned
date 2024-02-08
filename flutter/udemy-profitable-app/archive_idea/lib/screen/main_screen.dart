@@ -19,7 +19,6 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     getIdeaInfo();
-    // setInsertIdeaInfo();
   }
 
   Future getIdeaInfo() async {
@@ -27,20 +26,6 @@ class _MainScreenState extends State<MainScreen> {
     lstIdeaInfo = await dbHelper.getAllIdeaInfo();
     lstIdeaInfo.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     setState(() {});
-  }
-
-  Future setInsertIdeaInfo() async {
-    await dbHelper.initDatabase();
-    await dbHelper.insertIdeaInfo(
-      IdeaInfo(
-        title: '# 환경보존 문제해결 앱 아이디어',
-        motive: '길가다가 쓰레기 주우면서 알게됨',
-        content: '자세한 내용입니다... 자세한 내용',
-        priority: 4,
-        feedback: '피드백 사항입니다.',
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-      ),
-    );
   }
 
   @override
@@ -68,7 +53,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/edit');
+        },
         backgroundColor: const Color(0xff7f52fd).withOpacity(0.7),
         child: Image.asset(
           'assets/idea.png',

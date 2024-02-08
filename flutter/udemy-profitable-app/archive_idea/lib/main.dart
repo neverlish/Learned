@@ -1,3 +1,5 @@
+import 'package:archive_idea/data/idea_info.dart';
+import 'package:archive_idea/screen/edit_screen.dart';
 import 'package:archive_idea/screen/main_screen.dart';
 import 'package:archive_idea/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,15 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/main': (context) => const MainScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/edit') {
+          final IdeaInfo? ideaInfo = settings.arguments as IdeaInfo?;
+          return MaterialPageRoute(builder: (context) {
+            return EditScreen(ideaInfo: ideaInfo);
+          });
+        }
+        return null;
       },
     );
   }
