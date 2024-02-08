@@ -27,6 +27,39 @@ class _EditScreenState extends State<EditScreen> {
   final dbHelper = DatabaseHelper();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.ideaInfo != null) {
+      _titleController.text = widget.ideaInfo!.title;
+      _motiveController.text = widget.ideaInfo!.motive;
+      _contentController.text = widget.ideaInfo!.content;
+      if (widget.ideaInfo!.feedback.isNotEmpty) {
+        _feedbackController.text = widget.ideaInfo!.feedback;
+      }
+
+      initClickStatus();
+      switch (widget.ideaInfo!.priority) {
+        case 1:
+          isClickPoint1 = true;
+          break;
+        case 2:
+          isClickPoint2 = true;
+          break;
+        case 3:
+          isClickPoint3 = true;
+          break;
+        case 4:
+          isClickPoint4 = true;
+          break;
+        case 5:
+          isClickPoint5 = true;
+          break;
+      }
+      priorityPoint = widget.ideaInfo!.priority;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -42,9 +75,9 @@ class _EditScreenState extends State<EditScreen> {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
-          "새 아이디어 작성하기",
-          style: TextStyle(
+        title: Text(
+          widget.ideaInfo == null ? "새 아이디어 작성하기" : "아이디어 편집",
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 16,
           ),

@@ -8,6 +8,7 @@ class IdeaInfo {
   int createdAt;
 
   IdeaInfo({
+    this.id,
     required this.title,
     required this.motive,
     required this.content,
@@ -30,6 +31,7 @@ class IdeaInfo {
 
   factory IdeaInfo.fromMap(Map<String, dynamic> map) {
     return IdeaInfo(
+      id: map['id'],
       title: map['title'],
       motive: map['motive'],
       content: map['content'],
