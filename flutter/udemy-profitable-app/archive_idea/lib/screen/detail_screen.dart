@@ -72,7 +72,7 @@ class DetailScreen extends StatelessWidget {
                           await setDeleteIdeaInfo(ideaInfo!.id!);
                           if (context.mounted) {
                             Navigator.of(context).pop();
-                            Navigator.pop(context);
+                            Navigator.pop(context, 'delete');
                           }
                         },
                       ),
@@ -189,8 +189,14 @@ class DetailScreen extends StatelessWidget {
               ),
               child: const Text('내용 편집'),
             ),
-            onTap: () {
-              Navigator.pushNamed(context, '/edit', arguments: ideaInfo);
+            onTap: () async {
+              var result = await Navigator.pushNamed(context, '/edit',
+                  arguments: ideaInfo);
+              if (result != null) {
+                if (context.mounted) {
+                  Navigator.pop(context, 'update');
+                }
+              }
             },
           ),
         ],

@@ -429,7 +429,20 @@ class _EditScreenState extends State<EditScreen> {
                     );
                     await setInsertIdeaInfo(ideaInfo);
                     if (mounted) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, 'insert');
+                    }
+                  } else {
+                    var ideaInfoModify = widget.ideaInfo;
+                    ideaInfoModify!.title = titleValue;
+                    ideaInfoModify.motive = motiveValue;
+                    ideaInfoModify.content = contentValue;
+                    ideaInfoModify.priority = priorityPoint;
+                    ideaInfoModify.feedback =
+                        feedbackValue.isNotEmpty ? feedbackValue : '';
+
+                    await updateInsertIdeaInfo(ideaInfoModify);
+                    if (mounted) {
+                      Navigator.pop(context, 'update');
                     }
                   }
                 },
@@ -444,6 +457,11 @@ class _EditScreenState extends State<EditScreen> {
   Future setInsertIdeaInfo(IdeaInfo ideaInfo) async {
     await dbHelper.initDatabase();
     await dbHelper.insertIdeaInfo(ideaInfo);
+  }
+
+  Future updateInsertIdeaInfo(IdeaInfo ideaInfo) async {
+    await dbHelper.initDatabase();
+    await dbHelper.updateIdeaInfo(ideaInfo);
   }
 
   void initClickStatus() {
