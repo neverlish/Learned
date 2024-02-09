@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http:
   intl:
+  google_mobile_ads:
 
 dev_dependencies:
   flutter_test:
