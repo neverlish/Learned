@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c4cf727955f2dbedb5d96df5ba01811542247c107509b3754d93960ebf5b9237"
+            "sha256": "4990a75bff1b5704fea6d20350fc94413e3fefb1643f30fdf878db12810336d8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -579,6 +579,7 @@
                 "sha256:120977485d244eb472ad3618a31222fe6c2bce08026f4caa96bd6dae2e316ac0",
                 "sha256:1c310a7e2663d5f6464a433981504894f97c12783cbeb8bdf4159a574f88c18d"
             ],
+            "index": "pypi",
             "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
             "version": "==0.0.21"
         },
@@ -589,6 +590,15 @@
             ],
             "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
             "version": "==0.1.25"
+        },
+        "langchain-experimental": {
+            "hashes": [
+                "sha256:30bc6f4aba3ceef75a29b92d775110bbfeb35a7ddb50555fa3b09d4acbf20caa",
+                "sha256:c8f896d8b9fec363038c9a7f0acb16d0b69d0ed31134eed79ea9c31fd5569256"
+            ],
+            "index": "pypi",
+            "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
+            "version": "==0.0.52"
         },
         "langdetect": {
             "hashes": [
@@ -1253,6 +1263,13 @@
             "markers": "python_version >= '3.7'",
             "version": "==2.17.2"
         },
+        "pypng": {
+            "hashes": [
+                "sha256:4a43e969b8f5aaafb2a415536c1a8ec7e341cd6a3f957fd5b5f32a4cfeed902c",
+                "sha256:739c433ba96f078315de54c0db975aee537cbc3e1d0ae4ed9aab0ca1e427e2c1"
+            ],
+            "version": "==0.20220715.0"
+        },
         "python-dateutil": {
             "hashes": [
                 "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
@@ -1349,6 +1366,15 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==6.0.1"
+        },
+        "qrcode": {
+            "hashes": [
+                "sha256:581dca7a029bcb2deef5d01068e39093e80ef00b4a61098a2182eac59d01643a",
+                "sha256:9dd969454827e127dbd93696b20747239e6d540e082937c90f14ac95b30f5845"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7'",
+            "version": "==7.4.2"
         },
         "rapidfuzz": {
             "hashes": [

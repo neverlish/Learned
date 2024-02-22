@@ -19,6 +19,9 @@ streamlit = "*"
 streamlit-chat = "*"
 tqdm = "*"
 python-dotenv = "*"
+langchain-experimental = "*"
+langchain-community = "*"
+qrcode = "*"
 
 [dev-packages]
 
