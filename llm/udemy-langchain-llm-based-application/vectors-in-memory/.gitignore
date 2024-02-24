@@ -1,0 +1,3 @@
+.env
+__pycache__
+faiss_index_react
