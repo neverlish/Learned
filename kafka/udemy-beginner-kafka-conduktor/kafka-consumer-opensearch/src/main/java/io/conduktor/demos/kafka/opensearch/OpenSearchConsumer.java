@@ -11,6 +11,8 @@ import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.opensearch.action.bulk.BulkRequest;
+import org.opensearch.action.bulk.BulkResponse;
 import org.opensearch.action.index.IndexRequest;
 import org.opensearch.action.index.IndexResponse;
 import org.opensearch.client.RequestOptions;
@@ -105,6 +107,8 @@ public class OpenSearchConsumer {
                 int recordCount = records.count();
                 log.info("Received: " + recordCount + " record(s)");
 
+                BulkRequest bulkRequest = new BulkRequest();
+
                 for (ConsumerRecord<String, String> record: records) {
 
 //                    String id = record.topic() + "_" + record.partition() + "_" + record.offset()
@@ -114,7 +118,8 @@ public class OpenSearchConsumer {
                                 .source(record.value(), XContentType.JSON)
                                 .id(id);
 
-                        IndexResponse response = opensearchClient.index(indexRequest, RequestOptions.DEFAULT);
+//                        IndexResponse response = opensearchClient.index(indexRequest, RequestOptions.DEFAULT);
+                        bulkRequest.add(indexRequest);
 
 //                        log.info(response.getId());
                     } catch (Exception e) {
@@ -122,8 +127,22 @@ public class OpenSearchConsumer {
                     }
                 }
 
-                consumer.commitSync();
-                log.info("Offsets have been committed!");
+                if (bulkRequest.numberOfActions() > 0) {
+                    BulkResponse bulkResponse = opensearchClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+                    log.info("Inserted " + bulkResponse.getItems().length + " records");
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    consumer.commitSync();
+                    log.info("Offsets have been committed!");
+                }
+
+
+
             }
 
         }
