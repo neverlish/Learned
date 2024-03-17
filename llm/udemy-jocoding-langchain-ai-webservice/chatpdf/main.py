@@ -13,6 +13,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from streamlit_extras.buy_me_a_coffee import button
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 button(username='neverlish', floating=True, width=221)
 
@@ -52,12 +53,22 @@ if uploaded_file is not None:
     st.header("PDF에게 질문해보세요!!")
     question = st.text_input("질문을 입력하세요")
 
+    from langchain.callbacks.base import BaseCallbackHandler
+    class StreamHandler(BaseCallbackHandler):
+        def __init__(self, container, initial_text=""):
+            self.container = container
+            self.text = initial_text
+        def on_llm_new_token(self, token: str, **kwargs) -> None:
+            self.text += token
+            self.container.markdown(self.text)
+
     if st.button("질문하기"):
         with st.spinner("Wait for it..."):
-            llm = ChatOpenAI(temperature=0, openai_api_key=openai_key)
+            chat_box = st.empty()
+            stream_handler = StreamHandler(container=chat_box)
+            llm = ChatOpenAI(temperature=0, openai_api_key=openai_key, streaming=True, callbacks=[stream_handler])
             qa_chain = RetrievalQA.from_chain_type(
                 llm,
                 retriever=db.as_retriever(),
             )
-            result = qa_chain({'query': question})
-            st.write(result['result'])
+            qa_chain({'query': question})
