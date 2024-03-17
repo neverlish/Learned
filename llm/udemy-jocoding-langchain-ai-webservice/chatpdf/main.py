@@ -4,7 +4,8 @@ load_dotenv()
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
 
 loader = PyPDFLoader("unsu.pdf")
 pages = loader.load_and_split()
@@ -17,4 +18,8 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 texts = text_splitter.split_documents(pages)
-print(texts[0])
+
+embeddings_model = OpenAIEmbeddings()
+
+db = Chroma.from_documents(texts, embeddings_model)
+

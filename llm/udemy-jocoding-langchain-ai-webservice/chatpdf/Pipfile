@@ -8,6 +8,8 @@ pypdf = "*"
 python-dotenv = "*"
 langchain-community = "*"
 langchain-text-splitters = "*"
+chromadb = "*"
+langchain-openai = "*"
 
 [dev-packages]
 
