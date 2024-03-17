@@ -8,6 +8,8 @@ python-dotenv = "*"
 langchain-openai = "*"
 openai = "*"
 streamlit = "*"
+ctransformers = "*"
+langchain-community = "*"
 
 [dev-packages]
 
