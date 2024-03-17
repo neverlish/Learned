@@ -10,6 +10,7 @@ langchain-community = "*"
 langchain-text-splitters = "*"
 chromadb = "*"
 langchain-openai = "*"
+langchain = "*"
 
 [dev-packages]
 
