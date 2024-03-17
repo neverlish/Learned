@@ -12,6 +12,7 @@ chromadb = "*"
 langchain-openai = "*"
 langchain = "*"
 streamlit = "*"
+streamlit-extras = "*"
 
 [dev-packages]
 

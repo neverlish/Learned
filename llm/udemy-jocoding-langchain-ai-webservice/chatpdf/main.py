@@ -12,6 +12,9 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from streamlit_extras.buy_me_a_coffee import button
+
+button(username='neverlish', floating=True, width=221)
 
 st.title("ChatPDF")
 st.write("---")
