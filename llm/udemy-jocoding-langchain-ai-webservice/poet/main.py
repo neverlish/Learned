@@ -2,12 +2,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from langchain_openai import ChatOpenAI, OpenAI
-
-# llm = OpenAI()
-# result = llm.invoke("내가 좋아하는 동물은 ")
-# print(result)
+from langchain_openai import ChatOpenAI
 
 chat_model = ChatOpenAI()
-result = chat_model.invoke("hi!")
+
+content = "주제"
+
+result = chat_model.invoke(content + "에 대한 시를 써줘")
 print(result)
