@@ -16,6 +16,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 st.title("ChatPDF")
 st.write("---")
 
+openai_key = st.text_input("OPEN_AI_API_KEY", type="password")
+
 uploaded_file = st.file_uploader("Choose a file")
 st.write("---")
 
@@ -40,7 +42,7 @@ if uploaded_file is not None:
 
     texts = text_splitter.split_documents(pages)
 
-    embeddings_model = OpenAIEmbeddings()
+    embeddings_model = OpenAIEmbeddings(openai_api_key=openai_key)
 
     db = Chroma.from_documents(texts, embeddings_model)
 
@@ -49,7 +51,7 @@ if uploaded_file is not None:
 
     if st.button("질문하기"):
         with st.spinner("Wait for it..."):
-            llm = ChatOpenAI(temperature=0)
+            llm = ChatOpenAI(temperature=0, openai_api_key=openai_key)
             qa_chain = RetrievalQA.from_chain_type(
                 llm,
                 retriever=db.as_retriever(),
