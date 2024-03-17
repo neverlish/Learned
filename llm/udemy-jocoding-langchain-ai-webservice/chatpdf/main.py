@@ -2,6 +2,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import os
+import tempfile
+
+import streamlit as st
 from langchain.chains import RetrievalQA
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_community.document_loaders import PyPDFLoader
@@ -9,33 +13,46 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-loader = PyPDFLoader("unsu.pdf")
-pages = loader.load_and_split()
+st.title("ChatPDF")
+st.write("---")
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size = 300,
-    chunk_overlap = 20,
-    length_function = len,
-    is_separator_regex = False,
-)
+uploaded_file = st.file_uploader("Choose a file")
+st.write("---")
 
-texts = text_splitter.split_documents(pages)
+def pdf_to_document(uploaded_file):
+    temp_dir = tempfile.TemporaryDirectory()
+    temp_filepath = os.path.join(temp_dir.name, uploaded_file.name)
+    with open(temp_filepath, "wb") as f:
+        f.write(uploaded_file.getvalue())
+    loader = PyPDFLoader(temp_filepath)
+    pages = loader.load_and_split()
+    return pages
 
-embeddings_model = OpenAIEmbeddings()
+if uploaded_file is not None:
+    pages = pdf_to_document(uploaded_file)
 
-db = Chroma.from_documents(texts, embeddings_model)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size = 300,
+        chunk_overlap = 20,
+        length_function = len,
+        is_separator_regex = False,
+    )
 
-question = "아내가 먹고 싶어하는 음식은 무엇이야?"
-# llm = ChatOpenAI(temperature=0)
-# retriever_from_llm = MultiQueryRetriever.from_llm(
-#     retriever=db.as_retriever(), llm=llm
-# )
-# docs = retriever_from_llm.get_relevant_documents(query=question)
+    texts = text_splitter.split_documents(pages)
 
-llm = ChatOpenAI(temperature=0)
-qa_chain = RetrievalQA.from_chain_type(
-    llm,
-    retriever=db.as_retriever(),
-)
-result = qa_chain({'query': question})
-print(result)
+    embeddings_model = OpenAIEmbeddings()
+
+    db = Chroma.from_documents(texts, embeddings_model)
+
+    st.header("PDF에게 질문해보세요!!")
+    question = st.text_input("질문을 입력하세요")
+
+    if st.button("질문하기"):
+        with st.spinner("Wait for it..."):
+            llm = ChatOpenAI(temperature=0)
+            qa_chain = RetrievalQA.from_chain_type(
+                llm,
+                retriever=db.as_retriever(),
+            )
+            result = qa_chain({'query': question})
+            st.write(result['result'])
