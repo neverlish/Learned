@@ -42,12 +42,14 @@ if prompt:
     assistant_id=assistant_id,
   )
 
-  while run.status != "completed":
-    time.sleep(0.1)
-    run = client.beta.threads.runs.retrieve(
-      thread_id=thread_id, 
-      run_id=run.id
-    )
+  with st.spinner("응답 기다리는 중..."):
+
+    while run.status != "completed":
+      time.sleep(0.1)
+      run = client.beta.threads.runs.retrieve(
+        thread_id=thread_id, 
+        run_id=run.id
+      )
 
   messages = client.beta.threads.messages.list(
     thread_id=thread_id
