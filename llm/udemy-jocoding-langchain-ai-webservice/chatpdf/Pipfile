@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pypdf = "*"
+python-dotenv = "*"
+langchain-community = "*"
+langchain-text-splitters = "*"
+chromadb = "*"
+langchain-openai = "*"
+langchain = "*"
+streamlit = "*"
+streamlit-extras = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
