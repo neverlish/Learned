@@ -65,7 +65,7 @@ class MyHomePage extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).increment();
+              context.read<CounterCubit>().increment();
             },
             heroTag: 'increment',
             child: const Icon(Icons.add),
@@ -73,7 +73,7 @@ class MyHomePage extends StatelessWidget {
           const SizedBox(width: 10.0),
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).decrement();
+              context.read<CounterCubit>().decrement();
             },
             heroTag: 'decrement',
             child: const Icon(Icons.remove),
