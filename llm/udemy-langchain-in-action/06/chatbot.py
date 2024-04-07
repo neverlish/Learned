@@ -14,21 +14,23 @@ get_verbose()
 
 load_dotenv(find_dotenv())
 
+print()
+
 template = """You are an AI chatbot having a conversation with a human.
 
 {history}
 Human: {human_input}
 AI: """
-
-# TODO: Add prompt
+prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
 
 msgs = StreamlitChatMessageHistory(key="special_app_key")
 
-# TODO: Add Memory
+memory = ConversationBufferMemory(memory_key="history", chat_memory=msgs)
 
 
 def load_chain():
-    # Add an LLMChain with memory and a prompt
+    llm = ChatOpenAI(temperature=0)
+    llm_chain = LLMChain(llm=llm, prompt=prompt, memory=memory)
     return llm_chain
 
 
@@ -63,7 +65,7 @@ def submit():
 st.text_input("You:", key="widget_input", on_change=submit)
 
 if st.session_state.user_input:
-    output = st.session_state.chain.run(st.session_state.user_input)
+    output = st.session_state.chain.invoke(st.session_state.user_input)["text"]
     st.session_state.past.append(st.session_state.user_input)
     st.session_state.generated.append(output)
 
