@@ -1,0 +1,36 @@
+syntax="proto3";
+
+package hr.entities;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Grpc.Course.Protobuf.Test";
+
+/* Represents the Employee entity, with a list of previous employers.
+Also, this definition contains the current address of the employee. */
+message Employee {
+  int32 id=1;
+  string first_name=2;
+  string last_name=3;
+  bool is_retired=4;
+  google.protobuf.Timestamp birth_date=5;
+  Address current_address=6;
+  repeated string previous_employers=7; // Leave empty if unknown
+  enum MaritalStatus  {
+    SINGLE=0;
+    MARRIED=1;
+    DIVORCED=2;
+    OTHER=3;
+  }
+  MaritalStatus marital_status=8;
+}
+
+
+message Address {
+  string street_name=1;
+  int32 house_number=2;
+  string city=3;
+  string zip_code=4;
+}
+
+
