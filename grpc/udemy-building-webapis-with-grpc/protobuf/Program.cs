@@ -20,6 +20,9 @@ emp.CurrentAddress = new Address();
 emp.CurrentAddress.City = "New York";
 emp.CurrentAddress.StreetName = "5th Avenue";
 emp.CurrentAddress.HouseNumber = 42;
+emp.Relatives.Add("father", "John");
+emp.Relatives.Add("mother", "Hannah");
+emp.Relatives.Add("brother", "Dirk");
 
 using (var output = File.Create("emp.dat"))
 {

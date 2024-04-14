@@ -27,6 +27,7 @@ message Employee {
     OTHER=3;
   }
   MaritalStatus marital_status=8;
+  map<string, string> relatives=10;
 }
 
 
