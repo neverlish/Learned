@@ -13,7 +13,11 @@ message Employee {
   string first_name=2;
   string last_name=3;
   bool is_retired=4;
-  google.protobuf.Timestamp birth_date=5;
+  // google.protobuf.Timestamp birth_date=5;
+  oneof birth_data {
+    google.protobuf.Timestamp birth_date=5;
+    int32 age = 9;
+  }
   Address current_address=6;
   repeated string previous_employers=7; // Leave empty if unknown
   enum MaritalStatus  {
