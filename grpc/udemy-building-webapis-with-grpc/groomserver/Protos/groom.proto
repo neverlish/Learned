@@ -1,0 +1,17 @@
+syntax="proto3";
+
+option csharp_namespace = "gRoom.gRPC.Messages";
+
+package groom;
+
+message RoomRegistrationRequest {
+    string room_name = 1;
+}
+
+message RoomRegistrationResponse {
+    int32 room_id = 1;
+}
+
+service Groom {
+    rpc RegisterToRoom(RoomRegistrationRequest) returns (RoomRegistrationResponse);
+}
