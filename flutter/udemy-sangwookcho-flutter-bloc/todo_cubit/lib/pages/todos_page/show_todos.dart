@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_cubit/cubits/cubits.dart';
+import 'package:todo_cubit/models/todo_model.dart';
 
 class ShowTodos extends StatelessWidget {
   const ShowTodos({super.key});
@@ -21,9 +22,32 @@ class ShowTodos extends StatelessWidget {
           key: ValueKey(todos[index].id),
           background: showBackground(0),
           secondaryBackground: showBackground(1),
-          child: Text(
-            todos[index].desc,
-            style: const TextStyle(fontSize: 20.0),
+          onDismissed: (_) {
+            context.read<TodoListCubit>().removeTodo(todos[index]);
+          },
+          confirmDismiss: (_) {
+            return showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Are you sure?'),
+                  content: const Text('Do you really want to delete'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text('NO'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: const Text('YES'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: TodoItem(
+            todo: todos[index],
           ),
         );
       },
@@ -41,6 +65,92 @@ class ShowTodos extends StatelessWidget {
         size: 30.0,
         color: Colors.white,
       ),
+    );
+  }
+}
+
+class TodoItem extends StatefulWidget {
+  final Todo todo;
+
+  const TodoItem({
+    required this.todo,
+    super.key,
+  });
+
+  @override
+  State<TodoItem> createState() => _TodoItemState();
+}
+
+class _TodoItemState extends State<TodoItem> {
+  late final TextEditingController textController;
+
+  @override
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              bool error = false;
+              textController.text = widget.todo.desc;
+
+              return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                return AlertDialog(
+                  title: const Text('Edit Todo'),
+                  content: TextField(
+                    controller: textController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      errorText: error ? 'Value cannot be empty' : null,
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('CANCEL'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(
+                          () {
+                            error = textController.text.isEmpty ? true : false;
+                            if (!error) {
+                              context.read<TodoListCubit>().editTodo(
+                                  widget.todo.id, textController.text);
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        );
+                      },
+                      child: const Text('SAVE'),
+                    ),
+                  ],
+                );
+              });
+            });
+      },
+      leading: Checkbox(
+        value: widget.todo.completed,
+        onChanged: (bool? checked) {
+          context.read<TodoListCubit>().toggleTodo(widget.todo.id);
+        },
+      ),
+      title: Text(widget.todo.desc),
     );
   }
 }
