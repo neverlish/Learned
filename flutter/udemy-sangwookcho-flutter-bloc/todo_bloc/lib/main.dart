@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_bloc/cubits/cubits.dart';
+
+import 'blocs/blocs.dart';
 
 import 'pages/todos_page/todos_page.dart';
 
@@ -16,28 +17,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<TodoFilterCubit>(
-          create: (BuildContext context) => TodoFilterCubit(),
+        BlocProvider<TodoFilterBloc>(
+          create: (BuildContext context) => TodoFilterBloc(),
         ),
-        BlocProvider<TodoSearchCubit>(
-          create: (BuildContext context) => TodoSearchCubit(),
+        BlocProvider<TodoSearchBloc>(
+          create: (BuildContext context) => TodoSearchBloc(),
         ),
-        BlocProvider<TodoListCubit>(
-          create: (BuildContext context) => TodoListCubit(),
+        BlocProvider<TodoListBloc>(
+          create: (BuildContext context) => TodoListBloc(),
         ),
-        BlocProvider<ActiveTodoCountCubit>(
-          create: (BuildContext context) => ActiveTodoCountCubit(
+        BlocProvider<ActiveTodoCountBloc>(
+          create: (BuildContext context) => ActiveTodoCountBloc(
             initialActiveTodoCount:
-                context.read<TodoListCubit>().state.todos.length,
-            todoListCubit: context.read<TodoListCubit>(),
+                context.read<TodoListBloc>().state.todos.length,
+            todoListBloc: context.read<TodoListBloc>(),
           ),
         ),
-        BlocProvider<FilteredTodosCubit>(
-          create: (BuildContext context) => FilteredTodosCubit(
-            initialTodos: context.read<TodoListCubit>().state.todos,
-            todoFilterCubit: context.read<TodoFilterCubit>(),
-            todoSearchCubit: context.read<TodoSearchCubit>(),
-            todoListCubit: context.read<TodoListCubit>(),
+        BlocProvider<FilteredTodosBloc>(
+          create: (BuildContext context) => FilteredTodosBloc(
+            initialTodos: context.read<TodoListBloc>().state.todos,
+            todoFilterBloc: context.read<TodoFilterBloc>(),
+            todoSearchBloc: context.read<TodoSearchBloc>(),
+            todoListBloc: context.read<TodoListBloc>(),
           ),
         ),
       ],
