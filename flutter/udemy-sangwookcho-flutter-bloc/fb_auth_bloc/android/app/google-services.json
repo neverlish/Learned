@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "95259510367",
+    "project_id": "fb-auth-bloc-neverlish",
+    "storage_bucket": "fb-auth-bloc-neverlish.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95259510367:android:38425f310775d1153c3dea",
+        "android_client_info": {
+          "package_name": "com.example.fb_auth_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7RIZ1bFkG89y4Cz5OOA9W6fkdveyk1As"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
