@@ -43,3 +43,4 @@ msbuild.err
 msbuild.wrn
 *.sln
 .mono
+node_modules
