@@ -1,0 +1,4 @@
+github.com/GoesToEleven/golang-web-dev v0.0.0-20191213230751-ef2d6fb2fe25 h1:PXb5wpGn+awL+vsW96ZoS2r9ybuXPHcradpjQpupYME=
+github.com/GoesToEleven/golang-web-dev v0.0.0-20191213230751-ef2d6fb2fe25/go.mod h1:kCzgRnGeAg0uoJRAJeogJJE1TBmBI0Vd1sSYJW00br0=
+github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
+github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
