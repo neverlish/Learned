@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/person_page.dart';
+import 'pages/user_list_page.dart';
 import 'widgets/custom_button.dart';
 
 void main() {
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 18),
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -38,6 +42,10 @@ class MyHomePage extends StatelessWidget {
             CustomButton(
               title: 'Person',
               child: PersonPage(),
+            ),
+            CustomButton(
+              title: 'User List',
+              child: UserListPage(),
             ),
           ],
         ),
