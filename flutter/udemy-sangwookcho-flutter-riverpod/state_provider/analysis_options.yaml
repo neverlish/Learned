@@ -1,0 +1,11 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    avoid_print: false
+
+analyzer:
+  plugins:
+    - custom_lint
+  exclude:
+    - '**/*.g.dart'
