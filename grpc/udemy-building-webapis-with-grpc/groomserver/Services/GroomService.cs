@@ -42,6 +42,11 @@ public class GroomService : Groom.GroomBase
                 var msg = MessagesQueue.GetNextMessage();
                 await streamWriter.WriteAsync(msg);
             }
+            if (UsersQueues.GetAdminQueueMessageCount() > 0)
+            {
+
+                await streamWriter.WriteAsync(UsersQueues.GetNextAdminMessage());
+            }
             await Task.Delay(5000);
         }
     }
