@@ -1,0 +1,28 @@
+syntax="proto3";
+
+option csharp_namespace = "gRoom.gRPC.Messages";
+
+package groom;
+
+import "google/protobuf/timestamp.proto";
+
+message RoomRegistrationRequest {
+    string room_name = 1;
+    string user_name = 2;
+}
+
+message RoomRegistrationResponse {
+    bool joined = 1;
+}
+
+message ChatMessage {
+    google.protobuf.Timestamp msg_time = 1;
+    string contents = 2;
+    string user = 3;
+    string room = 4;
+}
+
+service Groom {
+    rpc RegisterToRoom(RoomRegistrationRequest) returns (RoomRegistrationResponse);
+    rpc StartChat(stream ChatMessage) returns (stream ChatMessage);
+}

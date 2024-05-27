@@ -81,7 +81,7 @@ public class GroomService : Groom.GroomBase
         Console.WriteLine($"User {userName} connected to room {incomingStream.Current.Room}");
 
         // TEST TEST TEST TEST - TO USE ONLY WHEN TESTING WITH BLOOMRPC
-        UsersQueues.CreateUserQueue(room, userName);
+        // UsersQueues.CreateUserQueue(room, userName);
         // END TEST END TEST END TEST
 
         // Get messages from the user
