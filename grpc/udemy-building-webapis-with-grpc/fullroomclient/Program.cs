@@ -16,7 +16,7 @@ Console.WriteLine($"Joining room {room}...");
 
 try
 {
-    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username });
+    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username }, deadline: DateTime.UtcNow.AddSeconds(5));
     if (joinResponse.Joined)
     {
         Console.WriteLine("Joined successfully!");
