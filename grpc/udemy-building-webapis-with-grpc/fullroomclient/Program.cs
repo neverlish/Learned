@@ -31,14 +31,17 @@ try
         return;
     }
 }
-catch (Exception ex)
+catch (Grpc.Core.RpcException ex)
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine($"Error joining room {room}. Error: {ex.Message}");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.WriteLine("Press any key to close the window.");
-    Console.Read();
-    return;
+    if (ex.StatusCode == Grpc.Core.StatusCode.DeadlineExceeded)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Timeout exceeded when trying to join the {room} room. Please try again later.");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Press any key to close the window.");
+        Console.Read();
+        return;
+    }
 }
 
 Console.WriteLine($"Press any key to enter the {room} room.");
