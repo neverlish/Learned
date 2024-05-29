@@ -31,17 +31,14 @@ try
         return;
     }
 }
-catch (Grpc.Core.RpcException ex)
+catch (Exception ex)
 {
-    if (ex.StatusCode == Grpc.Core.StatusCode.DeadlineExceeded)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Timeout exceeded when trying to join the {room} room. Please try again later.");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine("Press any key to close the window.");
-        Console.Read();
-        return;
-    }
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"Error joining room {room}. Error: {ex.Message}");
+    Console.ForegroundColor = ConsoleColor.Gray;
+    Console.WriteLine("Press any key to close the window.");
+    Console.Read();
+    return;
 }
 
 Console.WriteLine($"Press any key to enter the {room} room.");
@@ -61,14 +58,25 @@ var task = Task.Run(async () =>
 
     while (true)
     {
-        // TYPE HERE THE CODE FOR RECEIVING MESSAGES FROM THE SERVER
-        if (await call.ResponseStream.MoveNext(cts.Token))
+        try
         {
-            var msg = call.ResponseStream.Current;
-            var left = Console.CursorLeft - promptText.Length;
-            PrintMessage(msg);
+            // TYPE HERE THE CODE FOR RECEIVING MESSAGES FROM THE SERVER
+            if (await call.ResponseStream.MoveNext(cts.Token))
+            {
+                var msg = call.ResponseStream.Current;
+                var left = Console.CursorLeft - promptText.Length;
+                PrintMessage(msg);
+            }
+            await Task.Delay(500);
         }
-        await Task.Delay(500);
+        catch (Grpc.Core.RpcException ex)
+        {
+            if (ex.StatusCode == Grpc.Core.StatusCode.Cancelled)
+            {
+                Console.WriteLine("cancelled!");
+                break;
+            }
+        }
     }
 });
 
@@ -78,14 +86,23 @@ while (true)
     var input = Console.ReadLine();
     RestoreInputCursor();
 
-    // TYPE HERE THE CODE FOR SENDING MESSAGES TO THE SERVER
-    var reqMsg = new ChatMessage();
-    reqMsg.Contents = input;
-    reqMsg.MsgTime = Timestamp.FromDateTime(DateTime.UtcNow);
-    reqMsg.Room = room;
-    reqMsg.User = username;
+    if (input == "x")
+    {
+        cts.Cancel();
+        Console.WriteLine("Chat cancelled!");
 
-    await call.RequestStream.WriteAsync(reqMsg);
+    }
+    else
+    {
+        // TYPE HERE THE CODE FOR SENDING MESSAGES TO THE SERVER
+        var reqMsg = new ChatMessage();
+        reqMsg.Contents = input;
+        reqMsg.MsgTime = Timestamp.FromDateTime(DateTime.UtcNow);
+        reqMsg.Room = room;
+        reqMsg.User = username;
+
+        await call.RequestStream.WriteAsync(reqMsg);
+    }
 
 }
 
