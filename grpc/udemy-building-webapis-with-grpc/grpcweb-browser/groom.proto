@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package groom;
+
+message RoomRegistrationRequest  {
+    string room_name=1;
+    string user_name=2;
+}
+
+message RoomRegistrationResponse  {
+    bool joined=1;
+}
+
+
+service Groom  {
+    rpc RegisterToRoom(RoomRegistrationRequest) returns (RoomRegistrationResponse);    
+}
