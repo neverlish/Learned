@@ -37,5 +37,7 @@ public class Main {
 
         System.out.println(streams.toString());
 
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+
     }
 }
