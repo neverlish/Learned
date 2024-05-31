@@ -1,0 +1,18 @@
+syntax="proto3";
+
+option csharp_namespace = "gRoom.gRPC.Messages";
+
+package groom;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message ReceivedMessage {
+    google.protobuf.Timestamp msg_time = 1;
+    string contents = 2;
+    string user = 3;
+}
+
+service Groom {
+    rpc StartMonitoring(google.protobuf.Empty) returns (stream ReceivedMessage);
+}
