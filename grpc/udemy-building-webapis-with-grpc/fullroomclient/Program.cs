@@ -16,7 +16,10 @@ Console.WriteLine($"Joining room {room}...");
 
 try
 {
-    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username }, deadline: DateTime.UtcNow.AddSeconds(5));
+    var headers = new Grpc.Core.Metadata();
+    headers.Add("Authorization", "Bearer zxclhqwe34sndaqwelhqad=");
+
+    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username }, deadline: DateTime.UtcNow.AddSeconds(5), headers: headers);
     if (joinResponse.Joined)
     {
         Console.WriteLine("Joined successfully!");
@@ -31,14 +34,17 @@ try
         return;
     }
 }
-catch (Exception ex)
+catch (Grpc.Core.RpcException ex)
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine($"Error joining room {room}. Error: {ex.Message}");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.WriteLine("Press any key to close the window.");
-    Console.Read();
-    return;
+    if (ex.StatusCode == Grpc.Core.StatusCode.DeadlineExceeded)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Timeout exceeded when try to join the {room} room. Please try again later.");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Press any key to close the window.");
+        Console.Read();
+        return;
+    }
 }
 
 Console.WriteLine($"Press any key to enter the {room} room.");
