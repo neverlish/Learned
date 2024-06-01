@@ -22,6 +22,7 @@ public class GreetingsTopology {
                 .print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
 
         var modifiedStream = greetingsStream
+                .filterNot((key, value) -> value.length() > 5)
                 .mapValues((readonly, value) -> value.toUpperCase());
 
         modifiedStream
