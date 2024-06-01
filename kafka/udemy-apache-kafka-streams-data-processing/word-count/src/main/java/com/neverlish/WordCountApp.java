@@ -11,7 +11,7 @@ import org.apache.kafka.streams.kstream.KTable;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class Main {
+public class WordCountApp {
     public static void main(String[] args) {
         Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-starter-app");
