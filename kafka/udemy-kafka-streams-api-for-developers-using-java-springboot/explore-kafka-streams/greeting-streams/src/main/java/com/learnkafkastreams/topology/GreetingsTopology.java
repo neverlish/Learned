@@ -1,17 +1,16 @@
 package com.learnkafkastreams.topology;
 
+import com.learnkafkastreams.domain.Greeting;
+import com.learnkafkastreams.serdes.SerdesFactory;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class GreetingsTopology {
     private static final Logger log = LoggerFactory.getLogger(GreetingsTopology.class);
@@ -24,17 +23,10 @@ public class GreetingsTopology {
     public static Topology buildTopology() {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
-        var greetingsStream = streamsBuilder
-                .stream(GREETINGS, Consumed.with(Serdes.String(), Serdes.String()));
-
-        var greetingsSpanishStream = streamsBuilder
-                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), Serdes.String()));
-
-        var mergedStream = greetingsStream
-                .merge(greetingsSpanishStream);
+        var mergedStream = getCustomGreetingKSTream(streamsBuilder);
 
         mergedStream
-                .print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
+                .print(Printed.<String, Greeting>toSysOut().withLabel("greetingsStream"));
 
         var modifiedStream = mergedStream
 //                .filter((key, value) -> value.length() > 5)
@@ -42,7 +34,8 @@ public class GreetingsTopology {
 //                .peek((key, value) -> {
 //                    log.info("after filter : key : {} , value : {}", key, value);
 //                })
-                .mapValues((readonly, value) -> value.toUpperCase())
+                .mapValues((readonly, value) ->
+                        new Greeting(value.message().toUpperCase(), value.timestamp()))
 //                .peek((key, value) -> {
 //                    log.info("after mapValues : key : {} , value : {}", key, value);
 //                })
@@ -65,11 +58,25 @@ public class GreetingsTopology {
                 ;
 
         modifiedStream
-                .print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
+                .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
         modifiedStream
-                .to(GREETINGS_UPPERCASE);
+                .to(GREETINGS_UPPERCASE,
+                        Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
 
         return streamsBuilder.build();
+    }
+
+    private static KStream<String, Greeting> getCustomGreetingKSTream(StreamsBuilder streamsBuilder) {
+        var greetingsStream = streamsBuilder
+                .stream(GREETINGS
+                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+
+        var greetingsSpanishStream = streamsBuilder
+                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+
+        var mergedStream = greetingsStream
+                .merge(greetingsSpanishStream);
+        return mergedStream;
     }
 }

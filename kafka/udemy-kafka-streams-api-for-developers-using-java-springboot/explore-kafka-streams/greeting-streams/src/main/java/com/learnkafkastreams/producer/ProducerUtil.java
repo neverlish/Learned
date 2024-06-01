@@ -20,7 +20,7 @@ public class ProducerUtil {
     public static Map<String, Object> producerProps(){
 
         Map<String,Object> propsMap = new HashMap<>();
-        propsMap.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        propsMap.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:19092");
         propsMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         propsMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         return propsMap;
