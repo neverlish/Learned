@@ -7,11 +7,14 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class GreetingsTopology {
+    private static final Logger log = LoggerFactory.getLogger(GreetingsTopology.class);
     public static String GREETINGS = "greetings";
 
     public static String GREETINGS_UPPERCASE = "greetings_uppercase";
@@ -26,9 +29,16 @@ public class GreetingsTopology {
                 .print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
 
         var modifiedStream = greetingsStream
-//                .filterNot((key, value) -> value.length() > 5)
-//                .mapValues((readonly, value) -> value.toUpperCase());
-                .map((key, value) -> KeyValue.pair(key.toUpperCase(), value.toUpperCase()))
+                .filter((key, value) -> value.length() > 5)
+
+                .peek((key, value) -> {
+                    log.info("after filter : key : {} , value : {}", key, value);
+                })
+                .mapValues((readonly, value) -> value.toUpperCase())
+                .peek((key, value) -> {
+                    log.info("after mapValues : key : {} , value : {}", key, value);
+                })
+//                .map((key, value) -> KeyValue.pair(key.toUpperCase(), value.toUpperCase()))
 //                .flatMap((key, value) -> {
 //                    var newValues = Arrays.asList(value.split(""));
 //                    return newValues
