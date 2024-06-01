@@ -68,7 +68,7 @@ public class GreetingsTopology {
                 .print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
 
         modifiedStream
-                .to(GREETINGS_UPPERCASE, Produced.with(Serdes.String(), Serdes.String()));
+                .to(GREETINGS_UPPERCASE);
 
         return streamsBuilder.build();
     }
