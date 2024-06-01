@@ -62,7 +62,7 @@ public class GreetingsTopology {
 
         modifiedStream
                 .to(GREETINGS_UPPERCASE,
-                        Produced.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+                        Produced.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
 
         return streamsBuilder.build();
     }
@@ -70,10 +70,10 @@ public class GreetingsTopology {
     private static KStream<String, Greeting> getCustomGreetingKSTream(StreamsBuilder streamsBuilder) {
         var greetingsStream = streamsBuilder
                 .stream(GREETINGS
-                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
 
         var greetingsSpanishStream = streamsBuilder
-                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdes()));
+                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
 
         var mergedStream = greetingsStream
                 .merge(greetingsSpanishStream);
