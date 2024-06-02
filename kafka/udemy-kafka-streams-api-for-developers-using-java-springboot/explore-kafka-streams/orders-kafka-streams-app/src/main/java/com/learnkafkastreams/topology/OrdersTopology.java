@@ -6,6 +6,7 @@ import com.learnkafkastreams.domain.Revenue;
 import com.learnkafkastreams.serdes.SerdesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.*;
@@ -14,7 +15,9 @@ import org.apache.kafka.streams.kstream.*;
 public class OrdersTopology {
     public static final String ORDERS = "orders";
     public static final String RESTAURANT_ORDERS = "restaurant_orders";
+    public static final String RESTAURANT_ORDERS_COUNT = "restaurant_orders_count";
     public static final String GENERAL_ORDERS = "general_orders";
+    public static final String GENERAL_ORDERS_COUNT = "general_orders_count";
     public static final String STORES = "stores";
 
 
@@ -39,10 +42,12 @@ public class OrdersTopology {
                             generalOrdersStream
                                     .print(Printed.<String, Order>toSysOut().withLabel("generalStream"));
 
-                            generalOrdersStream
-                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
-                                    .to(GENERAL_ORDERS,
-                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
+//                            generalOrdersStream
+//                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
+//                                    .to(GENERAL_ORDERS,
+//                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
+
+                            aggregateOrdersByCount(generalOrdersStream, GENERAL_ORDERS_COUNT);
 
                         })
                 )
@@ -51,13 +56,26 @@ public class OrdersTopology {
                             restaurantOrdersStream
                                     .print(Printed.<String, Order>toSysOut().withLabel("restaurantStream"));
 
-                            restaurantOrdersStream
-                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
-                                    .to(RESTAURANT_ORDERS,
-                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
+//                            restaurantOrdersStream
+//                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
+//                                    .to(RESTAURANT_ORDERS,
+//                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
+
+                            aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT);
                         })
                 );
 
         return streamsBuilder.build();
+    }
+
+    private static void aggregateOrdersByCount(KStream<String, Order> generalOrdersStream, String storeName) {
+        var ordersCountPerStore = generalOrdersStream
+                .map((key, value) -> KeyValue.pair(value.locationId(), value))
+                .groupByKey(Grouped.with(Serdes.String(), SerdesFactory.orderSerdes()))
+                .count(Named.as(storeName), Materialized.as(storeName));
+
+        ordersCountPerStore
+                .toStream()
+                .print(Printed.<String, Long>toSysOut().withLabel(storeName));
     }
 }
