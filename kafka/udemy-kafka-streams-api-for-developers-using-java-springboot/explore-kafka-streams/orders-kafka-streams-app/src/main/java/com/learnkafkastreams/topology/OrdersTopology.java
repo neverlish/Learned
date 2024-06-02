@@ -35,7 +35,8 @@ public class OrdersTopology {
 
         var ordersStream = streamsBuilder
                 .stream(ORDERS,
-                        Consumed.with(Serdes.String(), SerdesFactory.orderSerdes()));
+                        Consumed.with(Serdes.String(), SerdesFactory.orderSerdes()))
+                .selectKey((key, value) -> value.locationId());
 
         ordersStream
                 .print(Printed.<String, Order>toSysOut().withLabel("orders"));
@@ -95,7 +96,7 @@ public class OrdersTopology {
 
     private static void aggregateOrdersByCount(KStream<String, Order> generalOrdersStream, String storeName) {
         var ordersCountPerStore = generalOrdersStream
-                .map((key, value) -> KeyValue.pair(value.locationId(), value))
+//                .map((key, value) -> KeyValue.pair(value.locationId(), value))
                 .groupByKey(Grouped.with(Serdes.String(), SerdesFactory.orderSerdes()))
                 .count(Named.as(storeName), Materialized.as(storeName));
 
