@@ -16,6 +16,11 @@ public class ExploreKTableTopology {
         var wordsTable = streamsBuilder.table(WORDS,
                 Consumed.with(Serdes.String(), Serdes.String()), Materialized.as("words-store"));
 
+        var wordsGlobalTable = streamsBuilder.globalTable(WORDS,
+                Consumed.with(Serdes.String(), Serdes.String()), Materialized.as("words-store"));
+
+//        wordsGlobalTable
+
         wordsTable
                 .filter((key, value) -> value.length() > 2)
                 .toStream()
