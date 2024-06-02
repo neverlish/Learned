@@ -10,11 +10,14 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class ExploreAggregateOperatorsTopology {
 
 
+    private static final Logger log = LoggerFactory.getLogger(ExploreAggregateOperatorsTopology.class);
     public static String AGGREGATE = "aggregate";
 
     public static Topology build(){
@@ -31,9 +34,22 @@ public class ExploreAggregateOperatorsTopology {
 //                .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
                 .groupBy((key, value) -> value, Grouped.with(Serdes.String(), Serdes.String()));
 
-        exploreCount(groupedString);
+//        exploreCount(groupedString);
+        exploreReduce(groupedString);
 
         return streamsBuilder.build();
+    }
+
+    private static void exploreReduce(KGroupedStream<String, String> groupedStream) {
+        var reducedStream = groupedStream
+                .reduce((value1, value2) -> {
+                    log.info("value1 : {} , value2 : {}", value1, value2);
+                    return value1.toUpperCase() + "-" + value2.toUpperCase();
+                });
+
+        reducedStream
+                .toStream()
+                .print(Printed.<String, String>toSysOut().withLabel("reduced-words"));
     }
 
     private static void exploreCount(KGroupedStream<String, String> groupedStream) {
