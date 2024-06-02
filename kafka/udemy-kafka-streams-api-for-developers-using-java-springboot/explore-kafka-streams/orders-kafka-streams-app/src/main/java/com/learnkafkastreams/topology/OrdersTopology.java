@@ -53,7 +53,7 @@ public class OrdersTopology {
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
 
                             aggregateOrdersByCount(generalOrdersStream, GENERAL_ORDERS_COUNT);
-                            aggregateOrdersByRevenue(generalOrdersStream, GENERAL_ORDERS_REVENUE);
+//                            aggregateOrdersByRevenue(generalOrdersStream, GENERAL_ORDERS_REVENUE);
 
                         })
                 )
@@ -68,7 +68,7 @@ public class OrdersTopology {
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
 
                             aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT);
-                            aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE);
+//                            aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE);
                         })
                 );
 
