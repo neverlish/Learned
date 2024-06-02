@@ -34,9 +34,9 @@ public class ExploreAggregateOperatorsTopology {
 //                .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
                 .groupBy((key, value) -> value, Grouped.with(Serdes.String(), Serdes.String()));
 
-//        exploreCount(groupedString);
-//        exploreReduce(groupedString);
-        exploreAggregate(groupedString);
+        exploreCount(groupedString);
+        exploreReduce(groupedString);
+//        exploreAggregate(groupedString);
 
         return streamsBuilder.build();
     }
@@ -65,7 +65,10 @@ public class ExploreAggregateOperatorsTopology {
                 .reduce((value1, value2) -> {
                     log.info("value1 : {} , value2 : {}", value1, value2);
                     return value1.toUpperCase() + "-" + value2.toUpperCase();
-                });
+                },
+                        Materialized.<String, String, KeyValueStore<Bytes, byte[]>>as("reduced-words")
+                                .withKeySerde(Serdes.String())
+                                .withValueSerde(Serdes.String()));
 
         reducedStream
                 .toStream()
@@ -74,7 +77,9 @@ public class ExploreAggregateOperatorsTopology {
 
     private static void exploreCount(KGroupedStream<String, String> groupedStream) {
         var countByAlphabet = groupedStream
-                .count(Named.as("count-per-alphabet"));
+                .count(Named.as("count-per-alphabet"),
+                        Materialized.as("count-per-alphabet")
+                );
 
         countByAlphabet
                 .toStream()
