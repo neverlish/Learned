@@ -2,6 +2,7 @@ package com.learnkafkastreams.topology;
 
 import com.learnkafkastreams.domain.Order;
 import com.learnkafkastreams.domain.OrderType;
+import com.learnkafkastreams.domain.Revenue;
 import com.learnkafkastreams.serdes.SerdesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
@@ -20,6 +21,8 @@ public class OrdersTopology {
     public static Topology buildTopology() {
         Predicate<String, Order> generalPredicate = (key, order) -> order.orderType().equals(OrderType.GENERAL);
         Predicate<String, Order> restaurantPredicate = (key, order) -> order.orderType().equals(OrderType.RESTAURANT);
+        ValueMapper<Order, Revenue> revenueMapper = order -> new Revenue(order.locationId(), order.finalAmount());
+
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
         var ordersStream = streamsBuilder
@@ -37,8 +40,9 @@ public class OrdersTopology {
                                     .print(Printed.<String, Order>toSysOut().withLabel("generalStream"));
 
                             generalOrdersStream
+                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
                                     .to(GENERAL_ORDERS,
-                                            Produced.with(Serdes.String(), SerdesFactory.orderSerdes()));
+                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
 
                         })
                 )
@@ -48,8 +52,9 @@ public class OrdersTopology {
                                     .print(Printed.<String, Order>toSysOut().withLabel("restaurantStream"));
 
                             restaurantOrdersStream
+                                    .mapValues((readOnlyKey, value) -> revenueMapper.apply(value))
                                     .to(RESTAURANT_ORDERS,
-                                            Produced.with(Serdes.String(), SerdesFactory.orderSerdes()));
+                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
                         })
                 );
 
