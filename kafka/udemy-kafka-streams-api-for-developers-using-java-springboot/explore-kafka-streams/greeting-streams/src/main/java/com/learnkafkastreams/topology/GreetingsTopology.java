@@ -2,6 +2,7 @@ package com.learnkafkastreams.topology;
 
 import com.learnkafkastreams.domain.Greeting;
 import com.learnkafkastreams.serdes.SerdesFactory;
+import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
@@ -28,6 +29,52 @@ public class GreetingsTopology {
         mergedStream
                 .print(Printed.<String, Greeting>toSysOut().withLabel("greetingsStream"));
 
+//        var modifiedStream = exploreOperators(mergedStream);
+        var modifiedStream = exploreErrors(mergedStream);
+
+
+        modifiedStream
+                .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
+
+        modifiedStream
+                .to(GREETINGS_UPPERCASE,
+                        Produced.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+
+        return streamsBuilder.build();
+    }
+
+    private static KStream<String, Greeting> getCustomGreetingKSTream(StreamsBuilder streamsBuilder) {
+        var greetingsStream = streamsBuilder
+                .stream(GREETINGS
+                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+
+        var greetingsSpanishStream = streamsBuilder
+                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
+
+        var mergedStream = greetingsStream
+                .merge(greetingsSpanishStream);
+        return mergedStream;
+    }
+
+    private static KStream<String, Greeting> exploreErrors(KStream<String, Greeting> mergedStream) {
+        return mergedStream
+                .mapValues((readOnlyKey, value) -> {
+                    if (value.message().equals("Transient Error")) {
+                        try {
+                            throw new IllegalStateException(value.message());
+                        } catch (Exception e) {
+                            log.error("Exception in exploreErrors : {}", e.getMessage(), e);
+                            return null;
+                        }
+
+                    }
+                    return new Greeting(value.message().toUpperCase(), value.timestamp());
+                })
+                .filter((key, value) -> key != null && value != null);
+
+    }
+
+    private static KStream<String, Greeting> exploreOperators(KStream<String, Greeting> mergedStream) {
         var modifiedStream = mergedStream
 //                .filter((key, value) -> value.length() > 5)
 //
@@ -56,27 +103,6 @@ public class GreetingsTopology {
 //                            .collect(Collectors.toList());
 //                })
                 ;
-
-        modifiedStream
-                .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
-
-        modifiedStream
-                .to(GREETINGS_UPPERCASE,
-                        Produced.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
-
-        return streamsBuilder.build();
-    }
-
-    private static KStream<String, Greeting> getCustomGreetingKSTream(StreamsBuilder streamsBuilder) {
-        var greetingsStream = streamsBuilder
-                .stream(GREETINGS
-                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
-
-        var greetingsSpanishStream = streamsBuilder
-                .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics()));
-
-        var mergedStream = greetingsStream
-                .merge(greetingsSpanishStream);
-        return mergedStream;
+        return modifiedStream;
     }
 }
