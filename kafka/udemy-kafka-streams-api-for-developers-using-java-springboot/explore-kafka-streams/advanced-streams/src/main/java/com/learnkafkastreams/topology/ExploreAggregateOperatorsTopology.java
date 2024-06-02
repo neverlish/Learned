@@ -35,9 +35,29 @@ public class ExploreAggregateOperatorsTopology {
                 .groupBy((key, value) -> value, Grouped.with(Serdes.String(), Serdes.String()));
 
 //        exploreCount(groupedString);
-        exploreReduce(groupedString);
+//        exploreReduce(groupedString);
+        exploreAggregate(groupedString);
 
         return streamsBuilder.build();
+    }
+
+    private static void exploreAggregate(KGroupedStream<String, String> groupedStream) {
+            Initializer<AlphabetWordAggregate> alphabetWordAggregateInitializer = AlphabetWordAggregate::new;
+
+            Aggregator<String, String, AlphabetWordAggregate> aggregator = (key, value, aggregate) -> aggregate.updateNewEvents(key, value);
+
+            var aggregatedStream = groupedStream
+                    .aggregate(
+                            alphabetWordAggregateInitializer,
+                            aggregator,
+                            Materialized.<String, AlphabetWordAggregate, KeyValueStore<Bytes, byte[]>>as("aggregated-store")
+                                    .withKeySerde(Serdes.String())
+                                    .withValueSerde(SerdesFactory.alphabetWordAggregate())
+                    );
+
+            aggregatedStream
+                    .toStream()
+                    .print(Printed.<String, AlphabetWordAggregate>toSysOut().withLabel("aggregated-words"));
     }
 
     private static void exploreReduce(KGroupedStream<String, String> groupedStream) {
