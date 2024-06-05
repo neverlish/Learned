@@ -34,7 +34,10 @@ public class ExploreWindowTopology {
         var windowedTable = wordsStream
                 .groupByKey()
                 .windowedBy(timeWindow)
-                .count();
+                .count()
+                .suppress(
+                        Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded().shutDownWhenFull())
+                );
 
         windowedTable
                 .toStream()
