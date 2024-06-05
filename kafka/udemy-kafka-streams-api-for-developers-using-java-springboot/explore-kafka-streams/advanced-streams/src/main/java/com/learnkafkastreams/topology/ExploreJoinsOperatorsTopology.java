@@ -50,7 +50,7 @@ public class ExploreJoinsOperatorsTopology {
         var joinedParams = StreamJoined.with(Serdes.String(), Serdes.String(), Serdes.String());
 
         var joinedStream = alphabetAbbreavation
-                .leftJoin(alphabetsStream,
+                .outerJoin(alphabetsStream,
                         valueJoiner,
                         fiveSecondWindow,
                         joinedParams);
