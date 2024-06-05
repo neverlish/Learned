@@ -21,7 +21,8 @@ public class ExploreWindowTopology {
         var wordsStream = streamsBuilder
                 .stream(WINDOW_WORDS, Consumed.with(Serdes.String(), Serdes.String()));
 
-        tumblingWindows(wordsStream);
+//        tumblingWindows(wordsStream);
+        hoppingWindows(wordsStream);
 
         return streamsBuilder.build();
     }
@@ -43,6 +44,30 @@ public class ExploreWindowTopology {
                 .toStream()
                 .peek((key, value) -> {
                     log.info("tumblingWindows : key : {} , value : {}", key, value);
+                    printLocalDateTimes(key, value);
+                })
+                .print(Printed.<Windowed<String>, Long>toSysOut().withLabel("tumblingWindow"));
+    }
+
+    private static void hoppingWindows(KStream<String, String> wordsStream) {
+        Duration windowSize = Duration.ofSeconds(5);
+
+        var advancedBySize = Duration.ofSeconds(3);
+        var timeWindow = TimeWindows.ofSizeWithNoGrace(windowSize)
+                .advanceBy(advancedBySize);
+
+        var windowedTable = wordsStream
+                .groupByKey()
+                .windowedBy(timeWindow)
+                .count()
+                .suppress(
+                        Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded().shutDownWhenFull())
+                );
+
+        windowedTable
+                .toStream()
+                .peek((key, value) -> {
+                    log.info("hoppingWindows : key : {} , value : {}", key, value);
                     printLocalDateTimes(key, value);
                 })
                 .print(Printed.<Windowed<String>, Long>toSysOut().withLabel("tumblingWindow"));
