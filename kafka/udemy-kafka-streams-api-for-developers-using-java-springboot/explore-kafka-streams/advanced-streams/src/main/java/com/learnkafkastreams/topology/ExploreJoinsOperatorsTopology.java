@@ -50,13 +50,13 @@ public class ExploreJoinsOperatorsTopology {
         var joinedParams = StreamJoined.with(Serdes.String(), Serdes.String(), Serdes.String());
 
         var joinedStream = alphabetAbbreavation
-                .join(alphabetsStream,
+                .leftJoin(alphabetsStream,
                         valueJoiner,
                         fiveSecondWindow,
                         joinedParams);
 
         joinedStream
-                .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets_alphabets_abbreviation"));
+                .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets_alphabets_abbreviation-kstream"));
     }
 
     private static void joinKStreamWithKTable(StreamsBuilder streamsBuilder) {
