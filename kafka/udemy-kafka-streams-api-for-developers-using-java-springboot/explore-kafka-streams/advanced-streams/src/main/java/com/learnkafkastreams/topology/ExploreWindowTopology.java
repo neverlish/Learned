@@ -18,7 +18,31 @@ public class ExploreWindowTopology {
     public static Topology build(){
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
+        var wordsStream = streamsBuilder
+                .stream(WINDOW_WORDS, Consumed.with(Serdes.String(), Serdes.String()));
+
+        tumblingWindows(wordsStream);
+
         return streamsBuilder.build();
+    }
+
+    private static void tumblingWindows(KStream<String, String> wordsStream) {
+        Duration windowSize = Duration.ofSeconds(5);
+
+        var timeWindow = TimeWindows.ofSizeWithNoGrace(windowSize);
+
+        var windowedTable = wordsStream
+                .groupByKey()
+                .windowedBy(timeWindow)
+                .count();
+
+        windowedTable
+                .toStream()
+                .peek((key, value) -> {
+                    log.info("tumblingWindows : key : {} , value : {}", key, value);
+                    printLocalDateTimes(key, value);
+                })
+                .print(Printed.<Windowed<String>, Long>toSysOut().withLabel("tumblingWindow"));
     }
 
 
