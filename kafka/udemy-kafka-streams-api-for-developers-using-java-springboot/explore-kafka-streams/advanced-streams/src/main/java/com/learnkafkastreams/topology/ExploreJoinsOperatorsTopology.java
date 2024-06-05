@@ -20,7 +20,35 @@ public class ExploreJoinsOperatorsTopology {
     public static Topology build(){
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
+        joinKStreamWithKTable(streamsBuilder);
         return streamsBuilder.build();
+    }
+
+    private static void joinKStreamWithKTable(StreamsBuilder streamsBuilder) {
+        var alphabetAbbreavation = streamsBuilder
+                .stream(ALPHABETS_ABBREVATIONS,
+                        Consumed.with(Serdes.String(), Serdes.String()));
+
+        alphabetAbbreavation
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets_abbreviations"));
+
+        var alphabetsTable = streamsBuilder
+                .table(ALPHABETS,
+                        Consumed.with(Serdes.String(), Serdes.String()),
+                        Materialized.as("alphabets-store"));
+
+        alphabetsTable
+                .toStream()
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets"));
+
+        ValueJoiner<String, String, Alphabet> valueJoiner = Alphabet::new;
+
+        var joinedStream = alphabetAbbreavation
+                .join(alphabetsTable, valueJoiner);
+
+        joinedStream
+                .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets-with-abbreviation"));
+
     }
 
 }
