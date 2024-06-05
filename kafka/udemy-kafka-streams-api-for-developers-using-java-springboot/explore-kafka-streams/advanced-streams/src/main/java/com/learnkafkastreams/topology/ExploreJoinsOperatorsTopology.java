@@ -21,7 +21,8 @@ public class ExploreJoinsOperatorsTopology {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
 //        joinKStreamWithKTable(streamsBuilder);
-        joinKStreamWithGlobalKTable(streamsBuilder);
+//        joinKStreamWithGlobalKTable(streamsBuilder);
+        joinKTableWithKTable(streamsBuilder);
         return streamsBuilder.build();
     }
 
@@ -48,6 +49,36 @@ public class ExploreJoinsOperatorsTopology {
                 .join(alphabetsTable, valueJoiner);
 
         joinedStream
+                .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets-with-abbreviation"));
+
+    }
+
+    private static void joinKTableWithKTable(StreamsBuilder streamsBuilder) {
+        var alphabetAbbreavation = streamsBuilder
+                .table(ALPHABETS_ABBREVATIONS,
+                        Consumed.with(Serdes.String(), Serdes.String()),
+                        Materialized.as("alphabets_abbreviations-store"));
+
+        alphabetAbbreavation
+                .toStream()
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets_abbreviations"));
+
+        var alphabetsTable = streamsBuilder
+                .table(ALPHABETS,
+                        Consumed.with(Serdes.String(), Serdes.String()),
+                        Materialized.as("alphabets-store"));
+
+        alphabetsTable
+                .toStream()
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets"));
+
+        ValueJoiner<String, String, Alphabet> valueJoiner = Alphabet::new;
+
+        var joinedStream = alphabetAbbreavation
+                .join(alphabetsTable, valueJoiner);
+
+        joinedStream
+                .toStream()
                 .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets-with-abbreviation"));
 
     }
