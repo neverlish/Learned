@@ -2,6 +2,7 @@ package com.learnkafkastreams;
 
 
 import com.learnkafkastreams.topology.OrdersTopology;
+import com.learnkafkastreams.util.OrderTimeStampExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -27,6 +28,8 @@ public class OrdersKafkaStreamApp {
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "orders-app"); // consumer group
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:19092");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest"); // read only the new messages
+        config.put(StreamsConfig.DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG, OrderTimeStampExtractor.class);
+
         createTopics(config, List.of(OrdersTopology.RESTAURANT_ORDERS, OrdersTopology.GENERAL_ORDERS, OrdersTopology.ORDERS, OrdersTopology.STORES));
 
         //Create an instance of KafkaStreams
