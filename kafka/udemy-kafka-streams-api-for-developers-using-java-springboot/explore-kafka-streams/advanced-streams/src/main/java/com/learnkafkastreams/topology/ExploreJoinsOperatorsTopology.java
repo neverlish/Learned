@@ -1,6 +1,7 @@
 package com.learnkafkastreams.topology;
 
 import com.learnkafkastreams.domain.Alphabet;
+import com.learnkafkastreams.serdes.SerdesFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -22,8 +23,40 @@ public class ExploreJoinsOperatorsTopology {
 
 //        joinKStreamWithKTable(streamsBuilder);
 //        joinKStreamWithGlobalKTable(streamsBuilder);
-        joinKTableWithKTable(streamsBuilder);
+//        joinKTableWithKTable(streamsBuilder);
+        joinKStreamsWithKStreams(streamsBuilder);
         return streamsBuilder.build();
+    }
+
+    private static void joinKStreamsWithKStreams(StreamsBuilder streamsBuilder) {
+        var alphabetAbbreavation = streamsBuilder
+                .stream(ALPHABETS_ABBREVATIONS,
+                        Consumed.with(Serdes.String(), Serdes.String()));
+
+        alphabetAbbreavation
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets_abbreviations"));
+
+        var alphabetsStream = streamsBuilder
+                .stream(ALPHABETS,
+                        Consumed.with(Serdes.String(), Serdes.String()));
+
+        alphabetsStream
+                .print(Printed.<String, String>toSysOut().withLabel("alphabets"));
+
+        ValueJoiner<String, String, Alphabet> valueJoiner = Alphabet::new;
+
+        var fiveSecondWindow = JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(5));
+
+        var joinedParams = StreamJoined.with(Serdes.String(), Serdes.String(), Serdes.String());
+
+        var joinedStream = alphabetAbbreavation
+                .join(alphabetsStream,
+                        valueJoiner,
+                        fiveSecondWindow,
+                        joinedParams);
+
+        joinedStream
+                .print(Printed.<String, Alphabet>toSysOut().withLabel("alphabets_alphabets_abbreviation"));
     }
 
     private static void joinKStreamWithKTable(StreamsBuilder streamsBuilder) {
