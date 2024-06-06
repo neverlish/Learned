@@ -20,5 +20,8 @@ spring:
           exception:
 #            handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
 #            handler: com.learnkafkastreams.exceptionhandler.StreamsDeserializationExceptionHandler
+          production:
+            exception:
+              handler: com.learnkafkastreams.exceptionhandler.StreamsProductionExceptionHandler
 
 
