@@ -1,5 +1,6 @@
 package com.learnkafkastreams.topology;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learnkafkastreams.domain.Greeting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
@@ -14,13 +15,19 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class GreetingStreamsTopology {
+    private final ObjectMapper objectMapper;
+
+    public GreetingStreamsTopology(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     public static String GREETINGS = "greetings";
     public static String GREETINGS_OUTPUT = "greetings-output";
 
     @Autowired
     public void process(StreamsBuilder streamsBuilder) {
         var greetingsStream = streamsBuilder
-            .stream(GREETINGS, Consumed.with(Serdes.String(), new JsonSerde<>(Greeting.class)));
+            .stream(GREETINGS, Consumed.with(Serdes.String(), new JsonSerde<>(Greeting.class, objectMapper)));
 
         greetingsStream
                 .print(Printed.<String, Greeting>toSysOut().withLabel("greetingsStream"));
@@ -34,7 +41,7 @@ public class GreetingStreamsTopology {
                 .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
         modifiedStream
-                .to(GREETINGS_OUTPUT, Produced.with(Serdes.String(), new JsonSerde<>(Greeting.class)));
+                .to(GREETINGS_OUTPUT, Produced.with(Serdes.String(), new JsonSerde<>(Greeting.class, objectMapper)));
 
     }
 }
