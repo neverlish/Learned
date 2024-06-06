@@ -1,11 +1,4 @@
 spring:
-  application:
-    name: greeting-kafka-streams
-  profiles:
-    active: local
-
----
-spring:
   config:
     activate:
       on-profile: local
