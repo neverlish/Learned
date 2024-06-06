@@ -3,6 +3,7 @@ package com.learnkafkastreams.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.learnkafkastreams.exceptionhandler.StreamsProcessorCustomErrorHandler;
 import com.learnkafkastreams.topology.GreetingStreamsTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
+import org.springframework.kafka.config.StreamsBuilderFactoryBeanConfigurer;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.listener.ConsumerRecordRecoverer;
 import org.springframework.kafka.streams.RecoveringDeserializationExceptionHandler;
@@ -38,6 +40,13 @@ public class GreetingsStreamsConfiguration {
         kafkaStreamsProperties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG, RecoveringDeserializationExceptionHandler.class);
         kafkaStreamsProperties.put(RecoveringDeserializationExceptionHandler.KSTREAM_DESERIALIZATION_RECOVERER, recoverer());
         return new KafkaStreamsConfiguration(kafkaStreamsProperties);
+    }
+
+    @Bean
+    public StreamsBuilderFactoryBeanConfigurer streamsBuilderFactoryBeanConfigurer() {
+        return factoryBeanConfiguerer -> {
+            factoryBeanConfiguerer.setStreamsUncaughtExceptionHandler(new StreamsProcessorCustomErrorHandler());
+        };
     }
 
     private ConsumerRecordRecoverer recoverer() {

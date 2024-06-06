@@ -34,7 +34,13 @@ public class GreetingStreamsTopology {
 
         var modifiedStream = greetingsStream
                 .mapValues((readOnlyKey, value) ->
-                    new Greeting(value.message().toUpperCase(), value.timestamp())
+                {
+                    if (value.message().equals("Error")) {
+                        throw new IllegalStateException("Error Occured");
+                    }
+                    return new Greeting(value.message().toUpperCase(), value.timestamp());
+                }
+
                 );
 
         modifiedStream
