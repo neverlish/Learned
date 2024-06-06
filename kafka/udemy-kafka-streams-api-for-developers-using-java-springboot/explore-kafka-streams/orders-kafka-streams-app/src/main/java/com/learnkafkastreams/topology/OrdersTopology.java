@@ -114,14 +114,15 @@ public class OrdersTopology {
                 })
                 .print(Printed.<Windowed<String>, TotalRevenue>toSysOut().withLabel(storeName));
 
-//        ValueJoiner<TotalRevenue, Store, TotalRevenueWithAddress> valueJoiner = TotalRevenueWithAddress::new;
-//
-//        var revenueWithStoreTable = revenueTable
-//                .join(storesTable, valueJoiner);
-//
-//        revenueWithStoreTable
-//                .toStream()
-//                .print(Printed.<String, TotalRevenueWithAddress>toSysOut().withLabel(storeName + "-bystore"));
+        ValueJoiner<TotalRevenue, Store, TotalRevenueWithAddress> valueJoiner = TotalRevenueWithAddress::new;
+
+        var joinedParams = Joined.with(Serdes.String(), SerdesFactory.totalRevenueSerdes(), SerdesFactory.storeSerdes());
+
+        revenueTable
+                .toStream()
+                .map((key, value) -> KeyValue.pair(key.key(), value))
+                .join(storesTable, valueJoiner, joinedParams)
+                .print(Printed.<String, TotalRevenueWithAddress>toSysOut().withLabel(storeName + "-bystore"));
     }
 
     private static void aggregateOrdersByCountByTimeWindows(KStream<String, Order> generalOrdersStream, String storeName, KTable<String, Store> storesTable) {
