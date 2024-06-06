@@ -10,6 +10,7 @@ spring:
     activate:
       on-profile: local
   kafka:
+    bootstrap-servers: localhost:19092
     streams:
       bootstrap-servers: localhost:19092
       application-id: greeting-kafka-streams
