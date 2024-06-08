@@ -29,7 +29,7 @@ public class OrdersTopology {
 
     public static final String RESTAURANT_ORDERS_REVENUE = "restaurant_orders_revenue";
 
-    public static final String RESTAURANT_ORDERS_REVENUE_WINDOW = "restaurant_orders_revenue_window";
+    public static final String RESTAURANT_ORDERS_REVENUE_WINDOWS = "restaurant_orders_revenue_window";
     public static final String GENERAL_ORDERS = "general_orders";
     public static final String GENERAL_ORDERS_COUNT = "general_orders_count";
     public static final String GENERAL_ORDERS_COUNT_WINDOWS = "general_orders_count_window";
@@ -103,7 +103,7 @@ public class OrdersTopology {
                             aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT, storesTable);
                             aggregateOrdersCountByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT_WINDOWS, storesTable);
                             aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE,storesTable);
-                            aggregateOrdersRevenueByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE_WINDOW, storesTable);
+                            aggregateOrdersRevenueByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE_WINDOWS, storesTable);
                         })
                 );
 

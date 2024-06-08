@@ -1,6 +1,7 @@
 package com.learnkafkastreams.controller;
 
 import com.learnkafkastreams.domain.OrdersCountPerStoreByWindows;
+import com.learnkafkastreams.domain.OrdersRevenuePerStoreByWindows;
 import com.learnkafkastreams.service.OrdersWindowService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,12 @@ public class OrderWindowsController {
             return ordersWindowService.getAllOrderCountByWindows(fromTime, toTime);
         }
         return ordersWindowService.getAllOrderCountByWindows();
+    }
+
+    @GetMapping("/windows/revenue/{order_type}")
+    public List<OrdersRevenuePerStoreByWindows> revenueByOrderType(
+            @PathVariable("order_type") String orderType
+    ) {
+        return ordersWindowService.getOrdersRevenueWindowsByType(orderType);
     }
 }
