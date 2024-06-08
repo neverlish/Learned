@@ -11,7 +11,6 @@ public record TotalRevenue(String locationId,
     }
 
     public TotalRevenue updateRunningRevenue(String key, Order order) {
-
         var newOrdersCount = this.runningOrderCount +1;
         var newRevenue = this.runningRevenue.add( order.finalAmount());
         return new TotalRevenue(key, newOrdersCount, newRevenue);
