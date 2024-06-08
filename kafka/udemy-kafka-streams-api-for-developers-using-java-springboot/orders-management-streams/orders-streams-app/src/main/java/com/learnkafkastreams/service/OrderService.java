@@ -94,6 +94,23 @@ public class OrderService {
     }
 
     public OrderCountPerStore getOrdersCountByLocation(String orderType, String locationId) {
+        var storeName = mapOrderCountStoreName(orderType);
+        var hostMetadata = metaDataService.getStreamsMetaData(storeName, locationId);
+        log.info("hostMetadata: {}", hostMetadata);
+
+        if (hostMetadata != null) {
+            if (hostMetadata.port() == port) {
+                log.info("Fetching the data from the current instance");
+                var ordersCountStore = getOrderStore(orderType);
+                var orderCount = ordersCountStore.get(locationId);
+                if (orderCount != null) {
+                    return new OrderCountPerStore(locationId, orderCount);
+                }
+                return null;
+            } else {
+                log.info("Fetching the data from the remote instance");
+            }
+        }
         var ordersCountStore = getOrderStore(orderType);
         var orderCount = ordersCountStore.get(locationId);
         if (ordersCountStore != null) {
@@ -101,6 +118,14 @@ public class OrderService {
         }
 
         return null;
+    }
+
+    private String mapOrderCountStoreName(String orderType) {
+        return switch (orderType) {
+            case GENERAL_ORDERS -> GENERAL_ORDERS_COUNT;
+            case RESTAURANT_ORDERS -> RESTAURANT_ORDERS_COUNT;
+            default -> throw new IllegalStateException("Not a valid option");
+        };
     }
 
     public List<AllOrdersCountPerStore> getAllOrdersCount() {
