@@ -109,6 +109,11 @@ public class OrderService {
                 return null;
             } else {
                 log.info("Fetching the data from the remote instance");
+                var orderCountPerStoreDTO = orderServiceClient.retrieveOrdersCountByOrderTypeAndLocationId(
+                        new HostInfo(hostMetadata.host(), hostMetadata.port()),
+                        orderType, locationId
+                );
+                return orderCountPerStoreDTO;
             }
         }
         var ordersCountStore = getOrderStore(orderType);

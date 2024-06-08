@@ -37,4 +37,23 @@ public class OrderServiceClient {
                 .block();
 
     }
+
+    public OrderCountPerStore retrieveOrdersCountByOrderTypeAndLocationId(HostInfo hostInfo, String orderType, String locationId) {
+        var basePath = "http://" + hostInfo.host() + ":" + hostInfo.port();
+
+        var url = UriComponentsBuilder
+                .fromHttpUrl(basePath)
+                .path("/v1/orders/count/{order_type}")
+                .queryParam("query_order_hosts", "false")
+                .queryParam("location_id", locationId)
+                .buildAndExpand(orderType)
+                .toString();
+
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(OrderCountPerStore.class)
+                .block();
+    }
 }
