@@ -11,12 +11,14 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.apache.kafka.streams.state.WindowStore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static com.learnkafkastreams.topology.OrdersTopology.GENERAL_ORDERS_COUNT;
@@ -96,6 +98,43 @@ class OrdersTopologyTest {
 
     }
 
+    @Test
+    void ordersRevenue_byWindows() {
+        ordersInputTopic.pipeKeyValueList(orders());
+        ordersInputTopic.pipeKeyValueList(orders());
+
+        WindowStore<String, TotalRevenue> generalOrdersRevenue = topologyTestDriver.getWindowStore(OrdersTopology.GENERAL_ORDERS_REVENUE_WINDOWS);
+
+        generalOrdersRevenue
+                .all()
+                .forEachRemaining(windowedTotalRevenueKeyValue -> {
+                    var startTime = windowedTotalRevenueKeyValue.key.window().startTime();
+                    var endTime = windowedTotalRevenueKeyValue.key.window().endTime();
+
+                    var expectedStartTime = LocalDateTime.parse("2023-02-21T21:25:00");
+                    var expectedEndTime = LocalDateTime.parse("2023-02-21T21:25:15");
+
+                    assert LocalDateTime.ofInstant(startTime, ZoneId.of(ZoneId.SHORT_IDS.get("CST"))).equals(expectedStartTime);
+                    assert LocalDateTime.ofInstant(endTime, ZoneId.of(ZoneId.SHORT_IDS.get("CST"))).equals(expectedEndTime);
+
+                    var totalRevenue = windowedTotalRevenueKeyValue.value;
+                    assertEquals(2, totalRevenue.runnuingOrderCount());
+                    assertEquals(new BigDecimal("54.00"), totalRevenue.runningRevenue());
+                });
+
+
+        WindowStore<String, TotalRevenue> restaurantOrdersRevenue = topologyTestDriver.getWindowStore(OrdersTopology.RESTAURANT_ORDERS_REVENUE_WINDOWS);
+
+        restaurantOrdersRevenue
+                .all()
+                .forEachRemaining(windowedTotalRevenueKeyValue -> {
+                    var totalRevenue = windowedTotalRevenueKeyValue.value;
+                    assertEquals(2, totalRevenue.runnuingOrderCount());
+                    assertEquals(new BigDecimal("30.00"), totalRevenue.runningRevenue());
+                });
+
+    }
+
     static List<KeyValue<String, Order>> orders(){
 
         var orderItems = List.of(
@@ -112,15 +151,18 @@ class OrdersTopologyTest {
                 new BigDecimal("27.00"),
                 OrderType.GENERAL,
                 orderItems,
-                LocalDateTime.now()
+//                LocalDateTime.now()
+                LocalDateTime.parse("2023-02-21T21:25:01")
         );
 
         var order2 = new Order(54321, "store_1234",
                 new BigDecimal("15.00"),
                 OrderType.RESTAURANT,
                 orderItemsRestaurant,
-                LocalDateTime.now()
+//                LocalDateTime.now()
+                LocalDateTime.parse("2023-02-21T21:25:01")
         );
+
         var keyValue1 = KeyValue.pair( order1.orderId().toString()
                 , order1);
 
