@@ -25,4 +25,11 @@ public class OrderWindowsController {
     ) {
         return ordersWindowService.getOrdersCountWindowsByType(orderType);
     }
+
+    @GetMapping("/windows/count")
+    public List<OrdersCountPerStoreByWindows> getAllOrderCountByWindows(
+
+    ) {
+        return ordersWindowService.getAllOrderCountByWindows();
+    }
 }

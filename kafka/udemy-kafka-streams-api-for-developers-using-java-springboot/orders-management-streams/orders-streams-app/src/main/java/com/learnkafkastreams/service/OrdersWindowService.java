@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.List;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.learnkafkastreams.service.OrderService.mapOrderType;
@@ -50,5 +52,14 @@ public class OrdersWindowService {
             case RESTAURANT_ORDERS -> orderStoreService.orderWindowsCountStore(RESTAURANT_ORDERS_COUNT_WINDOWS);
             default -> throw new IllegalStateException("Not a valid option");
         };
+    }
+
+    public List<OrdersCountPerStoreByWindows> getAllOrderCountByWindows() {
+        var generalOrdersCountByWindows = getOrdersCountWindowsByType(GENERAL_ORDERS);
+        var restaurantOrdersCountByWindows = getOrdersCountWindowsByType(RESTAURANT_ORDERS);
+
+        return Stream.of(generalOrdersCountByWindows, restaurantOrdersCountByWindows)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }
