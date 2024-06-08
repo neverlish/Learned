@@ -31,6 +31,13 @@ public class OrdersController {
         return ResponseEntity.ok(orderService.getOrdersCount(orderType));
     }
 
+    @GetMapping("/revenue/{order_type}")
+    public ResponseEntity<?> revenueByOrderType(
+            @PathVariable("order_type") String orderType
+    ) {
+        return ResponseEntity.ok(orderService.revenueByOrderType(orderType));
+    }
+
     @GetMapping("/count")
     public List<AllOrdersCountPerStore> allOrdersCount() {
         return orderService.getAllOrdersCount();

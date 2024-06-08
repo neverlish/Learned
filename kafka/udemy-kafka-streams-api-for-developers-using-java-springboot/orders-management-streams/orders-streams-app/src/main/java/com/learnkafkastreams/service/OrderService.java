@@ -1,8 +1,6 @@
 package com.learnkafkastreams.service;
 
-import com.learnkafkastreams.domain.AllOrdersCountPerStore;
-import com.learnkafkastreams.domain.OrderCountPerStore;
-import com.learnkafkastreams.domain.OrderType;
+import com.learnkafkastreams.domain.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.stereotype.Service;
@@ -72,5 +70,33 @@ public class OrderService {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<OrderRevenue> revenueByOrderType(String orderType) {
+        var revenueStoreByType = getRevenueStore(orderType);
+
+        var revenueIterator = revenueStoreByType.all();
+
+        var spliterator = Spliterators.spliteratorUnknownSize(revenueIterator, 0);
+
+        return StreamSupport.stream(spliterator, false)
+                .map(keyValue -> new OrderRevenue(keyValue.key, mapOrderType(orderType), keyValue.value))
+                .collect(Collectors.toList());
+    }
+
+    private OrderType mapOrderType(String orderType) {
+        return switch (orderType) {
+            case GENERAL_ORDERS -> OrderType.GENERAL;
+            case RESTAURANT_ORDERS -> OrderType.RESTAURANT;
+            default -> throw new IllegalStateException("Not a valid option");
+        };
+    }
+
+    private ReadOnlyKeyValueStore<String, TotalRevenue> getRevenueStore(String orderType) {
+        return switch (orderType) {
+            case GENERAL_ORDERS -> orderStoreService.orderRevenueStore(GENERAL_ORDERS_REVENUE);
+            case RESTAURANT_ORDERS -> orderStoreService.orderRevenueStore(RESTAURANT_ORDERS_REVENUE);
+            default -> throw new IllegalStateException("Not a valid option");
+        };
     }
 }
