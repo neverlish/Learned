@@ -1,10 +1,16 @@
 package com.learnkafkastreams.service;
 
 import com.learnkafkastreams.domain.*;
+import com.learnkafkastreams.producer.MetaDataService;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Spliterators;
@@ -18,19 +24,53 @@ import static com.learnkafkastreams.topology.OrdersTopology.*;
 @Service
 @Slf4j
 public class OrderService {
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
     private OrderStoreService orderStoreService;
+    private MetaDataService metaDataService;
 
-    public OrderService(OrderStoreService orderStoreService) {
+    @Value("${server.port}")
+    private Integer port;
+
+    public OrderService(OrderStoreService orderStoreService, MetaDataService metaDataService) {
         this.orderStoreService = orderStoreService;
+        this.metaDataService = metaDataService;
     }
 
     public List<OrderCountPerStore> getOrdersCount(String orderType) {
         var ordersCountStore = getOrderStore(orderType);
         var orders = ordersCountStore.all();
         var spliterator = Spliterators.spliteratorUnknownSize(orders, 0);
+
+        retrieveDataFromOtherInstances(orderType);
+        
         return StreamSupport.stream(spliterator, false)
                 .map(keyValue -> new OrderCountPerStore(keyValue.key, keyValue.value))
                 .collect(Collectors.toList());
+    }
+
+    private void retrieveDataFromOtherInstances(String orderType) {
+        var otherHosts = otherHosts();
+        log.info("Other hosts: {}", otherHosts);
+
+        if (otherHosts != null && !otherHosts.isEmpty()) {
+
+        }
+
+    }
+
+    private List<HostInfo> otherHosts() {
+
+        try {
+            var currentMachineAddress = InetAddress.getLocalHost().getHostAddress();
+            return metaDataService.getStreamsMetadata()
+                    .stream()
+                    .filter(hostInfo -> !currentMachineAddress.equals(hostInfo.host()) && hostInfo.port() != port)
+                    .collect(Collectors.toList());
+        } catch (UnknownHostException e) {
+            log.error("EXception in otherHosts : {}", e.getMessage(), e);
+        }
+        return null;
+
     }
 
 
