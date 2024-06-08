@@ -67,4 +67,13 @@ class GreetingsTopologyTest {
         assertEquals("GOOD NIGHT!", outputValue2.value.message());
         assertNotNull(outputValue2.value.timestamp());
     }
+
+    @Test
+    void buildTopology_Error() {
+        inputTopic.pipeInput("GM", new Greeting("Transient Error", LocalDateTime.now()));
+
+        var count = outputTopic.getQueueSize();
+        assertEquals(0, count);
+
+    }
 }
