@@ -72,9 +72,9 @@ public class OrderTopologyIntegrationTest {
         Awaitility.await().atMost(10, TimeUnit.SECONDS)
                 .pollDelay(Duration.ofSeconds(1))
                 .ignoreExceptions()
-                .until(() -> orderService.getOrdersCount(GENERAL_ORDERS).size(), equalTo(1));
+                .until(() -> orderService.getOrdersCount(GENERAL_ORDERS, "false").size(), equalTo(1));
 
-        var generalOrdersCount = orderService.getOrdersCount(GENERAL_ORDERS);
+        var generalOrdersCount = orderService.getOrdersCount(GENERAL_ORDERS, "false");
         assertEquals(1, generalOrdersCount.get(0).orderCount());
     }
 
