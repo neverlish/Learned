@@ -84,7 +84,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    private OrderType mapOrderType(String orderType) {
+    public static OrderType mapOrderType(String orderType) {
         return switch (orderType) {
             case GENERAL_ORDERS -> OrderType.GENERAL;
             case RESTAURANT_ORDERS -> OrderType.RESTAURANT;
