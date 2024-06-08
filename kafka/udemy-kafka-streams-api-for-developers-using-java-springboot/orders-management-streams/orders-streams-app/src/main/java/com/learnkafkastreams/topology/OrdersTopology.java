@@ -115,8 +115,9 @@ public class OrdersTopology {
     private static void aggregateOrdersRevenueByTimeWindows(KStream<String, Order> generalOrdersStream, String storeName,
                                                             KTable<String, Store> storesTable) {
 
-        Duration windowSize = Duration.ofSeconds(15);
-        TimeWindows timeWindows = TimeWindows.ofSizeWithNoGrace(windowSize);
+        Duration windowSize = Duration.ofSeconds(60);
+        Duration graceWindowSize = Duration.ofSeconds(60);
+        TimeWindows timeWindows = TimeWindows.ofSizeAndGrace(windowSize, graceWindowSize);
 
         Initializer<TotalRevenue> totalRevenueInitializer
                 =TotalRevenue::new;
