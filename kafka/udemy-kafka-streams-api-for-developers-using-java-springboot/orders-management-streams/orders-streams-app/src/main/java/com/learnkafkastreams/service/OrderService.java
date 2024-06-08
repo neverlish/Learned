@@ -1,18 +1,18 @@
 package com.learnkafkastreams.service;
 
+import com.learnkafkastreams.client.OrderServiceClient;
 import com.learnkafkastreams.domain.*;
 import com.learnkafkastreams.producer.MetaDataService;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Spliterators;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -24,38 +24,49 @@ import static com.learnkafkastreams.topology.OrdersTopology.*;
 @Service
 @Slf4j
 public class OrderService {
-    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
     private OrderStoreService orderStoreService;
+    private OrderServiceClient orderServiceClient;
     private MetaDataService metaDataService;
 
     @Value("${server.port}")
     private Integer port;
 
-    public OrderService(OrderStoreService orderStoreService, MetaDataService metaDataService) {
+    public OrderService(OrderStoreService orderStoreService, OrderServiceClient orderServiceClient, MetaDataService metaDataService) {
         this.orderStoreService = orderStoreService;
+        this.orderServiceClient = orderServiceClient;
         this.metaDataService = metaDataService;
     }
 
-    public List<OrderCountPerStore> getOrdersCount(String orderType) {
+    public List<OrderCountPerStore> getOrdersCount(String orderType, String queryOrderHosts) {
         var ordersCountStore = getOrderStore(orderType);
         var orders = ordersCountStore.all();
         var spliterator = Spliterators.spliteratorUnknownSize(orders, 0);
 
-        retrieveDataFromOtherInstances(orderType);
-        
-        return StreamSupport.stream(spliterator, false)
+        var orderCountPerStoreDTOLIstCurrentInstance = StreamSupport.stream(spliterator, false)
                 .map(keyValue -> new OrderCountPerStore(keyValue.key, keyValue.value))
+                .collect(Collectors.toList());
+
+        var orderCountPerStoreDTOList = retrieveDataFromOtherInstances(orderType, Boolean.parseBoolean(queryOrderHosts));
+
+        return Stream.of(orderCountPerStoreDTOLIstCurrentInstance, orderCountPerStoreDTOList)
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
-    private void retrieveDataFromOtherInstances(String orderType) {
+    private List<OrderCountPerStore> retrieveDataFromOtherInstances(String orderType, boolean queryOrderHosts) {
         var otherHosts = otherHosts();
         log.info("Other hosts: {}", otherHosts);
 
-        if (otherHosts != null && !otherHosts.isEmpty()) {
-
+        if (queryOrderHosts && otherHosts != null && !otherHosts.isEmpty()) {
+            return otherHosts
+                    .stream()
+                    .map(hostInfo -> orderServiceClient.retrieveOrdersCountByOrderType(hostInfo, orderType))
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
         }
-
+        return null;
     }
 
     private List<HostInfo> otherHosts() {
@@ -96,12 +107,12 @@ public class OrderService {
         BiFunction<OrderCountPerStore, OrderType, AllOrdersCountPerStore> mapper = (orderCountPerStore, orderType) ->
             new AllOrdersCountPerStore(orderCountPerStore.locationId(), orderCountPerStore.orderCount(), orderType);
 
-        var generalOrdersCount = getOrdersCount(GENERAL_ORDERS)
+        var generalOrdersCount = getOrdersCount(GENERAL_ORDERS, "false")
                 .stream()
                 .map(orderCountPerStore -> mapper.apply(orderCountPerStore, OrderType.GENERAL))
                 .toList();
 
-        var restaurantOrdersCount = getOrdersCount(RESTAURANT_ORDERS)
+        var restaurantOrdersCount = getOrdersCount(RESTAURANT_ORDERS, "false")
                 .stream()
                 .map(orderCountPerStore -> mapper.apply(orderCountPerStore, OrderType.RESTAURANT))
                 .toList();
