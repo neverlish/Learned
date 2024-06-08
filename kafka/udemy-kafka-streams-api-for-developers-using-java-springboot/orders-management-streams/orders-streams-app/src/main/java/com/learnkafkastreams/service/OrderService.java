@@ -137,12 +137,12 @@ public class OrderService {
         BiFunction<OrderCountPerStore, OrderType, AllOrdersCountPerStore> mapper = (orderCountPerStore, orderType) ->
             new AllOrdersCountPerStore(orderCountPerStore.locationId(), orderCountPerStore.orderCount(), orderType);
 
-        var generalOrdersCount = getOrdersCount(GENERAL_ORDERS, "false")
+        var generalOrdersCount = getOrdersCount(GENERAL_ORDERS, "true")
                 .stream()
                 .map(orderCountPerStore -> mapper.apply(orderCountPerStore, OrderType.GENERAL))
                 .toList();
 
-        var restaurantOrdersCount = getOrdersCount(RESTAURANT_ORDERS, "false")
+        var restaurantOrdersCount = getOrdersCount(RESTAURANT_ORDERS, "true")
                 .stream()
                 .map(orderCountPerStore -> mapper.apply(orderCountPerStore, OrderType.RESTAURANT))
                 .toList();
