@@ -6,6 +6,7 @@ import com.learnkafkastreams.domain.Order;
 import com.learnkafkastreams.domain.OrderLineItem;
 import com.learnkafkastreams.domain.OrderType;
 import com.learnkafkastreams.service.OrderService;
+import com.learnkafkastreams.service.OrdersWindowService;
 import org.apache.kafka.streams.KeyValue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,9 @@ public class OrderTopologyIntegrationTest {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    OrdersWindowService ordersWindowService;
 
     @BeforeEach
     void setUp() {
@@ -116,6 +120,35 @@ public class OrderTopologyIntegrationTest {
         assertEquals(new BigDecimal("54.00"), generalOrdersRevenue.get(0).totalRevenue().runningRevenue());
 
         var restaurantOrdersRevenue = orderService.revenueByOrderType(RESTAURANT_ORDERS);
+        assertEquals(new BigDecimal("30.00"), restaurantOrdersRevenue.get(0).totalRevenue().runningRevenue());
+    }
+
+    @Test
+    void ordersRevenue_multipleOrdersByWindows() {
+        publishOrders();
+        publishOrders();
+
+//        assert orderService.getOrdersCount(GENERAL_ORDERS).size() == 2;
+        Awaitility.await().atMost(10, TimeUnit.SECONDS)
+                .pollDelay(Duration.ofSeconds(1))
+                .ignoreExceptions()
+                .until(() -> ordersWindowService.getOrdersRevenueWindowsByType(GENERAL_ORDERS).size(), equalTo(1));
+
+        Awaitility.await().atMost(10, TimeUnit.SECONDS)
+                .pollDelay(Duration.ofSeconds(1))
+                .ignoreExceptions()
+                .until(() -> ordersWindowService.getOrdersRevenueWindowsByType(RESTAURANT_ORDERS).size(), equalTo(1));
+
+        var generalOrdersRevenue = ordersWindowService.getOrdersRevenueWindowsByType(GENERAL_ORDERS);
+        assertEquals(new BigDecimal("54.00"), generalOrdersRevenue.get(0).totalRevenue().runningRevenue());
+
+        var expectedStartTime = LocalDateTime.parse("2023-02-22T03:25:00");
+        var expectedEndTime = LocalDateTime.parse("2023-02-22T03:25:10");
+
+        assert generalOrdersRevenue.get(0).startWindow().isEqual(expectedStartTime);
+        assert generalOrdersRevenue.get(0).endWindow().isEqual(expectedEndTime);
+
+        var restaurantOrdersRevenue = ordersWindowService.getOrdersRevenueWindowsByType(RESTAURANT_ORDERS);
         assertEquals(new BigDecimal("30.00"), restaurantOrdersRevenue.get(0).totalRevenue().runningRevenue());
     }
 
