@@ -63,7 +63,7 @@ public class OrdersTopology {
 //                                    .to(GENERAL_ORDERS,
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
 
-//                            aggregateOrdersByCount(generalOrdersStream, GENERAL_ORDERS_COUNT, storesTable);
+                            aggregateOrdersByCount(generalOrdersStream, GENERAL_ORDERS_COUNT, storesTable);
 //                            aggregateOrdersByCountByTimeWindows(generalOrdersStream, GENERAL_ORDERS_COUNT_WINDOWS, storesTable);
 //                            aggregateOrdersByRevenue(generalOrdersStream, GENERAL_ORDERS_REVENUE, storesTable);
                             aggregateOrdersRenenueByTimeWindows(generalOrdersStream, GENERAL_ORDERS_REVENUE_WINDOWS, storesTable);
@@ -79,7 +79,7 @@ public class OrdersTopology {
 //                                    .to(RESTAURANT_ORDERS,
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerdes()));
 
-//                            aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT, storesTable);
+                            aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT, storesTable);
 //                            aggregateOrdersByCountByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT_WINDOWS, storesTable);
 //                            aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE, storesTable);
                             aggregateOrdersRenenueByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE_WINDOWS, storesTable);
