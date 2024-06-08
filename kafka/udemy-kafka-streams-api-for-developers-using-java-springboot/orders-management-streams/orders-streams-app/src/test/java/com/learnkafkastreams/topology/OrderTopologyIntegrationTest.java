@@ -4,17 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learnkafkastreams.domain.Order;
 import com.learnkafkastreams.domain.OrderLineItem;
 import com.learnkafkastreams.domain.OrderType;
+import com.learnkafkastreams.service.OrderService;
 import org.apache.kafka.streams.KeyValue;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.config.StreamsBuilderFactoryBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.TestPropertySource;
+import org.awaitility.Awaitility;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static com.learnkafkastreams.topology.OrdersTopology.GENERAL_ORDERS;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @EmbeddedKafka(topics = { OrdersTopology.ORDERS, OrdersTopology.STORES })
@@ -32,16 +41,33 @@ public class OrderTopologyIntegrationTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OrderService orderService;
+
+    @Test
+    void ordersCount() {
+        publishOrders();
+
+//        assert orderService.getOrdersCount(GENERAL_ORDERS).size() == 2;
+        Awaitility.await().atMost(10, TimeUnit.SECONDS)
+                .pollDelay(Duration.ofSeconds(1))
+                .ignoreExceptions()
+                .until(() -> orderService.getOrdersCount(GENERAL_ORDERS).size(), equalTo(1));
+
+        var generalOrdersCount = orderService.getOrdersCount(GENERAL_ORDERS);
+        assertEquals(1, generalOrdersCount.get(0).orderCount());
+    }
+
     private void publishOrders() {
         orders()
                 .forEach(order -> {
                     String orderJSON = null;
                     try {
-                        orderJSON = objectMapper.writeValueAsString(order);
-                    } catch (Exception e) {
+                        orderJSON = objectMapper.writeValueAsString(order.value);
+                    } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
-                    kafkaTemplate.send(OrdersTopology.ORDERS, order.key, orderJSON);
+                    kafkaTemplate.send(ORDERS, order.key, orderJSON);
                 });
     }
 
