@@ -65,7 +65,7 @@ public class OrdersTopology {
 
                             aggregateOrdersByCount(generalOrdersStream, GENERAL_ORDERS_COUNT, storesTable);
 //                            aggregateOrdersByCountByTimeWindows(generalOrdersStream, GENERAL_ORDERS_COUNT_WINDOWS, storesTable);
-//                            aggregateOrdersByRevenue(generalOrdersStream, GENERAL_ORDERS_REVENUE, storesTable);
+                            aggregateOrdersByRevenue(generalOrdersStream, GENERAL_ORDERS_REVENUE, storesTable);
                             aggregateOrdersRenenueByTimeWindows(generalOrdersStream, GENERAL_ORDERS_REVENUE_WINDOWS, storesTable);
                         })
                 )
@@ -81,7 +81,7 @@ public class OrdersTopology {
 
                             aggregateOrdersByCount(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT, storesTable);
 //                            aggregateOrdersByCountByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_COUNT_WINDOWS, storesTable);
-//                            aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE, storesTable);
+                            aggregateOrdersByRevenue(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE, storesTable);
                             aggregateOrdersRenenueByTimeWindows(restaurantOrdersStream, RESTAURANT_ORDERS_REVENUE_WINDOWS, storesTable);
                         })
                 );

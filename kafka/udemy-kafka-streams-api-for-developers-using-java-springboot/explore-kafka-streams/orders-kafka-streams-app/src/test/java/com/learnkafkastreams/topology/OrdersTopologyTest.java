@@ -3,6 +3,7 @@ package com.learnkafkastreams.topology;
 import com.learnkafkastreams.domain.Order;
 import com.learnkafkastreams.domain.OrderLineItem;
 import com.learnkafkastreams.domain.OrderType;
+import com.learnkafkastreams.domain.TotalRevenue;
 import com.learnkafkastreams.serdes.SerdesFactory;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
@@ -52,6 +53,47 @@ class OrdersTopologyTest {
 
         var restaurantOrdersCount = restaurantOrdersCountStore.get("store_1234");
         assertEquals(1, restaurantOrdersCount);
+    }
+
+    @Test
+    void ordersRevenue() {
+        ordersInputTopic.pipeKeyValueList(orders());
+
+        ReadOnlyKeyValueStore<String, TotalRevenue> generalOrdersRevenue = topologyTestDriver.getKeyValueStore(OrdersTopology.GENERAL_ORDERS_REVENUE);
+
+
+        var generalOrdersRevenueData = generalOrdersRevenue.get("store_1234");
+        assertEquals(1, generalOrdersRevenueData.runnuingOrderCount());
+        assertEquals(new BigDecimal("27.00"), generalOrdersRevenueData.runningRevenue());
+
+
+        ReadOnlyKeyValueStore<String, TotalRevenue> restaurantOrdersRevenue = topologyTestDriver.getKeyValueStore(OrdersTopology.RESTAURANT_ORDERS_REVENUE);
+
+        var restaurantOrdersRevenueData = restaurantOrdersRevenue.get("store_1234");
+        assertEquals(1, restaurantOrdersRevenueData.runnuingOrderCount());
+        assertEquals(new BigDecimal("15.00"), restaurantOrdersRevenueData.runningRevenue());
+
+    }
+
+    @Test
+    void ordersRevenue_multipleOrdersPerStore() {
+        ordersInputTopic.pipeKeyValueList(orders());
+        ordersInputTopic.pipeKeyValueList(orders());
+
+        ReadOnlyKeyValueStore<String, TotalRevenue> generalOrdersRevenue = topologyTestDriver.getKeyValueStore(OrdersTopology.GENERAL_ORDERS_REVENUE);
+
+
+        var generalOrdersRevenueData = generalOrdersRevenue.get("store_1234");
+        assertEquals(2, generalOrdersRevenueData.runnuingOrderCount());
+        assertEquals(new BigDecimal("54.00"), generalOrdersRevenueData.runningRevenue());
+
+
+        ReadOnlyKeyValueStore<String, TotalRevenue> restaurantOrdersRevenue = topologyTestDriver.getKeyValueStore(OrdersTopology.RESTAURANT_ORDERS_REVENUE);
+
+        var restaurantOrdersRevenueData = restaurantOrdersRevenue.get("store_1234");
+        assertEquals(2, restaurantOrdersRevenueData.runnuingOrderCount());
+        assertEquals(new BigDecimal("30.00"), restaurantOrdersRevenueData.runningRevenue());
+
     }
 
     static List<KeyValue<String, Order>> orders(){
