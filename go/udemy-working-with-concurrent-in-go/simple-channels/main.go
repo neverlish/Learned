@@ -7,7 +7,11 @@ import (
 
 func shout(ping <-chan string, pong chan<- string) {
 	for {
-		s := <-ping
+		s, ok := <-ping
+
+		if !ok {
+			//
+		}
 		
 		pong <- fmt.Sprintf("%s!!!", strings.ToUpper(s))
 
