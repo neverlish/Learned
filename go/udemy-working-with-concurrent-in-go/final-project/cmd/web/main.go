@@ -25,7 +25,7 @@ func initDB() *sql.DB {
 	if conn == nil {
 		log.Panic("can't connect to database")
 	}
-
+	return conn
 }
 
 func connectToDB() *sql.DB {
@@ -48,6 +48,7 @@ func connectToDB() *sql.DB {
 
 		log.Print("Backing off for 1 seconds")
 		time.Sleep(1 * time.Second)
+		counts++
 		continue
 	}
 }
