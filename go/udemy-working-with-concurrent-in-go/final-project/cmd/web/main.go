@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	redisstore "github.com/alexedwards/scs/redisstore"
@@ -21,9 +22,20 @@ const webPort = "80"
 func main() {
 	db := initDB()
 
-	db.Ping()
-
 	session := initSession()
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
+	wg := sync.WaitGroup{}
+
+	app := Config {
+		Session: session,
+		DB: db,
+		InfoLog: infoLog,
+		ErrorLog: errorLog,
+		Wait: &wg,
+	}
 }
 
 func initDB() *sql.DB {
