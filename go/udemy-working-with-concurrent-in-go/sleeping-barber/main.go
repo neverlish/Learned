@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -43,6 +44,23 @@ func main() {
 		shop.closeShopForDay()
 		closed <- true
 	}()
+
+	i := 1
+
+	go func ()  {
+		for {
+			randomMillisecond := rand.Int() % (2 * arrivalDate)
+			select {
+			case <-shopClosing:
+				return
+			case <-time.After(time.Millisecond * time.Duration(randomMillisecond)):
+				shop.addClient(fmt.Sprintf("Client #%d", i))
+				i++
+			}
+		}
+	}()
+
+	<-closed
 
 	time.Sleep(5 * time.Second)
 }
