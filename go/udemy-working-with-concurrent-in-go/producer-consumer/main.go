@@ -73,6 +73,18 @@ func pizzeria(pizzaMaker *Producer) {
 
 	for {
 		currentPizza := makePizza(i)
+		if currentPizza != nil {
+			i = currentPizza.pizzaNumber
+			select {
+				case pizzaMaker.data <- *currentPizza:
+					
+				case quitChan := <-pizzaMaker.quit:
+					close(pizzaMaker.data)
+					close(quitChan)
+					return
+					
+			}
+		}
 	}
 }
 
