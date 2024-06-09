@@ -31,5 +31,8 @@ func main() {
 	}
 
 	color.Green("The shop is open for the day!")
-	
+
+	shop.addBarber("Frank")
+
+	time.Sleep(5 * time.Second)
 }
