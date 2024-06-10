@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -35,6 +36,22 @@ func main() {
 		InfoLog: infoLog,
 		ErrorLog: errorLog,
 		Wait: &wg,
+	}
+
+	app.serve()
+}
+
+func (app *Config) serve() {
+	srv := &http.Server {
+		Addr: fmt.Sprintf(":%s", webPort),
+		Handler: app.routes(),
+	}
+
+	app.InfoLog.Printf("Starting web server...")
+
+	err := srv.ListenAndServe()
+	if err != nil {
+		log.Panic(err)
 	}
 }
 

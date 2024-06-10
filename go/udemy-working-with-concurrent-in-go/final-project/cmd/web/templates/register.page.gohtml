@@ -1,0 +1,64 @@
+{{template "base" .}}
+
+{{define "content" }}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8 offset-md-2">
+                <h1 class="mt-5">Register</h1>
+                <hr>
+                <form method="post" class="needs-validation" action="/register" novalidate autocomplete="off">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control"
+                               autocomplete="off" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Choose Password</label>
+                        <input type="password" name="password" class="form-control" id="pass" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Verify Password</label>
+                        <input type="password" name="verify-password" class="form-control" id="pass" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="first-name" class="form-label">First Name</label>
+                        <input type="text" name="first-name" class="form-control"
+                               autocomplete="off" id="first-name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="last-name" class="form-label">Last Name</label>
+                        <input type="text" name="last-name" class="form-control"
+                               autocomplete="off" id="last-name" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{{end}}
+
+{{define "js"}}
+    <script>
+        (function () {
+            'use strict'
+
+            let forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+{{end}}
