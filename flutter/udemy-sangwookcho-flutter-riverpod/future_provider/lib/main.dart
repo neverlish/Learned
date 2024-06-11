@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:future_provider/pages/family_dispose/family_dispose_page.dart';
 
 import 'pages/users/user_list_page.dart';
 import 'widgets/custom_button.dart';
@@ -46,6 +47,10 @@ class MyHomePage extends StatelessWidget {
             CustomButton(
               title: 'User List',
               child: UserListPage(),
+            ),
+            CustomButton(
+              title: 'Family Dispose',
+              child: FamilyDisposePage(),
             ),
           ],
         ),
