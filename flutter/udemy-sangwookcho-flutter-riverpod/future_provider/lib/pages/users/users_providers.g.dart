@@ -210,7 +210,7 @@ class _UserDetailProviderElement extends AutoDisposeFutureProviderElement<User>
   int get id => (origin as UserDetailProvider).id;
 }
 
-String _$returnOneHash() => r'b50f93023d5599c0db9d8fcff7dfcbdcd470ffa6';
+String _$returnOneHash() => r'c8a1c764aee472e19ff2642b6b37b5bf40bbacb6';
 
 /// See also [returnOne].
 @ProviderFor(returnOne)
