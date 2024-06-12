@@ -6,7 +6,7 @@ part of 'counter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$counterHash() => r'e2930081ddede157c6a4d78fd99bf10ae6b94e10';
+String _$counterHash() => r'4d0ab3dce52c79b7f43de770c9b51f7b703645d1';
 
 /// Copied from Dart SDK
 class _SystemHash {
