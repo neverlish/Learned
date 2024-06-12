@@ -1,3 +1,4 @@
+import 'package:async_notifier_provider/pages/async_activity/async_activity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,6 +47,10 @@ class MyHomePage extends StatelessWidget {
             CustomButton(
               title: 'Counter',
               child: CounterPage(),
+            ),
+            CustomButton(
+              title: 'Async Activity',
+              child: AsyncActivityPage(),
             ),
           ],
         ),
