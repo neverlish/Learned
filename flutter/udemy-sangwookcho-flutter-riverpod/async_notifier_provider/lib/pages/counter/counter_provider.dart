@@ -16,23 +16,33 @@ class Counter extends AsyncNotifier<int> {
 
   Future<void> increment() async {
     state = const AsyncLoading();
-    try {
+
+    state = await AsyncValue.guard(() async {
       await waitSecond();
-      throw 'Fail to increment!';
-      state = AsyncData(state.value! + 1);
-    } catch (error, stackTrace) {
-      state = AsyncError(error, stackTrace);
-    }
+      return state.value! + 1;
+    });
+    // try {
+    //   await waitSecond();
+    //   // throw 'Fail to increment!';
+    //   state = AsyncData(state.value! + 1);
+    // } catch (error, stackTrace) {
+    //   state = AsyncError(error, stackTrace);
+    // }
   }
 
   Future<void> decrement() async {
     state = const AsyncLoading();
-    try {
+
+    state = await AsyncValue.guard(() async {
       await waitSecond();
-      state = AsyncData(state.value! - 1);
-    } catch (error, stackTrace) {
-      state = AsyncError(error, stackTrace);
-    }
+      return state.value! - 1;
+    });
+    // try {
+    //   await waitSecond();
+    //   state = AsyncData(state.value! - 1);
+    // } catch (error, stackTrace) {
+    //   state = AsyncError(error, stackTrace);
+    // }
   }
 }
 
