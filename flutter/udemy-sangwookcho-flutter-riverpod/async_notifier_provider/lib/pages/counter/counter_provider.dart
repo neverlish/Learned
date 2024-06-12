@@ -1,24 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class Counter extends AutoDisposeFamilyAsyncNotifier<int, int> {
+part 'counter_provider.g.dart';
+
+@riverpod
+class Counter extends _$Counter {
   @override
-  FutureOr<int> build(int arg) async {
+  FutureOr<int> build(int initialValue) {
     ref.onDispose(() {
       print('[counterProvider] disposed');
     });
-    await waitSecond();
-    return arg;
+    return 0;
   }
-
-  // @override
-  // FutureOr<int> build() async {
-  //   ref.onDispose(() {
-  //     print('[counterProvider] disposed');
-  //   });
-  //   return Future.value(0);
-  // }
 
   Future<void> waitSecond() => Future.delayed(const Duration(seconds: 1));
 
@@ -56,6 +51,3 @@ class Counter extends AutoDisposeFamilyAsyncNotifier<int, int> {
     // }
   }
 }
-
-final counterProvider =
-    AsyncNotifierProvider.autoDispose.family<Counter, int, int>(Counter.new);
