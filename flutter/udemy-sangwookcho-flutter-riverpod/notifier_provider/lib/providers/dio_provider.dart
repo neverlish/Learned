@@ -7,7 +7,7 @@ part 'dio_provider.g.dart';
 Dio dio(DioRef ref) {
   return Dio(
     BaseOptions(
-      baseUrl: 'https://www.boredapi.com/api/activity',
+      baseUrl: 'https://bored.api.lewagon.com/api/activity',
     ),
   );
 }
