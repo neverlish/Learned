@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_riverpod/config/router/router_provider.dart';
 
 void main() {
   runApp(
@@ -14,7 +15,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    final router = ref.watch(routeProvider);
+
+    return MaterialApp.router(
       title: 'GoRouter with Riverpod',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -25,7 +28,7 @@ class MyApp extends ConsumerWidget {
           labelLarge: TextStyle(fontSize: 24),
         ),
       ),
-      home: const Scaffold(),
+      routerConfig: router,
     );
   }
 }
