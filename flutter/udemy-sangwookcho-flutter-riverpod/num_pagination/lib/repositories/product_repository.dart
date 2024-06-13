@@ -15,7 +15,8 @@ class ProductRepository {
 
   ProductRepository(this.dio);
 
-  Future<List<Product>> getProducts(int page) async {
+  Future<List<Product>> getProducts(int page,
+      {CancelToken? cancelToken}) async {
     try {
       final Response response = await dio.get(
         '/products',
@@ -23,6 +24,7 @@ class ProductRepository {
           'limit': limit,
           'skip': (page - 1) * limit,
         },
+        cancelToken: cancelToken,
       );
       if (response.statusCode != 200) {
         throw 'Fail to fetch products';
