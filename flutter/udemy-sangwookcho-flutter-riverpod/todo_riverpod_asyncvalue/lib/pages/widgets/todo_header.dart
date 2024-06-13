@@ -4,7 +4,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:todo_riverpod_asyncvalue/models/todo_model.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/theme/theme_provider.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/todo_list/todo_list_provider.dart';
-import 'package:todo_riverpod_asyncvalue/pages/providers/todo_list/todo_list_state.dart';
 
 class TodoHeader extends ConsumerStatefulWidget {
   const TodoHeader({super.key});
@@ -33,12 +32,15 @@ class _TodoHeaderState extends ConsumerState<TodoHeader> {
   Widget build(BuildContext context) {
     final todoListState = ref.watch(todoListProvider);
 
-    switch (todoListState) {
-      case TodoListStateLoading():
+    todoListState.maybeWhen(
+      skipLoadingOnRefresh: false,
+      loading: () {
         context.loaderOverlay.show();
-      case _:
+      },
+      orElse: () {
         context.loaderOverlay.hide();
-    }
+      },
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,11 +52,10 @@ class _TodoHeaderState extends ConsumerState<TodoHeader> {
               style: TextStyle(fontSize: 36.0),
             ),
             const SizedBox(width: 10),
-            switch (todoListState) {
-              TodoListStateSuccess(todos: var todos) =>
-                getActiveTodoCount(todos),
-              _ => prevTodoCountWidget,
-            }
+            todoListState.maybeWhen(
+              data: (List<Todo> todos) => getActiveTodoCount(todos),
+              orElse: () => prevTodoCountWidget,
+            ),
           ],
         ),
         Row(
@@ -68,7 +69,7 @@ class _TodoHeaderState extends ConsumerState<TodoHeader> {
             const SizedBox(width: 10),
             IconButton(
               onPressed: () {
-                ref.read(todoListProvider.notifier).getTodos();
+                ref.invalidate(todoListProvider);
               },
               icon: const Icon(Icons.refresh),
             ),
