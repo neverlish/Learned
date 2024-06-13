@@ -22,7 +22,7 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 mixin _$Todo {
   String get id => throw _privateConstructorUsedError;
   String get desc => throw _privateConstructorUsedError;
-  bool get complete => throw _privateConstructorUsedError;
+  bool get completed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $TodoCopyWith<$Res> {
   factory $TodoCopyWith(Todo value, $Res Function(Todo) then) =
       _$TodoCopyWithImpl<$Res, Todo>;
   @useResult
-  $Res call({String id, String desc, bool complete});
+  $Res call({String id, String desc, bool completed});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
   $Res call({
     Object? id = null,
     Object? desc = null,
-    Object? complete = null,
+    Object? completed = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -63,9 +63,9 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
               as String,
-      complete: null == complete
-          ? _value.complete
-          : complete // ignore: cast_nullable_to_non_nullable
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -78,7 +78,7 @@ abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
       __$$TodoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String desc, bool complete});
+  $Res call({String id, String desc, bool completed});
 }
 
 /// @nodoc
@@ -93,7 +93,7 @@ class __$$TodoImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? desc = null,
-    Object? complete = null,
+    Object? completed = null,
   }) {
     return _then(_$TodoImpl(
       id: null == id
@@ -104,9 +104,9 @@ class __$$TodoImplCopyWithImpl<$Res>
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
               as String,
-      complete: null == complete
-          ? _value.complete
-          : complete // ignore: cast_nullable_to_non_nullable
+      completed: null == completed
+          ? _value.completed
+          : completed // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -116,7 +116,7 @@ class __$$TodoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TodoImpl implements _Todo {
   const _$TodoImpl(
-      {required this.id, required this.desc, this.complete = false});
+      {required this.id, required this.desc, this.completed = false});
 
   factory _$TodoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TodoImplFromJson(json);
@@ -127,11 +127,11 @@ class _$TodoImpl implements _Todo {
   final String desc;
   @override
   @JsonKey()
-  final bool complete;
+  final bool completed;
 
   @override
   String toString() {
-    return 'Todo(id: $id, desc: $desc, complete: $complete)';
+    return 'Todo(id: $id, desc: $desc, completed: $completed)';
   }
 
   @override
@@ -141,13 +141,13 @@ class _$TodoImpl implements _Todo {
             other is _$TodoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.desc, desc) || other.desc == desc) &&
-            (identical(other.complete, complete) ||
-                other.complete == complete));
+            (identical(other.completed, completed) ||
+                other.completed == completed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, desc, complete);
+  int get hashCode => Object.hash(runtimeType, id, desc, completed);
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +167,7 @@ abstract class _Todo implements Todo {
   const factory _Todo(
       {required final String id,
       required final String desc,
-      final bool complete}) = _$TodoImpl;
+      final bool completed}) = _$TodoImpl;
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$TodoImpl.fromJson;
 
@@ -176,7 +176,7 @@ abstract class _Todo implements Todo {
   @override
   String get desc;
   @override
-  bool get complete;
+  bool get completed;
   @override
   @JsonKey(ignore: true)
   _$$TodoImplCopyWith<_$TodoImpl> get copyWith =>

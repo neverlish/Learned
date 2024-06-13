@@ -82,7 +82,7 @@ class TodoList extends _$TodoList {
         todos: [
           for (final todo in state.todos)
             if (todo.id == id)
-              todo.copyWith(complete: !todo.complete)
+              todo.copyWith(completed: !todo.completed)
             else
               todo,
         ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_riverpod_enum/pages/providers/active_todo_count/active_todo_count_provider.dart';
+import 'package:todo_riverpod_enum/models/todo_model.dart';
 import 'package:todo_riverpod_enum/pages/providers/theme/theme_provider.dart';
 import 'package:todo_riverpod_enum/pages/providers/todo_list/todo_list_provider.dart';
 import 'package:todo_riverpod_enum/pages/providers/todo_list/todo_list_state.dart';
@@ -8,10 +8,14 @@ import 'package:todo_riverpod_enum/pages/providers/todo_list/todo_list_state.dar
 class TodoHeader extends ConsumerWidget {
   const TodoHeader({super.key});
 
+  int getActiveTodoCount(List<Todo> todos) {
+    return todos.where((todo) => !todo.completed).length;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeTodoCount = ref.watch(activeTodoCountProvider);
     final todoListState = ref.watch(todoListProvider);
+    final activeTodoCount = getActiveTodoCount(todoListState.todos);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

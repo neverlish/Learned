@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_riverpod_enum/pages/providers/filter_todos/filter_todos_provider.dart';
+import 'package:todo_riverpod_enum/models/todo_model.dart';
+import 'package:todo_riverpod_enum/pages/providers/todo_filter/todo_filter_provider.dart';
 import 'package:todo_riverpod_enum/pages/providers/todo_item/todo_item_provider.dart';
 import 'package:todo_riverpod_enum/pages/providers/todo_list/todo_list_provider.dart';
 import 'package:todo_riverpod_enum/pages/providers/todo_list/todo_list_state.dart';
+import 'package:todo_riverpod_enum/pages/providers/todo_search/todo_search_provider.dart';
 import 'package:todo_riverpod_enum/pages/widgets/todo_item.dart';
 
 class ShowTodos extends ConsumerStatefulWidget {
@@ -22,6 +24,27 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
     Future.delayed(Duration.zero, () {
       ref.read(todoListProvider.notifier).getTodos();
     });
+  }
+
+  List<Todo> filterTodos(List<Todo> allTodos) {
+    final filter = ref.watch(todoFilterProvider);
+    final search = ref.watch(todoSearchProvider);
+
+    List<Todo> tempTodos;
+
+    tempTodos = switch (filter) {
+      Filter.active => allTodos.where((todo) => !todo.completed).toList(),
+      Filter.completed => allTodos.where((todo) => todo.completed).toList(),
+      Filter.all => allTodos,
+    };
+
+    if (search.isNotEmpty) {
+      tempTodos = tempTodos
+          .where(
+              (todo) => todo.desc.toLowerCase().contains(search.toLowerCase()))
+          .toList();
+    }
+    return tempTodos;
   }
 
   @override
@@ -50,9 +73,7 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
       case TodoListStatus.initial:
         return const SizedBox.shrink();
       case TodoListStatus.loading:
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return prevTodosWidget;
       case TodoListStatus.failure when prevTodosWidget is SizedBox:
         return Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -73,8 +94,9 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
           ]),
         );
       case TodoListStatus.failure:
+        return prevTodosWidget;
       case TodoListStatus.success:
-        final filteredTodos = ref.watch(filteredTodosProvider);
+        final filteredTodos = filterTodos(todoListState.todos);
 
         prevTodosWidget = ListView.separated(
           itemCount: filteredTodos.length,

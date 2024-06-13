@@ -16,9 +16,9 @@ List<Todo> filteredTodos(FilteredTodosRef ref) {
 
   tempTodos = switch (filter) {
     Filter.active =>
-      todoListState.todos.where((todo) => !todo.complete).toList(),
+      todoListState.todos.where((todo) => !todo.completed).toList(),
     Filter.completed =>
-      todoListState.todos.where((todo) => todo.complete).toList(),
+      todoListState.todos.where((todo) => todo.completed).toList(),
     Filter.all => todoListState.todos,
   };
 

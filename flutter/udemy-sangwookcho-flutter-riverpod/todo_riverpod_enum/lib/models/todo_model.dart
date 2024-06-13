@@ -11,7 +11,7 @@ class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String desc,
-    @Default(false) bool complete,
+    @Default(false) bool completed,
   }) = _Todo;
 
   factory Todo.add({required String desc}) {

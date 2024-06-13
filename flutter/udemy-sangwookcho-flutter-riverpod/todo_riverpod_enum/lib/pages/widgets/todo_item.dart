@@ -21,7 +21,7 @@ class TodoItem extends ConsumerWidget {
         );
       },
       leading: Checkbox(
-        value: todo.complete,
+        value: todo.completed,
         onChanged: (value) {
           ref.read(todoListProvider.notifier).toggleTodo(todo.id);
         },
