@@ -7,113 +7,91 @@ part 'todo_list_provider.g.dart';
 
 @riverpod
 class TodoList extends _$TodoList {
+  List<Todo> _todos = [];
   @override
   TodoListState build() {
-    return TodoListState.initial();
+    return const TodoListStateInitial();
   }
 
   Future<void> getTodos() async {
-    state = state.copyWith(status: TodoListStatus.loading);
+    state = const TodoListStateLoading();
     try {
-      final todos = await ref.read(todosRepositoryProvider).getTodos();
-      state = state.copyWith(
-        status: TodoListStatus.success,
-        todos: todos,
-      );
+      _todos = await ref.read(todosRepositoryProvider).getTodos();
+
+      state = TodoListStateSuccess(todos: _todos);
     } catch (e) {
-      state = state.copyWith(
-        status: TodoListStatus.failure,
-        error: e.toString(),
-      );
+      state = TodoListStateFailure(error: e.toString());
     }
   }
 
   Future<void> addTodo(String desc) async {
-    state = state.copyWith(status: TodoListStatus.loading);
+    state = const TodoListStateLoading();
     try {
       final newTodo = Todo.add(desc: desc);
 
       await ref.read(todosRepositoryProvider).addTodo(todo: newTodo);
 
-      state = state.copyWith(
-        status: TodoListStatus.success,
-        todos: [...state.todos, newTodo],
-      );
+      _todos = [..._todos, newTodo];
+      state = TodoListStateSuccess(todos: _todos);
     } catch (e) {
-      state = state.copyWith(
-        status: TodoListStatus.failure,
-        error: e.toString(),
-      );
+      state = TodoListStateFailure(error: e.toString());
     }
   }
 
   Future<void> editTodo(String id, String desc) async {
-    state = state.copyWith(status: TodoListStatus.loading);
+    state = const TodoListStateLoading();
     try {
       await ref.read(todosRepositoryProvider).editTodo(
             id: id,
             desc: desc,
           );
 
-      state = state.copyWith(
-        status: TodoListStatus.success,
-        todos: [
-          for (final todo in state.todos)
-            if (todo.id == id) todo.copyWith(desc: desc) else todo,
-        ],
-      );
+      _todos = [
+        for (final todo in _todos)
+          if (todo.id == id) todo.copyWith(desc: desc) else todo,
+      ];
+
+      state = TodoListStateSuccess(todos: _todos);
     } catch (e) {
-      state = state.copyWith(
-        status: TodoListStatus.failure,
-        error: e.toString(),
-      );
+      state = TodoListStateFailure(error: e.toString());
     }
   }
 
   Future<void> toggleTodo(String id) async {
-    state = state.copyWith(status: TodoListStatus.loading);
+    state = const TodoListStateLoading();
     try {
       await ref.read(todosRepositoryProvider).toggleTodo(
             id: id,
           );
 
-      state = state.copyWith(
-        status: TodoListStatus.success,
-        todos: [
-          for (final todo in state.todos)
-            if (todo.id == id)
-              todo.copyWith(completed: !todo.completed)
-            else
-              todo,
-        ],
-      );
+      _todos = [
+        for (final todo in _todos)
+          if (todo.id == id)
+            todo.copyWith(completed: !todo.completed)
+          else
+            todo,
+      ];
+      state = TodoListStateSuccess(todos: _todos);
     } catch (e) {
-      state = state.copyWith(
-        status: TodoListStatus.failure,
-        error: e.toString(),
-      );
+      state = TodoListStateFailure(error: e.toString());
     }
   }
 
   Future<void> removeTodo(String id) async {
-    state = state.copyWith(status: TodoListStatus.loading);
+    state = const TodoListStateLoading();
     try {
       await ref.read(todosRepositoryProvider).removeTodo(
             id: id,
           );
 
-      state = state.copyWith(
-        status: TodoListStatus.success,
-        todos: [
-          for (final todo in state.todos)
-            if (todo.id != id) todo,
-        ],
-      );
+      _todos = [
+        for (final todo in _todos)
+          if (todo.id != id) todo,
+      ];
+
+      state = TodoListStateSuccess(todos: _todos);
     } catch (e) {
-      state = state.copyWith(
-        status: TodoListStatus.failure,
-        error: e.toString(),
-      );
+      state = TodoListStateFailure(error: e.toString());
     }
   }
 }
