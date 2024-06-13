@@ -18,8 +18,10 @@ class SigninPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FilledButton(
-              onPressed: () {
-                ref.read(authStateProvider.notifier).setAuthenticate(true);
+              onPressed: () async {
+                await ref
+                    .read(authStateProvider.notifier)
+                    .setAuthenticate(true);
               },
               child: const Text('Sign IN'),
             ),
