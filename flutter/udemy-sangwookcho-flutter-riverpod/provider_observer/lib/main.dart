@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider_observer/observer/logger.dart';
 import 'pages/provider/provider_page.dart';
 import 'pages/state_provider/state_provider_page.dart';
 import 'widgets/custom_button.dart';
@@ -13,8 +14,9 @@ import 'pages/stream_provider/stream_provider_page.dart';
 
 void main() {
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      observers: [Logger()],
+      child: const MyApp(),
     ),
   );
 }
