@@ -20,7 +20,7 @@ final dioProvider = AutoDisposeProvider<Dio>.internal(
 );
 
 typedef DioRef = AutoDisposeProviderRef<Dio>;
-String _$getProductsHash() => r'e6d4ba6a40266b5431d2ecf826bb483c553faff8';
+String _$getProductsHash() => r'ae90aea1d997c449a2060948b440f1dca67752a1';
 
 /// See also [getProducts].
 @ProviderFor(getProducts)

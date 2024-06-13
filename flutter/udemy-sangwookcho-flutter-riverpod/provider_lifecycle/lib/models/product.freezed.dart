@@ -27,7 +27,7 @@ mixin _$Product {
   double get discountPercentage => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
   int get stock => throw _privateConstructorUsedError;
-  String get brand => throw _privateConstructorUsedError;
+  String? get brand => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $ProductCopyWith<$Res> {
       double discountPercentage,
       double rating,
       int stock,
-      String brand,
+      String? brand,
       String category,
       String thumbnail});
 }
@@ -74,7 +74,7 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? discountPercentage = null,
     Object? rating = null,
     Object? stock = null,
-    Object? brand = null,
+    Object? brand = freezed,
     Object? category = null,
     Object? thumbnail = null,
   }) {
@@ -107,10 +107,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.stock
           : stock // ignore: cast_nullable_to_non_nullable
               as int,
-      brand: null == brand
+      brand: freezed == brand
           ? _value.brand
           : brand // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -138,7 +138,7 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       double discountPercentage,
       double rating,
       int stock,
-      String brand,
+      String? brand,
       String category,
       String thumbnail});
 }
@@ -161,7 +161,7 @@ class __$$ProductImplCopyWithImpl<$Res>
     Object? discountPercentage = null,
     Object? rating = null,
     Object? stock = null,
-    Object? brand = null,
+    Object? brand = freezed,
     Object? category = null,
     Object? thumbnail = null,
   }) {
@@ -194,10 +194,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.stock
           : stock // ignore: cast_nullable_to_non_nullable
               as int,
-      brand: null == brand
+      brand: freezed == brand
           ? _value.brand
           : brand // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$ProductImpl implements _Product {
   @override
   final int stock;
   @override
-  final String brand;
+  final String? brand;
   @override
   final String category;
   @override
@@ -303,7 +303,7 @@ abstract class _Product implements Product {
       required final double discountPercentage,
       required final double rating,
       required final int stock,
-      required final String brand,
+      required final String? brand,
       required final String category,
       required final String thumbnail}) = _$ProductImpl;
 
@@ -324,7 +324,7 @@ abstract class _Product implements Product {
   @override
   int get stock;
   @override
-  String get brand;
+  String? get brand;
   @override
   String get category;
   @override

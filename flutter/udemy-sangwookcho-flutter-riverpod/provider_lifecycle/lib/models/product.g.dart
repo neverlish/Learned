@@ -15,7 +15,7 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       discountPercentage: (json['discountPercentage'] as num).toDouble(),
       rating: (json['rating'] as num).toDouble(),
       stock: (json['stock'] as num).toInt(),
-      brand: json['brand'] as String,
+      brand: json['brand'] as String?,
       category: json['category'] as String,
       thumbnail: json['thumbnail'] as String,
     );
