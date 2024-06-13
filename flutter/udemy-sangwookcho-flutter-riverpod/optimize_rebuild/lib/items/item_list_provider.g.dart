@@ -6,7 +6,21 @@ part of 'item_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$itemListHash() => r'9765ac00bbdb3e83882ecb39009b234134fb885a';
+String _$currentItemHash() => r'd2570e12431e35619c7362d0c771423c410e68ad';
+
+/// See also [currentItem].
+@ProviderFor(currentItem)
+final currentItemProvider = AutoDisposeProvider<String>.internal(
+  currentItem,
+  name: r'currentItemProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$currentItemHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CurrentItemRef = AutoDisposeProviderRef<String>;
+String _$itemListHash() => r'82134f8083c47f38d48ff639ef34a2a83e638cb0';
 
 /// See also [ItemList].
 @ProviderFor(ItemList)

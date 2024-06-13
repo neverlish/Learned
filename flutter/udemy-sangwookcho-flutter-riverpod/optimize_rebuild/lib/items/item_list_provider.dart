@@ -12,4 +12,16 @@ class ItemList extends _$ItemList {
   void addItem(String item) {
     state = [...state, item];
   }
+
+  void deleteItem(String item) {
+    state = [
+      for (final t in state)
+        if (t != item) t
+    ];
+  }
+}
+
+@Riverpod(dependencies: [])
+String currentItem(CurrentItemRef ref) {
+  throw UnimplementedError();
 }
