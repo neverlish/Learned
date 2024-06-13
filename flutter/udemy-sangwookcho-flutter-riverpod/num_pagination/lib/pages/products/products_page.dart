@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:num_pagination/pages/product/product_page.dart';
 import 'package:num_pagination/pages/products/products_providers.dart';
 import 'package:num_pagination/repositories/product_repository.dart';
 
@@ -29,9 +30,20 @@ class _ProductsPageState extends ConsumerState<ProductsPage> {
               },
               itemBuilder: (BuildContext context, int index) {
                 final product = products[index];
-                return ListTile(
-                  title: Text(product.title),
-                  subtitle: Text(product.description),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductPage(id: product.id);
+                        },
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(product.title),
+                    subtitle: Text(product.description),
+                  ),
                 );
               },
             );
