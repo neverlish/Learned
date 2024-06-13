@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_riverpod/config/router/auto_state_provider.dart';
 import 'package:go_riverpod/config/router/route_names.dart';
 import 'package:go_riverpod/pages/first_details_page.dart';
 import 'package:go_riverpod/pages/first_page.dart';
+import 'package:go_riverpod/pages/page_not_found.dart';
 import 'package:go_riverpod/pages/scaffold_with_nav_bar.dart';
 import 'package:go_riverpod/pages/second_details_page.dart';
 import 'package:go_riverpod/pages/second_page.dart';
@@ -18,9 +20,22 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
 GoRouter route(RouteRef ref) {
+  final authState = ref.watch(authStateProvider);
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/first',
+    redirect: (context, state) {
+      final authenticated = authState;
+      final tryingSignin = state.matchedLocation == '/signin';
+      final tryingSignup = state.matchedLocation == '/signup';
+      final authenticating = tryingSignin || tryingSignup;
+
+      if (!authenticated) return authenticating ? null : '/signin';
+
+      if (authenticating) return '/first';
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/signin',
@@ -71,6 +86,7 @@ GoRouter route(RouteRef ref) {
                 },
                 routes: [
                   GoRoute(
+                    // parentNavigatorKey: _rootNavigatorKey,
                     path: 'details/:id',
                     name: RouteNames.secondDetails,
                     builder: (context, state) {
@@ -115,5 +131,8 @@ GoRouter route(RouteRef ref) {
         ],
       ),
     ],
+    errorBuilder: (context, state) => PageNotFound(
+      errMsg: state.error.toString(),
+    ),
   );
 }
