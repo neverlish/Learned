@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:overlay_scope/pages/counter_provider.dart';
 
 import 'pages/home_paged.dart';
 
@@ -40,7 +41,12 @@ class MyHomePage extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return const HomePage();
+                  return ProviderScope(
+                    overrides: [
+                      counterProvider.overrideWith(() => Counter100())
+                    ],
+                    child: const HomePage(),
+                  );
                 },
               ),
             );

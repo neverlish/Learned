@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:overlay_scope/pages/counter_provider.dart';
 
 class OtherPage extends ConsumerWidget {
   const OtherPage({super.key});
@@ -10,14 +11,16 @@ class OtherPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Other'),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          '0',
-          style: TextStyle(fontSize: 48),
+          '${ref.watch(counterProvider)}',
+          style: const TextStyle(fontSize: 48),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          ref.read(counterProvider.notifier).increment();
+        },
         child: const Icon(Icons.add),
       ),
     );
