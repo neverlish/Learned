@@ -1,20 +1,19 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:todo_riverpod_sealed/pages/providers/theme/theme_state.dart';
 
 part 'theme_provider.g.dart';
-
-enum AppTheme {
-  light,
-  dark,
-}
 
 @riverpod
 class Theme extends _$Theme {
   @override
-  AppTheme build() {
-    return AppTheme.light;
+  ThemeState build() {
+    return const LightTheme();
   }
 
   void toggleTheme() {
-    state = state == AppTheme.light ? AppTheme.dark : AppTheme.light;
+    state = switch (state) {
+      LightTheme() => const DarkTheme(),
+      DarkTheme() => const LightTheme(),
+    };
   }
 }
