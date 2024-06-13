@@ -14,7 +14,7 @@ class Todo with _$Todo {
     @Default(false) bool complete,
   }) = _Todo;
 
-  factory Todo.add(String desc) {
+  factory Todo.add({required String desc}) {
     return Todo(
       id: uuid.v4(),
       desc: desc,
