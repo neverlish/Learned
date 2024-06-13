@@ -6,7 +6,7 @@ part of 'todo_item_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoItemHash() => r'18a01ce3b660c6504bba36323ef2e3a80199c3ef';
+String _$todoItemHash() => r'598955ebdb957dc7bf5ec5149a9d38a113b15cb9';
 
 /// See also [todoItem].
 @ProviderFor(todoItem)
@@ -15,8 +15,8 @@ final todoItemProvider = AutoDisposeProvider<Todo>.internal(
   name: r'todoItemProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$todoItemHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
 typedef TodoItemRef = AutoDisposeProviderRef<Todo>;
