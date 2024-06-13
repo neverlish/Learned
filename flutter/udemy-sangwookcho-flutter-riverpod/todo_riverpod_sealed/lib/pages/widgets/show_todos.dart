@@ -50,35 +50,38 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
   @override
   Widget build(BuildContext context) {
     ref.listen<TodoListState>(todoListProvider, (previous, next) {
-      if (next.status == TodoListStatus.failure) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text(
-                  'Error',
-                  textAlign: TextAlign.center,
-                ),
-                content: Text(
-                  next.error,
-                  textAlign: TextAlign.center,
-                ),
-              );
-            });
+      switch (next) {
+        case TodoListStateFailure(error: String error):
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                    'Error',
+                    textAlign: TextAlign.center,
+                  ),
+                  content: Text(
+                    next.error,
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              });
+        case _:
       }
     });
     final todoListState = ref.watch(todoListProvider);
 
-    switch (todoListState.status) {
-      case TodoListStatus.initial:
+    switch (todoListState) {
+      case TodoListStateInitial():
         return const SizedBox.shrink();
-      case TodoListStatus.loading:
+      case TodoListStateLoading():
         return prevTodosWidget;
-      case TodoListStatus.failure when prevTodosWidget is SizedBox:
+      case TodoListStateFailure(error: var error)
+          when prevTodosWidget is SizedBox:
         return Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              todoListState.error,
+              error,
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
@@ -93,10 +96,10 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
             ),
           ]),
         );
-      case TodoListStatus.failure:
+      case TodoListStateFailure():
         return prevTodosWidget;
-      case TodoListStatus.success:
-        final filteredTodos = filterTodos(todoListState.todos);
+      case TodoListStateSuccess(todos: var allTodos):
+        final filteredTodos = filterTodos(allTodos);
 
         prevTodosWidget = ListView.separated(
           itemCount: filteredTodos.length,
