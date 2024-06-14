@@ -54,4 +54,30 @@ class WeatherApiServices {
       rethrow;
     }
   }
+
+  Future<String> getReverseGeocoding(double lat, double lon) async {
+    try {
+      final Response response = await dio.get(
+        '/geo/1.0/reverse',
+        queryParameters: {
+          'lat': lat,
+          'lon': lon,
+          'limit': kLimit,
+          'appid': dotenv.env['APPID'],
+        },
+      );
+      if (response.statusCode != 200) {
+        throw dioErrorHandler(response);
+      }
+      final List result = response.data;
+
+      if (result.isEmpty) {
+        throw WeatherException('Cannot get the location of $lat, $lon');
+      }
+      final city = result[0]['name'];
+      return city;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
