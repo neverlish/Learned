@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "417664161886",
+    "project_id": "fb-auth-riverpod-neverlish",
+    "storage_bucket": "fb-auth-riverpod-neverlish.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417664161886:android:f07c798b7f344d071cfccf",
+        "android_client_info": {
+          "package_name": "com.example.fb_auth_riverpod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeNLd5meXsZ4vab6yrCawr3x1uZltwNLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
