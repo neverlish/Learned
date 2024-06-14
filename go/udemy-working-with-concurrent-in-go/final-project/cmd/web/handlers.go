@@ -145,6 +145,10 @@ func (app *Config) ActivateAccount(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
+func (app *Config) SubscribeToPlan(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func (app *Config) ChooseSubscription(w http.ResponseWriter, r *http.Request) {
 	if !app.Session.Exists(r.Context(), "userID") {
 		app.Session.Put(r.Context(), "error", "You must log in to see this page!.")
