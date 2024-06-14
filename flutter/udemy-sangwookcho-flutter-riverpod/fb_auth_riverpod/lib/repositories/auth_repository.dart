@@ -49,4 +49,49 @@ class AuthRepository {
       throw handleException(e);
     }
   }
+
+  Future<void> changePassword(String password) async {
+    try {
+      await currentUser!.updatePassword(password);
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await fbAuth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  Future<void> sendEmailVerification() async {
+    try {
+      await currentUser!.sendEmailVerification();
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  Future<void> reloadUser() async {
+    try {
+      await currentUser!.reload();
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  Future<void> reauthenticateWithCredential(
+    String email,
+    String password,
+  ) async {
+    try {
+      await currentUser!.reauthenticateWithCredential(
+        EmailAuthProvider.credential(email: email, password: password),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
 }
