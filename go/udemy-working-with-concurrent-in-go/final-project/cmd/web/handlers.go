@@ -144,3 +144,24 @@ func (app *Config) ActivateAccount(w http.ResponseWriter, r *http.Request) {
 	app.Session.Put(r.Context(), "flash", "Account activated. You can now log in.")
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
+
+func (app *Config) ChooseSubscription(w http.ResponseWriter, r *http.Request) {
+	if !app.Session.Exists(r.Context(), "userID") {
+		app.Session.Put(r.Context(), "error", "You must log in to see this page!.")
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	plans, err := app.Models.Plan.GetAll()
+	if err != nil {
+		app.ErrorLog.Println(err)
+		return
+	}
+
+	dataMap := make(map[string]any)
+	dataMap["plans"] = plans
+
+	app.render(w, r, "plans.page.gohtml", &TemplateData{
+		Data: dataMap,
+	})
+}
