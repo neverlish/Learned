@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_riverpod_asyncvalue/models/current_weather/app_weather.dart';
 import 'package:weather_riverpod_asyncvalue/models/current_weather/current_weather.dart';
 import 'package:weather_riverpod_asyncvalue/models/custom_error/custom_error.dart';
+import 'package:weather_riverpod_asyncvalue/pages/home/widgets/format_text.dart';
 import 'package:weather_riverpod_asyncvalue/pages/home/widgets/select_city.dart';
+import 'package:weather_riverpod_asyncvalue/pages/home/widgets/show_icon.dart';
+import 'package:weather_riverpod_asyncvalue/pages/home/widgets/show_temperature.dart';
 
 class ShowWeather extends ConsumerWidget {
   final AsyncValue<CurrentWeather?> weatherState;
@@ -56,29 +60,40 @@ class ShowWeather extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  '${appWeather.temp}',
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                ShowTemperature(
+                  temperature: appWeather.temp,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
                 const SizedBox(width: 20.0),
                 Column(
                   children: [
-                    Text(
-                      '${appWeather.tempMax}',
-                      style: TextStyle(fontSize: 16),
+                    ShowTemperature(
+                      temperature: appWeather.tempMax,
+                      fontSize: 16,
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      '${appWeather.tempMin}',
-                      style: TextStyle(fontSize: 16),
+                    ShowTemperature(
+                      temperature: appWeather.tempMax,
+                      fontSize: 16,
                     ),
                   ],
                 )
               ],
-            )
+            ),
+            const SizedBox(height: 40.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Spacer(),
+                ShowIcon(icon: appWeather.icon),
+                Expanded(
+                  flex: 3,
+                  child: FormatText(description: appWeather.description),
+                ),
+                const Spacer(),
+              ],
+            ),
           ],
         );
       },
