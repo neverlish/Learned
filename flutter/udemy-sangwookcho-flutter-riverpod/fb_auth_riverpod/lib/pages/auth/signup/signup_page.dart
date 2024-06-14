@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../config/router/route_names.dart';
 import '../../../models/custom_error.dart';
 import '../../../utils/error_dialog.dart';
+import '../../widgets/buttons.dart';
 import '../../widgets/form_fields.dart';
 import 'signin_provider.dart';
 
@@ -28,7 +31,18 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     super.dispose();
   }
 
-  void _submit() {}
+  void _submit() {
+    setState(() {
+      _autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+
+    if (form == null || !form.validate()) return;
+
+    print(
+        'name: ${_nameController.text}, email: ${_emailController.text}, password: ${_passwordController.text}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +72,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
               autovalidateMode: _autovalidateMode,
               child: ListView(
                 shrinkWrap: true,
+                reverse: true,
                 children: [
                   const FlutterLogo(size: 150),
                   const SizedBox(height: 20.0),
@@ -74,7 +89,39 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     passwordController: _passwordController,
                     labelText: 'Confirm password',
                   ),
-                ],
+                  const SizedBox(height: 20.0),
+                  CustomFilledButton(
+                    onPressed: signupState.maybeWhen(
+                      loading: () => null,
+                      orElse: () => _submit,
+                    ),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w600,
+                    child: Text(
+                      signupState.maybeWhen(
+                        loading: () => 'Submitting...',
+                        orElse: () => 'Sign UP',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already a member? '),
+                      CustomTextButton(
+                        onPressed: signupState.maybeWhen(
+                          loading: () => null,
+                          orElse: () => () =>
+                              GoRouter.of(context).goNamed(RouteNames.signin),
+                        ),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        child: const Text('Sign In!'),
+                      ),
+                    ],
+                  ),
+                ].reversed.toList(),
               ),
             ),
           ),
