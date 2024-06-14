@@ -39,7 +39,7 @@ GoRouter router(RouterRef ref) {
           (state.matchedLocation == '/resetPassword');
 
       if (authenticated == false) {
-        return authenticating ? null : '/signin';
+        return authenticating ? null : '/signup';
       }
 
       // if (!fbAuth.currentUser!.emailVerified) {
