@@ -4,7 +4,6 @@ import 'package:todo_riverpod_asyncvalue/models/todo_model.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/todo_filter/todo_filter_provider.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/todo_item/todo_item_provider.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/todo_list/todo_list_provider.dart';
-import 'package:todo_riverpod_asyncvalue/pages/providers/todo_list/todo_list_state.dart';
 import 'package:todo_riverpod_asyncvalue/pages/providers/todo_search/todo_search_provider.dart';
 import 'package:todo_riverpod_asyncvalue/pages/widgets/todo_item.dart';
 
@@ -22,7 +21,7 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(todoListProvider.notifier).getTodos();
+      ref.invalidate(todoListProvider);
     });
   }
 
@@ -49,10 +48,11 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<TodoListState>(todoListProvider, (previous, next) {
-      switch (next) {
-        case TodoListStateFailure(error: String error):
-          showDialog(
+    ref.listen<AsyncValue<List<Todo>>>(todoListProvider, (previous, next) {
+      next.whenOrNull(
+        error: (e, st) {
+          if (!next.isLoading) {
+            showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
@@ -61,44 +61,21 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
                     textAlign: TextAlign.center,
                   ),
                   content: Text(
-                    next.error,
+                    e.toString(),
                     textAlign: TextAlign.center,
                   ),
                 );
-              });
-        case _:
-      }
+              },
+            );
+          }
+        },
+      );
     });
     final todoListState = ref.watch(todoListProvider);
 
-    switch (todoListState) {
-      case TodoListStateInitial():
-        return const SizedBox.shrink();
-      case TodoListStateLoading():
-        return prevTodosWidget;
-      case TodoListStateFailure(error: var error)
-          when prevTodosWidget is SizedBox:
-        return Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(
-              error,
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            OutlinedButton(
-              onPressed: () {
-                ref.read(todoListProvider.notifier).getTodos();
-              },
-              child: const Text(
-                'Please Retry!',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ]),
-        );
-      case TodoListStateFailure():
-        return prevTodosWidget;
-      case TodoListStateSuccess(todos: var allTodos):
+    return todoListState.when(
+      skipError: true,
+      data: (List<Todo> allTodos) {
         final filteredTodos = filterTodos(allTodos);
 
         prevTodosWidget = ListView.separated(
@@ -117,6 +94,30 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
           },
         );
         return prevTodosWidget;
-    }
+      },
+      error: (error, _) {
+        return Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              error.toString(),
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              onPressed: () {
+                ref.invalidate(todoListProvider);
+              },
+              child: const Text(
+                'Please Retry!',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ]),
+        );
+      },
+      loading: () {
+        return prevTodosWidget;
+      },
+    );
   }
 }
