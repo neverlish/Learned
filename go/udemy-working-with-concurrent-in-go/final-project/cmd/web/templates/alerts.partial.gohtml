@@ -1,0 +1,28 @@
+{{define "alerts"}}
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-3">
+
+
+            {{if ne .Flash ""}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{.Flash}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{end}}
+
+            {{if ne .Error ""}}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{.Error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{end}}
+
+            {{if ne .Warning ""}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{.Warning}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{end}}
+        </div>
+    </div>
+{{end}}

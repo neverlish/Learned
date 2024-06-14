@@ -1,0 +1,27 @@
+{{define "base" }}
+    <!doctype html>
+    <html lang="en">
+
+    {{template "header" .}}
+
+    <body>
+    {{template "navbar" .}}
+
+    {{template "alerts" .}}
+
+    {{block "content" .}}
+
+    {{end}}
+
+    {{template "footer" .}}
+
+    {{block "js" .}}
+
+    {{end}}
+
+
+
+    </body>
+    </html>
+
+{{end}}
