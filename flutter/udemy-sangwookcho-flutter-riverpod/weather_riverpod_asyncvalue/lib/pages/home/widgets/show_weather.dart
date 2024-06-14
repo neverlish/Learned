@@ -15,6 +15,7 @@ class ShowWeather extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return weatherState.when(
+      skipError: true,
       data: (CurrentWeather? weather) {
         if (weather == null) {
           return const SelectCity();
