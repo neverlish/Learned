@@ -16,6 +16,9 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       appBar: AppBar(
         title: const Text('Change Password'),
       ),
+      body: const Center(
+        child: Text('Change Password'),
+      ),
     );
   }
 }
