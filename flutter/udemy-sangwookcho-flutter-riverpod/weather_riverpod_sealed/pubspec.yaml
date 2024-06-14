@@ -1,0 +1,40 @@
+name: weather_riverpod_sealed
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  dio: ^5.3.3
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.1.0
+  flutter_riverpod: ^2.4.6
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  recase: ^4.1.0
+  riverpod_annotation: ^2.3.1
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  custom_lint: ^0.5.6
+  flutter_lints: ^2.0.1
+  flutter_test:
+    sdk: flutter
+  freezed: ^2.4.5
+  json_serializable: ^6.7.1
+  riverpod_generator: ^2.3.6
+  riverpod_lint: ^2.3.4
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/loading.gif
+    - assets/images/no_image_icon.png
+    - .env
