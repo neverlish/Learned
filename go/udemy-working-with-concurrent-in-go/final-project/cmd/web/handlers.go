@@ -5,6 +5,7 @@ import (
 	"final-project/data"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -153,7 +154,13 @@ func (app *Config) ActivateAccount(w http.ResponseWriter, r *http.Request) {
 
 func (app *Config) SubscribeToPlan(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
-	planID, _ := strconv.Atoi(id)
+	planID, err := strconv.Atoi(id)
+	if err != nil {
+		app.ErrorLog.Println("Error getting planid:", err)
+		return
+	}
+	log.Println("PlanID", planID)
+
 	plan, err := app.Models.Plan.GetOne(planID)
 	if err != nil {
 		app.Session.Put(r.Context(), "error", "Unable to find plan.")
@@ -213,6 +220,23 @@ func (app *Config) SubscribeToPlan(w http.ResponseWriter, r *http.Request) {
 		app.ErrorChan <- errors.New("some custom error")
 	}()
 
+	err = app.Models.Plan.SubscribeUserToPlan(user, *plan)
+
+	if err != nil {
+		app.Session.Put(r.Context(), "error", "Error subscribing to plan!")
+		http.Redirect(w, r, "/members/plan", http.StatusSeeOther)
+		return
+	}
+	
+	u, err := app.Models.User.GetOne(user.ID)
+	if err != nil {
+		app.Session.Put(r.Context(), "error", "Error getting user from database!")
+		http.Redirect(w, r, "/members/plan", http.StatusSeeOther)
+		return
+	}
+
+	app.Session.Put(r.Context(), "user", u)
+
 	app.Session.Put(r.Context(), "flash", "Subscribed!")
 	http.Redirect(w, r, "/members/plans", http.StatusSeeOther)
 }
@@ -236,12 +260,13 @@ func (app *Config) generateManual(u data.User, plan *data.Plan) *gofpdf.Fpdf {
 	pdf.SetFont("Arial", "", 12)
 	pdf.MultiCell(0, 4, fmt.Sprintf("%s %s", u.FirstName, u.LastName), "", "C", false)
 	pdf.Ln(5)
-	pdf.MultiCell(0, 4, fmt.Sprintf("% User Guide"), "", "C", false)
+	pdf.MultiCell(0, 4, fmt.Sprintf("%s User Guide", plan.PlanName), "", "C", false)
 
 	return pdf
 }
 
 func (app *Config) getInvoice(u data.User, plan *data.Plan) (string, error) {
+	app.InfoLog.Println("amount is ", plan.PlanAmountFormatted)
 	return plan.PlanAmountFormatted, nil
 }
 
