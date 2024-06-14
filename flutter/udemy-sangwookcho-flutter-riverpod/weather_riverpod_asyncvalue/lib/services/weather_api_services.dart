@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_riverpod_asyncvalue/constants/constants.dart';
 import 'package:weather_riverpod_asyncvalue/exceptions/weather_exception.dart';
+import 'package:weather_riverpod_asyncvalue/models/current_weather/current_weather.dart';
 import 'package:weather_riverpod_asyncvalue/models/direct_geocoding/direct_geocoding.dart';
 import 'package:weather_riverpod_asyncvalue/services/dio_error_handler.dart';
 
@@ -28,6 +29,27 @@ class WeatherApiServices {
       }
       final directGeocoding = DirectGeocoding.fromJson(response.data[0]);
       return directGeocoding;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CurrentWeather> getWeather(DirectGeocoding directGeocoding) async {
+    try {
+      final Response response = await dio.get(
+        '/data/2.5/weather',
+        queryParameters: {
+          'lat': '${directGeocoding.lat}',
+          'lon': '${directGeocoding.lon}',
+          'units': kUnits,
+          'appid': dotenv.env['APPID'],
+        },
+      );
+      if (response.statusCode != 200) {
+        throw dioErrorHandler(response);
+      }
+      final currentWeather = CurrentWeather.fromJson(response.data);
+      return currentWeather;
     } catch (e) {
       rethrow;
     }
