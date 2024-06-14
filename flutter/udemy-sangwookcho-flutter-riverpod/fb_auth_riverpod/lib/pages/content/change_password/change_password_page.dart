@@ -6,6 +6,7 @@ import '../../../repositories/auth_repository_provider.dart';
 import '../../../utils/error_dialog.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/form_fields.dart';
+import '../reauthenticate/reauthenticate_page.dart';
 import 'change_password_provider.dart';
 
 class ChangePasswordPage extends ConsumerStatefulWidget {
@@ -48,13 +49,40 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
     }
   }
 
+  void processRequiresRecentLogin() async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) {
+          return const ReauthenticatePage();
+        },
+      ),
+    );
+
+    if (result == 'success') {
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Successfully reauthenticated'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       changePasswordProvider,
       (previous, next) {
         next.whenOrNull(error: (e, st) {
-          errorDialog(context, e as CustomError);
+          final err = e as CustomError;
+
+          if (err.code == 'requires-recent-login') {
+            processRequiresRecentLogin();
+          } else {
+            errorDialog(context, err);
+          }
         }, data: (_) {
           processSuccessCase();
         });
