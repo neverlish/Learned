@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 func (app *Config) HomePage(w http.ResponseWriter, r *http.Request) {
@@ -146,16 +147,25 @@ func (app *Config) ActivateAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *Config) SubscribeToPlan(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func (app *Config) ChooseSubscription(w http.ResponseWriter, r *http.Request) {
-	if !app.Session.Exists(r.Context(), "userID") {
-		app.Session.Put(r.Context(), "error", "You must log in to see this page!.")
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	id := r.URL.Query().Get("id")
+	planID, _ := strconv.Atoi(id)
+	plan, err := app.Models.Plan.GetOne(planID)
+	if err != nil {
+		app.Session.Put(r.Context(), "error", "Unable to find plan.")
+		http.Redirect(w, r, "/members/plans", http.StatusSeeOther)
 		return
 	}
 
+	user, ok := app.Session.Get(r.Context(), "user").(data.User)
+	if !ok {
+		app.Session.Put(r.Context(), "error", "Log in first!")
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+	
+}
+
+func (app *Config) ChooseSubscription(w http.ResponseWriter, r *http.Request) {
 	plans, err := app.Models.Plan.GetAll()
 	if err != nil {
 		app.ErrorLog.Println(err)
