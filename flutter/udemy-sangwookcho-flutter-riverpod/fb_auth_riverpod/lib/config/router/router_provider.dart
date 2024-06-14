@@ -42,9 +42,9 @@ GoRouter router(RouterRef ref) {
         return authenticating ? null : '/signin';
       }
 
-      // if (!fbAuth.currentUser!.emailVerified) {
-      //   return '/verifyEmail';
-      // }
+      if (!fbAuth.currentUser!.emailVerified) {
+        return '/verifyEmail';
+      }
 
       final verifyingEmail = state.matchedLocation == '/verifyEmail';
       final splashing = state.matchedLocation == '/splash';
