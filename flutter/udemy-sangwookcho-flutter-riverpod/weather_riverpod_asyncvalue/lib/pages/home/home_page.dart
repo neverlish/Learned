@@ -6,6 +6,7 @@ import 'package:weather_riverpod_asyncvalue/models/custom_error/custom_error.dar
 import 'package:weather_riverpod_asyncvalue/pages/home/providers/weather_provider.dart';
 import 'package:weather_riverpod_asyncvalue/pages/home/widgets/show_weather.dart';
 import 'package:weather_riverpod_asyncvalue/pages/search/search_page.dart';
+import 'package:weather_riverpod_asyncvalue/pages/temp_settings/temp_settings_page.dart';
 import 'package:weather_riverpod_asyncvalue/pages/widgets/error_dialog.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -49,6 +50,16 @@ class _HomePageState extends ConsumerState<HomePage> {
               }
             },
             icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () async {
+              city = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TempSettingsPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
           )
         ],
       ),
