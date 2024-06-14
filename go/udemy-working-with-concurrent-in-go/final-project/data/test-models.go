@@ -78,7 +78,7 @@ func (u *UserTest) GetOne(id int) (*User, error) {
 
 // Update updates one user in the database, using the information
 // stored in the receiver u
-func (u *UserTest) Update() error {
+func (u *UserTest) Update(user User) error {
 	return nil
 }
 
