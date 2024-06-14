@@ -7,7 +7,7 @@ import '../../../models/custom_error.dart';
 import '../../../utils/error_dialog.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/form_fields.dart';
-import 'signin_provider.dart';
+import 'signup_provider.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -40,8 +40,11 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
     if (form == null || !form.validate()) return;
 
-    print(
-        'name: ${_nameController.text}, email: ${_emailController.text}, password: ${_passwordController.text}');
+    ref.read(signupProvider.notifier).signup(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
   }
 
   @override

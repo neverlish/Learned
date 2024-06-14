@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'signin_provider.dart';
+part of 'signup_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$signupHash() => r'12a1704db80bd8c21ea66b11595f6fe92aabebaf';
+String _$signupHash() => r'45b357680a00daaf098fb422fa914128bb895887';
 
 /// See also [Signup].
 @ProviderFor(Signup)
