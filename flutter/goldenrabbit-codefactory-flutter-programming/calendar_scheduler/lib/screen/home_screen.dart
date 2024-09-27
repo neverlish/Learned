@@ -1,3 +1,4 @@
+import 'package:calendar_scheduler/component/banner_ad_widget.dart';
 import 'package:calendar_scheduler/component/main_calendar.dart';
 import 'package:calendar_scheduler/component/schedule_bottom_sheet.dart';
 import 'package:calendar_scheduler/component/schedule_card.dart';
@@ -81,8 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       .map((e) => ScheduleModel.fromJson(json: e))
                       .toList();
 
-                  return ListView.builder(
+                  return ListView.separated(
                     itemCount: schedules.length,
+                    separatorBuilder: (context, index) {
+                      return BannerAdWidget();
+                    },
                     itemBuilder: (context, index) {
                       final schedule = schedules[index];
 
