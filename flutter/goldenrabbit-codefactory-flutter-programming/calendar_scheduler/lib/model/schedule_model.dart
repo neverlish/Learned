@@ -18,8 +18,8 @@ class ScheduleModel {
   })  : id = json['id'],
         content = json['content'],
         date = DateTime.parse(json['date']),
-        startTime = json['startTime'],
-        endTime = json['endTime'];
+        startTime = json['start_time'],
+        endTime = json['end_time'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -27,8 +27,8 @@ class ScheduleModel {
       'content': content,
       'date':
           '${date.year}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}',
-      'startTime': startTime,
-      'endTime': endTime,
+      'start_time': startTime,
+      'end_time': endTime,
     };
   }
 

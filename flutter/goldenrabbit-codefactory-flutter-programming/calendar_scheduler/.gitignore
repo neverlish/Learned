@@ -47,3 +47,5 @@ GoogleService-Info.plist
 google-services.json
 firebase.json
 ios/runner/Info.plist
+
+lib/const/api.dart

@@ -5,8 +5,8 @@ import 'package:calendar_scheduler/component/today_banner.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:calendar_scheduler/model/schedule_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,12 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  
+    final future = Supabase.instance.client
+        .from('schedule')
+        .select<List<Map<String, dynamic>>>()
+        .eq('date',
+            '${selectedDate.year}${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: PRIMARY_COLOR,
-        onPressed: () {
-          showModalBottomSheet(
+        onPressed: () async {
+          await showModalBottomSheet(
             context: context,
             isDismissible: true,
             builder: (_) => ScheduleBottomSheet(
@@ -35,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             isScrollControlled: true,
           );
+          setState(() {});
         },
         child: Icon(Icons.add),
       ),
@@ -47,33 +52,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   onDaySelected(selectedDate, focusedDate, context),
             ),
             SizedBox(height: 8.0),
-            StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('schedule')
-                  .where('date',
-                      isEqualTo:
-                          '${selectedDate.year}${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}')
-                  .where('author',
-                      isEqualTo: FirebaseAuth.instance.currentUser!.email)
-                  .snapshots(),
+            FutureBuilder<List<Map<String, dynamic>>>(
+              future: future,
               builder: (context, snapshot) {
                 return TodayBanner(
               selectedDate: selectedDate,
-                  count: snapshot.data?.docs.length ?? 0,
+                  count: snapshot.data?.length ?? 0,
                 );
               },
             ),
             SizedBox(height: 8.0),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('schedule')
-                    .where('date',
-                        isEqualTo:
-                            '${selectedDate.year}${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}')
-                    .where('author',
-                        isEqualTo: FirebaseAuth.instance.currentUser!.email)
-                    .snapshots(),
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: future,
+                
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -85,9 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Container();
                   }
 
-                  final schedules = snapshot.data!.docs
-                      .map((QueryDocumentSnapshot e) => ScheduleModel.fromJson(
-                          json: (e.data() as Map<String, dynamic>)))
+                  final schedules = snapshot.data!
+                      .map((e) => ScheduleModel.fromJson(json: e))
                       .toList();
 
                   return ListView.builder(
@@ -98,11 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Dismissible(
                         key: ObjectKey(schedule.id),
                         direction: DismissDirection.startToEnd,
-                        onDismissed: (DismissDirection direction) {
-                          FirebaseFirestore.instance
-                              .collection('schedule')
-                              .doc(schedule.id)
-                              .delete();
+                        onDismissed: (DismissDirection direction) async {
+                          await Supabase.instance.client
+                              .from('schedule')
+                              .delete()
+                              .match({'id': schedule.id});
+
+                          setState(() {});
                         },
                         child: Padding(
                           padding: EdgeInsets.only(

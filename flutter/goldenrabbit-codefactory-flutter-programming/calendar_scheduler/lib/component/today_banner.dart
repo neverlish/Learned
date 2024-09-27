@@ -1,7 +1,6 @@
 import 'package:calendar_scheduler/const/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TodayBanner extends StatelessWidget {
   final DateTime selectedDate;
@@ -40,9 +39,7 @@ class TodayBanner extends StatelessWidget {
             SizedBox(width: 8.0),
             GestureDetector(
               onTap: () async {
-                await GoogleSignIn().signOut();
-
-                await FirebaseAuth.instance.signOut();
+                await Supabase.instance.client.auth.signOut();
 
                 Navigator.of(context).pop();
               },

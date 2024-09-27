@@ -1,8 +1,9 @@
+import 'package:calendar_scheduler/const/api.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:calendar_scheduler/screen/home_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -41,9 +42,13 @@ class AuthScreen extends StatelessWidget {
   }
 
   onGoogleLoginPress(BuildContext context) async {
-    GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
-      'email',
-    ]);
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+      ],
+      clientId: GOOGLE_SERVICE_ID_IOS,
+      serverClientId: GOOGLE_SERVICE_ID_WEB,
+    );
 
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
@@ -51,12 +56,17 @@ class AuthScreen extends StatelessWidget {
       final GoogleSignInAuthentication? googleAuth =
           await account?.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      if (googleAuth == null ||
+          googleAuth.idToken == null ||
+          googleAuth.accessToken == null) {
+        throw Exception('로그인 실패');
+      }
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await Supabase.instance.client.auth.signInWithIdToken(
+        provider: Provider.google,
+        idToken: googleAuth.idToken!,
+        accessToken: googleAuth.accessToken!,
+      );
 
       Navigator.of(context).push(
         MaterialPageRoute(

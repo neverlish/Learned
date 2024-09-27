@@ -3,6 +3,7 @@ import 'package:calendar_scheduler/model/schedule_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
@@ -96,34 +97,16 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
 
       final schedule = ScheduleModel(
         id: Uuid().v4(),
-              content: content!,
-              date: widget.selectedDate,
-              startTime: startTime!,
+        content: content!,
+        date: widget.selectedDate,
+        startTime: startTime!,
         endTime: endTime!,
       );
 
-      final user = FirebaseAuth.instance.currentUser;
+      final supabase = Supabase.instance.client;
 
-      if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('다시 로그인을 해주세요.'),
-          ),
-        );
-
-        Navigator.of(context).pop();
-
-        return;
-      }
-
-      await FirebaseFirestore.instance
-          .collection('schedule')
-          .doc(schedule.id)
-          .set(
-        {
-          ...schedule.toJson(),
-          'author': user.email,
-        },
+      await supabase.from('schedule').insert(
+            schedule.toJson(),
       );
 
       Navigator.of(context).pop();
