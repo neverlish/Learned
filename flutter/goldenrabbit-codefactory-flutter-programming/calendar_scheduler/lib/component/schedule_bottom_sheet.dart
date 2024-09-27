@@ -1,6 +1,7 @@
 import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/model/schedule_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -101,12 +102,32 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         endTime: endTime!,
       );
 
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('다시 로그인을 해주세요.'),
+          ),
+        );
+
+        Navigator.of(context).pop();
+
+        return;
+      }
+
       await FirebaseFirestore.instance
           .collection('schedule')
           .doc(schedule.id)
-          .set(schedule.toJson());
+          .set(
+        {
+          ...schedule.toJson(),
+          'author': user.email,
+        },
+      );
 
       Navigator.of(context).pop();
+
     }
   }
 

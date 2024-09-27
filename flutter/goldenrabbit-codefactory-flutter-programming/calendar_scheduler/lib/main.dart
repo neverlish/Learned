@@ -1,4 +1,5 @@
 import 'package:calendar_scheduler/firebase_options.dart';
+import 'package:calendar_scheduler/screen/auth_screen.dart';
 import 'package:calendar_scheduler/screen/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: AuthScreen(),
     ),
   );
 }
