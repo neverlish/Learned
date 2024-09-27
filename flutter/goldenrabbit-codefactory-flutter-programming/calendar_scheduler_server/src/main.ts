@@ -1,7 +1,7 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ClassSerializerInterceptor } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from "@nestjs/common";
 import { ResponseDelayInterceptor } from './schedule/interceptor/response-delay.interceptor';
 
 async function bootstrap() {
@@ -9,6 +9,9 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalInterceptors(new ResponseDelayInterceptor());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+  }));
 
   const config = new DocumentBuilder()
     .setTitle('Code Factory 샘플 API')

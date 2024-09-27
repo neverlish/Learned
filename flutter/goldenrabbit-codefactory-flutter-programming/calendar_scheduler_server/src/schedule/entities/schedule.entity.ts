@@ -12,13 +12,13 @@ export class Schedule {
 
   constructor(params: Omit<Schedule, 'id'>) {
     this.id = uuid();
+    this.userId = params.userId;
     this.content = params.content;
     this.date = moment(params.date, 'YYYYMMDD');
     this.startTime = params.startTime;
     this.endTime = params.endTime;
   }
 
-  @IsString()
   @ApiProperty({
     name: 'id',
     description: '아이디',
@@ -26,7 +26,13 @@ export class Schedule {
   })
   id: string;
 
-  @IsString()
+  @ApiProperty({
+    name: 'userId',
+    description: '유저 ID',
+    example: '1',
+  })
+  userId: string;
+
   @ApiProperty({
     name: 'content',
     description: '일정 내용',
@@ -34,16 +40,15 @@ export class Schedule {
   })
   content: string;
 
-  @IsDate()
   @ApiProperty({
     name: 'date',
     description: '일정 날짜 (YYMMDD)',
     example: '20210102',
   })
-  @Transform(({ value }) => value.format('YYYYMMDD'))
+  @Transform(({ value }) => value.format('YYYYMMDD'), {toPlainOnly: true})
+  @Transform(({ value }) => moment(value), {toClassOnly:true})
   date: moment.Moment;
 
-  @IsNumber()
   @ApiProperty({
     name: 'startTime',
     description: '시작 시간',
@@ -51,11 +56,13 @@ export class Schedule {
   })
   startTime: number;
 
-  @IsNumber()
   @ApiProperty({
     name: 'endTime',
     description: '마감 시간',
     example: '14',
   })
   endTime: number;
+
+  @Transform(({ value }) => value.format('YYYYMMDD hh:mm:ss'), {toPlainOnly: true})
+  createdAt: moment.Moment = moment();
 }
