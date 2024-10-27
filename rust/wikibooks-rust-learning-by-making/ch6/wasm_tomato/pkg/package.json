@@ -1,0 +1,15 @@
+{
+  "name": "wasm_tomato",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "wasm_tomato_bg.wasm",
+    "wasm_tomato.js",
+    "wasm_tomato.d.ts"
+  ],
+  "main": "wasm_tomato.js",
+  "types": "wasm_tomato.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

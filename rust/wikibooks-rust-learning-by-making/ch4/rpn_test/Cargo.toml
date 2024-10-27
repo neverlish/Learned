@@ -1,0 +1,7 @@
+[package]
+name = "rpn_test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+neverlish_rpn_calc_test_ver = "0.1.0"

@@ -1,0 +1,8 @@
+[package]
+name = "neverlish_rpn_calc_test_ver"
+version = "0.1.0"
+edition = "2021"
+description = "RPN(Reverse Polish Notation) library"
+license = "MIT"
+
+[dependencies]
