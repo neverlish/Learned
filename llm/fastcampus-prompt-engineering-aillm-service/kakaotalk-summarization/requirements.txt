@@ -3,3 +3,4 @@ tqdm
 gradio==4.36.1
 google-generativeai==0.7.0
 anthropic==0.28.1
+httpx==0.27.2
