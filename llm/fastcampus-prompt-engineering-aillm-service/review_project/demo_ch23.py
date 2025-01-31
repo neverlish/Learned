@@ -1,5 +1,6 @@
 import streamlit as st
 from ch2.inference import inference_json
+from ch3.inference import inference_function_calling
 import pandas as pd
 import ssl
 
@@ -11,4 +12,8 @@ review = st.selectbox('리뷰', df.iloc[:10]['document'])
 
 if st.button('submit'):
     score = inference_json(review)
+    keywords = inference_function_calling(review)
+    
     st.write(score)
+    st.write(keywords)
+
