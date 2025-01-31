@@ -3,7 +3,7 @@ from openai import Client
 import os
 import json
 
-from prompt_template import prompt_template, prompt_template_json
+from ch2.prompt_template import prompt_template, prompt_template_json
 
 client = Client(api_key=os.environ["OPENAI_API_KEY"])
 
