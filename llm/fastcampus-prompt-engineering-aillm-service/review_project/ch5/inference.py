@@ -6,10 +6,16 @@ from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
+from langchain.callbacks import get_openai_callback
+
+  
+
 from pydantic import BaseModel
 from typing import List
 
 import json
+import pandas as pd
+import ssl
 
 from ch5.prompt_template import prompt_template, prompt_template_langchain, json_schema, prompt_template_function_calling
 
@@ -61,9 +67,11 @@ chain = (prompt | model | output_parser)
 
 def inference_all_langchain(reviews):
   reviews = "\n".join([f"review_no: {review['id']}\tcontent: {review['document']}" for review in reviews])
-  prompt_now = prompt.invoke({"reviews": reviews})
-  output = chain.invoke({"reviews": reviews})
-  return output
+  with get_openai_callback() as cb:
+    
+    output = chain.invoke({"reviews": reviews})
+    print(f"cost: ${cb.total_cost * 1340}")
+    return output
 
 def inference_all_function_calling(reviews):
   reviews = "\n".join([f"review_no: {review['id']}\tcontent: {review['document']}" for review in reviews])
@@ -95,10 +103,12 @@ def inference_all_function_calling(reviews):
   return output_json
 
 if __name__ == "__main__":
-  print(inference_all_langchain([
-    {"id": 1, "document": "뭐야 이 평점들은.... 나쁘지 않지만 10점 짜리는 더더욱 아니잖아"},
-    {"id": 2, "document": "지루하지는 않은데 완전 막장임"},
-    {"id": 3, "document": "3D만 아니었어도 별 다섯개 줬을텐데..."},
-    {"id": 4, "document": "진짜 최악"},
-    {"id": 5, "document": "너무 재밌어요."},
-  ]))
+  
+
+  ssl._create_default_https_context = ssl._create_unverified_context
+
+  url = 'https://github.com/e9t/nsmc/raw/refs/heads/master/ratings_test.txt'
+
+  df = pd.read_csv(url, sep='\t')
+  reviews = df[:50].to_dict(orient='records')
+  print(inference_all_langchain(reviews))
