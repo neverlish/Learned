@@ -10,7 +10,7 @@ model = "gpt-3.5-turbo-0125"
 gd = GdeltDoc()
 client = MongoClient(host="localhost", port=27017)
 db = client["project1"]
-collection = db["NewsAnalysis"]
+collection = db["NewsAnalysis1"]
 
 
 def chatgpt_generate(query):
@@ -77,6 +77,7 @@ def analysis():
     orgs = ["microsoft", "apple"]
     for org in orgs:
         df = get_url(org)
+        dates = df["seendate"]
         texts, titles = url_crawling(df)
         for idx, text in enumerate(texts):
             news_item = {}
@@ -85,8 +86,9 @@ def analysis():
                 answer_list = eval(answer)
                 news_item["text"] = text
                 news_item["title"] = titles[idx]
+                [item.update({"seendate": dates[idx]}) for item in answer_list]
                 news_item["sentiments"] = answer_list
-                news_item["date"] = datetime.datetime.now()
+                news_item["date"] = dates[idx]
                 insert_id = collection.insert_one(news_item).inserted_id
                 print(insert_id)
             except:
