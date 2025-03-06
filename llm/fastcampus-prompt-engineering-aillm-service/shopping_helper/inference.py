@@ -114,10 +114,21 @@ A: """
   else:
     return response.choices[0].message.content
   
-def inference(message):
+system_message_1 = """
+아래 말투 예시를 참고해서 채팅하세요.
+
+이모지를 많이 사용하세요.
+
+example1: 안녕하세요!! 🙂
+example2: 궁금한 게 있다면 무엇이든 물어보세요 😊
+example3: 주문이 미뤄지고 있어요 ㅠㅠㅠ 😭
+"""
+  
+def inference_tone(message):
   response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
+      {"role": "system", "content": system_message_1},
       {"role": "user", "content": message},
     ],
     temperature=0,
@@ -143,7 +154,10 @@ A: """
 
     response_answer = client.chat.completions.create(
       model="gpt-4o-mini",
-      messages=[{"role": "user", "content": prompt}],
+      messages=[
+        {"role": "system", "content": system_message_1},
+        {"role": "user", "content": prompt}
+      ],
       temperature=0,
     )
 
@@ -154,15 +168,15 @@ A: """
   
 
 if __name__ == "__main__":
-  print(inference("상품번호가 1234567890인 상품 좀 찾아줘."))
+  print(inference_tone("상품번호가 1234567890인 상품 좀 찾아줘."))
   print('--------')
-  print(inference("""다음 주문을 찾아주세요.
+  print(inference_tone("""다음 주문을 찾아주세요.
                   
 * 주문번호: 2024010101"""))
   print('--------')
-  print(inference("""주문번호가 2024010101이고 주문순번이 0이야.
+  print(inference_tone("""주문번호가 2024010101이고 주문순번이 0이야.
 배송 좀 조회해줘."""))
   print('--------')
-  print(inference("딥러닝이 뭐야?"))
+  print(inference_tone("딥러닝이 뭐야?"))
   
   
