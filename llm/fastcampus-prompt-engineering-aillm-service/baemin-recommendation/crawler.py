@@ -19,7 +19,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 BASE_URL = "https://www.yogiyo.co.kr/mobile/#/"
 URL = [
-    "https://www.yogiyo.co.kr/mobile/#/1031899/"
+    # "https://www.yogiyo.co.kr/mobile/#/1031899/"
+    # "https://www.yogiyo.co.kr/mobile/#/1194514/",
+    # "https://www.yogiyo.co.kr/mobile/#/1342658/",
+    # "https://www.yogiyo.co.kr/mobile/#/317917/",
+    # "https://www.yogiyo.co.kr/mobile/#/1381354/",
+    # "https://www.yogiyo.co.kr/mobile/#/1229982/",
+    "https://www.yogiyo.co.kr/mobile/#/1224287/",
+    "https://www.yogiyo.co.kr/mobile/#/1306296/",
+    "https://www.yogiyo.co.kr/mobile/#/359845/",
+    "https://www.yogiyo.co.kr/mobile/#/1029960/",
     # "https://www.yogiyo.co.kr/mobile/#/1367138/"
     # 'https://www.yogiyo.co.kr/mobile/#/1222170',
     # 'https://www.yogiyo.co.kr/mobile/#/1023596',
