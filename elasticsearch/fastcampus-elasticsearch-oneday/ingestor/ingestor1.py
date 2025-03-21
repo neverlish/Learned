@@ -35,12 +35,17 @@ def postToElasticSearch(products):
     for product in products:
         id = getUniqueIndexId(product.url)
         print(id)
-        #r = requests.put(putUrlPrefix + id, data=json.dumps(product.__dict__,
-        #                 indent=4, sort_keys=True, default=json_field_handler), headers=headers)
-        #if r.status_code >= 400:
-        #    print("There is an error writing to elasticsearch")
-        #    print(r.status_code)
-        #    print(r.json())
+        r = requests.put(
+            putUrlPrefix + id,
+            data=json.dumps(
+                product.__dict__, indent=4, sort_keys=True, default=json_field_handler
+            ),
+            headers=headers,
+        )
+        if r.status_code >= 400:
+            print("There is an error writing to elasticsearch")
+            print(r.status_code)
+            print(r.json())
 
 # 아주 naive 한 출고지 extraction subroutine
 def assumeShippingLocation(raw_php_array):
@@ -48,7 +53,7 @@ def assumeShippingLocation(raw_php_array):
         return '국내'
     return '해외'
 
-# Custom handlers for marshalling python object into JSON 
+# Custom handlers for marshalling python object into JSON
 def json_field_handler(x):
     if isinstance(x, datetime.datetime):
         return x.isoformat()
