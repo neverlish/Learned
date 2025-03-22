@@ -21,7 +21,7 @@ def getPostings():
                                 database='flowermall')
     cursor = cnx.cursor()
     # 2. Flower model 을 train 합니다.
-    # class_names, model = classifier.build_flower_model()
+    class_names, model = classifier.build_flower_model()
 
     query = ('SELECT posts.ID AS id, posts.post_content AS content, posts.post_title AS title, posts.guid AS post_url, posts.post_date AS post_date, posts.post_modified AS modified_date, metadata.meta_value AS meta_value, image_data.meta_value AS image FROM wp_posts AS posts JOIN wp_postmeta AS image_metadata ON image_metadata.post_id = posts.ID JOIN wp_postmeta AS image_data ON image_data.post_id = image_metadata.meta_value JOIN wp_postmeta AS metadata ON metadata.post_id = posts.ID WHERE posts.post_status = "publish" AND posts.post_type = "product" AND metadata.meta_key = "_product_attributes" AND image_metadata.meta_key = "_thumbnail_id" AND image_data.meta_key = "_wp_attached_file"')
     cursor.execute(query)
@@ -34,14 +34,16 @@ def getPostings():
         image_url = wp_attachments_url_prefix + image
         image_file = wp_attachments_prefix + image
         # 1. Dominant raw color 를 추출합니다.
-        # dominant_color = raw_color.get_dominant_rgb(image_file)
-        # keywords.append(dominant_color)
+        dominant_color = raw_color.get_dominant_rgb(image_file)
+        keywords.append(dominant_color)
 
         # 3. flower classification 을 통해 추가 데이터를 추출해 냅니다.
-        # image_class, confidence = classifier.predict_class(title, image_url, class_names, model)
-        #if (confidence > 0.8):
-        #    print(image_url + ' is most likely ' + image_class)
-        #    keywords.append(image_class)
+        image_class, confidence = classifier.predict_class(
+            title, image_url, class_names, model
+        )
+        if confidence > 0.8:
+            print(image_url + " is most likely " + image_class)
+            keywords.append(image_class)
         for n_gram in title.split():
             if n_gram in wiki_kg:
                 print("found entry for " + n_gram)
@@ -84,7 +86,7 @@ def assumeShippingLocation(raw_php_array):
         return '국내'
     return '해외'
 
-# Custom handlers for marshalling python object into JSON 
+# Custom handlers for marshalling python object into JSON
 def json_field_handler(x):
     if isinstance(x, datetime.datetime):
         return x.isoformat()
