@@ -26,13 +26,13 @@ def getPostings():
         meta_data = {}
         keywords = []
         # 1. 각 단어마다 위키미디아에 관련 정보를 찾아봅니다.
-        #for n_gram in title.split():
-        #    if n_gram in wiki_kg:
-        #        print("found entry for " + n_gram)
-        #        meta_data = {**meta_data, **wiki_kg[n_gram]}
-        #        subspecies = maybeGetSubspecies(wiki_kg[n_gram])
-        #        if subspecies != None:
-        #            keywords.append(subspecies)
+        for n_gram in title.split():
+            if n_gram in wiki_kg:
+                print("found entry for " + n_gram)
+                meta_data = {**meta_data, **wiki_kg[n_gram]}
+                subspecies = maybeGetSubspecies(wiki_kg[n_gram])
+                if subspecies != None:
+                    keywords.append(subspecies)
         product = ProductPost(id, content, title, url,
                               post_date, modified_date, assumeShippingLocation(meta_value), image, meta_data, " ".join(keywords))
         posting_list.append(product)
@@ -69,7 +69,7 @@ def assumeShippingLocation(raw_php_array):
         return '국내'
     return '해외'
 
-# Custom handlers for marshalling python object into JSON 
+# Custom handlers for marshalling python object into JSON
 def json_field_handler(x):
     if isinstance(x, datetime.datetime):
         return x.isoformat()
