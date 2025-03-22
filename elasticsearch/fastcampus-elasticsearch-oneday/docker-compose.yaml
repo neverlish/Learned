@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - flowermall
+    ports:
+      - 9200:9200
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw
+      MYSQL_DATABASE: flowermall
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - flowermall
+    ports:
+      - "9906:3306"
+
+  wordpress:
+    depends_on:
+      - mysql
+    container_name: wordpress
+    image: wordpress:5.7.2
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "8000:80"
+    networks:
+      - flowermall
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: my_secret_pw
+      WORDPRESS_DB_NAME: flowermall
+
+networks:
+  flowermall:
+    driver: bridge
+    name: flowermall
