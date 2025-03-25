@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>FC-ASR Assistants</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .system { color: red; }
+        .user { color: blue; }
+        .assistant { color: green; }
+    </style>
+</head>
+<body>
+<div id="controls">
+    <button id="recordButton">Record</button>
+    <button id="stopButton" disabled>Stop</button>
+</div>
+<h3>Recordings</h3>
+<div id="chat"></div>
+
+<!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
