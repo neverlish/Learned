@@ -10,6 +10,7 @@ import { deletePost, getPost, TPost } from "~/models/post.service";
 import qs from "qs";
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { TComment } from "~/models/comment.service";
 interface ILoaderData {
   post: TPost;
 }
@@ -178,17 +179,13 @@ export default function PostId() {
       <PostView content={post.content ?? '글이 없습니다.'} />
       <Divider mt={20} mb={20} />
       <Box>
-        <Text>댓글 2개</Text>
-        <Space h='lg' />
+        <Text>댓글 {(post.comment as TComment[]).length}개</Text>
+        <Space h="lg" />
         <CommentUpload />
         <List>
-          <CommentItem
-            comment={{
-              writer: '작성자',
-              created_at: '2020-09-01',
-              content: '댓글 내용'
-            }}
-          />
+          {(post.comment as TComment[]).map((comment: TComment, i: number) => {
+            return <CommentItem key={i} comment={comment} />;
+          })}
         </List>
       </Box>
     </Box>
