@@ -1,6 +1,9 @@
-import { ActionIcon, Box, Divider, Menu, Space, Title } from "@mantine/core";
+import { ActionIcon, Box, Divider, Menu, Space, Text, Title } from "@mantine/core";
 import { Link } from "@remix-run/react";
 import { IconChevronLeft, IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
+import CommentItem from "~/components/Comment/Item";
+import CommentUpload from "~/components/Comment/Upload";
+import List from "~/components/List";
 import PostView from "~/components/Post/Viewer";
 
 export default function PostId() {
@@ -31,7 +34,21 @@ export default function PostId() {
       </Box>
       <Divider mt={20} mb={15} />
       <PostView content='안녕하세요' />
-      글 댓글이 들어갈 자리입니다.
+      <Divider mt={20} mb={20} />
+      <Box>
+        <Text>댓글 2개</Text>
+        <Space h='lg' />
+        <CommentUpload />
+        <List>
+          <CommentItem
+            comment={{
+              writer: '작성자',
+              created_at: '2020-09-01',
+              content: '댓글 내용'
+            }}
+          />
+        </List>
+      </Box>
     </Box>
   )
 }
