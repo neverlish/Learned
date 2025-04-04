@@ -1,9 +1,24 @@
 import { Box, Button, Divider, Title } from "@mantine/core";
-import { Link } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
 import List from "~/components/List";
 import PostItem from "~/components/Post/Item";
+import { getPosts, TPost } from "~/models/post.service";
+
+interface ILoaderData {
+  posts: Array<TPost>;
+}
+
+export const loader: LoaderFunction = async () => {
+  const getPostResponse = await getPosts();
+  return json<ILoaderData>({ posts: getPostResponse.data as Array<TPost> ?? [] });
+};
 
 export default function Index() {
+  const loaderData = useLoaderData<ILoaderData>();
+  const [posts] = useState(loaderData.posts);
+
   return (
     <Box sx={{
       padding: '45px',
@@ -18,30 +33,9 @@ export default function Index() {
       </Box>
       <Divider mt={20} mb={15} />
       <List>
-        <PostItem 
-          post={{
-            title: '안녕하세요.',
-            content: '안녕하세요.',
-            commentCount: 2,
-            createdAt: '2023-01-01',
-          }} 
-        />
-        <PostItem 
-          post={{
-            title: '안녕하세요.',
-            content: '안녕하세요.',
-            commentCount: 2,
-            createdAt: '2023-01-01',
-          }} 
-        />
-        <PostItem 
-          post={{
-            title: '안녕하세요.',
-            content: '안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. ',
-            commentCount: 2,
-            createdAt: '2023-01-01',
-          }} 
-        />
+        {posts.map((post, i) => (
+          <PostItem key={i} post={post as TPost} />
+        ))}
 
       </List>
     </Box>
