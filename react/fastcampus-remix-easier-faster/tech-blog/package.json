@@ -30,9 +30,15 @@
     "@tiptap/react": "^2.0.0-beta.217",
     "@tiptap/starter-kit": "^2.0.0-beta.217",
     "@vercel/node": "^2.6.2",
+    "@visx/group": "^3.0.0",
+    "@visx/mock-data": "^3.0.0",
+    "@visx/scale": "^3.0.0",
+    "@visx/shape": "^3.0.0",
     "qs": "^6.11.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remix-utils": "^6.0.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.11.1",
