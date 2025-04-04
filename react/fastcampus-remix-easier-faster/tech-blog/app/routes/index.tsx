@@ -1,7 +1,14 @@
+import { ActionIcon, Button } from "@mantine/core"
+import { IconAlarm } from '@tabler/icons-react';
+
 export default function Index() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
+      <h1>Welcome to Fastcampus</h1>
+      <Button>버튼입니다.</Button>
+      <ActionIcon>
+        <IconAlarm />
+      </ActionIcon>
       <ul>
         <li>
           <a
