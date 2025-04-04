@@ -10,24 +10,30 @@ import { deletePost, getPost, TPost } from "~/models/post.service";
 import qs from "qs";
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { TComment } from "~/models/comment.service";
+import { createComment, TComment } from "~/models/comment.service";
 interface ILoaderData {
   post: TPost;
 }
 
 export enum InputType {
-  DELETE_POST = "0"
+  DELETE_POST = "0",
+  CREATE_COMMENT = "1",
 }
 
 type InputData = {
   action: InputType;
   id?: number;
   password: string;
+  commentId?: string;
+  commentContent?: string;
+  commentWriter?: string;
+  commentPassword?: string;
 };
 
 interface IActionData {
   message: TMessage;
 }
+
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const postId = params.postId as string;
@@ -61,6 +67,17 @@ export const action: ActionFunction = async ({ request, params }) => {
         return redirect(`/`);
       }
     }
+    case InputType.CREATE_COMMENT: {
+      if (data.commentContent && data.commentWriter && data.commentPassword) {
+        const comment = await createComment(
+          parseInt(postId),
+          data.commentWriter,
+          data.commentContent,
+          data.commentPassword
+        );
+        return redirect(`/posts/${postId}`);
+      }
+	  }
   }
 
   return json<IActionData>({
