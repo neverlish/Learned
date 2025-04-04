@@ -10,7 +10,7 @@ import { deletePost, getPost, TPost } from "~/models/post.service";
 import qs from "qs";
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { createComment, TComment } from "~/models/comment.service";
+import { createComment, deleteComment, getCommentPassword, TComment, updateComment } from "~/models/comment.service";
 interface ILoaderData {
   post: TPost;
 }
@@ -18,6 +18,8 @@ interface ILoaderData {
 export enum InputType {
   DELETE_POST = "0",
   CREATE_COMMENT = "1",
+  UPDATE_COMMENT = "2",
+  DELETE_COMMENT = "3",
 }
 
 type InputData = {
@@ -78,6 +80,46 @@ export const action: ActionFunction = async ({ request, params }) => {
         return redirect(`/posts/${postId}`);
       }
 	  }
+    case InputType.UPDATE_COMMENT: {
+      if (data.commentId && data.commentContent) {
+        const comment = await getCommentPassword(parseInt(data.commentId));
+        if (data.commentPassword !== comment.data?.password) {
+          return json<IActionData>({
+            message: {
+              title: "수정 실패",
+              message: "비밀번호가 일치하지 않습니다.",
+              color: "red",
+            },
+          });
+        } else {
+          const comment = await updateComment(
+            parseInt(data.commentId),
+            data.commentContent
+          );
+          return redirect(`/posts/${postId}`);
+        }
+      }
+    }
+    case InputType.DELETE_COMMENT: {
+      if (data.commentId) {
+        const comment = await getCommentPassword(parseInt(data.commentId));
+        if (
+          data.commentPassword !== comment.data?.password &&
+          data.commentPassword !== process.env.ADMIN_PASSWORD
+        ) {
+          return json<IActionData>({
+            message: {
+              title: "삭제 실패",
+              message: "비밀번호가 일치하지 않습니다.",
+              color: "red",
+            },
+          });
+        } else {
+          const comment = await deleteComment(parseInt(data.commentId));
+          return redirect(`/posts/${postId}`);
+        }
+      }
+    }
   }
 
   return json<IActionData>({
