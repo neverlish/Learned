@@ -30,21 +30,21 @@ export type Database = {
       post: {
         Row: {
           board_id: number
-          contents: string | null
+          content: string | null
           created_at: string
           id: number
           title: string | null
         }
         Insert: {
           board_id: number
-          contents?: string | null
+          content?: string | null
           created_at?: string
           id?: number
           title?: string | null
         }
         Update: {
           board_id?: number
-          contents?: string | null
+          content?: string | null
           created_at?: string
           id?: number
           title?: string | null
