@@ -1,6 +1,7 @@
-import { ActionIcon, Box, Button, Divider, Title } from "@mantine/core"
+import { Box, Button, Divider, Title } from "@mantine/core";
 import { Link } from "@remix-run/react";
-import { IconAlarm } from '@tabler/icons-react';
+import List from "~/components/List";
+import PostItem from "~/components/Post/Item";
 
 export default function Index() {
   return (
@@ -16,7 +17,33 @@ export default function Index() {
         </Link>
       </Box>
       <Divider mt={20} mb={15} />
-      PostList 와 PostItem 컴포넌트가 들어갈 자리입니다.
+      <List>
+        <PostItem 
+          post={{
+            title: '안녕하세요.',
+            content: '안녕하세요.',
+            commentCount: 2,
+            createdAt: '2023-01-01',
+          }} 
+        />
+        <PostItem 
+          post={{
+            title: '안녕하세요.',
+            content: '안녕하세요.',
+            commentCount: 2,
+            createdAt: '2023-01-01',
+          }} 
+        />
+        <PostItem 
+          post={{
+            title: '안녕하세요.',
+            content: '안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. 안녕하세요. ',
+            commentCount: 2,
+            createdAt: '2023-01-01',
+          }} 
+        />
+
+      </List>
     </Box>
   );
 }
