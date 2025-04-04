@@ -1,4 +1,12 @@
+import type { LoaderFunction } from "@remix-run/node";
 import { Link, Outlet } from "@remix-run/react";
+import { getBoards } from "~/models/board.service";
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const boards = await getBoards();
+  console.log(boards);
+  return { boards };
+};
 
 export default function Dynamic() {
   return (
