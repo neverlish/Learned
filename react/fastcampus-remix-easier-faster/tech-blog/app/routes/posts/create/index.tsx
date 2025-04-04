@@ -1,6 +1,7 @@
 import { ActionIcon, Box, Button, Divider, PasswordInput, Space, TextInput, Title } from "@mantine/core";
 import { Link } from "@remix-run/react";
 import { IconChevronLeft } from "@tabler/icons-react";
+import PostUpload from "~/components/Post/Upload";
 
 export default function PostCreate() {
   return (
@@ -17,7 +18,7 @@ export default function PostCreate() {
       <Divider mt={20} mb={20} />
       <TextInput placeholder="제목" variant="filled" size='xl' />
       <Space h='xl' />
-      글 입력란 들어갈 자리입니다.
+      <PostUpload />
       <Box sx={{ display: 'flex', justifyContent: 'end'}} >
         <PasswordInput
           sx={{minWidth: '200px'}}
