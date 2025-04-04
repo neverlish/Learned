@@ -27,7 +27,9 @@ export async function getPost(id: number) {
   return await supabase
     .from("post")
     .select(`id, title, content, board_id`)
-    .eq("id", id);
+    .eq("id", id)
+    .limit(1)
+    .single();
 }
 
 export async function createPost(
