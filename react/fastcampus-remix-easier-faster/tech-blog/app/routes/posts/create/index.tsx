@@ -78,6 +78,7 @@ export default function PostCreate() {
         <Title>글 작성</Title>
       </Box>
       <Divider mt={20} mb={20} />
+      <Space h='xl' />
       <Form method="post">
         <TextInput placeholder="제목" variant="filled" size='xl' name="title" />
         <Space h='xl' />
