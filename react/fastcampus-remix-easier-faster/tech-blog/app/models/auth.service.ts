@@ -15,7 +15,7 @@ export const AuthServiceFetchWrapper = async (
     method: method,
     headers: {
       "Content-Type": "application/json",
-      ...{ token: token ?? "" },
+      token: token ?? "",
     },
     body: JSON.stringify(body),
   })
