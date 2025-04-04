@@ -1,6 +1,6 @@
 node_modules
 
-/.cache
+.cache
 /build
 .env
 
@@ -9,3 +9,4 @@ build
 api
 
 supabase
+
