@@ -88,6 +88,7 @@ export default function PostCreate() {
           size="xl"
           name="title"
           disabled={navigation.state === "submitting"}
+          required
         />
         <Space h='xl' />
         <Box

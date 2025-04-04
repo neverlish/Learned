@@ -33,6 +33,7 @@ type InputData = {
 };
 
 interface IActionData {
+  error?: boolean;
   message: TMessage;
 }
 
@@ -117,8 +118,20 @@ export const action: ActionFunction = async ({ request, params }) => {
             },
           });
         } else {
-          const comment = await deleteComment(parseInt(data.commentId));
-          return redirect(`/posts/${postId}`);
+          try {
+            throw new Error("test");
+            const comment = await deleteComment(parseInt(data.commentId));
+            return redirect(`/posts/${postId}`);
+          } catch {
+            return json<IActionData>({
+              error: true,
+              message: {
+                title: "삭제 실패",
+                message: "알 수 없는 오류가 발생했습니다.",
+                color: "red",
+              },
+            });
+          }
         }
       }
     }
