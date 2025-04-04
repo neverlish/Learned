@@ -1,4 +1,5 @@
 import { createEmotionCache, MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import { StylesPlaceholder } from "@mantine/remix";
 import type { MetaFunction } from "@remix-run/node";
 import {
@@ -28,7 +29,10 @@ export default function App() {
           <Links />
         </head>
         <body>
-          <Outlet />
+          <NotificationsProvider>
+            <Outlet />
+          </NotificationsProvider>
+
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
