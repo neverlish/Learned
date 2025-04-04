@@ -1,5 +1,10 @@
 import supabase from "./supabase";
 
+export type TBoard = {
+  id: number;
+  name: string | null;
+};
+
 export async function getBoards() {
   return await supabase.from("board").select(`id, name`);
 }

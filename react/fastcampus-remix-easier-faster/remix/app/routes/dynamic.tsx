@@ -1,26 +1,33 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { Link, Outlet } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
+import type { TBoard } from "~/models/board.service";
 import { getBoards } from "~/models/board.service";
+
+interface ILoaderData {
+  boards: TBoard[];
+}
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const boards = await getBoards();
-  console.log(boards);
-  return { boards };
+  return json<ILoaderData>({ boards: boards.data || [] });
 };
 
 export default function Dynamic() {
+  const loaderData = useLoaderData<ILoaderData>();
+  const [boards] = useState<TBoard[]>(loaderData.boards);
+
   return (
     <div style={{ border: "3px solid red" }}>
       <h1>Dynamic</h1>
-      <Link to="/dynamic/1" prefetch="intent">
-        게시판 1
-      </Link>{" "}
-      <Link to="/dynamic/2" prefetch="render">
-        게시판 2
-      </Link>{" "}
-      <Link to="/dynamic/3" prefetch="none">
-        게시판 3
-      </Link>
+      {boards.map((board) => (
+        <>
+          <Link to={`/dynamic/${board.id}`} prefetch="intent">
+            {board.name}
+          </Link>{" "}
+        </>
+      ))}
       <Outlet />
     </div>
   );

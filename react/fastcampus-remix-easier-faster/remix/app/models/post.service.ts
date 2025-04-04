@@ -1,10 +1,26 @@
 import supabase from "./supabase";
 
+export type TPostTitleOnly = {
+  id: number;
+  title: string | null;
+};
+
+export type TPost = {
+  id: number;
+  title: string | null;
+  content: string | null;
+  board_id: number;
+};
+
 export async function getPostsByBoardId(id: number) {
   return await supabase
     .from("post")
     .select(`id, title, content, board_id`)
     .eq("board_id", id);
+}
+
+export async function getPostsTitleByBoardId(id: number) {
+  return await supabase.from("post").select(`id, title`).eq("board_id", id);
 }
 
 export async function getPost(id: number) {
