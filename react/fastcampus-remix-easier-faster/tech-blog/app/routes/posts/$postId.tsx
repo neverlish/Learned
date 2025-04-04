@@ -51,6 +51,8 @@ export const action: ActionFunction = async ({ request, params }) => {
   const postId = params.postId as string;
   const data = qs.parse(await request.text()) as unknown as InputData;
 
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   switch (data.action) {
 		// 글 삭제 액션
     case InputType.DELETE_POST: {
@@ -135,6 +137,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function PostId() {
   const loaderData = useLoaderData<ILoaderData>();
   const actionData = useActionData<IActionData>();
+  const navigation = useNavigation();
 
   const [post, setPost] = useState(loaderData.post);
   const [deleteModalOpened, setDeleteModalOpened] = useState(false);
@@ -245,6 +248,23 @@ export default function PostId() {
           {(post.comment as TComment[]).map((comment: TComment, i: number) => {
             return <CommentItem key={i} comment={comment} />;
           })}
+          {navigation.state === "submitting" &&
+            navigation.formData.get("action") === InputType.CREATE_COMMENT && (
+              <>
+                <CommentItem
+                  isUpload
+                  comment={{
+                    id: 0,
+                    writer: navigation.formData.get("commentWriter") as string,
+                    content: navigation.formData.get(
+                      "commentContent"
+                    ) as string,
+                    created_at: new Date().toISOString(),
+                    post_id: 0,
+                  }}
+                />
+              </>
+            )}
         </List>
       </Box>
     </Box>

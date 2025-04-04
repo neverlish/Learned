@@ -9,7 +9,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "@remix-run/react";
+import { useEffect, useState } from "react";
 
 import globalStyles from "~/styles/global.css";
 
@@ -26,6 +28,11 @@ export const links: LinksFunction = () => [
 createEmotionCache({ key: 'mantine' })
 
 export default function App() {
+  const navigation = useNavigation();
+  const [log, setLog] = useState<any>([]);
+  useEffect(() => {
+    setLog([...log, navigation]);
+  }, [navigation]);
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <html lang="en">
@@ -36,6 +43,7 @@ export default function App() {
         </head>
         <body>
           <NotificationsProvider>
+            <p>{JSON.stringify(log, null, 4)}</p>
             <Outlet />
           </NotificationsProvider>
 

@@ -12,7 +12,9 @@ interface ILoaderData {
 
 export const loader: LoaderFunction = async () => {
   const getPostResponse = await getPosts();
-  return json<ILoaderData>({ posts: getPostResponse.data as Array<TPost> ?? [] });
+  return json<ILoaderData>({
+    posts: (getPostResponse.data as Array<TPost>) ?? [],
+  });
 };
 
 export default function Index() {

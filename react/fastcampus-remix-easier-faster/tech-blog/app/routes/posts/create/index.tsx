@@ -19,6 +19,7 @@ interface IActionData {
 
 export const action: ActionFunction = async ({ request, params }) => {
   const data = qs.parse(await request.text()) as unknown as InputData;
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
 	// 관리자 비밀번호가 틀릴 경우
   if (!data.password || data.password !== process.env.ADMIN_PASSWORD) {
@@ -47,6 +48,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function PostCreate() {
+  const navigation = useNavigation();
   const actionData = useActionData<IActionData>();
   const [message, setMessage] = useState<IActionData>();
 
@@ -80,17 +82,36 @@ export default function PostCreate() {
       <Divider mt={20} mb={20} />
       <Space h='xl' />
       <Form method="post">
-        <TextInput placeholder="제목" variant="filled" size='xl' name="title" />
+        <TextInput
+          placeholder="제목"
+          variant="filled"
+          size="xl"
+          name="title"
+          disabled={navigation.state === "submitting"}
+        />
         <Space h='xl' />
-        <PostUpload />
+        <Box
+          sx={{
+            pointerEvents:
+              navigation.state === "submitting" ? "none" : "initial",
+          }}
+        >
+          <PostUpload />
+        </Box>
         <Box sx={{ display: 'flex', justifyContent: 'end'}} >
-          <PasswordInput
-            sx={{minWidth: '200px'}}
-            name="password"
-            placeholder="관리자 비밀번호"
-          />
-          <Space w='xs' />
-          <Button color='red' type="submit">
+            <PasswordInput
+              sx={{ minWidth: "200px" }}
+              name="password"
+              placeholder="관리자 비밀번호"
+              disabled={navigation.state === "submitting"}
+              required
+            />
+            <Space w="xs" />
+            <Button
+              color="red"
+              type="submit"
+              loading={navigation.state === "submitting"}
+            >
             작성하기
           </Button>
         </Box>
