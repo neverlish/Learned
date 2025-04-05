@@ -2,6 +2,8 @@ import { ActionIcon, Box, Button, Divider, Menu, Modal, Space, Text, Title } fro
 import { Link, useFetcher, useParams } from "@remix-run/react";
 import { IconChevronLeft, IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import CommentItem from "~/components/Comment/Item";
+import CommentUpload from "~/components/Comment/Upload";
 import PostView from "~/components/Post/Viewer";
 
 export default function PostId() {
@@ -105,6 +107,18 @@ export default function PostId() {
       <Box>
         <PostView content={post.content ?? "글이 없습니다."} />
       </Box>
+      <Divider mt={20} mb='xs' />
+      <CommentUpload />
+      <Divider mt={20} mb={20} />
+      {[
+        { id: 0, writer: { name: '작성자 이름' }, content: '댓글 내용', created_at: '2021-01-01' },
+      ].map((comment, i) => (
+        <CommentItem
+          key={i}
+          comment={comment}
+          is_owner={false}
+        />
+      ))}
     </Box>
   );
 }
