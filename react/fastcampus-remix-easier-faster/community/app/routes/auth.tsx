@@ -11,7 +11,7 @@ export default function Auth() {
   const actionData = useActionData<IActionData>();
   const [message, setMessage] = useState<TMessage>();
 
-  useEffect(() => {
+    useEffect(() => {
     console.log(actionData);
     if (actionData) {
       setMessage(actionData.message);

@@ -1,5 +1,17 @@
 import supabase from "./supabase";
 
+
+export type TComment = {
+  id: number;
+  writer: {
+    name: string;
+    user_id: string;
+  };
+  content: string | null;
+  created_at: string | null;
+  post_id: number | null;
+};
+
 export async function getCommentById(id: number) {
   return await supabase.from("comment").select(`*`).eq("id", id).single();
 } // 댓글 id 를 통해 댓글 불러오기
