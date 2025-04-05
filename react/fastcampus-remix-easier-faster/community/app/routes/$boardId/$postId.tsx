@@ -3,14 +3,15 @@ import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node"
 import { Link, useFetcher, useLoaderData, useParams } from "@remix-run/react";
 import { User } from "@supabase/supabase-js";
 import { IconChevronLeft, IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
+import qs from "qs";
 import { useState } from "react";
 import { authenticate, getUserToken } from "~/auth.server";
 import CommentItem from "~/components/Comment/Item";
 import CommentUpload from "~/components/Comment/Upload";
 import PostView from "~/components/Post/Viewer";
+import { TComment } from "~/models/comment.service";
 import { deletePost, getPostById, TPost, updateViewById } from "~/models/post.service";
 import supabase from "~/models/supabase";
-import qs from "qs";
 import { IActionData } from "../auth";
 
 interface ILoaderData {
@@ -174,15 +175,15 @@ export default function PostId() {
       <Divider mt={20} mb='xs' />
       <CommentUpload />
       <Divider mt={20} mb={20} />
-      {[
-        { id: 0, writer: { name: '작성자 이름' }, content: '댓글 내용', created_at: '2021-01-01' },
-      ].map((comment, i) => (
-        <CommentItem
-          key={i}
-          comment={comment}
-          is_owner={false}
-        />
-      ))}
+      {(post.comment as TComment[]).map((comment, i: number) => {
+        return (
+          <CommentItem
+            key={i}
+            comment={comment}
+            is_owner={Boolean(user && comment.writer.user_id === user.id)}
+          />
+        );
+      })}
     </Box>
   );
 }
