@@ -1,16 +1,67 @@
 import { ActionIcon, Box, Button, Divider, Space, TextInput } from "@mantine/core";
-import { Form, Link, useParams } from "@remix-run/react";
+import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
+import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
 import { IconChevronLeft } from "@tabler/icons-react";
+import qs from "qs";
+import { authenticate } from "~/auth.server";
 import PostUpload from "~/components/Post/Upload";
+import { getPostById, TPost, updatePost } from "~/models/post.service";
+import supabase from "~/models/supabase";
+
+interface ILoaderData {
+  post: TPost;
+}
+
+interface InputData {
+  id: string;
+  title: string;
+  content: string;
+}
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const postId = parseInt(params.postId as string);
+  const post = await getPostById(postId);
+
+  const { accessToken } = await authenticate(request);
+
+  if (!accessToken) return redirect("/auth/sign-in");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(accessToken);
+
+  if (user && user.id !== post.data?.writer.user_id)
+    return redirect("/auth/sign-in");
+
+  return json<ILoaderData>({ post: post.data as unknown as TPost });
+};
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const postId = parseInt(params.postId as string);
+  const boardId = params.boardId as string;
+
+  const data = qs.parse(await request.text()) as unknown as InputData;
+  const post = await getPostById(postId);
+
+  const { accessToken } = await authenticate(request);
+
+  if (!accessToken) return redirect("/auth/sign-in");
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(accessToken);
+
+  if (user && user.id !== post.data?.writer.user_id)
+    return redirect("/auth/sign-in");
+
+  await updatePost(postId, data.title, data.content);
+
+  return redirect(`/${boardId}/${postId}`);
+};
 
 export default function PostIdUpdate() {
-  
+  const { post } = useLoaderData<ILoaderData>();
   const { boardId, postId } = useParams();
-  const post = {
-    id: 1,
-    title: '게시글 제목',
-    content: '게시글 내용',
-  }
   return (
     <Box>
       <Form method="post">

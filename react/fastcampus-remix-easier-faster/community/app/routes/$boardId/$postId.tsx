@@ -1,15 +1,17 @@
 import { ActionIcon, Box, Button, Divider, Menu, Modal, Space, Text, Title } from "@mantine/core";
-import { json, LoaderFunction } from "@remix-run/node";
+import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 import { Link, useFetcher, useLoaderData, useParams } from "@remix-run/react";
 import { User } from "@supabase/supabase-js";
 import { IconChevronLeft, IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
-import { getUserToken } from "~/auth.server";
+import { authenticate, getUserToken } from "~/auth.server";
 import CommentItem from "~/components/Comment/Item";
 import CommentUpload from "~/components/Comment/Upload";
 import PostView from "~/components/Post/Viewer";
-import { getPostById, TPost, updateViewById } from "~/models/post.service";
+import { deletePost, getPostById, TPost, updateViewById } from "~/models/post.service";
 import supabase from "~/models/supabase";
+import qs from "qs";
+import { IActionData } from "../auth";
 
 interface ILoaderData {
   is_login: boolean;
@@ -33,6 +35,46 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   return json<ILoaderData>({ is_login: true, user, post: post.data as unknown as TPost });
 };
+
+export enum InputType {
+  DELETE_POST = "0",
+}
+
+type InputData = {
+  action: InputType;
+};
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const boardId = params.boardId as string;
+  const postId = parseInt(params.postId as string);
+  const data = qs.parse(await request.text()) as unknown as InputData;
+
+  const { accessToken } = await authenticate(request);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(accessToken);
+
+  const post = await getPostById(postId);
+
+  switch (data.action) {
+    case InputType.DELETE_POST: {
+      if (user && user.id === post.data?.writer.user_id) {
+        await deletePost(postId);
+        return redirect(`/${boardId}`);
+      } else {
+        return json<IActionData>({
+          error: true,
+          message: {
+            title: "삭제 실패",
+            message: "권한이 없습니다.",
+            color: "red",
+          },
+        });
+      }
+    }
+	}
+}
 
 
 export default function PostId() {
@@ -59,6 +101,8 @@ export default function PostId() {
         <Space w="xs" />
         <Title>{post.title}</Title>
       </Box>
+
+      {is_login && user && user.id === post.writer.user_id && (
 
         <>
           <Menu shadow="md" width={200} position="left-start">
@@ -106,6 +150,7 @@ export default function PostId() {
                   color="red"
                   type="submit"
                   name="action"
+                  value={InputType.DELETE_POST} 
                 >
                   삭제
                 </Button>
@@ -113,6 +158,7 @@ export default function PostId() {
             </Box>
           </Modal>
         </>
+      )}
       </Box>
       <Divider mt={20} mb={15} />
       <Box sx={{ display: "flex" }}>
