@@ -1,4 +1,5 @@
 import { Box, Space } from "@mantine/core";
+import PostItem from "~/components/Post/Item";
 import SideBar from "~/components/Sidebar";
 
 export default function Index() {
@@ -16,7 +17,39 @@ export default function Index() {
       </Box>
       <Space w="xl" />
       <Box sx={{ width: '100%' }}>
-        게시글 리스트 위치
+        {
+          ([
+            {
+              id: 1,
+              title: '게시글 1',
+              writer: {
+                name: '작성자 1'
+              },
+              created_at: '2021-01-01',
+              view: 1, 
+              board: { 
+                name: '공지사항', path: 'notice'
+              },
+            },
+            {
+              id: 1,
+              title: '게시글 1',
+              writer: {
+                name: '작성자 1'
+              },
+              created_at: '2021-01-01',
+              view: 1, 
+              board: { 
+                name: '공지사항', path: 'notice'
+              },
+            },
+          ]).map((post: any) => (
+            <PostItem
+              post={post}
+              path={post.board.path}
+            />
+          ))
+        }
       </Box>
     </Box>
   )
