@@ -1,27 +1,45 @@
 import { ActionIcon, Box, Button, Divider, Menu, Modal, Space, Text, Title } from "@mantine/core";
-import { Link, useFetcher, useParams } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { Link, useFetcher, useLoaderData, useParams } from "@remix-run/react";
+import { User } from "@supabase/supabase-js";
 import { IconChevronLeft, IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import { getUserToken } from "~/auth.server";
 import CommentItem from "~/components/Comment/Item";
 import CommentUpload from "~/components/Comment/Upload";
 import PostView from "~/components/Post/Viewer";
+import { getPostById, TPost, updateViewById } from "~/models/post.service";
+import supabase from "~/models/supabase";
+
+interface ILoaderData {
+  is_login: boolean;
+  user?: User | null;
+  post: TPost;
+}
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const postId = parseInt(params.postId as string);
+  const post = await getPostById(postId);
+  await updateViewById(postId); // 조회수 갱신 함수
+
+  const { accessToken } = await getUserToken(request);
+
+  if (!accessToken)
+    return json<ILoaderData>({ is_login: false, post: post.data as unknown as TPost });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(accessToken);
+
+  return json<ILoaderData>({ is_login: true, user, post: post.data as unknown as TPost });
+};
+
 
 export default function PostId() {
   const fetcher = useFetcher();
   const { boardId } = useParams();
   const [deleteModalOpened, setDeleteModalOpened] = useState(false);
-
-  const post = {
-    id: 1,
-    title: '게시글 제목',
-    writer: {
-      name: '작성자 이름',
-      user_id: 1,
-    },
-    created_at: '2021-01-01',
-    view: 1,
-    content: '게시글 내용',
-  }
+  const { post, is_login, user } = useLoaderData<ILoaderData>();
 
   return (
     <Box>
