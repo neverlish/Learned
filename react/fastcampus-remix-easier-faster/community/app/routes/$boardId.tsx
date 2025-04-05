@@ -1,4 +1,5 @@
 import { Box, Space } from "@mantine/core";
+import { Outlet } from "@remix-run/react";
 
 export default function BoardId() {
   return (
@@ -15,7 +16,10 @@ export default function BoardId() {
       </Box>
       <Space w="xl" />
       <Box sx={{ width: '100%' }}>
-        게시글 리스트 위치
+        <Outlet />
+        <Box sx={{ width: '100%' }}>
+          게시글 리스트 위치
+        </Box>
       </Box>
     </Box>
   )
