@@ -1,7 +1,10 @@
 
 import { Box, Button, Grid, Space, Text, Title } from "@mantine/core";
+import { loadTossPayments } from "@tosspayments/payment-sdk";
 import { useState } from "react";
 import PointSelect from "~/components/Point/Select";
+
+const clientKey = process.env.TOSS_CLIENT_KEY;
 
 export default function Shop() {
   const point = 1000;
@@ -50,13 +53,26 @@ export default function Shop() {
         </Grid.Col>
       </Grid>
       <Space h="xl" />
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Button
-          sx={{ width: "150px" }}
-        >
-          구매하기
-        </Button>
-      </Box>
+      <Button
+        sx={{ width: "150px" }}
+        onClick={() => {
+          loadTossPayments(clientKey).then((tossPayment) =>
+            tossPayment.requestPayment("카드", {
+              amount: 1, // 결제 금액
+              orderId: Math.random().toString(36).substring(2, 11), // 랜덤 문자열
+              orderName: `${selected}P 구매`, 
+              customerName: "구매자 이름",
+              successUrl: `${
+                window ? window.location.origin : ""
+              }/shop/success`,
+              failUrl: `${window ? window.location.origin : ""}/shop/fail`,
+              customerEmail: "구매자 이메일",
+            })
+          );
+        }}
+      >
+        구매하기
+      </Button>
     </Box>
   );
 }
