@@ -1,4 +1,5 @@
 import { Box, Space } from "@mantine/core";
+import SideBar from "~/components/Sidebar";
 
 export default function Index() {
   return (
@@ -11,7 +12,7 @@ export default function Index() {
       margin: '0 auto',
     }}>
       <Box>
-        Sidebar 위치
+        <SideBar boards={[{ path: '/notice', name: '공지사항'}]} />
       </Box>
       <Space w="xl" />
       <Box sx={{ width: '100%' }}>
