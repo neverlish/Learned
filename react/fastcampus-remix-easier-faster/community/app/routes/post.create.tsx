@@ -1,7 +1,14 @@
 import { ActionIcon, Box, Button, Divider, Select, Space, TextInput, Title } from "@mantine/core";
-import { Link, Form } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { Form, Link } from "@remix-run/react";
 import { IconChevronLeft } from "@tabler/icons-react";
+import { authenticate } from "~/auth.server";
 import PostUpload from "~/components/Post/Upload";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await authenticate(request); // Access Token 을 발급할 수 없으면 /auth/sign-in 으로 리다이렉트됨
+  return {};
+};
 
 export default function PostCreate() {
 

@@ -17,6 +17,7 @@ import globalStyles from "./styles/global.css";
 import { getUserToken } from "./auth.server";
 import { User } from "@supabase/supabase-js";
 import supabase from "./models/supabase";
+import { NotificationsProvider } from "@mantine/notifications";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: globalStyles },
@@ -64,9 +65,11 @@ export default function App() {
           <Links />
         </head>
         <body>
-          {!location.pathname.includes("/auth") && (
-            <Header is_login={is_login} />
-          )}
+          <NotificationsProvider>
+            {!location.pathname.includes("/auth") && (
+              <Header is_login={is_login} />
+            )}
+          </NotificationsProvider>
           <Outlet />
           <ScrollRestoration />
           <Scripts />
