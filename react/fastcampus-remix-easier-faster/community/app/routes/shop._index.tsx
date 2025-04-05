@@ -56,7 +56,7 @@ export default function Shop() {
       <Button
         sx={{ width: "150px" }}
         onClick={() => {
-          loadTossPayments(clientKey).then((tossPayment) =>
+          loadTossPayments(clientKey!).then((tossPayment) =>
             tossPayment.requestPayment("카드", {
               amount: 1, // 결제 금액
               orderId: Math.random().toString(36).substring(2, 11), // 랜덤 문자열

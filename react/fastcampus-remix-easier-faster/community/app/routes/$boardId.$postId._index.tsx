@@ -12,7 +12,7 @@ import PostView from "~/components/Post/Viewer";
 import { createComment, deleteComment, getCommentById, TComment, updateComment } from "~/models/comment.service";
 import { deletePost, getPostById, TPost, updateViewById } from "~/models/post.service";
 import supabase from "~/models/supabase";
-import { IActionData } from "../auth";
+import { IActionData } from "./auth";
 
 interface ILoaderData {
   is_login: boolean;

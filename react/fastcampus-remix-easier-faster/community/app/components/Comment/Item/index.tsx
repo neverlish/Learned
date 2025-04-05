@@ -2,7 +2,7 @@ import { ActionIcon, Box, Button, Menu, Modal, Space, Text, Textarea } from "@ma
 import { useFetcher } from "@remix-run/react";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
-import { InputType } from "~/routes/$boardId/$postId";
+import { InputType } from "~/routes/$boardId.$postId._index";
 
 interface ICommentItem {
   comment: any;
