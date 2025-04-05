@@ -1,6 +1,6 @@
 import { Box, Space } from "@mantine/core";
 
-export default function Index() {
+export default function BoardId() {
   return (
     <Box sx={{
       display: "flex",
