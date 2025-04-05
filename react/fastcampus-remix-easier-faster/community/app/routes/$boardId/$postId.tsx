@@ -9,7 +9,7 @@ import { authenticate, getUserToken } from "~/auth.server";
 import CommentItem from "~/components/Comment/Item";
 import CommentUpload from "~/components/Comment/Upload";
 import PostView from "~/components/Post/Viewer";
-import { TComment } from "~/models/comment.service";
+import { createComment, deleteComment, getCommentById, TComment, updateComment } from "~/models/comment.service";
 import { deletePost, getPostById, TPost, updateViewById } from "~/models/post.service";
 import supabase from "~/models/supabase";
 import { IActionData } from "../auth";
@@ -39,10 +39,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export enum InputType {
   DELETE_POST = "0",
+  CREATE_COMMENT = "1",
+  UPDATE_COMMENT = "2",
+  DELETE_COMMENT = "3",
 }
 
 type InputData = {
   action: InputType;
+  commentId?: string;
+  commentContent?: string;
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -74,7 +79,77 @@ export const action: ActionFunction = async ({ request, params }) => {
         });
       }
     }
-	}
+    case InputType.CREATE_COMMENT: {
+      if (user && data.commentContent) {
+        await createComment(postId, user.id, data.commentContent);
+        return redirect(`/${boardId}/${postId}`);
+      } else {
+        return json<IActionData>({
+          error: true,
+          message: {
+            title: "생성 실패",
+            message: "권한이 없습니다.",
+            color: "red",
+          },
+        });
+      }
+    }
+
+    case InputType.UPDATE_COMMENT: {
+      if (user && data.commentId && data.commentContent) {
+        const originalComment = await getCommentById(parseInt(data.commentId));
+        if (originalComment.data?.writer !== user.id) {
+          return json<IActionData>({
+            error: true,
+            message: {
+              title: "수정 실패",
+              message: "권한이 없습니다.",
+              color: "red",
+            },
+          });
+        }
+        await updateComment(parseInt(data.commentId), data.commentContent);
+
+        return redirect(`/${boardId}/${postId}`);
+      } else {
+        return json<IActionData>({
+          error: true,
+          message: {
+            title: "수정 실패",
+            message: "권한이 없습니다.",
+            color: "red",
+          },
+        });
+      }
+    }
+    case InputType.DELETE_COMMENT: {
+      if (user && data.commentId) {
+        const originalComment = await getCommentById(parseInt(data.commentId));
+        if (originalComment.data?.writer !== user.id) {
+          return json<IActionData>({
+            error: true,
+            message: {
+              title: "삭제 실패",
+              message: "권한이 없습니다.",
+              color: "red",
+            },
+          });
+        }
+        await deleteComment(parseInt(data.commentId));
+
+        return redirect(`/${boardId}/${postId}`);
+      } else {
+        return json<IActionData>({
+          error: true,
+          message: {
+            title: "삭제 실패",
+            message: "권한이 없습니다.",
+            color: "red",
+          },
+        });
+      }
+    }
+  }
 }
 
 
@@ -175,6 +250,7 @@ export default function PostId() {
       <Divider mt={20} mb='xs' />
       <CommentUpload />
       <Divider mt={20} mb={20} />
+      <Text weight={700}>댓글 {(post.comment as TComment[]).length}개</Text>
       {(post.comment as TComment[]).map((comment, i: number) => {
         return (
           <CommentItem

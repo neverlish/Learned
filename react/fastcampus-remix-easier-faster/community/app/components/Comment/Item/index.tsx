@@ -2,6 +2,7 @@ import { ActionIcon, Box, Button, Menu, Modal, Space, Text, Textarea } from "@ma
 import { useFetcher } from "@remix-run/react";
 import { IconDotsVertical, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import { InputType } from "~/routes/$boardId/$postId";
 
 interface ICommentItem {
   comment: any;
@@ -93,6 +94,7 @@ export default function CommentItem({ comment, is_owner }: ICommentItem) {
                       color="red"
                       type="submit"
                       name="action"
+                      value={InputType.DELETE_COMMENT}
                     >
                       삭제
                     </Button>
@@ -129,6 +131,7 @@ export default function CommentItem({ comment, is_owner }: ICommentItem) {
                   color="red"
                   type="submit"
                   name="action"
+                  value={InputType.UPDATE_COMMENT}
                 >
                   수정하기
                 </Button>
