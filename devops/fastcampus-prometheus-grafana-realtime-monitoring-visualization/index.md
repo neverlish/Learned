@@ -18,3 +18,13 @@ docker run \
 ```vim
 docker run -d --name=node_exporter -p 9100:9100 -v "/:/host:ro,rslave" quay.io/prometheus/node-exporter:latest --path.rootfs=/host
 ```
+
+# 2.8 Push GW 알아보기
+
+```vim
+docker run -d -p 9091:9091 --name pushgateway prom/pushgateway:v1.4.1
+```
+
+```vim
+echo "test_metric 1" | curl --data-binary @- http://localhost:9091/metrics/job/test_job
+```
