@@ -1,0 +1,7 @@
+- targets:
+    - localhost:9100
+  labels:
+    region: KR
+    disk: NVMe
+    tier: frontend
+    environment: development
