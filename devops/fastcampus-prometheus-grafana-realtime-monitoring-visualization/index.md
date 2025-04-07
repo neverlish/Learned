@@ -43,3 +43,11 @@ prom/prometheus:v2.29.2 \
 ```vim
 docker run -p 9093:9093 --name alertmanager -d -v ./config:/etc/alertmanager quay.io/prometheus/alertmanager
 ```
+
+# 3.2 Docker를 이용하여 Grafana 설치하기
+
+```vim
+docker run -d --name=grafana -p 3000:3000 \
+-v ./config:/etc/grafana -v ./data/var/lib/grafana \
+grafana/grafana:8.1.2
+```
