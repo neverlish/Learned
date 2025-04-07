@@ -28,3 +28,18 @@ docker run -d -p 9091:9091 --name pushgateway prom/pushgateway:v1.4.1
 ```vim
 echo "test_metric 1" | curl --data-binary @- http://localhost:9091/metrics/job/test_job
 ```
+
+# 2.9 Alertmanager 알아보기
+```vim
+docker run \
+-d --name=prometheus -p 9090:9090 \
+-v ./config:/etc/prometheus \
+-v ./data:/data \
+prom/prometheus:v2.29.2 \
+--config.file=/etc/prometheus/alerting.yml \
+--storage.tsdb.path=/data --web.enable-lifecycle --storage.tsdb.retention.time=20d --rules.alert.resend-delay=10s
+```
+
+```vim
+docker run -p 9093:9093 --name alertmanager -d -v ./config:/etc/alertmanager quay.io/prometheus/alertmanager
+```

@@ -1,0 +1,17 @@
+route:
+  group_by: ["alertname"]
+  group_wait: 3s
+  group_interval: 5s
+  repeat_interval: 20s
+  receiver: "engineer"
+
+receivers:
+- name: "engineer"
+  email_configs:
+  - to: neverlish@gmail.com
+    from: neverlish@gmail.com
+    smarthost: smtp.gmail.com:587
+    auth_username: neverlish@gmail.com
+    auth_password: 
+    
+
