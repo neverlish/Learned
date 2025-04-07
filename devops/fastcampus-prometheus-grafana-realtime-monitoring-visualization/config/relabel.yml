@@ -1,0 +1,14 @@
+scrape_configs:
+- job_name: 'node_exporter'
+  follow_redirects: true
+  scrape_interval: 5s
+  scrape_timeout: 1s
+
+  file_sd_configs:
+  - files:
+    - 'sd/*.yml' 
+  relabel_configs:
+    - source_labels: ['__address__']
+      replacement: '${1}'
+      regex: '(.*):(.*)'
+      target_label: 'instance'

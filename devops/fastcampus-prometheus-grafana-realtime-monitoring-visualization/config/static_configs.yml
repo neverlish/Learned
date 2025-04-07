@@ -1,0 +1,36 @@
+scrape_configs:
+  - job_name: 'node_exporter'
+    follow_redirects: true
+    scrape_interval: 5s
+    scrape_timeout: 1s
+
+    static_configs:
+      - targets:
+          - localhost:8081
+        labels:
+          region: KR
+          disk: SATA
+          env: dev
+      - targets:
+          - localhost:8082
+        labels:
+          region: KR
+          disk: SSD
+          env: prod
+      - targets:
+          - localhost:8083
+        labels:
+          region: US
+          disk: SSD
+          env: prod
+
+    relabel_configs:
+      - source_labels: ['__address__']
+        regex: '(.*):(.*)'
+        replacement: '${1}'
+        target_label: 'instance'
+
+      - source_labels: ['__address__']
+        target_label: 'port'
+        regex: '(.*):(.*)'
+        replacement: '${2}'

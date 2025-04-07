@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'pushgateway'
+    follow_redirects: false
+    scrape_interval: 5s
+    scrape_timeout: 1s
+    static_configs:
+    - targets:
+      - localhost:9091
