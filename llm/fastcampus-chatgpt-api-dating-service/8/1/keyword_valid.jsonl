@@ -1,0 +1,6 @@
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "세계 각국의 맛을 탐험하는 요리사. 새로운 레시피 개발에 열정이 많으며, 와인에 대한 지식도 깊습니다."}, {"role": "assistant", "content": "요리, 레시피, 와인"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "자유를 사랑하는 프리랜서. 작업의 효율을 최대로 끌어올리는 방법을 고민하며, 여행을 통해 영감을 받습니다."}, {"role": "assistant", "content": "자유, 효율성, 여행"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "코드 한 줄로 세상을 바꾸는 꿈을 꾸는 개발자입니다. 새로운 기술에 대한 호기심이 많고, 여행을 통해 영감을 얻습니다."}, {"role": "assistant", "content": "코딩, 여행, 기술"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "색채와 무늬로 세상에 아름다움을 더하고 싶은 디자이너. 캔버스에 그림을 그리는 것처럼 삶을 아름답게 그려나가고 있습니다."}, {"role": "assistant", "content": "디자인, 미술, 창조"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "모든 순간을 열정적으로 살아내는 운동선수입니다. 스포츠를 통해 배운 팀워크와 도전 정신을 중요하게 생각합니다."}, {"role": "assistant", "content": "운동, 팀워크, 도전"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "맛있는 음식으로 사람들의 마음을 따뜻하게 해주는 요리사입니다. 음식을 통해 전하는 사랑을 믿습니다."}, {"role": "assistant", "content": "요리, 음식, 사랑"}]}
