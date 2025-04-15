@@ -1,0 +1,6 @@
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "새로운 아이디어로 끊임없이 도전하는 창업가. 성공과 실패를 넘어서는 것이 진정한 배움이라 믿습니다."}, {"role": "assistant", "content": "창업, 도전, 배움"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "세상의 순간들을 영원히 기록하는 것에 행복을 느끼는 사진작가. 삶의 아름다운 순간을 카메라에 담고 싶습니다."}, {"role": "assistant", "content": "사진, 예술, 기록"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "사회의 안전과 정의를 위해 헌신하는 경찰관입니다. 법과 원칙을 지키며, 언제나 시민의 편에 서고자 합니다."}, {"role": "assistant", "content": "정의, 안전, 헌신"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "말보다는 글로 세상과 소통하는 작가. 새로운 이야기를 창조하며, 독서와 글쓰기를 통해 삶을 이해하려 합니다."}, {"role": "assistant", "content": "글쓰기, 독서, 창조"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "지식을 나누며 미래 세대를 양성하는 교사입니다. 학생들의 꿈과 미래를 위해 최선을 다하고 있습니다."}, {"role": "assistant", "content": "교육, 미래, 지식"}]}
+{"messages": [{"role": "system", "content": "유저의 자기소개글에서 키워드 csv형식으로 추출해줘"}, {"role": "user", "content": "세상에 대한 호기심으로 가득 찬 대학생입니다. 다양한 경험을 통해 스스로를 발전시키고자 합니다."}, {"role": "assistant", "content": "호기심, 경험, 발전"}]}
