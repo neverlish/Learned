@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QMovie
 from PyQt5.QtCore import QTimer
 from concurrent.futures import ThreadPoolExecutor
+import pygame
 
 from openai import OpenAI
 
@@ -99,6 +100,7 @@ class MainWindow(QMainWindow):
                 QtCore.Qt.QueuedConnection,
                 QtCore.Q_ARG(str, answer),
             )
+            self.executor.submit(self.synthesize_speech, answer)
         except Exception as e:
             QtCore.QMetaObject.invokeMethod(
                 self,
@@ -106,6 +108,38 @@ class MainWindow(QMainWindow):
                 QtCore.Qt.QueuedConnection,
                 QtCore.Q_ARG(str, f"Error: {str(e)}"),
             )
+
+    ## tts api
+    def synthesize_speech(self, text):
+        response = client.audio.speech.create(
+            model="tts-1",
+            voice="echo",
+            input=text,
+        )
+
+        # binary 데이터 추출
+        audio_content = response.read()
+
+        # 현재 작업 중인 디렉터리에 파일 저장
+        speech_file_path = "speech.mp3"
+
+        # 오디오 파일 저장
+        with open(speech_file_path, "wb") as f:
+            f.write(audio_content)
+
+        # 파일 경로 출력
+        print(f"Audio file saved at: {os.path.abspath(speech_file_path)}")
+        QtCore.QThread.msleep(500)  # 0.5초 지연
+
+        self.play_audio(speech_file_path)
+
+    def play_audio(self, file_path):
+        pygame.mixer.init()
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            QtCore.QThread.msleep(100)
+        pygame.mixer.quit()
 
 
 if __name__ == "__main__":
