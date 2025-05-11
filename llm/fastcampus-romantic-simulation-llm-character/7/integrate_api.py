@@ -22,6 +22,38 @@ HEADERS = {
 BASE_URL = "https://api.openai.com/v1"
 thread_id = None  # Thread ID storage
 
+# TTS Model Settings
+print("Loading TTS model...")
+config = XttsConfig()
+# LANGUAGE = "ko"
+LANGUAGE = "ja"
+
+## 216342 kss best
+## /workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/run/training/GPT_XTTS_v2.0_KSS_FT-October-01-2024_04+36PM-dbf1a08a/best_model_216342.pth
+## 139840 japanese best
+## /workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/run/training/XTTS_v2.0_Japanese_FT-October-13-2024_06+18AM-dbf1a08a/best_model_139840.pth
+
+config.load_json(
+    "/workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/run/training/XTTS_v2.0_Japanese_FT-October-13-2024_06+18AM-dbf1a08a/config.json"
+)
+model = Xtts.init_from_config(config)
+model.load_checkpoint(
+    config,
+    checkpoint_dir="/workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/run/training/XTTS_v2.0_Japanese_FT-October-13-2024_06+18AM-dbf1a08a/",
+    use_deepspeed=False,
+)
+model.cuda()
+
+if model.tokenizer is None:
+    model.tokenizer = Tokenizer(config.model_args["tokenizer_file"])
+
+# Speaker latents computation
+# gpt_cond_latent, speaker_embedding = model.get_conditioning_latents(audio_path=["/workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/kss_all/4_0017.wav"])
+gpt_cond_latent, speaker_embedding = model.get_conditioning_latents(
+    audio_path=[
+        "/workspace/FastCampus_TTS/TTS/recipes/ljspeech/xtts_v2/japanese_all/wavs/audio_0.wav"
+    ]
+)
 
 # Chat API Functionality
 def get_assistant_response(message_content):
@@ -72,6 +104,17 @@ def get_assistant_response(message_content):
     return "No response found.", []
 
 
+# TTS Functionality
+def generate_tts(text):
+    print(f"Generating TTS for text: {text}")
+    out = model.inference(
+        text, LANGUAGE, gpt_cond_latent, speaker_embedding, temperature=0.1
+    )
+    output_wav_path = "xtts.wav"
+    torchaudio.save(output_wav_path, torch.tensor(out["wav"]).unsqueeze(0), 24000)
+    return output_wav_path
+
+
 # Chat Route
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -81,6 +124,18 @@ def chat():
         return jsonify({"error": "No message content provided"}), 400
     response_text, choices = get_assistant_response(message_content)
     return jsonify({"response_text": response_text, "choices": choices})
+
+
+# TTS Route
+@app.route("/tts", methods=["POST"])
+def tts():
+    data = request.json
+    text = data.get("text")
+    text = text.replace("Choices", "")
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
+    audio_file_path = generate_tts(text)
+    return send_file(audio_file_path, mimetype="audio/wav")
 
 
 if __name__ == "__main__":
