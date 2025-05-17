@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import WebView from "react-native-webview";
 import { WebViewContext } from "../../components/WebViewProvider";
+import useLogin from "../../hooks/useLogin";
 
 const styles = StyleSheet.create({
   safearea: {
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
 
 const HomeScreen = () => {
   const context = useContext(WebViewContext);
+  const { loadLoggedIn, onMessage } = useLogin();
 
   return (
     <SafeAreaView style={styles.safearea}>
@@ -44,6 +46,10 @@ const HomeScreen = () => {
 
           return true;
         }}
+        onLoadEnd={() => {
+          loadLoggedIn();
+        }}
+        onMessage={onMessage}
       />
     </SafeAreaView>
   );
