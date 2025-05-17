@@ -944,6 +944,8 @@ PODS:
   - React-Mapbuffer (0.73.6):
     - glog
     - React-debug
+  - react-native-cookies (6.2.1):
+    - React-Core
   - react-native-safe-area-context (4.10.1):
     - React-Core
   - react-native-webview (13.13.5):
@@ -1182,6 +1184,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -1280,6 +1283,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-cookies:
+    :path: "../node_modules/@react-native-cookies/cookies"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -1371,6 +1376,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 85583ef014ce53d731a98c66a0e24496f7a83066
   React-logger: 55764cd993880c6f887505854581c9faf68feff2
   React-Mapbuffer: 15dfcfeb4428d8799cce75e7fe85b18b706029e0
+  react-native-cookies: d648ab7025833b977c0b19e142503034f5f29411
   react-native-safe-area-context: 8c70551c8688cd584a53487aa1b9361e991a3b4a
   react-native-webview: 2038f781e99d2c75c90da7d38d37675ef0a932df
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
