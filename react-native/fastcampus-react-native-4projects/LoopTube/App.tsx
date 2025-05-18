@@ -3,6 +3,7 @@ import {
   Alert,
   Animated,
   Dimensions,
+  PanResponder,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -84,6 +85,8 @@ const styles = StyleSheet.create({
     height: 14,
     borderRadius: 14 / 2,
     backgroundColor: '#00DDA8',
+    position: 'absolute',
+    top: (-14 + 3) / 2,
   },
 });
 
@@ -215,6 +218,32 @@ const App = () => {
     }).start();
   }, [currentTimeInSec]);
 
+  const durationInSecRef = useRef(durationInSec);
+  durationInSecRef.current = durationInSec;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        webViewRef.current?.injectJavaScript('player.pauseVideo(); true;');
+      },
+      onPanResponderMove: (event, gestureEvent) => {
+        const newTimeInSec =
+          (gestureEvent.moveX / YT_WIDTH) * durationInSecRef.current;
+        seekBarAnimRef.current.setValue(newTimeInSec);
+      },
+      onPanResponderRelease: (event, gestureEvent) => {
+        const newTimeInSec =
+          (gestureEvent.moveX / YT_WIDTH) * durationInSecRef.current;
+        webViewRef.current?.injectJavaScript(
+          `player.seekTo(${newTimeInSec}, true); true;`,
+        );
+        webViewRef.current?.injectJavaScript('player.playVideo(); true;');
+      },
+    }),
+  ).current;
+
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.inputContainer}>
@@ -253,7 +282,7 @@ const App = () => {
           />
         )}
       </View>
-      <View style={styles.seekBarBackground}>
+      <View style={styles.seekBarBackground} {...panResponder.panHandlers}>
         <Animated.View
           style={[
             styles.seekBarProgress,
