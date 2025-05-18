@@ -1,9 +1,10 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Alert,
   Dimensions,
   SafeAreaView,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -54,23 +55,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   playButton: {
-    width: 50,
     height: 50,
+    width: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  timeText: {
+    color: '#AEAEB2',
+    alignSelf: 'flex-end',
+    marginTop: 15,
+    marginRight: 20,
+    fontSize: 13,
+  },
 });
+
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formmatedSeconds = String(remainingSeconds).padStart(2, '0');
+
+  return `${formattedMinutes}:${formmatedSeconds}`;
+};
 
 const App = () => {
   const webViewRef = useRef<WebView | null>(null);
   const [url, setUrl] = useState('');
-  const [youTubeId, setYouTubeId] = useState('');
+  const [youTubeId, setYouTubeId] = useState('mNz9MvKylJ4');
   const [playing, setPlaying] = useState(false);
+  const [durationInSec, setDuractionInSec] = useState(0);
+  const [currentTimeInSec, setCurrentTimeInSec] = useState(0);
+
   const onPressOpenLink = useCallback(() => {
     const {
       query: {v: id},
     } = queryString.parseUrl(url);
-    console.log('id', id);
     if (typeof id === 'string') {
       setYouTubeId(id);
     } else {
@@ -113,12 +133,17 @@ const App = () => {
             });
           }
 
+          function postMessageToRN(type, data) {
+            const message = JSON.stringify({ type, data });
+            window.ReactNativeWebView.postMessage(message);
+          }
+
           function onPlayerReady(event) {
-            
+            postMessageToRN('duration', player.getDuration());
           }
 
           function onPlayerStateChange(event) {
-            window.ReactNativeWebView.postMessage(event.data);
+            postMessageToRN('player-state', event.data);
           }
         </script>
       </body>
@@ -128,19 +153,40 @@ const App = () => {
 
   const onPressPlay = useCallback(() => {
     if (webViewRef.current != null) {
-      webViewRef.current.injectJavaScript(`
-        player.playVideo(); true;
-      `);
+      webViewRef.current.injectJavaScript('player.playVideo(); true;');
     }
-  }, [webViewRef]);
+  }, []);
 
   const onPressPause = useCallback(() => {
     if (webViewRef.current != null) {
-      webViewRef.current.injectJavaScript(`
-        player.pauseVideo(); true;
-      `);
+      webViewRef.current.injectJavaScript('player.pauseVideo(); true;');
     }
-  }, [webViewRef]);
+  }, []);
+
+  const durationText = useMemo(
+    () => formatTime(Math.floor(durationInSec)),
+    [durationInSec],
+  );
+
+  const currentTimeText = useMemo(
+    () => formatTime(Math.floor(currentTimeInSec)),
+    [currentTimeInSec],
+  );
+
+  useEffect(() => {
+    if (playing) {
+      const id = setInterval(() => {
+        if (webViewRef.current != null) {
+          webViewRef.current.injectJavaScript(
+            "postMessageToRN('current-time', player.getCurrentTime()); true;",
+          );
+        }
+      }, 50);
+      return () => {
+        clearInterval(id);
+      };
+    }
+  }, [playing]);
 
   return (
     <SafeAreaView style={styles.safearea}>
@@ -168,11 +214,20 @@ const App = () => {
             allowsInlineMediaPlayback
             mediaPlaybackRequiresUserAction={false}
             onMessage={event => {
-              setPlaying(event.nativeEvent.data === '1');
+              const {type, data} = JSON.parse(event.nativeEvent.data);
+              if (type === 'player-state') {
+                setPlaying(data === 1);
+              } else if (type === 'duration') {
+                setDuractionInSec(data);
+              } else if (type === 'current-time') {
+                setCurrentTimeInSec(data);
+              }
             }}
           />
         )}
       </View>
+      <Text
+        style={styles.timeText}>{`${currentTimeText} / ${durationText}`}</Text>
       <View style={styles.controller}>
         {playing ? (
           <TouchableOpacity style={styles.playButton} onPress={onPressPause}>
@@ -180,7 +235,7 @@ const App = () => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.playButton} onPress={onPressPlay}>
-            <Icon name="play-circle" size={39.58} color="#00DDAB" />
+            <Icon name="play-circle" size={39.58} color="#00DDA8" />
           </TouchableOpacity>
         )}
       </View>
