@@ -316,6 +316,7 @@ const App = () => {
                 setCurrentTimeInSec(data);
               }
             }}
+            webviewDebuggingEnabled
           />
         )}
       </View>
