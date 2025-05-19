@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   Alert,
   Dimensions,
@@ -44,11 +44,30 @@ const styles = StyleSheet.create({
     height: YT_HEIGHT,
     backgroundColor: '#4A4A4A',
   },
+  controller: {
+    backgroundColor: '#1A1A1A',
+    borderRadius: 10,
+    marginHorizontal: 16,
+    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  playButton: {
+    height: 50,
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 const App = () => {
+  const webViewRef = useRef<WebView | null>(null);
   const [url, setUrl] = useState('');
   const [youTubeId, setYouTubeId] = useState('');
+  const [playing, setPlaying] = useState(false);
 
   const onPressOpenLink = useCallback(() => {
     const {
@@ -97,23 +116,12 @@ const App = () => {
             });
           }
 
-          // 4. The API will call this function when the video player is ready.
           function onPlayerReady(event) {
-            event.target.playVideo();
+            
           }
 
-          // 5. The API calls this function when the player's state changes.
-          //    The function indicates that when playing a video (state=1),
-          //    the player should play for six seconds and then stop.
-          var done = false;
           function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-              setTimeout(stopVideo, 6000);
-              done = true;
-            }
-          }
-          function stopVideo() {
-            player.stopVideo();
+            window.ReactNativeWebView.postMessage(event.data);
           }
         </script>
       </body>
@@ -121,6 +129,18 @@ const App = () => {
     `;
     return {html};
   }, [youTubeId]);
+
+  const onPressPlay = useCallback(() => {
+    if (webViewRef.current != null) {
+      webViewRef.current.injectJavaScript('player.playVideo();');
+    }
+  }, []);
+
+  const onPressPause = useCallback(() => {
+    if (webViewRef.current != null) {
+      webViewRef.current.injectJavaScript('player.pauseVideo();');
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.safearea}>
@@ -142,10 +162,25 @@ const App = () => {
       <View style={styles.youtubeContainer}>
         {youTubeId.length > 0 && (
           <WebView
+            ref={webViewRef}
             source={source}
             allowsInlineMediaPlayback
             mediaPlaybackRequiresUserAction={false}
+            onMessage={(event) => {
+              setPlaying(event.nativeEvent.data === '1');
+            }}
           />
+        )}
+      </View>
+      <View style={styles.controller}>
+        {playing ? (
+          <TouchableOpacity style={styles.playButton} onPress={onPressPause}>
+            <Icon name="pause-circle" size={41.67} color="#E5E5EA" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.playButton} onPress={onPressPlay}>
+            <Icon name="play-circle" size={39.58} color="#00DDA8" />
+          </TouchableOpacity>
         )}
       </View>
     </SafeAreaView>
