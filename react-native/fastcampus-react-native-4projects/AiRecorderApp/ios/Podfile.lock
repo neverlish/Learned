@@ -1117,6 +1117,8 @@ PODS:
     - React-perflogger (= 0.73.6)
   - RNAudioRecorderPlayer (3.6.12):
     - React-Core
+  - RNCAsyncStorage (1.24.0):
+    - React-Core
   - RNFS (2.20.0):
     - React-Core
   - RNPermissions (4.1.5):
@@ -1205,6 +1207,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNAudioRecorderPlayer (from `../node_modules/react-native-audio-recorder-player`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
@@ -1326,6 +1329,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAudioRecorderPlayer:
     :path: "../node_modules/react-native-audio-recorder-player"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNPermissions:
@@ -1397,6 +1402,7 @@ SPEC CHECKSUMS:
   React-utils: 288c9cb9a73bb150c273c84df7c2f8546f28e23f
   ReactCommon: 2e5492a3e3a8e72d635c266405e49d12627e5bf0
   RNAudioRecorderPlayer: 11df0c7b614e9767ef24d896465c3a758c592de7
+  RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNPermissions: e5470e5e96b3340a6eede7a39e75a4ce4739e2d9
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
