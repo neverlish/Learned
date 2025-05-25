@@ -5,42 +5,52 @@ void main() {
     MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                print("Tab!");
-              },
-            ),
-            const Icon(Icons.play_arrow),
-          ],
-          centerTitle: false,
-          title: const Text("This is App Bar"),
+          title: const Text("Study to Container"),
         ),
-        body: const TestWidget(),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.bug_report),
-          onPressed: () {
-            print("Tab! FAB!");
-          },
-        ),
+        body: const CustomContainer(),
       ),
     ),
   );
 }
 
-class TestWidget extends StatelessWidget {
-  const TestWidget({super.key});
+class CustomContainer extends StatelessWidget {
+  const CustomContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Center( 
-        child: Text(
-          "Hello, Flutter",
-          style: TextStyle(
-            fontSize: 40,
-            color: Colors.black,
+    return Center(
+      child: Container(
+        width: 300,
+        height: 300,
+        // color: const Color(0xFF85D07B),
+        padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFF85D07B),
+          border: Border.all(
+            color: Colors.red,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.circular(100),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              offset: const Offset(6, 6),
+              blurRadius: 10,
+              spreadRadius: 10,
+            ),
+            BoxShadow(
+              color: Colors.blue.withOpacity(0.3),
+              offset: const Offset(-6, -6),
+              blurRadius: 10,
+              spreadRadius: 10,
+            ),
+          ],
+        ),
+        // margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 10),
+        child: Center(
+          child: Container(
+            color: Colors.yellow,
+            child: const Text("Hello Container"),
           ),
         ),
       ),
