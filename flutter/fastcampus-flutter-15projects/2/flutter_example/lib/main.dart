@@ -5,54 +5,112 @@ void main() {
     MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Study to Container"),
+          title: const Text("Widget를 상하로 배치하기"),
         ),
-        body: const CustomContainer(),
+        body: const Body(),
       ),
     ),
   );
 }
 
-class CustomContainer extends StatelessWidget {
-  const CustomContainer({super.key});
+// class Body extends StatelessWidget {
+//   const Body({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 300,
+//       width: double.infinity,
+//       color: Colors.grey,
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Container(
+//             width: 100,
+//             height: 80,
+//             color: Colors.red,
+//             child: const Text("Container 1"),
+//           ),
+//           Container(
+//             width: 100,
+//             height: 80,
+//             color: Colors.green,
+//             child: const Text("Container 2"),
+//           ),
+//           Container(
+//             width: 100,
+//             height: 80,
+//             color: Colors.blue,
+//             child: const Text("Container 3"),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class Body extends StatelessWidget {
+  const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 300,
-        height: 300,
-        // color: const Color(0xFF85D07B),
-        padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
-        decoration: BoxDecoration(
-          color: const Color(0xFF85D07B),
-          border: Border.all(
-            color: Colors.red,
-            style: BorderStyle.solid,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
           ),
-          borderRadius: BorderRadius.circular(100),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              offset: const Offset(6, 6),
-              blurRadius: 10,
-              spreadRadius: 10,
-            ),
-            BoxShadow(
-              color: Colors.blue.withOpacity(0.3),
-              offset: const Offset(-6, -6),
-              blurRadius: 10,
-              spreadRadius: 10,
-            ),
-          ],
-        ),
-        // margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 10),
-        child: Center(
-          child: Container(
-            color: Colors.yellow,
-            child: const Text("Hello Container"),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
           ),
-        ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          Container(
+            color: Colors.grey,
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+        ],
       ),
     );
   }
