@@ -18,42 +18,21 @@ void main() {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return Column(
+//     return Stack(
 //       children: [
-//         Container(
-//           width: double.infinity,
-//           height: 200,
-//           color: Colors.red,
+//         Container(width: 500, height: 500, color: Colors.black),
+//         Container(width: 400, height: 400, color: Colors.red),
+//         Container(width: 300, height: 300, color: Colors.blue),
+//         // Positioned(
+//         //   left: 20,
+//         //   top: 20,
+//         //   child: Container(width: 200, height: 200, color: Colors.green),
+//         // ),
+//         Align(
+//           // alignment: Alignment.topRight,
+//           alignment: const Alignment(0.5, -0.5),
+//           child: Container(width: 200, height: 200, color: Colors.green),
 //         ),
-//         Expanded(child: Container(color: Colors.blue, height: 100)),
-//         Flexible(child: Container(color: Colors.red, height: 100)),
-//         // Flexible(flex: 1, child: Container(color: Colors.red)),
-//         // Flexible(flex: 2, child: Container(color: Colors.blue)),
-//         // Flexible(flex: 3, child: Container(color: Colors.green)),
-//         // Flexible(flex: 4, child: Container(color: Colors.yellow)),
-//       ],
-//     );
-//   }
-// }
-
-// class Body extends StatelessWidget {
-//   const Body({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Container(
-//           width: 50,
-//           height: 200,
-//           color: Colors.red,
-//         ),
-//         Expanded(child: Container(color: Colors.blue, width: 100)),
-//         Flexible(child: Container(color: Colors.red, width: 100)),
-//         // Flexible(flex: 1, child: Container(color: Colors.red)),
-//         // Flexible(flex: 2, child: Container(color: Colors.blue)),
-//         // Flexible(flex: 3, child: Container(color: Colors.green)),
-//         // Flexible(flex: 4, child: Container(color: Colors.yellow)),
 //       ],
 //     );
 //   }
@@ -64,100 +43,35 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-        ),
-        // Flexible(
-        //   child: Container(
-        //     color: Colors.blue,
-        //     height: 100,
-        //   ),
-        // ),
-        Expanded(
+        Center(
           child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.red,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 50,
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                ],
-              ),
+            width: 300,
+            height: 300,
+            decoration: BoxDecoration(
+                color: Colors.red,
+              borderRadius: BorderRadius.circular(150)),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: 280,
+            height: 280,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(140),
             ),
           ),
         ),
-        Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-        ),
-        Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-        ),
+        const Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Count 0',
+            style: TextStyle(color: Colors.red, fontSize: 42),
+          ),
+        )
       ],
     );
   }
