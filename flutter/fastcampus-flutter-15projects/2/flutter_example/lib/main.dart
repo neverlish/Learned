@@ -1,52 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_example/screen/new_page.dart';
-import 'package:go_router/go_router.dart';
-
-const assetImagePath = 'assets/images/';
-const bannerImage = '$assetImagePath/banner.png';
+import 'package:flutter_example/style/theme.dart';
 
 void main() {
   runApp(
-    MaterialApp.router(
-      routerConfig: GoRouter(
-        initialLocation: '/',
-        routes: [
-          GoRoute(
-            path: "/",
-            name: 'home',
-            builder: (context, _) => const HomeWidget(),
-          ),
-          GoRoute(
-            path: "/new",
-            name: 'new',
-            builder: (context, _) => const NewPage(),
-            routes: const [],
-          ),
-          GoRoute(
-            path: "/new1",
-            name: 'new1',
-            builder: (context, _) => const NewPage2(),
-          ),
-        ],
-      ),
-    ),
-  );
+    MaterialApp(
+    home: const HomeWidget(),
+    theme: customTheme,
+  ));
 }
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
 
   @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  int count = 0;
+
+  @override
   Widget build(BuildContext context) {
+    // final textTheme = Theme.of(context).textTheme;
+    final textTheme = customTheme.textTheme;
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Flutter Theme'),
+      ),
       body: Center(
-        child: TextButton(
-          child: const Text('Go to Page'),
-          onPressed: () {
-            context.pushNamed('new');
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Press Count', style: textTheme.bodyLarge),
+            Text('Count: $count', style: textTheme.displayLarge),
+          ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() {
+          count++;
+        }),
       ),
     );
   }
