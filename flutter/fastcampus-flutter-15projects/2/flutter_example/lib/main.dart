@@ -1,5 +1,7 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+
+const assetImagePath = 'assets/images/';
+const bannerImage = '$assetImagePath/banner.png';
 
 void main() {
   runApp(
@@ -16,25 +18,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RandomWords();
-  }
-}
-
-class RandomWords extends StatelessWidget {
-  const RandomWords({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final wordList = generateWordPairs().take(5).toList();
-    final widgets = wordList
-        .map((word) => Text(
-              word.asCamelCase,
-              style: const TextStyle(fontSize: 32),
-            ))
-        .toList();
-
-    return Column(
-      children: widgets,
+    return Center(
+      child: Image.asset(bannerImage),
     );
   }
 }
