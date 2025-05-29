@@ -10,35 +10,92 @@ final bankAccountShinhan3 =
 final bankAccountToss = BankAccount(bankTtoss, 5000000);
 final bankAccountKakao =
     BankAccount(bankKakao, 7000000, accountTypeName: "입출금통장");
+final bankAccountKakao2 =
+    BankAccount(bankKakao, 7000000, accountTypeName: "입출금통장");
+
+abstract class Animal {
+  void eat();
+}
+
+class Cat extends Animal {
+  @override
+  void eat() {}
+}
+
+class Dog extends Animal {
+  @override
+  void eat() {}
+}
+
+class Cow extends Animal {
+  @override
+  void eat() {}
+}
 
 main() {
-  // print(bankAccounts[0].accountTypeName);
+  bankAccounts.insert(1, bankAccountKakao2);
+  final temp = bankAccounts.removeAt(4);
+  bankAccounts.insert(0, temp);
 
-  // for (final item in bankAccounts) {
-  //   print(item.accountTypeName);
-  // }
-  // final shinhanBank = bankMap["shinhan1"];
-  // print(shinhanBank == bankAccountShinhan1);
-  //
-  // for (final entry in bankMap.entries) {
-  //   print(
-  //       "${entry.key}:${entry.value.accountTypeName ?? entry.value.bank.name}");
-  // }
-  //
-  print(bankSet.contains(bankAccountShinhan1));
-  // print(bankSet.length);
+  // final temp1 = bankAccounts.last;
+  // bankAccounts[5] = bankAccounts[0];
+  // bankAccounts[0] = temp1;
 
-  // bankAccounts.toSet();
-  // bankSet.toList();
+  // bankAccounts.swap(0, 5);
+
+  // final banks = bankAccounts.mapIndexed((e, index) => Row(children: [(index+1).text.make()],)).toList();
+
+  // for (final bank in banks) {
+  //   print(bank.toString());
+  // }
+
+  // final map = HashMap<String, BankAccount>();
+
+  // map['ttoss'] = bankAccountToss;
+  // map['kakao'] = bankAccountKakao;
+
+  // map.putIfAbsent('kakao', () => bankAccountKakao);
+
+  // if (!map.containsKey('kakao')) {
+  //   map['kakao'] = bankAccountKakao;
+  // }
+
+  // for (final account in bankAccounts) {
+  //   print(account.toString());
+  // }
+
+  final banks = bankAccounts.map((e) => e.bank).toList();
+
+  final uniqueBanks = banks.toSet();
+
+  for (final bank in uniqueBanks) {
+    print(bank.toString());
+  }
+
+  final result = doTheWork();
+  final result2 = doTheWork2();
+  final result3 = doTheWork3(() => Dog());
+}
+
+class Result<T> {
+  final T data;
+
+  Result(this.data);
+}
+
+Result<String> doTheWork() {
+  return Result("data");
+}
+
+Result<double> doTheWork2() {
+  return Result(1.0);
+}
+
+Result doTheWork3<Result extends Animal>(Result Function() animalCreator) {
+  return animalCreator();
 }
 
 final bankAccounts = [
-  bankAccountShinhan1,
-  bankAccountShinhan1,
-  bankAccountShinhan1,
-  bankAccountShinhan1,
-  bankAccountShinhan1,
-  bankAccountShinhan1,
   bankAccountShinhan1,
   bankAccountShinhan2,
   bankAccountShinhan3,
