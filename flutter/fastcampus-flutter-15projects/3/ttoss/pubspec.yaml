@@ -77,6 +77,7 @@ dependencies:
   flutter_animate: ^4.2.0
   live_background: ^0.0.1
   animations: ^2.0.7
+  rive: ^0.11.4
 
 dev_dependencies:
   flutter_test:
@@ -121,6 +122,7 @@ flutter:
     - assets/image/credit_card/
     - assets/image/stock/
     - assets/image/notification/
+    - assets/rive/
     - assets/translations/
     - assets/
 

@@ -5,20 +5,27 @@ import 'package:fast_app_base/screen/dialog/d_message.dart';
 import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/main/tab/home/bank_accounts_dummy.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_bank_account.dart';
+import 'package:fast_app_base/screen/main/tab/home/w_rive_like_button.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_ttoss_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:live_background/object/palette.dart';
 import 'package:live_background/widget/live_background_widget.dart';
 
 import '../../../dialog/d_color_bottom.dart';
 import '../../../dialog/d_confirm.dart';
 
-class HomeFragment extends StatelessWidget {
+class HomeFragment extends StatefulWidget {
   const HomeFragment({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<HomeFragment> createState() => _HomeFragmentState();
+}
+
+class _HomeFragmentState extends State<HomeFragment> {
+  bool isLike = false;
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,6 +48,18 @@ class HomeFragment extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 250,
+                      width: 250,
+                      child: RiveLikeButton(
+                        isLike,
+                        onTapLike: (isLike) {
+                          setState(() {
+                            this.isLike = isLike;
+                          });
+                        },
+                      ),
+                    ),
                     BigButton(
                       "토스뱅크",
                       onTap: () {
@@ -62,10 +81,7 @@ class HomeFragment extends StatelessWidget {
                     ),
                   ],
                 )
-                    .pSymmetric(h: 20)
-                    .animate()
-                    .slideY(duration: 3000.ms)
-                    .fadeIn(),
+                    .pSymmetric(h: 20),
               ),
             ),
             const TtossAppBar(),
