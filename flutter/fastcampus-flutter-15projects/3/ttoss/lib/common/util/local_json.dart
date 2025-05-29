@@ -1,8 +1,7 @@
 import 'dart:convert';
 
+import 'package:fast_app_base/screen/main/tab/stock/vo_simple_stock.dart';
 import 'package:flutter/services.dart';
-
-import '../../screen/opensource/vo_package.dart';
 
 class LocalJson {
   static Future<T> getObject<T>(String filePath) async {
@@ -32,14 +31,8 @@ class LocalJson {
 
 T _tryConverting<T>(dynamic json) {
   switch (T) {
-    case Package:
-      return Package.fromJson(json) as T;
+    case SimpleStock:
     default:
-      throw Exception("Please check _tryConverting method");
+      return SimpleStock.fromJson(json) as T;
   }
-  // switch (T) {
-  //   case ExampleVO:
-  //   default:
-  //     return ExampleVO.fromJson(json) as T;
-  // }
 }
