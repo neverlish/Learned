@@ -1,5 +1,5 @@
-import 'package:fast_app_base/common/cli_common.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 extension AnimationControllerExtension on AnimationController {
   void animateToTheEnd() {

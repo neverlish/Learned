@@ -1,4 +1,4 @@
-import 'package:fast_app_base/common/dart/extension/num_duration_extension.dart';
+import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/screen/notification/vo/notification_type.dart';
 
 import 'vo/vo_notification.dart';
