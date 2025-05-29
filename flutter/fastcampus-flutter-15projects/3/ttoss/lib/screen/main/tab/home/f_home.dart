@@ -6,7 +6,6 @@ import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/main/tab/home/bank_accounts_dummy.dart';
 import 'package:fast_app_base/screen/main/tab/home/vo/s_number.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_bank_account.dart';
-import 'package:fast_app_base/screen/main/tab/home/w_rive_like_button.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_ttoss_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:live_background/object/palette.dart';
@@ -26,6 +25,19 @@ class HomeFragment extends StatefulWidget {
 
 class _HomeFragmentState extends State<HomeFragment> {
   bool isLike = false;
+  // int count = 0;
+
+  late final stream = countStream(5).asBroadcastStream();
+
+  @override
+  void initState() {
+    // countStream(5).listen((event) {
+    //   setState(() {
+    //     count = event;
+    //   });
+    // });
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -49,17 +61,53 @@ class _HomeFragmentState extends State<HomeFragment> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 250,
-                      width: 250,
-                      child: RiveLikeButton(
-                        isLike,
-                        onTapLike: (isLike) {
-                          setState(() {
-                            this.isLike = isLike;
-                          });
-                        },
-                      ),
+                    StreamBuilder(
+                      stream: stream,
+                      builder: (context, snapshot) {
+                        final count = snapshot.data;
+
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.active:
+                            if (count == null) {
+                              return const CircularProgressIndicator();
+                            }
+                            return count.text.size(30).bold.make();
+                          case ConnectionState.waiting:
+                          case ConnectionState.none:
+                            return const CircularProgressIndicator();
+                          case ConnectionState.done:
+                            return '완료'.text.size(30).bold.make();
+                        }
+
+                        // if (count == null) {
+                        //   return const CircularProgressIndicator();
+                        // }
+                        // return count.text.size(30).bold.make();
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: stream,
+                      builder: (context, snapshot) {
+                        final count = snapshot.data;
+
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.active:
+                            if (count == null) {
+                              return const CircularProgressIndicator();
+                            }
+                            return count.text.size(30).bold.make();
+                          case ConnectionState.waiting:
+                          case ConnectionState.none:
+                            return const CircularProgressIndicator();
+                          case ConnectionState.done:
+                            return '완료'.text.size(30).bold.make();
+                        }
+
+                        // if (count == null) {
+                        //   return const CircularProgressIndicator();
+                        // }
+                        // return count.text.size(30).bold.make();
+                      },
                     ),
                     BigButton(
                       "토스뱅크",
@@ -94,6 +142,15 @@ class _HomeFragmentState extends State<HomeFragment> {
       ),
     );
   }
+
+  Stream<int> countStream(int max) async* {
+    await sleepAsync(2.seconds);
+    for (int i = 1; i <= max; i++) {
+      await sleepAsync(1.seconds);
+      yield i;
+    }
+  }
+
 
   void showSnackbar(BuildContext context) {
     context.showSnackbar('snackbar 입니다.',
@@ -139,3 +196,4 @@ class _HomeFragmentState extends State<HomeFragment> {
     Scaffold.of(context).openDrawer();
   }
 }
+
