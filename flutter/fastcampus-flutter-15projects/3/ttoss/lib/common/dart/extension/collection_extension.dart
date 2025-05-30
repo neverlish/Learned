@@ -6,4 +6,10 @@ extension ListExtension<T> on List<T> {
   }
 
   Stream<T> toStream() => Stream.fromIterable(this);
+
+  // Stream<T> toStream() async* {
+  //   for (T item in this) {
+  //     yield item;
+  //   }
+  // }
 }
