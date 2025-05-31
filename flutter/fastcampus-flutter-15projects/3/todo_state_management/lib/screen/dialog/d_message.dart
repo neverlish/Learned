@@ -1,7 +1,7 @@
 import 'package:fast_app_base/common/widget/scaffold/center_dialog_scaffold.dart';
 import 'package:fast_app_base/data/simple_result.dart';
 import 'package:flutter/material.dart';
-import 'package:nav/dialog/dialog.dart';
+import 'package:nav_hooks/dialog/dialog.dart';
 
 import '../../common/common.dart';
 
