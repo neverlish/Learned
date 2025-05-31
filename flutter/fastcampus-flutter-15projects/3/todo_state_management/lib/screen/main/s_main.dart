@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fast_app_base/common/data/memory/bloc/todo_event.dart';
 import 'package:fast_app_base/screen/main/tab/tab_item.dart';
 import 'package:fast_app_base/screen/main/tab/tab_navigator.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen>
-    with SingleTickerProviderStateMixin, TodoDataProvider {
+    with SingleTickerProviderStateMixin {
   TabItem _currentTab = TabItem.todo;
   final tabs = [TabItem.todo, TabItem.search];
   final List<GlobalKey<NavigatorState>> navigatorKeys = [];
@@ -51,14 +52,7 @@ class MainScreenState extends State<MainScreen>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            todoData.addTodo();
-            // TodoDataHolder.of(context).notifier.addTodo(
-            //       Todo(
-            //         id: DateTime.now().millisecondsSinceEpoch,
-            //         title: result.text,
-            //         dueDate: result.date,
-            //       ),
-            //     );
+            context.readTodoBloc.add(TodoAddEvent());
           },
           child: const Icon(EvaIcons.plus),
         ),
