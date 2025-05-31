@@ -21,7 +21,7 @@ class TodoFragment extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: const TodoList().pSymmetric(h: 15),
+            child: TodoList().pSymmetric(h: 15),
           ),
         ],
       ),
