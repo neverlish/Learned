@@ -1,0 +1,12 @@
+{
+  "opensource": "Open Source",
+  "clear_cache": "Clear Cache",
+  "clear_cache_done": "Cache has been cleared.",
+  "close": "Close",
+  "done": "Done",
+  "cancel": "Cancel",
+  "tillToday": "Till Today",
+  "tillTomorrow": "Till Tomorrow",
+  "daysLeft": "{daysCount} days left",
+  "daysPassed": "{daysCount} days passed"
+}
