@@ -1,8 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/opensource/s_opensource.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -12,7 +14,7 @@ import '../../common/language/language.dart';
 import '../../common/theme/theme_util.dart';
 import '../../common/widget/w_mode_switch.dart';
 
-class MenuDrawer extends StatefulWidget {
+class MenuDrawer extends ConsumerStatefulWidget {
   static const minHeightForScrollView = 380;
 
   const MenuDrawer({
@@ -20,10 +22,10 @@ class MenuDrawer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MenuDrawer> createState() => _MenuDrawerState();
+  ConsumerState<MenuDrawer> createState() => _MenuDrawerState();
 }
 
-class _MenuDrawerState extends State<MenuDrawer> {
+class _MenuDrawerState extends ConsumerState<MenuDrawer> {
   @override
   void initState() {
     super.initState();
@@ -103,6 +105,21 @@ class _MenuDrawerState extends State<MenuDrawer> {
               if (mounted) {
                 MessageDialog('clear_cache_done'.tr()).show();
               }
+            },
+          ),
+          const Line(),
+          _MenuWidget(
+            '화면 띄우기'.tr(),
+            onTap: () async {
+              Nav.push(const MainScreenWrapper());
+            },
+          ),
+          const Line(),
+          _MenuWidget(
+            '유저 바꾸기'.tr(),
+            onTap: () async {
+              final value = ref.refresh(userProvider);
+              print('value: $value');
             },
           ),
           const Line(),
