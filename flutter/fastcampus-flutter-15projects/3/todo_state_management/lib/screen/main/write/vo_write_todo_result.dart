@@ -1,9 +1,9 @@
 class WriteTodoResult {
-  final DateTime dateTime;
+  final DateTime dueDate;
   final String title;
 
   WriteTodoResult({
-    required this.dateTime,
+    required this.dueDate,
     required this.title,
   });
 }

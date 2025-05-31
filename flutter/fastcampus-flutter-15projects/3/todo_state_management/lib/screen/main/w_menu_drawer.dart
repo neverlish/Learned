@@ -107,14 +107,6 @@ class _MenuDrawerState extends ConsumerState<MenuDrawer> {
             },
           ),
           const Line(),
-          _MenuWidget(
-            '유저 바꾸기'.tr(),
-            onTap: () async {
-              final value = ref.refresh(userProvider);
-              print('value: $value');
-            },
-          ),
-          const Line(),
           isSmallScreen(context) ? const Height(10) : spacer,
           MouseRegion(
             cursor: SystemMouseCursors.click,

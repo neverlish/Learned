@@ -8,5 +8,6 @@
   "tillToday": "오늘까지",
   "tillTomorrow": "내일까지",
   "daysLeft": "{daysCount}일 남음",
-  "daysPassed": "{daysCount}일 지남"
+  "daysPassed": "{daysCount}일 지남",
+  "apiError": "서버 에러가 발생했습니다."
 }

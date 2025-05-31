@@ -126,6 +126,6 @@ class _WriteTodoBottomSheetState extends DialogState<WriteTodoBottomSheet>
     }
 
     widget.hide(SimpleResult.success(WriteTodoResult(
-        dateTime: _selectedDate, title: todoTextEditingController.text)));
+        dueDate: _selectedDate, title: todoTextEditingController.text)));
   }
 }

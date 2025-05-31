@@ -8,10 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class TodoList extends ConsumerWidget with TodoDataProvider {
   TodoList({super.key});
 
-  @override
+@override
   Widget build(BuildContext context, WidgetRef ref) {
     final todoList = todoData.todoList;
-    return Obx(() => todoList.isEmpty
+    return Obx(() => !todoData.isLoaded.value
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : todoList.isEmpty
             ? '할일을 작성해보세요'.text.size(30).makeCentered()
             : Column(
             children: todoList.map((e) => TodoItem(e)).toList(),

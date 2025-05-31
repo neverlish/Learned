@@ -8,5 +8,6 @@
   "tillToday": "Till Today",
   "tillTomorrow": "Till Tomorrow",
   "daysLeft": "{daysCount} days left",
-  "daysPassed": "{daysCount} days passed"
+  "daysPassed": "{daysCount} days passed",
+  "apiError": "Sever Error. Please try later."
 }
