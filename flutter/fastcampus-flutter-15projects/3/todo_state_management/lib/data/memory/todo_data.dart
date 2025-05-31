@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 
 import '../remote/todo_api.dart';
 
-class TodoData extends GetxController with StateMixin {
+class TodoData extends GetxController {
   final RxList<Todo> todoList = <Todo>[].obs;
   final RxBool isLoaded = false.obs;
 
@@ -79,13 +79,7 @@ class TodoData extends GetxController with StateMixin {
       case TodoStatus.unknown:
         return;
     }
-    final Todo todoForSave = Todo(
-      id: todo.id,
-      title: todo.title,
-      dueDate: todo.dueDate,
-      createdTime: todo.createdTime,
-      status: nextStatus,
-    );
+    final Todo todoForSave = todo.copyWith(status: nextStatus);
     final responseResult = await todoRepository
         .updateTodo(todoForSave); //객체 안의 status 바꿔서 update요청
     processResponseResult(responseResult, todoForSave);
@@ -93,13 +87,7 @@ class TodoData extends GetxController with StateMixin {
 
   editTodo(Todo todo) async {
     final result = await WriteTodoBottomSheet(todoForEdit: todo).show();
-    final Todo todoForSave = Todo(
-      id: todo.id,
-      title: todo.title,
-      dueDate: todo.dueDate,
-      createdTime: todo.createdTime,
-      status: todo.status,
-    );
+    final Todo todoForSave = todo.copyWith();
 
     result?.runIfSuccess((data) async {
       todoForSave.modifyTime = DateTime.now();
