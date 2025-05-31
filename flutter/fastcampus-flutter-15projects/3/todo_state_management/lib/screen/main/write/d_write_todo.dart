@@ -1,86 +1,131 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
-import 'package:fast_app_base/common/data/memory/vo_todo.dart';
-import 'package:fast_app_base/common/hooks/use_show_keyboard.dart';
+import 'package:fast_app_base/common/util/app_keyboard_util.dart';
 import 'package:fast_app_base/common/widget/scaffold/bottom_dialog_scaffold.dart';
 import 'package:fast_app_base/common/widget/w_round_button.dart';
+import 'package:fast_app_base/data/simple_result.dart';
 import 'package:fast_app_base/screen/main/write/vo_write_todo_result.dart';
 import 'package:flutter/material.dart';
-import 'package:nav_hooks/dialog/hook_consumer_dialog.dart';
+import 'package:nav_hooks/dialog/dialog.dart';
 
-import '../../../common/widget/w_rounded_container.dart';
+import '../../../data/memory/vo_todo.dart';
 
-class WriteTodoDialog extends HookConsumerDialogWidget<WriteTodoResult> {
+class WriteTodoBottomSheet
+    extends DialogWidget<SimpleResult<WriteTodoResult, void>> {
   final Todo? todoForEdit;
 
-  WriteTodoDialog({this.todoForEdit, super.key});
+  WriteTodoBottomSheet({
+    super.context,
+    super.key,
+    super.barrierColor = const Color(0x80000000),
+    super.animation = NavAni.Bottom,
+    super.useRootNavigator = false,
+    this.todoForEdit,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedDate = useState<DateTime>(DateTime.now());
-    final textController = useTextEditingController();
-    final node = useFocusNode();
+  State<StatefulWidget> createState() => _WriteTodoBottomSheetState();
+}
 
-    useMemoized(() {
-      if (todoForEdit != null) {
-        selectedDate.value = todoForEdit!.dueDate;
-        textController.text = todoForEdit!.title;
-      }
-    });
+class _WriteTodoBottomSheetState extends DialogState<WriteTodoBottomSheet>
+    with AfterLayoutMixin {
+  final todoTextEditingController = TextEditingController();
+  final node = FocusNode();
+  late DateTime _selectedDate;
+  bool showRedTextLine = false;
 
+  @override
+  void initState() {
+    final todoForEdit = widget.todoForEdit;
+    if (todoForEdit != null) {
+      _selectedDate = todoForEdit.dueDate;
+      todoTextEditingController.text = todoForEdit.title;
+    } else {
+      _selectedDate = DateTime.now();
+    }
+    super.initState();
+  }
 
-    showKeyboard(node);
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    AppKeyboardUtil.show(context, node);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BottomDialogScaffold(
-      body: RoundedContainer(
-          padding: const EdgeInsets.all(20),
-          color: context.backgroundColor,
-          child: Column(
+      body: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  '할일을 작성해주세요.'.text.size(18).bold.make(),
-                  spacer,
-                  selectedDate.value.formattedDate.text.make(),
-                  IconButton(
-                      onPressed: () => _selectDate(context, selectedDate),
-                      icon: const Icon(Icons.calendar_month))
-                ],
+              '할일을 작성해주세요.'.text.size(18).bold.make(),
+              spacer,
+              Tap(
+                onTap: onTapChangedDate,
+                child: _selectedDate.formattedDate.text.make(),
               ),
-              height20,
-              Row(
-                children: [
-                  Expanded(
-                      child: TextField(
-                    focusNode: node,
-                    controller: textController,
-                  )),
-                  RoundButton(
-                      text: isEditMode ? '완료' : '추가',
-                      onTap: () {
-                        hide(WriteTodoResult(
-                            selectedDate.value, textController.text));
-                      }),
-                ],
+              IconButton(
+                padding: const EdgeInsets.all(15),
+                onPressed: onTapChangedDate,
+                icon: const Icon(Icons.calendar_month),
               ),
             ],
-          )),
+          ),
+          const Height(20),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  focusNode: node,
+                  controller: todoTextEditingController,
+                  decoration: InputDecoration(
+                    focusedBorder: !showRedTextLine
+                        ? null
+                        : const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red, width: 3),
+                          ),
+                  ),
+                  onEditingComplete: () => done(context),
+                ),
+              ),
+              RoundButton(
+                  text: isEditMode ? '수정' : '추가',
+                  onTap: () {
+                    done(context);
+                  })
+            ],
+          )
+        ],
+      ),
     );
   }
 
-  bool get isEditMode => todoForEdit != null;
+  bool get isEditMode => widget.todoForEdit != null;
 
-  void _selectDate(
-      BuildContext context, ValueNotifier<DateTime> selectedDate) async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: selectedDate.value,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
-    );
-
-    if (date != null) {
-      selectedDate.value = date;
+  void onTapChangedDate() async {
+    final selectedDate = await showDatePicker(
+        context: context,
+        helpText: '목표일을 선택해주세요.',
+        initialDate: _selectedDate,
+        firstDate: DateTime.now().subtract(const Duration(days: 365)),
+        lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
+    if (selectedDate != null) {
+      setState(() {
+        _selectedDate = selectedDate;
+      });
     }
+  }
+
+  void done(BuildContext context) {
+    if (todoTextEditingController.text.trim().isEmpty) {
+      setState(() {
+        showRedTextLine = true;
+      });
+      return;
+    }
+
+    widget.hide(SimpleResult.success(WriteTodoResult(
+        dateTime: _selectedDate, title: todoTextEditingController.text)));
   }
 }

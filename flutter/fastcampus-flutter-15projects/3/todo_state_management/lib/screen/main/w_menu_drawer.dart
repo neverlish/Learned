@@ -1,5 +1,4 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/opensource/s_opensource.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -105,13 +104,6 @@ class _MenuDrawerState extends ConsumerState<MenuDrawer> {
               if (mounted) {
                 MessageDialog('clear_cache_done'.tr()).show();
               }
-            },
-          ),
-          const Line(),
-          _MenuWidget(
-            '화면 띄우기'.tr(),
-            onTap: () async {
-              Nav.push(const MainScreenWrapper());
             },
           ),
           const Line(),

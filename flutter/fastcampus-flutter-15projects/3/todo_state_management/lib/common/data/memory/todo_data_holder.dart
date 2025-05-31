@@ -1,5 +1,5 @@
-import 'package:fast_app_base/common/data/memory/todo_status.dart';
-import 'package:fast_app_base/common/data/memory/vo_todo.dart';
+import 'package:fast_app_base/data/memory/todo_status.dart';
+import 'package:fast_app_base/data/memory/vo_todo.dart';
 import 'package:fast_app_base/screen/dialog/d_confirm.dart';
 import 'package:fast_app_base/screen/main/write/d_write_todo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +10,7 @@ final todoDataProvider =
     StateNotifierProvider<TodoDataHolder, List<Todo>>((ref) {
   final userID = ref.watch(userProvider);
   print('userID: ${userID.value!}');
-  return TodoDataHolder();
+return TodoDataHolder();
 });
 
 class TodoDataHolder extends StateNotifier<List<Todo>> {
@@ -33,13 +33,13 @@ class TodoDataHolder extends StateNotifier<List<Todo>> {
   }
 
   void addTodo() async {
-    final result = await WriteTodoDialog().show();
+    final result = await WriteTodoBottomSheet().show();
     if (result != null) {
       state.add(
         Todo(
           id: DateTime.now().millisecondsSinceEpoch,
-          title: result.text,
-          dueDate: result.dateTime,
+          title: result.successData.title,
+          dueDate: result.successData.dateTime,
         ),
       );
       state = List.of(state);
@@ -47,10 +47,10 @@ class TodoDataHolder extends StateNotifier<List<Todo>> {
   }
 
   void editTodo(Todo todo) async {
-    final result = await WriteTodoDialog(todoForEdit: todo).show();
+    final result = await WriteTodoBottomSheet(todoForEdit: todo).show();
     if (result != null) {
-      todo.title = result.text;
-      todo.dueDate = result.dateTime;
+      todo.title = result.successData.title;
+      todo.dueDate = result.successData.dateTime;
       state = List.of(state);
     }
   }

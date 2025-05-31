@@ -1,6 +1,9 @@
 class WriteTodoResult {
   final DateTime dateTime;
-  final String text;
+  final String title;
 
-  WriteTodoResult(this.dateTime, this.text);
+  WriteTodoResult({
+    required this.dateTime,
+    required this.title,
+  });
 }

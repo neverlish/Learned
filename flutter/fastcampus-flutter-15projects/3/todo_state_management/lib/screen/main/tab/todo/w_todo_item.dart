@@ -1,21 +1,22 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
-import 'package:fast_app_base/common/data/memory/vo_todo.dart';
 import 'package:fast_app_base/common/widget/w_rounded_container.dart';
+import 'package:fast_app_base/data/memory/todo_data.dart';
+import 'package:fast_app_base/data/memory/vo_todo.dart';
 import 'package:fast_app_base/screen/main/tab/todo/w_todo_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TodoItem extends ConsumerWidget {
+class TodoItem extends ConsumerWidget with TodoDataProvider {
   final Todo todo;
-  const TodoItem(this.todo, {super.key});
+  TodoItem(this.todo, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Dismissible(
       onDismissed: (direction) {
-        ref.readTodoHolder.removeTodo(todo);
+        todoData.removeTodo(todo);
       },
       background: RoundedContainer(
         color: context.appColors.removeTodoBg,
@@ -57,7 +58,7 @@ class TodoItem extends ConsumerWidget {
                 Expanded(child: todo.title.text.size(20).medium.make()),
                 IconButton(
                     onPressed: () {
-                      ref.readTodoHolder.editTodo(todo);
+                      todoData.editTodo(todo);
                     },
                     icon: const Icon(EvaIcons.editOutline)),
               ],

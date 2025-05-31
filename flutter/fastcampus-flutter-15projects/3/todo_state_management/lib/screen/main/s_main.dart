@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fast_app_base/data/memory/todo_data.dart';
 import 'package:fast_app_base/screen/main/tab/tab_item.dart';
 import 'package:fast_app_base/screen/main/tab/tab_navigator.dart';
 import 'package:flutter/material.dart';
@@ -7,24 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common/common.dart';
 import 'w_menu_drawer.dart';
 
-class MainScreenWrapper extends StatelessWidget {
-  const MainScreenWrapper({super.key});
+class MainScreen extends ConsumerStatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const SizedBox(child: _MainScreen());
-  }
+  ConsumerState<MainScreen> createState() => MainScreenState();
 }
 
-class _MainScreen extends ConsumerStatefulWidget {
-  const _MainScreen({super.key});
-
-  @override
-  ConsumerState<_MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends ConsumerState<_MainScreen>
-    with SingleTickerProviderStateMixin {
+class MainScreenState extends ConsumerState<MainScreen>
+    with SingleTickerProviderStateMixin, TodoDataProvider {
   TabItem _currentTab = TabItem.todo;
   final tabs = [TabItem.todo, TabItem.search];
   final List<GlobalKey<NavigatorState>> navigatorKeys = [];
@@ -61,7 +53,7 @@ class _MainScreenState extends ConsumerState<_MainScreen>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            ref.readTodoHolder.addTodo();
+            todoData.addTodo(context);
             // TodoDataHolder.of(context).notifier.addTodo(
             //       Todo(
             //         id: DateTime.now().millisecondsSinceEpoch,

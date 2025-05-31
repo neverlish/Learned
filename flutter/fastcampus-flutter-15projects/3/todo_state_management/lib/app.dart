@@ -1,8 +1,10 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/theme/custom_theme_app.dart';
+import 'package:fast_app_base/data/memory/todo_data.dart';
 import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 import 'common/theme/custom_theme.dart';
 
@@ -26,10 +28,11 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    Get.put(TodoData());
     WidgetsBinding.instance.addObserver(this);
   }
 
-  @override
+@override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -47,7 +50,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
             locale: context.locale,
             title: 'Image Finder',
             theme: context.themeType.themeData,
-            home: const MainScreenWrapper(),
+            home: const MainScreen(),
           ),
         );
       }),
