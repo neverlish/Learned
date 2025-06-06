@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../common.dart';
 
-class Line extends StatelessWidget {
-  const Line({
+class VerticalLine extends StatelessWidget {
+  const VerticalLine({
     Key? key,
     this.color,
     this.width = 1,
