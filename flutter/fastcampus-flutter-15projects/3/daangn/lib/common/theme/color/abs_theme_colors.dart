@@ -48,5 +48,7 @@ abstract class AbstractThemeColors {
 
   Color get floatingActionLayer => const Color.fromARGB(255, 37, 37, 39);
 
-  Color get lessImportantColor => const Color.fromARGB(255, 117, 117, 117);
+  Color get lessImportant => const Color.fromARGB(255, 117, 117, 117);
+
+  Color get unreadColor => const Color.fromARGB(255, 57, 57, 57);
 }
