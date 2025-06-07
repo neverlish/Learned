@@ -28,7 +28,8 @@ class PostDetailScreen extends ConsumerWidget {
     final productPost = ref.watch(productPostProvider(id));
 
     return productPost.when(
-      data: (data) => _PostDetail(data.simpleProductPost, productPost: data),
+      data: (data) => _PostDetail(simpleProductPost ?? data.simpleProductPost,
+          productPost: data),
       error: (error, stack) => '에러발생'.text.make(),
       loading: () => simpleProductPost != null
           ? _PostDetail(simpleProductPost!)
@@ -72,10 +73,11 @@ class _PostDetail extends HookWidget {
             ),
           ),
           const _AppBar(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: PostDetailBottomMenu(simpleProductPost.product),
-          )
+          if (simpleProductPost.product.images.length > 1)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: PostDetailBottomMenu(simpleProductPost.product),
+            )
         ],
       ),
     );
