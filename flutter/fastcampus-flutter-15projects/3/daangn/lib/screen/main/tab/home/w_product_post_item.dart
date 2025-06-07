@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/entity/post/vo_simple_product_post.dart';
 import 'package:fast_app_base/screen/post_detail/s_post_detail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ProductPostItem extends StatelessWidget {
@@ -14,27 +12,11 @@ class ProductPostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tap(
-      // behavior: HitTestBehavior.translucent,
-      // onTapUp: (details) {
-      //   Nav.pushWithRippleEffect(
-      //     PostDetailScreen(post.id, simpleProductPost: post),
-      //     offset: Offset(details.globalPosition.dx, details.globalPosition.dy),
-      //     durationMs: 800,
-      //   );
-      // },
       onTap: () {
         Nav.push(
           PostDetailScreen(post.id, simpleProductPost: post),
           durationMs: 800,
-          context: context,
-          // navAni: NavAni.Ripple,
         );
-        // Nav.pushFromRight(
-        //   PostDetailScreen(post.id, simpleProductPost: post),
-        //   prohibitSwipeBack: true,
-        // );
-        // MessageDialog('안녕하세요', context: context).show(useRootNavigator: true);
-        // ColorBottomSheet('안녕', context: context).show();
       },
       child: Stack(
         children: [
@@ -43,9 +25,12 @@ class ProductPostItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: post.product.images[0],
-                  width: 150,
+                child: Hero(
+                  tag: '${post.id}_${post.product.images[0]}',
+                  child: CachedNetworkImage(
+                    imageUrl: post.product.images[0],
+                    width: 150,
+                  ),
                 ),
               ),
               const Width(10),
@@ -53,7 +38,11 @@ class ProductPostItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    post.title.text.size(17).bold.make(),
+                    Hero(
+                      tag: '${post.id}_title',
+                      child:
+                          Material(child: post.title.text.size(17).bold.make()),
+                    ),
                     Row(
                       children: [
                         post.address.simpleAddress.text

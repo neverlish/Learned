@@ -171,9 +171,12 @@ class _ImagePaper extends StatelessWidget {
           PageView(
             controller: pageController,
             children: simpleProductPost.product.images
-                .map((url) => CachedNetworkImage(
-                      imageUrl: url,
-                      fit: BoxFit.fill,
+                .map((url) => Hero(
+                      tag: '${simpleProductPost.id}_$url',
+                      child: CachedNetworkImage(
+                        imageUrl: url,
+                        fit: BoxFit.fill,
+                      ),
                     ))
                 .toList(),
           ),
@@ -210,17 +213,11 @@ class _AppBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Nav.clearAll(context: context);
-                // Nav.pop(context);
+                // Nav.clearAll(context: context);
+                Nav.pop(context);
               },
               icon: const Icon(Icons.arrow_back_ios_new_rounded,
                   color: Colors.white),
-            ),
-            IconButton(
-              onPressed: () {
-                Nav.clearAll(context: context);
-              },
-              icon: const Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
