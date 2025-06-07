@@ -35,10 +35,12 @@ void main() {
     expect(currentLanguage, Language.korean); //startLocale: const Locale('ko') 이 설정되어 있으므로 한국어로 시작
 
     // 2. Custom Theme test
-    expect(App.navigatorKey.currentContext!.themeType, CustomTheme.light);
-    App.navigatorKey.currentContext!.changeTheme(CustomTheme.dark);
+    expect(
+        App.scaffoldMessengerKey.currentContext!.themeType, CustomTheme.light);
+    App.scaffoldMessengerKey.currentContext!.changeTheme(CustomTheme.dark);
     await tester.pump();
-    expect(App.navigatorKey.currentContext!.themeType, CustomTheme.dark);
+    expect(
+        App.scaffoldMessengerKey.currentContext!.themeType, CustomTheme.dark);
   });
 }
 

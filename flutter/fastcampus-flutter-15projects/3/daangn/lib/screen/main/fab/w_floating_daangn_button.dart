@@ -6,6 +6,7 @@ import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/write/s_write.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FloatingDaangnButton extends ConsumerWidget {
   static const height = 100.0;
@@ -51,7 +52,12 @@ class FloatingDaangnButton extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _floatItem('알바', '$basePath/fab/fab_01.png'),
+                          Tap(
+                            onTap: () {
+                              context.go('/main/localLife');
+                            },
+                            child: _floatItem('알바', '$basePath/fab/fab_01.png'),
+                          ),
                           _floatItem('과외/클래스', '$basePath/fab/fab_02.png'),
                           _floatItem('농수산물', '$basePath/fab/fab_03.png'),
                           _floatItem('부동산', '$basePath/fab/fab_04.png'),
