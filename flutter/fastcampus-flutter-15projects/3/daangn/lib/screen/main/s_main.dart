@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fast_app_base/common/dart/extension/num_duration_extension.dart';
 import 'package:fast_app_base/screen/main/fab/w_floating_daangn_button.dart';
 import 'package:fast_app_base/screen/main/tab/tab_item.dart';
@@ -51,6 +53,7 @@ class MainScreenState extends ConsumerState<MainScreen>
             Scaffold(
               extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
               drawer: const MenuDrawer(),
+              drawerEnableOpenDragGesture: !Platform.isIOS,
               body: Container(
                 padding: EdgeInsets.only(
                     bottom:

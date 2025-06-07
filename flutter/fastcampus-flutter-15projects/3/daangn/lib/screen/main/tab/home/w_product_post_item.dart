@@ -14,8 +14,27 @@ class ProductPostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tap(
+      // behavior: HitTestBehavior.translucent,
+      // onTapUp: (details) {
+      //   Nav.pushWithRippleEffect(
+      //     PostDetailScreen(post.id, simpleProductPost: post),
+      //     offset: Offset(details.globalPosition.dx, details.globalPosition.dy),
+      //     durationMs: 800,
+      //   );
+      // },
       onTap: () {
-        Nav.push(PostDetailScreen(post.id, simpleProductPost: post));
+        Nav.push(
+          PostDetailScreen(post.id, simpleProductPost: post),
+          durationMs: 800,
+          context: context,
+          // navAni: NavAni.Ripple,
+        );
+        // Nav.pushFromRight(
+        //   PostDetailScreen(post.id, simpleProductPost: post),
+        //   prohibitSwipeBack: true,
+        // );
+        // MessageDialog('안녕하세요', context: context).show(useRootNavigator: true);
+        // ColorBottomSheet('안녕', context: context).show();
       },
       child: Stack(
         children: [

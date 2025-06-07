@@ -65,9 +65,21 @@ class _PostDetail extends HookWidget {
                     simpleProductPost.product.user,
                     address: simpleProductPost.address,
                   ),
-                  PostContent(
-                      simpleProductPost: simpleProductPost,
-                      productPost: productPost),
+                  Tap(
+                    onTap: () {
+                      Nav.push(
+                        PostDetailScreen(
+                          simpleProductPost.id,
+                          simpleProductPost: simpleProductPost,
+                        ),
+                        durationMs: 800,
+                        context: context,
+                      );
+                    },
+                    child: PostContent(
+                        simpleProductPost: simpleProductPost,
+                        productPost: productPost),
+                  ),
                 ],
               ),
             ),
@@ -194,12 +206,23 @@ class _AppBar extends StatelessWidget {
       height: 60 + context.statusBarHeight,
       child: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Nav.pop(context);
-          },
-          icon:
-              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+        leading: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Nav.clearAll(context: context);
+                // Nav.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white),
+            ),
+            IconButton(
+              onPressed: () {
+                Nav.clearAll(context: context);
+              },
+              icon: const Icon(Icons.home, color: Colors.white),
+            ),
+          ],
         ),
         actions: [
           IconButton(
