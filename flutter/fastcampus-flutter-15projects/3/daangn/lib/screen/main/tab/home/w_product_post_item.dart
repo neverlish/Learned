@@ -61,7 +61,7 @@ class ProductPostItem extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset("$basePath/home/post_chat_count.png"),
+                  Image.asset("$basePath/home/post_comment.png"),
                   post.chatCount.text.make(),
                   Image.asset("$basePath/home/post_heart_off.png"),
                   post.likeCount.text.make(),
