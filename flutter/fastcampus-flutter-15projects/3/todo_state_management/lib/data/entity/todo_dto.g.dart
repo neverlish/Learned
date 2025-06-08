@@ -6,9 +6,8 @@ part of 'todo_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TodoDTOImpl _$$TodoDTOImplFromJson(Map<String, dynamic> json) =>
-    _$TodoDTOImpl(
-      id: (json['id'] as num).toInt(),
+_$_TodoDTO _$$_TodoDTOFromJson(Map<String, dynamic> json) => _$_TodoDTO(
+      id: json['id'] as int,
       createdTime: DateTime.parse(json['createdTime'] as String),
       modifyTime: json['modifyTime'] == null
           ? null
@@ -19,7 +18,7 @@ _$TodoDTOImpl _$$TodoDTOImplFromJson(Map<String, dynamic> json) =>
           TodoStatus.unknown,
     );
 
-Map<String, dynamic> _$$TodoDTOImplToJson(_$TodoDTOImpl instance) =>
+Map<String, dynamic> _$$_TodoDTOToJson(_$_TodoDTO instance) =>
     <String, dynamic>{
       'id': instance.id,
       'createdTime': instance.createdTime.toIso8601String(),

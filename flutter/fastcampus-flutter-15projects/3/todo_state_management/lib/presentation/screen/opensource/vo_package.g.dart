@@ -6,8 +6,7 @@ part of 'vo_package.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PackageImpl _$$PackageImplFromJson(Map<String, dynamic> json) =>
-    _$PackageImpl(
+_$_Package _$$_PackageFromJson(Map<String, dynamic> json) => _$_Package(
       name: json['name'] as String,
       description: json['description'] as String,
       homepage: json['homepage'] as String?,
@@ -21,7 +20,7 @@ _$PackageImpl _$$PackageImplFromJson(Map<String, dynamic> json) =>
       isDirectDependency: json['isDirectDependency'] as bool,
     );
 
-Map<String, dynamic> _$$PackageImplToJson(_$PackageImpl instance) =>
+Map<String, dynamic> _$$_PackageToJson(_$_Package instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,

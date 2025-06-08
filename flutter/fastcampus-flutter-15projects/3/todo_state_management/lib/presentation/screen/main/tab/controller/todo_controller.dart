@@ -1,31 +1,26 @@
-import 'package:fast_app_base/common/cli_common.dart';
-import 'package:fast_app_base/common/util/async/flutter_async.dart';
 import 'package:fast_app_base/domain/domain.dart';
 import 'package:fast_app_base/presentation/screen/dialog/d_confirm.dart';
-import 'package:fast_app_base/presentation/screen/dialog/d_message.dart';
 import 'package:fast_app_base/presentation/screen/main/write/d_write_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TodoData extends GetxController {
+class TodoController extends GetxController {
   final RxList<Todo> todoList = <Todo>[].obs;
-
-  TodoData([TodoRepository? todoRepository]) : _repository = todoRepository ?? Get.find();
-
-  final TodoRepository _repository;
 
   @override
   void onInit() async {
-    final remoteTodoList = await _repository.getTodoList();
-    remoteTodoList.runIfSuccess((data) {
-      todoList.addAll(data);
-    });
-    remoteTodoList.runIfFailure((error) {
-      delay(() {
-        MessageDialog(error.message).show();
-      }, 100.ms);
-    });
     super.onInit();
+
+    _loadTodoList();
+  }
+
+  void _loadTodoList() async {
+    try {
+      final remoteTodoList = await ReadTodosUseCase().execute();
+      todoList.addAll(remoteTodoList);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   int get newId {
@@ -43,7 +38,7 @@ class TodoData extends GetxController {
         status: TodoStatus.incomplete,
       );
       todoList.add(newTodo);
-      _repository.addTodo(newTodo);
+      AddTodoUseCase().execute(newTodo);
     });
   }
 
@@ -64,7 +59,7 @@ class TodoData extends GetxController {
     updateTodo(todo);
   }
 
-  editTodo(Todo todo) async {
+  void editTodo(Todo todo) async {
     final result = await WriteTodoBottomSheet(todoForEdit: todo).show();
     result?.runIfSuccess((data) {
       todo.modifyTime = DateTime.now();
@@ -75,17 +70,12 @@ class TodoData extends GetxController {
   }
 
   void updateTodo(Todo todo) {
-    _repository.updateTodo(todo);
+    UpdateTodoUseCase().execute(todo);
     todoList.refresh();
   }
 
   void removeTodo(Todo todo) {
     todoList.remove(todo);
-    _repository.removeTodo(todo.id);
-    //LocalDB.removeTodo(todo.id);
+    RemoveTodoUseCase().execute(todo.id);
   }
-}
-
-mixin class TodoDataProvider {
-  late final TodoData todoData = Get.find();
 }
