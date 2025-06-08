@@ -1,6 +1,6 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/util/local_json.dart';
-import 'package:fast_app_base/screen/opensource/vo_package.dart';
+import 'package:fast_app_base/screen/opensource/vo_package.gen.dart';
 import 'package:flutter/material.dart';
 
 import 'w_opensource_item.dart';
