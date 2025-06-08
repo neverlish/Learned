@@ -1,4 +1,5 @@
 import 'package:fast_app_base/common/common.dart';
+import 'package:fast_app_base/common/log/logger.dart' as logger;
 import 'package:fast_app_base/common/log/logging.dart' as logging;
 import 'package:fast_app_base/common/widget/round_button_theme.dart';
 import 'package:fast_app_base/common/widget/w_empty_expanded.dart';
@@ -56,6 +57,12 @@ class HomeFragment extends StatelessWidget {
           RoundButton(
             text: 'logging',
             onTap: () => logging.Logger().demo(),
+            theme: RoundButtonTheme.whiteWithBlueBorder,
+          ),
+          const Height(20),
+          RoundButton(
+            text: 'logger',
+            onTap: () => logger.Logger().demo(),
             theme: RoundButtonTheme.whiteWithBlueBorder,
           ),
           const Height(20),
