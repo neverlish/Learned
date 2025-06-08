@@ -30,6 +30,8 @@ class HomeFragment extends StatefulWidget {
 
 class _HomeFragmentState extends State<HomeFragment> {
   bool isLike = false;
+  final double appBarHeight = 60;
+
   // int count = 0;
 
   late final stream = countStream(5).asBroadcastStream();
@@ -57,11 +59,11 @@ class _HomeFragmentState extends State<HomeFragment> {
               particleMaxSize: 20,
             ),
             RefreshIndicator(
-              edgeOffset: TtossAppBar.appBarHeight,
+              edgeOffset: appBarHeight,
               onRefresh: () async {},
               child: SingleChildScrollView(
-                padding: const EdgeInsets.only(
-                  top: TtossAppBar.appBarHeight,
+                padding: EdgeInsets.only(
+                  top: appBarHeight,
                   bottom: MainScreenState.bottomNavigatorHeight,
                 ),
                 child: Column(
@@ -158,7 +160,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                     .pSymmetric(h: 20),
               ),
             ),
-            const TtossAppBar(),
+            TtossAppBar(appBarHeight: appBarHeight),
           ],
         ),
       ),
