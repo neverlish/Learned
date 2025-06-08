@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fast_app_base/common/common.dart';
+import 'package:fast_app_base/common/di/di.dart';
 import 'package:fast_app_base/data/mapper.dart';
 import 'package:fast_app_base/data/source/local/error/local_db_error.dart';
 import 'package:fast_app_base/data/source/remote/result/api_error.dart';
 import 'package:fast_app_base/domain/domain.dart';
-import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 
 import '../simple_result.dart';
@@ -12,10 +13,11 @@ import '../source/local/todo_db.dart';
 import '../source/remote/todo_api.dart';
 
 /// Remote
+// @Singleton(as: TodoRepository)
 class TodoRemoteRepository implements TodoRepository<ApiError> {
   final TodoApi _api;
 
-  TodoRemoteRepository([TodoApi? api]) : _api = api ?? Get.find();
+  TodoRemoteRepository([TodoApi? api]) : _api = api ?? locator();
 
   @override
   Future<SimpleResult<List<Todo>, ApiError>> getTodoList() async {
@@ -63,10 +65,11 @@ class TodoRemoteRepository implements TodoRepository<ApiError> {
 }
 
 /// Local
+@Singleton(as: TodoRepository<LocalDBError>)
 class TodoLocalRepository implements TodoRepository<LocalDBError> {
   final TodoDB _db;
 
-  TodoLocalRepository([TodoDB? db]) : _db = db ?? Get.find();
+  TodoLocalRepository([TodoDB? db]) : _db = db ?? locator();
 
   @override
   Future<SimpleResult<List<Todo>, LocalDBError>> getTodoList() async {

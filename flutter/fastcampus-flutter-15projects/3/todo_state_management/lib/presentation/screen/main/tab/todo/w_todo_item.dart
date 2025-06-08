@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
+import 'package:fast_app_base/common/di/di.dart';
 import 'package:fast_app_base/domain/domain.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/controller/todo_controller.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/todo/w_todo_status.dart';
@@ -11,6 +12,9 @@ import '../../../../../common/widget/w_rounded_container.dart';
 
 class TodoItem extends GetView<TodoController> {
   final Todo todo;
+
+  @override
+  TodoController get controller => locator();
 
   const TodoItem({super.key, required this.todo});
 

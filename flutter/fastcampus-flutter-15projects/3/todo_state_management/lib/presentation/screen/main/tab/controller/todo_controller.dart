@@ -3,21 +3,17 @@ import 'package:fast_app_base/presentation/screen/dialog/d_confirm.dart';
 import 'package:fast_app_base/presentation/screen/main/write/d_write_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class TodoController extends GetxController {
   final RxList<Todo> todoList = <Todo>[].obs;
 
-  @override
-  void onInit() async {
-    super.onInit();
-
-    _loadTodoList();
-  }
-
-  void _loadTodoList() async {
+  void refreshTodos() async {
     try {
       final remoteTodoList = await ReadTodosUseCase().execute();
-      todoList.addAll(remoteTodoList);
+      todoList.value = remoteTodoList;
+      todoList.refresh();
     } catch (e) {
       debugPrint(e.toString());
     }

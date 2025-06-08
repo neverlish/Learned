@@ -1,9 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fast_app_base/common/di/di.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/controller/todo_controller.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/tab_item.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/tab_navigator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../common/common.dart';
 import 'w_menu_drawer.dart';
@@ -28,10 +28,16 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
 
   static double get bottomNavigationBarBorderRadius => 30.0;
 
+  TodoController get _controller => locator<TodoController>();
+
   @override
   void initState() {
     super.initState();
     initNavigatorKeys();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.refreshTodos();
+    });
   }
 
   @override
@@ -53,7 +59,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
         floatingActionButton: _currentIndex == 0
             ? FloatingActionButton(
                 onPressed: () async {
-                  Get.find<TodoController>().addTodo(context);
+                  // Get.find<TodoController>().addTodo(context);
+                  _controller.addTodo(context);
                 },
                 child: const Icon(EvaIcons.plus),
               )

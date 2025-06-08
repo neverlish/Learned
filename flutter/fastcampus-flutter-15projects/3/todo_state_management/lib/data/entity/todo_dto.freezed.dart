@@ -12,7 +12,7 @@ part of 'todo_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TodoDTO _$TodoDTOFromJson(Map<String, dynamic> json) {
   return _TodoDTO.fromJson(json);
@@ -102,10 +102,10 @@ class _$TodoDTOCopyWithImpl<$Res, $Val extends TodoDTO>
 }
 
 /// @nodoc
-abstract class _$$_TodoDTOCopyWith<$Res> implements $TodoDTOCopyWith<$Res> {
-  factory _$$_TodoDTOCopyWith(
-          _$_TodoDTO value, $Res Function(_$_TodoDTO) then) =
-      __$$_TodoDTOCopyWithImpl<$Res>;
+abstract class _$$TodoDTOImplCopyWith<$Res> implements $TodoDTOCopyWith<$Res> {
+  factory _$$TodoDTOImplCopyWith(
+          _$TodoDTOImpl value, $Res Function(_$TodoDTOImpl) then) =
+      __$$TodoDTOImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -118,10 +118,11 @@ abstract class _$$_TodoDTOCopyWith<$Res> implements $TodoDTOCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TodoDTOCopyWithImpl<$Res>
-    extends _$TodoDTOCopyWithImpl<$Res, _$_TodoDTO>
-    implements _$$_TodoDTOCopyWith<$Res> {
-  __$$_TodoDTOCopyWithImpl(_$_TodoDTO _value, $Res Function(_$_TodoDTO) _then)
+class __$$TodoDTOImplCopyWithImpl<$Res>
+    extends _$TodoDTOCopyWithImpl<$Res, _$TodoDTOImpl>
+    implements _$$TodoDTOImplCopyWith<$Res> {
+  __$$TodoDTOImplCopyWithImpl(
+      _$TodoDTOImpl _value, $Res Function(_$TodoDTOImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -134,7 +135,7 @@ class __$$_TodoDTOCopyWithImpl<$Res>
     Object? dueDate = null,
     Object? status = null,
   }) {
-    return _then(_$_TodoDTO(
+    return _then(_$TodoDTOImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -165,8 +166,8 @@ class __$$_TodoDTOCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TodoDTO implements _TodoDTO {
-  _$_TodoDTO(
+class _$TodoDTOImpl implements _TodoDTO {
+  _$TodoDTOImpl(
       {required this.id,
       required this.createdTime,
       this.modifyTime,
@@ -174,8 +175,8 @@ class _$_TodoDTO implements _TodoDTO {
       required this.dueDate,
       this.status = TodoStatus.unknown});
 
-  factory _$_TodoDTO.fromJson(Map<String, dynamic> json) =>
-      _$$_TodoDTOFromJson(json);
+  factory _$TodoDTOImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TodoDTOImplFromJson(json);
 
   @override
   int id;
@@ -199,12 +200,12 @@ class _$_TodoDTO implements _TodoDTO {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TodoDTOCopyWith<_$_TodoDTO> get copyWith =>
-      __$$_TodoDTOCopyWithImpl<_$_TodoDTO>(this, _$identity);
+  _$$TodoDTOImplCopyWith<_$TodoDTOImpl> get copyWith =>
+      __$$TodoDTOImplCopyWithImpl<_$TodoDTOImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TodoDTOToJson(
+    return _$$TodoDTOImplToJson(
       this,
     );
   }
@@ -217,9 +218,9 @@ abstract class _TodoDTO implements TodoDTO {
       DateTime? modifyTime,
       required String title,
       required DateTime dueDate,
-      TodoStatus status}) = _$_TodoDTO;
+      TodoStatus status}) = _$TodoDTOImpl;
 
-  factory _TodoDTO.fromJson(Map<String, dynamic> json) = _$_TodoDTO.fromJson;
+  factory _TodoDTO.fromJson(Map<String, dynamic> json) = _$TodoDTOImpl.fromJson;
 
   @override
   int get id;
@@ -241,6 +242,6 @@ abstract class _TodoDTO implements TodoDTO {
   set status(TodoStatus value);
   @override
   @JsonKey(ignore: true)
-  _$$_TodoDTOCopyWith<_$_TodoDTO> get copyWith =>
+  _$$TodoDTOImplCopyWith<_$TodoDTOImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,7 +12,7 @@ part of 'todo.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Todo _$TodoFromJson(Map<String, dynamic> json) {
   return _Todo.fromJson(json);
@@ -102,9 +102,10 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
 }
 
 /// @nodoc
-abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
-  factory _$$_TodoCopyWith(_$_Todo value, $Res Function(_$_Todo) then) =
-      __$$_TodoCopyWithImpl<$Res>;
+abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
+  factory _$$TodoImplCopyWith(
+          _$TodoImpl value, $Res Function(_$TodoImpl) then) =
+      __$$TodoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,9 +118,10 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
-    implements _$$_TodoCopyWith<$Res> {
-  __$$_TodoCopyWithImpl(_$_Todo _value, $Res Function(_$_Todo) _then)
+class __$$TodoImplCopyWithImpl<$Res>
+    extends _$TodoCopyWithImpl<$Res, _$TodoImpl>
+    implements _$$TodoImplCopyWith<$Res> {
+  __$$TodoImplCopyWithImpl(_$TodoImpl _value, $Res Function(_$TodoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -132,7 +134,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
     Object? dueDate = null,
     Object? status = null,
   }) {
-    return _then(_$_Todo(
+    return _then(_$TodoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -163,8 +165,8 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Todo extends _Todo {
-  _$_Todo(
+class _$TodoImpl extends _Todo {
+  _$TodoImpl(
       {required this.id,
       required this.createdTime,
       this.modifyTime,
@@ -173,7 +175,8 @@ class _$_Todo extends _Todo {
       this.status = TodoStatus.unknown})
       : super._();
 
-  factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
+  factory _$TodoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TodoImplFromJson(json);
 
   @override
   int id;
@@ -197,12 +200,12 @@ class _$_Todo extends _Todo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TodoCopyWith<_$_Todo> get copyWith =>
-      __$$_TodoCopyWithImpl<_$_Todo>(this, _$identity);
+  _$$TodoImplCopyWith<_$TodoImpl> get copyWith =>
+      __$$TodoImplCopyWithImpl<_$TodoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TodoToJson(
+    return _$$TodoImplToJson(
       this,
     );
   }
@@ -215,10 +218,10 @@ abstract class _Todo extends Todo {
       DateTime? modifyTime,
       required String title,
       required DateTime dueDate,
-      TodoStatus status}) = _$_Todo;
+      TodoStatus status}) = _$TodoImpl;
   _Todo._() : super._();
 
-  factory _Todo.fromJson(Map<String, dynamic> json) = _$_Todo.fromJson;
+  factory _Todo.fromJson(Map<String, dynamic> json) = _$TodoImpl.fromJson;
 
   @override
   int get id;
@@ -240,5 +243,6 @@ abstract class _Todo extends Todo {
   set status(TodoStatus value);
   @override
   @JsonKey(ignore: true)
-  _$$_TodoCopyWith<_$_Todo> get copyWith => throw _privateConstructorUsedError;
+  _$$TodoImplCopyWith<_$TodoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

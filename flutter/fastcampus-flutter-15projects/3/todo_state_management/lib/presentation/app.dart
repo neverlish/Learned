@@ -1,11 +1,9 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/theme/custom_theme_app.dart';
-import 'package:fast_app_base/data/data.dart';
-import 'package:fast_app_base/domain/repository/repository.dart';
 import 'package:fast_app_base/presentation/screen/main/s_main.dart';
-import 'package:fast_app_base/presentation/screen/main/tab/controller/todo_controller.dart';
+// import 'package:fast_app_base/presentation/screen/main/tab/todo/bindings.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 
 class App extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -25,15 +23,6 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    // TODO: temp
-    /// remote
-    // Get.put<TodoApi>(TodoApi());
-    // Get.put<TodoRepository>(TodoRemoteRepository());
-
-    /// local
-    Get.put<TodoDB>(TodoDB());
-    Get.put<TodoRepository>(TodoLocalRepository());
-    Get.put(TodoController());
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -47,7 +36,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return CustomThemeApp(
       child: Builder(builder: (context) {
-        return MaterialApp(
+        return GetMaterialApp(
           navigatorKey: App.navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -55,6 +44,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
           title: 'Image Finder',
           theme: context.themeType.themeData,
           home: const MainScreen(),
+          // initialBinding: TodoBindings(),
         );
       }),
     );

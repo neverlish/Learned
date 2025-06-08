@@ -1,4 +1,5 @@
 import 'package:fast_app_base/common/common.dart';
+import 'package:fast_app_base/common/di/di.dart';
 import 'package:fast_app_base/domain/domain.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/controller/todo_controller.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/todo/w_fire.dart';
@@ -7,6 +8,9 @@ import 'package:get/get.dart';
 
 class TodoStatusWidget extends GetView<TodoController> {
   final Todo todo;
+
+  @override
+  TodoController get controller => locator();
 
   const TodoStatusWidget(
     this.todo, {
