@@ -16,15 +16,15 @@ export '../common/dart/extension/num_extension.dart';
 export '../common/dart/extension/string_extension.dart';
 export '../common/dart/extension/velocityx_extension.dart';
 export '../common/dart/kotlin_style/kotlin_extension.dart';
+export '../presentation/widget/w_empty_expanded.dart';
+export '../presentation/widget/w_height_and_width.dart';
+export '../presentation/widget/w_line.dart';
+export '../presentation/widget/w_tap.dart';
 export 'constants.dart';
 export 'dart/extension/snackbar_context_extension.dart';
 export 'theme/color/abs_theme_colors.dart';
 export 'theme/shadows/abs_theme_shadows.dart';
 export 'util/async/flutter_async.dart';
-export 'widget/w_empty_expanded.dart';
-export 'widget/w_height_and_width.dart';
-export 'widget/w_line.dart';
-export 'widget/w_tap.dart';
 
 const defaultFontStyle = GoogleFonts.ptSerif;
 

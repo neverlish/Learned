@@ -1,4 +1,4 @@
-import 'package:fast_app_base/data/simple_result.dart';
+import 'package:fast_app_base/common/util/simple_result.dart';
 
 import '../model/model.dart';
 

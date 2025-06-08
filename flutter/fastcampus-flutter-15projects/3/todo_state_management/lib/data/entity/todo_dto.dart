@@ -4,7 +4,7 @@ import '../../data/entity/todo_status.dart';
 
 part 'todo_dto.freezed.dart';
 part 'todo_dto.g.dart';
-
+/// Text('')
 @unfreezed
 class TodoDTO with _$TodoDTO {
   factory TodoDTO({

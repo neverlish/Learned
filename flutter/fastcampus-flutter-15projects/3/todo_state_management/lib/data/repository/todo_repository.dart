@@ -8,7 +8,7 @@ import 'package:fast_app_base/domain/domain.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 
-import '../simple_result.dart';
+import '../../common/util/simple_result.dart';
 import '../source/local/todo_db.dart';
 import '../source/remote/todo_api.dart';
 

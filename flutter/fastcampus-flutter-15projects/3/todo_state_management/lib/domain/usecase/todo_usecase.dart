@@ -6,9 +6,17 @@ import 'package:fast_app_base/domain/usecase/base.dart';
 import '../model/model.dart';
 import '../repository/repository.dart';
 
-class AddTodoUseCase implements UseCase<void, Todo> {
-  final TodoRepository<LocalDBError> _repository;
+/// 2) Use Case 하나만 만들고 메서드 구현
+/// CRUD
+class TodoUseCase {
+  /// CRUD
+}
 
+/// 1) Use Case feature 단위 클래스
+class AddTodoUseCase implements UseCase<void, Todo> {
+  // final TodoRepository<LocalDBError> _repository = locator();
+  final TodoRepository<LocalDBError> _repository;
+  // final TodoLocalRepository
   AddTodoUseCase([TodoRepository<LocalDBError>? repository]) : _repository = repository ?? locator();
 
   @override

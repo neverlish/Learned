@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import 'di.config.dart';
 
+/// getIt, inject, locator
 final locator = GetIt.instance;
 
 @InjectableInit()

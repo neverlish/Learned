@@ -15,7 +15,7 @@ import 'package:fast_app_base/data/source/local/error/local_db_error.dart'
 import 'package:fast_app_base/data/source/local/todo_db.dart' as _i8;
 import 'package:fast_app_base/data/source/module.dart' as _i9;
 import 'package:fast_app_base/domain/domain.dart' as _i5;
-import 'package:fast_app_base/presentation/screen/main/tab/controller/todo_controller.dart'
+import 'package:fast_app_base/presentation/main/tab/controller/todo_controller.dart'
     as _i4;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
