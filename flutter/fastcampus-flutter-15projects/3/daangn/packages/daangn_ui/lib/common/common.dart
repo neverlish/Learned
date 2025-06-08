@@ -1,5 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
-
 export 'dart:async';
 
 export 'package:daangn_ui/common/dart/extension/animation_controller_extension.dart';
@@ -20,10 +18,11 @@ export 'package:daangn_ui/widget/w_tap.dart';
 export 'package:daangn_ui/widget/widget_constant.dart';
 export 'package:easy_localization/easy_localization.dart';
 export 'package:flutter_svg/flutter_svg.dart';
+export 'package:google_fonts/google_fonts.dart';
+export 'package:quiver/strings.dart';
 export 'package:velocity_x/velocity_x.dart';
 
 export 'constants.dart';
 
-const defaultFontStyle = GoogleFonts.ptSerif;
 
 void voidFunction() {}

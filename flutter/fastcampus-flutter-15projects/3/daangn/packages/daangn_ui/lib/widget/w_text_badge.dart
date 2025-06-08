@@ -1,3 +1,4 @@
+import 'package:daangn_ui/common/dart/extension/velocityx_extension.dart';
 import 'package:daangn_ui/widget/w_tap.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';

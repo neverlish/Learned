@@ -1,4 +1,7 @@
+import 'package:daangn_ui/common/theme/custom_theme.dart';
+import 'package:daangn_ui/common/theme/custom_theme_app.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fast_app_base/common/data/preference/prefs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +15,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await AppPreferences.init();
+  CustomThemeApp.init(saveThemeFunction: (theme) {
+    Prefs.appTheme.set(theme);
+  });
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -24,5 +30,9 @@ void main() async {
       fallbackLocale: const Locale('ko'),
       path: 'assets/translations',
       useOnlyLangCode: true,
-      child: const ProviderScope(child: App())));
+      child: CustomThemeApp(
+        defaultTheme: CustomTheme.dark,
+        savedTheme: Prefs.appTheme.get(),
+        child: const ProviderScope(child: App()),
+      )));
 }

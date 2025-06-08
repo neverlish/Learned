@@ -9,6 +9,12 @@ class CustomThemeApp extends StatefulWidget {
   final CustomTheme? defaultTheme;
   final CustomTheme? savedTheme;
 
+  static late ValueChanged<CustomTheme> saveThemeFunction;
+
+  static void init({required ValueChanged<CustomTheme> saveThemeFunction}) {
+    CustomThemeApp.saveThemeFunction = saveThemeFunction;
+  }
+
   const CustomThemeApp(
       {super.key, required this.child, this.defaultTheme, this.savedTheme});
 
@@ -22,6 +28,7 @@ class _CustomThemeAppState extends State<CustomThemeApp> {
 
   void handleChangeTheme(CustomTheme theme) {
     setState(() => this.theme = theme);
+    CustomThemeApp.saveThemeFunction(theme);
   }
 
   @override

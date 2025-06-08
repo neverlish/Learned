@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common.dart';
+import '../../constant/default_font.dart';
 
 extension VxTextBuilderExtension on VxTextBuilder {
   Widget makeWithDefaultFont({Key? key}) {

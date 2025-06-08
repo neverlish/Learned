@@ -122,7 +122,6 @@ flutter:
   assets:
     - assets/json/
     - assets/image/
-    - assets/image/icon/
     - assets/image/flag/
     - assets/image/darkmode/
     - assets/image/fab/
