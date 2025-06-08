@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'common/theme/custom_theme.dart';
 
-class App extends StatefulWidget {
+class App extends ConsumerStatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   ///light, dark 테마가 준비되었고, 시스템 테마를 따라가게 하려면 해당 필드를 제거 하시면 됩니다.
@@ -26,10 +26,10 @@ class App extends StatefulWidget {
   const App({super.key});
 
   @override
-  State<App> createState() => AppState();
+  ConsumerState<App> createState() => AppState();
 }
 
-class AppState extends State<App> with WidgetsBindingObserver, Nav {
+class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
   final ValueKey<String> _scaffoldKey = const ValueKey<String>('App scaffold');
 
   final _auth = DaangnAuth();
@@ -39,7 +39,7 @@ class AppState extends State<App> with WidgetsBindingObserver, Nav {
   void initState() {
     super.initState();
     FcmManager.requestPermission();
-    FcmManager.initialize();
+    FcmManager.initialize(ref);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -53,18 +53,16 @@ class AppState extends State<App> with WidgetsBindingObserver, Nav {
   Widget build(BuildContext context) {
     return CustomThemeApp(
       child: Builder(builder: (context) {
-        return ProviderScope(
-          child: DaangnAuthScope(
-            notifier: _auth,
-            child: MaterialApp.router(
-              scaffoldMessengerKey: App.scaffoldMessengerKey,
-              routerConfig: _router,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              title: 'Image Finder',
-              theme: context.themeType.themeData,
-            ),
+        return DaangnAuthScope(
+          notifier: _auth,
+          child: MaterialApp.router(
+            scaffoldMessengerKey: App.scaffoldMessengerKey,
+            routerConfig: _router,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            title: 'Image Finder',
+            theme: context.themeType.themeData,
           ),
         );
       }),
