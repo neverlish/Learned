@@ -1,10 +1,14 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/theme/custom_theme_app.dart';
+import 'package:fast_app_base/data/data.dart';
+import 'package:fast_app_base/data/source/local/todo_db.dart';
+import 'package:fast_app_base/data/source/remote/todo_api.dart';
+import 'package:fast_app_base/domain/repository/repository.dart';
 import 'package:fast_app_base/presentation/screen/main/s_main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 
-import '../data/memory/todo_data.dart';
+import 'screen/main/tab/controller/todo_data.dart';
 
 class App extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -23,6 +27,15 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
+    // TODO: temp
+    /// remote
+    // Get.put<TodoApi>(TodoApi());
+    // Get.put<TodoRepository>(TodoRemoteRepository());
+
+    /// local
+    Get.put<TodoDB>(TodoDB());
+    Get.put<TodoRepository>(TodoLocalRepository());
     Get.put(TodoData());
     WidgetsBinding.instance.addObserver(this);
   }

@@ -4,13 +4,12 @@ import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
 import 'package:fast_app_base/common/util/app_keyboard_util.dart';
 import 'package:fast_app_base/common/widget/w_round_button.dart';
 import 'package:fast_app_base/data/simple_result.dart';
+import 'package:fast_app_base/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:nav/dialog/dialog.dart';
 import 'package:nav/enum/enum_nav_ani.dart';
 
 import '../../../../common/widget/bottom_dialog_scaffold.dart';
-import '../../../../data/memory/vo_todo.dart';
-import '../../../../data/memory/vo_todo_write_result.dart';
 
 class WriteTodoBottomSheet extends DialogWidget<SimpleResult<TodoWriteResult, void>> {
   final Todo? todoForEdit;

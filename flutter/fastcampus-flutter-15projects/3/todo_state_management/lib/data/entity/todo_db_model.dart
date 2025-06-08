@@ -1,7 +1,6 @@
 import 'package:isar/isar.dart';
 
-import '../../memory/todo_status.dart';
-import '../../memory/vo_todo.dart';
+import 'todo_status.dart';
 
 part 'todo_db_model.g.dart';
 
@@ -31,14 +30,4 @@ class TodoDbModel {
     this.dueDate,
     this.status,
   );
-
-  Todo createTodo() {
-    return Todo(
-        id: id,
-        title: title,
-        dueDate: dueDate,
-        createdTime: createdTime,
-        status: status,
-        modifyTime: modifyTime);
-  }
 }

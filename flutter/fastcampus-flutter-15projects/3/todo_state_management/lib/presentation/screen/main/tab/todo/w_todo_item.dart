@@ -1,12 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
-import 'package:fast_app_base/data/memory/todo_data.dart';
+import 'package:fast_app_base/domain/domain.dart';
 import 'package:fast_app_base/presentation/screen/main/tab/todo/w_todo_status.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../common/widget/w_rounded_container.dart';
-import '../../../../../data/memory/vo_todo.dart';
+import '../controller/todo_data.dart';
 
 class TodoItem extends StatelessWidget with TodoDataProvider {
   final Todo todo;

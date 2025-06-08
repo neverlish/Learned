@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../common/common.dart';
-import '../../simple_result.dart';
+import '../../../../common/common.dart';
+import '../../../simple_result.dart';
 
 class ApiError {
   int? statusCode;

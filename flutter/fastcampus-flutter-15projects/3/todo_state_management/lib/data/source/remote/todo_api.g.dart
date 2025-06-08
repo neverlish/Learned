@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo_client.dart';
+part of 'todo_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'todo_client.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _TodoClient implements TodoClient {
-  _TodoClient(
+class _TodoApi implements TodoApi {
+  _TodoApi(
     this._dio, {
     this.baseUrl,
   });
@@ -19,13 +19,13 @@ class _TodoClient implements TodoClient {
   String? baseUrl;
 
   @override
-  Future<List<Todo>> getTodoList() async {
+  Future<List<TodoDTO>> getTodoList() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Todo>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<TodoDTO>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -38,7 +38,7 @@ class _TodoClient implements TodoClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => Todo.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => TodoDTO.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
