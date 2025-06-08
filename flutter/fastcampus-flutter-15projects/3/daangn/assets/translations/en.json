@@ -4,5 +4,19 @@
   "clear_cache_done": "Cache has been cleared.",
   "close": "Close",
   "done": "Done",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "write": "Write",
+  "home": "Home",
+  "local_life": "Local",
+  "nearMe": "Near me",
+  "chat": "Chat",
+  "my_daangn": "My DGN",
+  "part_time": "Part Time job",
+  "lecture": "Class",
+  "agriculture": "Fresh",
+  "profit": "Real Estimate",
+  "car": "Used Car",
+  "sell_my_thing": "Sell my thing",
+  "input_price": "￦ Please input the price {test}",
+  "temp_save": "Temp Save"
 }

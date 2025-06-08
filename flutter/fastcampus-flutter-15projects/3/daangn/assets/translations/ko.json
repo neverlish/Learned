@@ -4,5 +4,19 @@
   "clear_cache_done": "캐시가 삭제되었습니다.",
   "close": "닫기",
   "done": "완료",
-  "cancel": "취소"
+  "cancel": "취소",
+  "write": "글쓰기",
+  "home": "홈",
+  "local_life": "동네생활",
+  "nearMe": "내 근처",
+  "chat": "채팅",
+  "my_daangn": "나의 당근",
+  "part_time": "알바",
+  "lecture": "과외/클래스",
+  "agriculture": "농수산물",
+  "profit": "부동산",
+  "car": "중고차",
+  "sell_my_thing": "내 물건 팔기",
+  "input_price": "￦ 가격을 {test} 입력해주세요",
+  "temp_save": "임시저장"
 }

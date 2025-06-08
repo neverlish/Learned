@@ -181,6 +181,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                           return;
                         }
                         await context.setLocale(Language.find(value.toLowerCase()).locale);
+                        WidgetsBinding.instance.performReassemble();
                       },
                       value: describeEnum(currentLanguage).capitalizeFirst,
                       underline: const SizedBox.shrink(),
