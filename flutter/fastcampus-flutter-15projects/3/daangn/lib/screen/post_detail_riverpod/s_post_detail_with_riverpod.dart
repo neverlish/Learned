@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daangn_ui/widget/w_round_button.dart';
+import 'package:daangn_ui/widget/w_vertical_line.dart';
 import 'package:fast_app_base/common/common.dart';
-import 'package:fast_app_base/common/widget/w_round_button.dart';
 import 'package:fast_app_base/entity/post/vo_product_post.dart';
 import 'package:fast_app_base/entity/post/vo_simple_product_post.dart';
 import 'package:fast_app_base/entity/product/vo_product.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../common/widget/w_vertical_line.dart';
 import '../post_detail_stateful/w_post_content.dart';
 import '../post_detail_stateful/w_user_profile.dart';
 

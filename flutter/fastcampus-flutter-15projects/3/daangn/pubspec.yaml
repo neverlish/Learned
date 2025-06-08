@@ -63,6 +63,8 @@ dependencies:
   after_layout: ^1.2.0
   flutter_svg: ^2.0.3
   cached_network_image: ^3.2.3
+  daangn_ui:
+    path: packages/daangn_ui
 
   #ui - util
   keyboard_utils_fork: ^0.0.4
