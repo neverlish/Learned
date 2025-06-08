@@ -29,7 +29,7 @@ class _StockFragmentState extends State<StockFragment>
             ImageButton(
               imagePath: '$basePath/icon/stock_search.png',
               onTap: () {
-                Nav.push(const SearchStockScreen());
+                Nav.push(const StockSearchScreen());
               },
             ),
             ImageButton(
@@ -41,7 +41,7 @@ class _StockFragmentState extends State<StockFragment>
             ImageButton(
               imagePath: '$basePath/icon/stock_settings.png',
               onTap: () {
-                Nav.push(SettingScreen());
+                Nav.push(const SettingScreen());
               },
             ),
           ],
