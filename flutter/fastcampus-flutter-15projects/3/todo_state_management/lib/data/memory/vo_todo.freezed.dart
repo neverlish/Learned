@@ -21,8 +21,9 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Todo {
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_time')
+  set id(int value) => throw _privateConstructorUsedError;
   DateTime get createdTime => throw _privateConstructorUsedError;
+  set createdTime(DateTime value) => throw _privateConstructorUsedError;
   DateTime? get modifyTime => throw _privateConstructorUsedError;
   set modifyTime(DateTime? value) => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -44,7 +45,7 @@ abstract class $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      @JsonKey(name: 'created_time') DateTime createdTime,
+      DateTime createdTime,
       DateTime? modifyTime,
       String title,
       DateTime dueDate,
@@ -109,7 +110,7 @@ abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      @JsonKey(name: 'created_time') DateTime createdTime,
+      DateTime createdTime,
       DateTime? modifyTime,
       String title,
       DateTime dueDate,
@@ -167,7 +168,7 @@ class __$$TodoImplCopyWithImpl<$Res>
 class _$TodoImpl extends _Todo {
   _$TodoImpl(
       {required this.id,
-      @JsonKey(name: 'created_time') required this.createdTime,
+      required this.createdTime,
       this.modifyTime,
       required this.title,
       required this.dueDate,
@@ -178,10 +179,9 @@ class _$TodoImpl extends _Todo {
       _$$TodoImplFromJson(json);
 
   @override
-  final int id;
+  int id;
   @override
-  @JsonKey(name: 'created_time')
-  final DateTime createdTime;
+  DateTime createdTime;
   @override
   DateTime? modifyTime;
   @override
@@ -213,8 +213,8 @@ class _$TodoImpl extends _Todo {
 
 abstract class _Todo extends Todo {
   factory _Todo(
-      {required final int id,
-      @JsonKey(name: 'created_time') required final DateTime createdTime,
+      {required int id,
+      required DateTime createdTime,
       DateTime? modifyTime,
       required String title,
       required DateTime dueDate,
@@ -225,9 +225,10 @@ abstract class _Todo extends Todo {
 
   @override
   int get id;
+  set id(int value);
   @override
-  @JsonKey(name: 'created_time')
   DateTime get createdTime;
+  set createdTime(DateTime value);
   @override
   DateTime? get modifyTime;
   set modifyTime(DateTime? value);

@@ -7,12 +7,11 @@ part 'vo_todo.g.dart';
 
 @unfreezed
 class Todo with _$Todo {
-
-  Todo._();
+  Todo._(); //private 생성자가 있어야, 클래스 메서드 추가가 가능
 
   factory Todo({
-    required final int id,
-    @JsonKey(name: 'created_time') required final DateTime createdTime,
+    required int id,
+    required DateTime createdTime,
     DateTime? modifyTime,
     required String title,
     required DateTime dueDate,
@@ -21,6 +20,5 @@ class Todo with _$Todo {
 
   factory Todo.fromJson(Map<String, Object?> json) => _$TodoFromJson(json);
 
-  TodoDbModel get dbModel =>
-      TodoDbModel(id, createdTime, modifyTime, title, dueDate, status);
+  TodoDbModel get dbModel => TodoDbModel(id, createdTime, modifyTime, title, dueDate, status);
 }

@@ -1,9 +1,7 @@
-
-
 import 'package:easy_localization/easy_localization.dart';
 
 extension DateTimeExtension on DateTime {
-  String get formattedDate => DateFormat('yyyy년 MM월 dd일').format(this);
+  String get formattedDate => DateFormat('dd/MM/yyyy').format(this);
 
   String get formattedTime => DateFormat('HH:mm').format(this);
 
@@ -14,12 +12,11 @@ extension DateTimeExtension on DateTime {
     final isNegative = diffDays.isNegative;
 
     final checkCondition = (diffDays, isNegative);
-
     return switch (checkCondition) {
       (0, _) => _tillToday,
       (1, _) => _tillTomorrow,
       (_, true) => _dayPassed,
-      _ => _dayLeft,
+      _ => _dayLeft
     };
   }
 
@@ -27,13 +24,11 @@ extension DateTimeExtension on DateTime {
     return DateTime(year, month, day);
   }
 
-  String get _dayLeft => 'daysLeft'.tr(namedArgs: {
-        "daysCount": difference(DateTime.now().onlyDate).inDays.toString()
-      });
+  String get _dayLeft => 'daysLeft'
+      .tr(namedArgs: {"daysCount": difference(DateTime.now().onlyDate).inDays.toString()});
 
-  String get _dayPassed => 'daysPassed'.tr(namedArgs: {
-        "daysCount": difference(DateTime.now().onlyDate).inDays.abs().toString()
-      });
+  String get _dayPassed => 'daysPassed'
+      .tr(namedArgs: {"daysCount": difference(DateTime.now().onlyDate).inDays.abs().toString()});
 
   String get _tillToday => 'tillToday'.tr();
 

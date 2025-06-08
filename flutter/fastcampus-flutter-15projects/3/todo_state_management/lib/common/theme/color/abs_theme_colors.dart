@@ -10,6 +10,8 @@ abstract class AbstractThemeColors {
 
   Color get seedColor => const Color(0xff26ff8c);
 
+  Color get checkBoxColor => const Color(0xff108243);
+
   Color get veryBrightGrey => AppColors.brightGrey;
 
   Color get drawerBg => const Color.fromARGB(255, 255, 255, 255);
@@ -45,8 +47,6 @@ abstract class AbstractThemeColors {
   Color get snackbarBgColor => AppColors.mediumBlue;
 
   Color get blueButtonBackground => AppColors.darkBlue;
-
-  Color get checkBoxColor => const Color(0xff108243);
 
   Color get itemBackground => Colors.white;
 

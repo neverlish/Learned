@@ -477,14 +477,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  hooks_riverpod:
-    dependency: transitive
-    description:
-      name: hooks_riverpod
-      sha256: "70bba33cfc5670c84b796e6929c54b8bc5be7d0fe15bb28c2560500b9ad06966"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.6.1"
   html:
     dependency: transitive
     description:
@@ -677,14 +669,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0-nullsafety.1"
-  nav_hooks:
+  nav:
     dependency: "direct main"
     description:
-      name: nav_hooks
-      sha256: "255c9c53d925bade437401fc8833a17919f17691662f0fdcc3fcc27a2876c915"
+      name: nav
+      sha256: "8a03ee87cb24357307071d8a6183bfb59bc1489cec879bcf52184935041cb618"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.5"
+    version: "1.4.3"
   node_preamble:
     dependency: transitive
     description:

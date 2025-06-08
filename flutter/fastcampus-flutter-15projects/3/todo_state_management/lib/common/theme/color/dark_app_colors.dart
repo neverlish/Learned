@@ -5,7 +5,7 @@ class DarkAppColors extends AbstractThemeColors {
   const DarkAppColors();
 
   @override
-  Color get seedColor => AppColors.mediumBlue;
+  Color get seedColor => const Color(0xff316604);
 
   @override
   Color get activate => Colors.white;
@@ -39,6 +39,9 @@ class DarkAppColors extends AbstractThemeColors {
 
   @override
   Color get confirmText => AppColors.brightBlue;
+
+  @override
+  Color get itemBackground => const Color.fromARGB(255, 47, 47, 47);
 
   @override
   Color get blueButtonBackground => AppColors.blue;
