@@ -10,7 +10,7 @@ import 'package:fast_app_base/entity/product/product_status.dart';
 import 'package:fast_app_base/entity/user/vo_address.dart';
 import 'package:fast_app_base/screen/dialog/d_message.dart';
 import 'package:fast_app_base/screen/main/tab/home/provider/post_provider.dart';
-import 'package:fast_app_base/screen/post_detail/s_post_detail.dart';
+import 'package:fast_app_base/screen/post_detail_riverpod/s_post_detail_with_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -155,7 +155,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen>
                   ..add(simpleProductPost);
                 Nav.pop(context);
                 Nav.push(
-                  PostDetailScreen(
+                  PostDetailScreenWithRiverpod(
                     simpleProductPost.id,
                     simpleProductPost: simpleProductPost,
                   ),
