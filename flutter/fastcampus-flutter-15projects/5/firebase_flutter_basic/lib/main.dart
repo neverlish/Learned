@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -60,12 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             ElevatedButton(
-                onPressed: () async {
-                  final credential = await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: 'fc@gmail.com', password: '12345');
-                  print(credential);
-                },
+              onPressed: () async {
+                final credential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: 'fc@gmail.com', password: '12345');
+                print(credential);
+              },
               child: const Text('로그인'),
             ),
             const Divider(),
@@ -86,7 +87,35 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   }
                 },
-                child: const Text('파일업로드'))
+                child: const Text('파일업로드')),
+            const Divider(),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('counter')
+                    .doc('0bZsUVmcCZN2lUTP1IwO')
+                    .update({
+                  'value': 11,
+                  'timestamp': Timestamp.now(),
+                });
+                // await FirebaseFirestore.instance
+                //     .collection('test')
+                //     .doc('flutter')
+                //     .set({'value': 10, 'timestamp': Timestamp.now()});
+              },
+              child: const Text('데이터 쓰기'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final snapshot =
+                    await FirebaseFirestore.instance.collection('test').get();
+
+                for (var element in snapshot.docs) {
+                  print(element.data());
+                }
+              },
+              child: const Text('데이터 읽기'),
+            )
           ],
         ),
       ),
