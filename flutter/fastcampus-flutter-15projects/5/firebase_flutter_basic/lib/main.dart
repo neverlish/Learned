@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
@@ -62,7 +66,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           email: 'fc@gmail.com', password: '12345');
                   print(credential);
                 },
-                child: const Text('로그인'))
+              child: const Text('로그인'),
+            ),
+            const Divider(),
+            ElevatedButton(
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles();
+                  if (result != null) {
+                    File file = File(result.files.single.path ?? "");
+                    print(file.path);
+                    try {
+                      await FirebaseStorage.instance
+                          .ref(
+                              "image/${DateTime.now().millisecondsSinceEpoch}.jpg")
+                          .putFile(file);
+                    } on FirebaseException catch (e) {
+                      print(e.toString());
+                    }
+                  }
+                },
+                child: const Text('파일업로드'))
           ],
         ),
       ),
