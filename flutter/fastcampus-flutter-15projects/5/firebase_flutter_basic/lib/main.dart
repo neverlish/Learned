@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -115,7 +116,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
               child: const Text('데이터 읽기'),
-            )
+            ),
+            const Divider(),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseDatabase.instance.ref().push().set({'count': 10});
+              },
+              child: const Text('데이터 쓰기'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final data = await FirebaseDatabase.instance.ref().get();
+                print(data.value);
+              },
+              child: const Text('데이터 읽기'),
+            ),
           ],
         ),
       ),
