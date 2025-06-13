@@ -1,4 +1,4 @@
-import 'package:fastcampus_market/login/sign_up_screen.dart';
+import 'package:fastcampus_market/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SignUpScreen(),
+      home: const HomeScreen(),
     );
   }
 }
