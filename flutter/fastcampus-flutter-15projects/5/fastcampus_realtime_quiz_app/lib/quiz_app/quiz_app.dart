@@ -307,7 +307,24 @@ class _ProblemSolveWidgetState extends State<_ProblemSolveWidget> {
                         final item = widget.problems.options?[index];
                         return GestureDetector(
                           onTap: () async {
-                           
+                            final result = await widget.ref
+                                .child("solve/${widget.index}")
+                                .push()
+                                .set(
+                              {
+                                "name": widget.name,
+                                "uid": widget.uid,
+                                "answer": item,
+                                "correct": widget.problems.answerIndex == index
+                                    ? true
+                                    : false,
+                                "timestamp":
+                                    DateTime.now().millisecondsSinceEpoch,
+                              },
+                            );
+                            setState(() {
+                              isSubmit = true;
+                            });
                           },
                           child: Card(
                             child: Column(
@@ -347,7 +364,41 @@ class _ProblemSolveWidgetState extends State<_ProblemSolveWidget> {
                   children: [
                     const Text("곧 다음 퀴즈가 시작됩니다."),
                     Expanded(
-                        child: Container()),
+                        child: StreamBuilder(
+                      stream: widget.ref
+                          .child("solve/${widget.index - 1}")
+                          .orderByChild("timestamp")
+                          .onValue,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DatabaseEvent> snapshot) {
+                        if (snapshot.hasData) {
+                          final items =
+                              snapshot.data?.snapshot.children.toList() as List;
+                          return ListView.separated(
+                            itemBuilder: (context, index) {
+                              final snapshot = items[index] as DataSnapshot;
+                              final item = snapshot.value as Map;
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  child: Text("${index + 1} 위"),
+                                ),
+                                title: Text("${item["name"]}"),
+                                trailing: item["correct"]
+                                    ? const Icon(Icons.check_circle_outline,
+                                        color: Colors.green)
+                                    : const Icon(Icons.clear,
+                                        color: Colors.red),
+                                subtitle: Text(
+                                    "${DateTime.fromMillisecondsSinceEpoch(item["timestamp"])}"),
+                              );
+                            },
+                            separatorBuilder: (context, _) => const Divider(),
+                            itemCount: items.length,
+                          );
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    )),
                     Text(
                       "${readyTime * -1}",
                       style: Theme.of(context).textTheme.displayLarge,
