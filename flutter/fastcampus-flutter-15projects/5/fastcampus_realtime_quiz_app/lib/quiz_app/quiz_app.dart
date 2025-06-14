@@ -77,6 +77,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('참가자'),
                   Expanded(
@@ -113,7 +114,37 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   const Divider(),
                   const Text('퀴즈시작상태'),
-                  Expanded(child: Container()),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: quizStateRef?.child("state").onValue,
+                      builder:
+                          (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                        if (snapshot.hasData) {
+                          print(snapshot.data?.snapshot.value);
+                          final state = snapshot.data?.snapshot.value as bool;
+                          return Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  switch (state) {
+                                    true => "시작!",
+                                    false => "대기중"
+                                  },
+                                  style: const TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
