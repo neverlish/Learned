@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fastcampus_market/home/camera_example.dart';
 import 'package:fastcampus_market/model/category.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,14 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
       appBar: AppBar(
         title: const Text('상품 추가'),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CameraExamplePage(),
+              ));
+            },
+            icon: const Icon(Icons.camera),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.batch_prediction),
