@@ -33,6 +33,10 @@ class _QuizPageState extends State<QuizPage> {
   String quizStatePath = "quiz_state";
   String quizDetailPath = "quiz_detail";
 
+  bool isDone = false;
+  List<String> quizResult = [];
+
+
   fetchQuizInformations() {
     quizStateRef = database?.ref("$quizStatePath/${widget.quizRef}");
     final quizDetailRef = database?.ref("$quizDetailPath/${widget.quizRef}");
@@ -58,6 +62,44 @@ class _QuizPageState extends State<QuizPage> {
         "name": widget.name,
       });
     });
+  }
+
+  Future calcResult() async {
+    if (!isDone) {
+      isDone = true;
+      final result = await quizStateRef?.child("solve").once();
+      // 사용자 별칭 별 스코어 저장 맵
+      Map<String, double> countMap = {};
+
+      result?.snapshot.children.toList().forEach((element) {
+        final elements = element.children.toList();
+        elements.sort((a, b) {
+          final aa = a.value as Map;
+          final bb = b.value as Map;
+          final aTime = aa["timestamp"] as int;
+          final bTime = bb["timestamp"] as int;
+          return aTime.compareTo(bTime);
+        });
+
+        for (var i = (elements.length - 1); i >= 0; i--) {
+          final element2 = elements[i];
+          final elementMap = element2.value as Map;
+          double score = elementMap["correct"] ? (20 + i) / 1000 : 0;
+          if (countMap.containsKey("${elementMap["name"]}")) {
+            countMap["${elementMap["name"]}"] =
+                (countMap["${elementMap["name"]}"] ?? 0) + 1.00 + (score);
+          } else {
+            countMap["${elementMap["name"]}"] = 1.00 + (score);
+          }
+        }
+      });
+      var sortedKeys = countMap.keys.toList(growable: false)
+        ..sort((k1, k2) => countMap[k2]!.compareTo(countMap[k1]!));
+
+      setState(() {
+        quizResult = sortedKeys;
+      });
+    }
   }
 
   @override
@@ -187,7 +229,39 @@ class _QuizPageState extends State<QuizPage> {
                           name: widget.name,
                         ),
                       );
-                    } else {}
+                    } else {
+                      calcResult();
+                      return Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "퀴즈 종료",
+                            ),
+                            const Divider(),
+                            const Text("순위"),
+                            Expanded(
+                              child: ListView.separated(
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      child: Text("${index + 1}위"),
+                                    ),
+                                    title: Text(quizResult[index]),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                                itemCount: quizResult.length,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                   }
                 }
 
