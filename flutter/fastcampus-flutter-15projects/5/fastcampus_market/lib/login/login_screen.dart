@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,6 +13,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
+
+  Future<UserCredential?> login(String email, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print(e.toString());
+      } else if (e.code == 'wrong-password') {
+        print(e.toString());
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +89,26 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      final result = await login(
+                        emailTextController.text.trim(),
+                        passwordTextController.text.trim(),
+                      );
+                      if (result == null) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('로그인 실패')),
+                          );
+                        }
+                        return;
+                      }
+                      if (context.mounted) {
+                        context.go('/');
+                      }
+                    }
+                  },
                   height: 48,
                   minWidth: double.infinity,
                   color: Colors.red,
