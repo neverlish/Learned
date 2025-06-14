@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 List<CameraDescription> cameras = [];
+UserCredential? userCredential;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

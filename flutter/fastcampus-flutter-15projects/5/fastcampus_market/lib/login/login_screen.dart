@@ -1,3 +1,4 @@
+import 'package:fastcampus_market/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      userCredential = credential;
       return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -40,7 +42,9 @@ class _LoginScreenState extends State<LoginScreen> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    final cred = await FirebaseAuth.instance.signInWithCredential(credential);
+    userCredential = cred;
+    return cred;
   }
 
   @override

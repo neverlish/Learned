@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fastcampus_market/main.dart';
 import 'package:fastcampus_market/model/product.dart';
 import 'package:flutter/material.dart';
 
@@ -191,6 +193,43 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
           GestureDetector(
+            onTap: () async {
+              final db = FirebaseFirestore.instance;
+              final dupItems = await db
+                  .collection('cart')
+                  .where('uid', isEqualTo: userCredential?.user?.uid ?? "")
+                  .where('product.docId', isEqualTo: widget.product.docId)
+                  .get();
+
+              if (dupItems.docs.isNotEmpty) {
+                if (context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const AlertDialog(
+                      content: Text('장바구니에 이미 등록되어 있는 제품입니다.'),
+                    ),
+                  );
+                }
+                return;
+              }
+
+              await db.collection('cart').add({
+                'uid': userCredential?.user?.uid ?? "",
+                "email": userCredential?.user?.email ?? "",
+                "timestamp": DateTime.now().millisecondsSinceEpoch,
+                'product': widget.product.toJson(),
+                "count": 1,
+              });
+
+              if (context.mounted) {
+                showDialog(
+                  context: context,
+                  builder: (context) => const AlertDialog(
+                    content: Text('장바구니 등록 완료.'),
+                  ),
+                );
+              }
+            },
             child: Container(
               height: 72,
               decoration: BoxDecoration(
