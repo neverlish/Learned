@@ -1,4 +1,10 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fastcampus_market/model/category.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductAddScreen extends StatefulWidget {
   const ProductAddScreen({super.key});
@@ -12,16 +18,20 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
 
   bool isSale = false;
 
+  final db = FirebaseFirestore.instance;
+  final storage = FirebaseStorage.instance;
+
+  Uint8List? imageData;
+  XFile? image;
+
+  Category? selectedCategory;
+
   TextEditingController titleTEC = TextEditingController();
   TextEditingController descriptionTEC = TextEditingController();
   TextEditingController priceTEC = TextEditingController();
   TextEditingController stockTEC = TextEditingController();
   TextEditingController salePercentTEC = TextEditingController();
 
-  @override
-  void dispose() {
-    titleTEC.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +55,39 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 240,
-                  width: 240,
+              GestureDetector(
+                onTap: () async {
+                  final ImagePicker picker = ImagePicker();
+                  image = await picker.pickImage(source: ImageSource.gallery);
+                  print("${image?.name} ${image?.path}");
+
+                  imageData = await image?.readAsBytes();
+
+                  setState(() {});
+                },
+                child: Align(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(
-                        color: Colors.grey,
-                      )),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add),
-                      Text('제품(상품) 이미지 추가'),
-                    ],
+                  child: Container(
+                    height: 240,
+                    width: 240,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(
+                          color: Colors.grey,
+                        )),
+                    child: imageData == null
+                        ? const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add),
+                              Text('제품(상품) 이미지 추가'),
+                            ],
+                          )
+                        : Image.memory(
+                            imageData!,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),
