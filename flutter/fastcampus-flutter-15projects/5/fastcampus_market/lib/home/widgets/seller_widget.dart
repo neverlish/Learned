@@ -58,6 +58,32 @@ class _SellerWidgetState extends State<SellerWidget> {
         );
   }
 
+  delete(Product? item) async {
+    final db = FirebaseFirestore.instance;
+    await db.collection('product').doc(item?.docId).delete();
+
+    final productCategory = await db
+        .collection('product')
+        .doc(item?.docId)
+        .collection('category')
+        .get();
+
+    final foo = productCategory.docs.first;
+
+    final categoryId = foo.data()['docId'];
+
+    final bar = await db
+        .collection('category')
+        .doc(categoryId)
+        .collection('product')
+        .where('docId', isEqualTo: item?.docId)
+        .get();
+
+    for (var element in bar.docs) {
+      await element.reference.delete();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -206,13 +232,7 @@ class _SellerWidgetState extends State<SellerWidget> {
                                                 ),
                                                 PopupMenuItem(
                                                   child: const Text('삭제'),
-                                                  onTap: () async {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('product')
-                                                        .doc(item?.docId)
-                                                        .delete();
-                                                  },
+                                                  onTap: () => delete(item),
                                                 ),
                                               ],
                                             )
