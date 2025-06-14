@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fastcampus_realtime_quiz_app/main.dart';
+import 'package:fastcampus_realtime_quiz_app/quiz_app/quiz_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -123,7 +124,18 @@ class _PinCodePageState extends State<PinCodePage> {
                   final result = await findPinCode(pinCode);
                   if (result) {
                     print("코드가 존재함");
-                    if (context.mounted) {}
+                    if (context.mounted) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => QuizPage(
+                            quizRef: codeItems.first,
+                            code: pinCode,
+                            name: nicknameTextEditingController.text.trim(),
+                            uid: uid ?? "Unknown User",
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
