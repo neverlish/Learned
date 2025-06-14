@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fastcampus_market/model/product.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -9,6 +11,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamCartItems() {
+    return FirebaseFirestore.instance
+        .collection('cart')
+        .where('uid', isEqualTo: widget.uid)
+        .orderBy('timestamp')
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,63 +28,111 @@ class _CartScreenState extends State<CartScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text('플러터 플러터'),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.delete),
-                                  )
-                                ],
+            child: StreamBuilder(
+              stream: streamCartItems(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Cart> items = snapshot.data?.docs.map((e) {
+                        final foo = Cart.fromJson(e.data());
+                        return foo.copyWith(cartDocId: e.id);
+                      }).toList() ??
+                      [];
+                  return ListView.separated(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      num price = (item.product!.isSale ?? false)
+                          ? ((item.product!.price! *
+                                  (item.product!.saleRate! / 100)) *
+                              (item.count ?? 1))
+                          : (item.product!.price! * (item.count ?? 1));
+
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image:
+                                      NetworkImage(item.product!.imgUrl ?? ""),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              const Text('100000원'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon:
-                                        const Icon(Icons.remove_circle_outline),
-                                  ),
-                                  const Text('12'),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add_circle_outline),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(item.product?.title ?? ""),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.delete),
+                                        )
+                                      ],
+                                    ),
+                                    Text("${price.toStringAsFixed(0)}원"),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            int count = item.count ?? 1;
+                                            count--;
+                                            if (count <= 1) {
+                                              count = 1;
+                                            }
+                                            FirebaseFirestore.instance
+                                                .collection('cart')
+                                                .doc("${item.cartDocId}")
+                                                .update({'count': count});
+                                          },
+                                          icon: const Icon(
+                                              Icons.remove_circle_outline),
+                                        ),
+                                        Text("${item.count ?? 1}"),
+                                        IconButton(
+                                          onPressed: () {
+                                            int count = item.count ?? 1;
+                                            count++;
+                                            if (count >= 99) {
+                                              count = 99;
+                                            }
+                                            FirebaseFirestore.instance
+                                                .collection('cart')
+                                                .doc("${item.cartDocId}")
+                                                .update({'count': count});
+                                          },
+                                          icon: const Icon(
+                                              Icons.add_circle_outline),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      );
+                    },
+                    separatorBuilder: (context, _) => const Divider(),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               },
-              separatorBuilder: (context, _) => const Divider(),
-              itemCount: 10,
             ),
           ),
           const Divider(),
