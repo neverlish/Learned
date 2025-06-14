@@ -1,3 +1,4 @@
+import 'package:fastcampus_market/home/cart_screen.dart';
 import 'package:fastcampus_market/home/widgets/home_widget.dart';
 import 'package:fastcampus_market/home/widgets/seller_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: switch (_menuIndex) {
         0 => FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CartScreen(),
+              ));
+            },
             child: const Icon(Icons.shopping_cart_outlined),
           ),
         1 => FloatingActionButton(
