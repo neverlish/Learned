@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:fastcampus_realtime_quiz_app/main.dart';
@@ -16,6 +17,8 @@ class QuizManagerPage extends StatefulWidget {
 class _QuizManagerPageState extends State<QuizManagerPage> {
   String? uid;
   List<QuizManager> quizItems = [];
+
+  List<Quiz> quizList = [];
 
   signInAnonymously() {
     FirebaseAuth.instance.signInAnonymously().then((value) => {
@@ -69,10 +72,28 @@ class _QuizManagerPageState extends State<QuizManagerPage> {
     });
   }
 
+  streamQuizzes() {
+    database?.ref("quiz").onValue.listen((event) {
+      final data = event.snapshot.children;
+      quizList.clear();
+      for (var element in data) {
+        quizList.add(
+          Quiz.fromJson(
+            jsonDecode(
+              jsonEncode(element.value),
+            ),
+          ),
+        );
+      }
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     signInAnonymously();
+    streamQuizzes();
   }
 
   @override
@@ -137,7 +158,18 @@ class _QuizManagerPageState extends State<QuizManagerPage> {
                       ),
                     ],
                   ),
-                  Container(),
+                  ListView.builder(
+                      itemCount: quizList.length,
+                      itemBuilder: (context, index) {
+                        final item = quizList[index];
+                        return ListTile(
+                          title: Text("code: ${item.code}"),
+                          subtitle: Text("${item.quizDetailRef}"),
+                          onTap: () {
+                            //
+                          },
+                        );
+                      }),
                 ],
               ),
             ),
