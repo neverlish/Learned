@@ -1,7 +1,9 @@
+import 'package:fastcampus_market/model/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+  final Product product;
+  const ProductDetailScreen({super.key, required this.product});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -12,7 +14,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('패캠 상품 상세'),
+        title: Text("${widget.product.title}"),
       ),
       body: Column(
         children: [
@@ -24,14 +26,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Container(
                     height: 320,
                     padding: const EdgeInsets.all(16),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.orange,
+                      image: DecorationImage(
+                        image: NetworkImage(widget.product.imgUrl ?? ""),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          switch (widget.product.isSale) {
+                            true => Container(
                             decoration: const BoxDecoration(
                               color: Colors.red,
                             ),
@@ -46,7 +53,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 color: Colors.white,
                               ),
                             ),
-                          )
+                              ),
+                            _ => Container(),
+                          }
                         ],
                       ),
                     ),
@@ -59,9 +68,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              '패캠 플러터',
-                              style: TextStyle(
+                            Text(
+                              widget.product.title ?? '패캠 플러터',
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
                               ),
@@ -130,22 +139,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                         const Text('제품 상세 정보'),
-                        const Text('상세상세'),
-                        const Row(
+                        Text("${widget.product.description}"),
+                        Row(
                           children: [
                             Text(
-                              '100000원',
-                              style: TextStyle(
+                              "${widget.product.price ?? "100000"} 원",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.star,
                               color: Colors.orange,
                             ),
-                            Text('4.5'),
+                            const Text('4.5'),
                           ],
                         )
                       ],

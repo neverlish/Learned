@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:fastcampus_market/home/product_detail_scren.dart';
 import 'package:fastcampus_market/model/category.dart';
 import 'package:fastcampus_market/model/product.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -188,10 +188,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                               final item = items[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProductDetailScreen(),
-                                  ));
+                                  context.go('/product', extra: item);
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

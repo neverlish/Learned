@@ -7,6 +7,7 @@ import 'package:fastcampus_market/home/product_add_screen.dart';
 import 'package:fastcampus_market/home/product_detail_screen.dart';
 import 'package:fastcampus_market/login/login_screen.dart';
 import 'package:fastcampus_market/login/sign_up_screen.dart';
+import 'package:fastcampus_market/model/product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -54,7 +55,9 @@ class FastcampusMarketApp extends StatelessWidget {
           ),
           GoRoute(
             path: 'product',
-            builder: (context, state) => const ProductDetailScreen(),
+            builder: (context, state) => ProductDetailScreen(
+              product: state.extra as Product,
+            ),
           ),
           GoRoute(
             path: 'product/add',
