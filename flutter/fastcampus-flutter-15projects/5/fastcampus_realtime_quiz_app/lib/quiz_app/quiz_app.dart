@@ -148,7 +148,46 @@ class _QuizPageState extends State<QuizPage> {
                 ],
               ),
             ),
+          ),
+          Positioned.fill(
+            child: StreamBuilder(
+              stream: quizStateRef?.onValue,
+              builder: (BuildContext context,
+                  AsyncSnapshot<DatabaseEvent> snapshot) {
+                if (snapshot.hasData) {
+                  int currentIndex = 0;
+                  Map snapshotData = snapshot.data?.snapshot.value as Map;
+                  final state = snapshotData["state"] as bool;
+                  if (snapshotData.containsKey("current")) {
+                    currentIndex = snapshotData["current"] as int;
+                  }
+                  problemTriggers.clear();
+                  if (snapshotData.containsKey("triggers")) {
+                    for (var element in snapshotData["triggers"]) {
+                      final trigger = element as Map;
+                      problemTriggers.add({
+                        "start": trigger["start"],
+                        "end": trigger["end"],
+                      });
+                    }
+                  }
+                  if (state) {
+                    if (currentIndex < problemsSets.length) {
+                      return Container(
+                        color: Colors.white,
+                        child: Container(),
+                      );
+                    } else {}
+                  }
+                }
+
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           )
+          
         ],
       ),
     );
