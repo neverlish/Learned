@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fastcampus_market/home/camera_example.dart';
 import 'package:fastcampus_market/model/category.dart';
+import 'package:fastcampus_market/model/product.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductAddScreen extends StatefulWidget {
@@ -33,6 +35,97 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
   TextEditingController stockTEC = TextEditingController();
   TextEditingController salePercentTEC = TextEditingController();
 
+  List<Category> categoryItems = [];
+
+  Future<List<Category>> _fetchCategories() async {
+    final resp = await db.collection('category').get();
+    for (var doc in resp.docs) {
+      categoryItems.add(Category(
+        docId: doc.id,
+        title: doc.data()['title'],
+      ));
+    }
+    setState(() {
+      selectedCategory = categoryItems.first;
+    });
+    return categoryItems;
+  }
+
+  Future<Uint8List> imageCompress(Uint8List list) async {
+    var result = await FlutterImageCompress.compressWithList(list, quality: 50);
+    return result;
+  }
+
+  Future addProduct() async {
+    if (imageData != null) {
+      final storageRef = storage.ref().child(
+          "${DateTime.now().millisecondsSinceEpoch}_${image?.name ?? "??"}.jpg");
+      final compressedData = await imageCompress(imageData!);
+      await storageRef.putData(compressedData);
+
+      final downloadLink = await storageRef.getDownloadURL();
+
+      final sampleData = Product(
+        title: titleTEC.text,
+        description: descriptionTEC.text,
+        price: int.parse(priceTEC.text),
+        stock: int.parse(stockTEC.text),
+        isSale: isSale,
+        saleRate: salePercentTEC.text.isNotEmpty
+            ? double.parse(salePercentTEC.text)
+            : 0,
+        imgUrl: downloadLink,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+      );
+
+      final doc = await db.collection('product').add(sampleData.toJson());
+
+      await doc.collection('category').add(selectedCategory?.toJson() ?? {});
+
+      final categoRef = db.collection('category').doc(selectedCategory?.docId);
+      await categoRef.collection('product').add({"docId": doc.id});
+    }
+  }
+
+  Future addProducts() async {
+    if (imageData != null) {
+      final storageRef = storage.ref().child(
+          "${DateTime.now().millisecondsSinceEpoch}_${image?.name ?? "??"}.jpg");
+      final compressedData = await imageCompress(imageData!);
+      await storageRef.putData(compressedData);
+
+      final downloadLink = await storageRef.getDownloadURL();
+
+      for (var i = 0; i < 10; i++) {
+        final sampleData = Product(
+          title: "${titleTEC.text}$i",
+          description: descriptionTEC.text,
+          price: int.parse(priceTEC.text),
+          stock: int.parse(stockTEC.text),
+          isSale: isSale,
+          saleRate: salePercentTEC.text.isNotEmpty
+              ? double.parse(salePercentTEC.text)
+              : 0,
+          imgUrl: downloadLink,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+        );
+
+        final doc = await db.collection('product').add(sampleData.toJson());
+
+        await doc.collection('category').add(selectedCategory?.toJson() ?? {});
+
+        final categoRef =
+            db.collection('category').doc(selectedCategory?.docId);
+        await categoRef.collection('product').add({"docId": doc.id});
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +142,15 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
             icon: const Icon(Icons.camera),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              addProducts();
+            },
             icon: const Icon(Icons.batch_prediction),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              addProduct();
+            },
             icon: const Icon(Icons.add),
           ),
         ],
@@ -205,11 +302,27 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    DropdownButton(
-                      isExpanded: true,
-                      items: const [],
-                      onChanged: (s) {},
-                    )
+                    categoryItems.isNotEmpty
+                        ? DropdownButton(
+                            isExpanded: true,
+                            value: selectedCategory,
+                            items: categoryItems
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text("${e.title}"),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (s) {
+                              setState(() {
+                                selectedCategory = s;
+                              });
+                            },
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          )
                   ],
                 ),
               )
