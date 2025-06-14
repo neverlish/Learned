@@ -1,4 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:fastcampus_market/home/product_detail_scren.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -106,6 +107,25 @@ class _HomeWidgetState extends State<HomeWidget> {
                 Container(
                   height: 240,
                   color: Colors.orange,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ProductDetailScreen(),
+                          ));
+                        },
+                        child: Container(
+                          width: 160,
+                          margin: const EdgeInsets.only(right: 16),
+                          decoration: const BoxDecoration(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),
