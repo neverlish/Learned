@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_chatgpt_app/key.dart';
+import 'package:flutter_chatgpt_app/model/open_ai_model.dart';
+import 'package:http/http.dart' as http;
+
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +37,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   TextEditingController messageTextController = TextEditingController();
+  final List<Messages> _historyList = List.empty(growable: true);
+
+  String streamText = "";
 
   static const String _kStrings = "Fastcampus Flutter ChatGPT";
   String get _currentString => _kStrings;
@@ -70,6 +79,29 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
 
     animationController.forward();
+  }
+
+  Future requestChat(String text) async {
+    ChatCompletionModel openAiModel = ChatCompletionModel(
+      model: "gpt-3.5-turbo",
+      messages: [
+        Messages(
+          role: "system",
+          content: "You are a helpful assistant.",
+        ),
+        ..._historyList,
+      ],
+      stream: false,
+    );
+    final url = Uri.https("api.openai.com", "/v1/chat/completions");
+    final resp = await http.post(url,
+        headers: {
+          "Authorization": "Bearer $apiKey",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(openAiModel.toJson()));
+    print(resp.body);
+    if (resp.statusCode == 200) {}
   }
 
   @override
@@ -234,7 +266,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ),
                     IconButton(
                       iconSize: 42,
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (messageTextController.text.isEmpty) {
+                          return;
+                        }
+                        try {
+                          await requestChat(messageTextController.text.trim());
+                          messageTextController.clear();
+                          streamText = "";
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                      },
                       icon: const Icon(Icons.arrow_circle_up),
                     ),
                   ],
