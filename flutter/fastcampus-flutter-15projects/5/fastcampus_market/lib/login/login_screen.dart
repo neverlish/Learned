@@ -1,6 +1,7 @@
-import 'package:fastcampus_market/main.dart';
+import 'package:fastcampus_market/login/provider/login_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -20,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      userCredential = credential;
+
       return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -43,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth?.idToken,
     );
     final cred = await FirebaseAuth.instance.signInWithCredential(credential);
-    userCredential = cred;
     return cred;
   }
 
@@ -104,37 +104,42 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: MaterialButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      final result = await login(
-                        emailTextController.text.trim(),
-                        passwordTextController.text.trim(),
-                      );
-                      if (result == null) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('로그인 실패')),
-                          );
+                child: Consumer(builder: (context, ref, child) {
+                  return MaterialButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        final result = await login(
+                          emailTextController.text.trim(),
+                          passwordTextController.text.trim(),
+                        );
+                        if (result == null) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('로그인 실패')),
+                            );
+                          }
+                          return;
                         }
-                        return;
+                        ref.read(userCredentialProvider.notifier).state =
+                            result;
+                        if (context.mounted) {
+                          context.go('/');
+                        }
                       }
-                      if (context.mounted) {
-                        context.go('/');
-                      }
-                    }
-                  },
-                  height: 48,
-                  minWidth: double.infinity,
-                  color: Colors.red,
-                  child: const Text(
-                    '로그인',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                    },
+                    height: 48,
+                    minWidth: double.infinity,
+                    color: Colors.red,
+                    child: const Text(
+                      '로그인',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
+                  );
+                }
                 ),
               ),
               TextButton(
