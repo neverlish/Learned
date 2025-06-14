@@ -138,23 +138,51 @@ class _CartScreenState extends State<CartScreen> {
           const Divider(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   '합계',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                Text(
-                  '100000원',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
+                StreamBuilder(
+                  stream: streamCartItems(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<Cart> item = snapshot.data?.docs.map((e) {
+                            final foo = Cart.fromJson(e.data());
+                            return foo.copyWith(cartDocId: e.id);
+                          }).toList() ??
+                          [];
+
+                      double totalPrice = 0;
+
+                      for (var element in item) {
+                        if (element.product!.isSale ?? false) {
+                          totalPrice += (element.product!.price! *
+                              (element.product!.saleRate! / 100) *
+                              (element.count ?? 1));
+                        } else {
+                          totalPrice +=
+                              (element.product!.price! * (element.count ?? 1));
+                        }
+                      }
+                      return Text(
+                        '${totalPrice.toStringAsFixed(0)}원',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                )
               ],
             ),
           ),
