@@ -47,3 +47,6 @@ firebase_options.dart
 
 google-services.json
 GoogleService-Info.plist
+
+database.rules.json
+.firebaserc
