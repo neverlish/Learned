@@ -1,4 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+Future<void> addCategories(String title) async {
+  final db = FirebaseFirestore.instance;
+  final ref = db.collection('category');
+  await ref.add({
+    'title': title,
+  });
+}
 
 class SellerWidget extends StatefulWidget {
   const SellerWidget({super.key});
@@ -21,11 +30,54 @@ class _SellerWidgetState extends State<SellerWidget> {
           ButtonBar(
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  List<String> categories = [
+                    '정육',
+                    '과일',
+                    '과자',
+                    '아이스크림',
+                    '유제품',
+                    '라면',
+                    '생수',
+                    '빵/쿠키',
+                  ];
+
+                  final ref = FirebaseFirestore.instance.collection('category');
+                  final tmp = await ref.get();
+
+                  for (var element in tmp.docs) {
+                    await element.reference.delete();
+                  }
+
+                  for (var element in categories) {
+                    await ref.add({"title": element});
+                  }
+                },
                 child: const Text('카테고리 일괄등록'),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  TextEditingController tec = TextEditingController();
+                  showAdaptiveDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      content: TextField(
+                        controller: tec,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            if (tec.text.isNotEmpty) {
+                              await addCategories(tec.text.trim());
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: const Text('등록'),
+                        )
+                      ],
+                    ),
+                  );
+                },
                 child: const Text('카테고리 등록'),
               ),
             ],

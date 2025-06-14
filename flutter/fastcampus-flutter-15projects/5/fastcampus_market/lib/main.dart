@@ -6,6 +6,7 @@ import 'package:fastcampus_market/home/product_add_screen.dart';
 import 'package:fastcampus_market/home/product_detail_screen.dart';
 import 'package:fastcampus_market/login/login_screen.dart';
 import 'package:fastcampus_market/login/sign_up_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +20,7 @@ void main() async {
   );
   if (kDebugMode) {
     try {
-      // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
       FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
       FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
     } catch (e) {
