@@ -84,7 +84,7 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
     // imageLabeler = ImageLabeler(
     //   options: ImageLabelerOptions(),
     // );
-    const path = "assets/lite-model_models_mushroom-identification_v1.tflite";
+    const path = "assets/lite-model_imagenet_mobilenet_v3_smal.tflite";
     final modelPath = await getAssetPath(path);
     final options = LocalLabelerOptions(modelPath: modelPath);
     imageLabeler = ImageLabeler(options: options);
