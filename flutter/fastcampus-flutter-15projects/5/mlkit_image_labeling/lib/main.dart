@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:part5_mlkit_image_labaling_start/camera_view_page.dart';
 import 'package:part5_mlkit_image_labaling_start/object_detector_painter.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -100,12 +99,21 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
     objectDetector?.close();
     objectDetector = null;
 
-    final options = ObjectDetectorOptions(
+    // final options = ObjectDetectorOptions(
+    //   mode: DetectionMode.stream,
+    //   classifyObjects: true,
+    //   multipleObjects: true,
+    // );
+
+    // objectDetector = ObjectDetector(options: options);
+    final path = "assets/lite-model_imagenet_mobilenet_v3_smal.tflite";
+    final modelPath = await getAssetPath(path);
+    final options = LocalObjectDetectorOptions(
       mode: DetectionMode.stream,
+      modelPath: modelPath,
       classifyObjects: true,
       multipleObjects: true,
     );
-
     objectDetector = ObjectDetector(options: options);
   }
 
@@ -121,42 +129,42 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
           ),
         ],
       ),
-        body: CameraView(
-          customPaint: _customPaint,
-          onImage: _processImage,
-        )
-        // body: ListView(
-        //   shrinkWrap: true,
-        //   children: [
-        //     _image != null
-        //         ? SizedBox(
-        //             height: 400,
-        //             width: 400,
-        //             child: Image.file(_image!),
-        //           )
-        //         : Center(
-        //             child: Container(
-        //               height: 200,
-        //               width: 200,
-        //               margin: EdgeInsets.all(32),
-        //               decoration: BoxDecoration(border: Border.all()),
-        //               child: Center(
-        //                 child: Text('이미지를 불러와주세요'),
-        //               ),
-        //             ),
-        //           ),
-        //     Padding(
-        //       padding: const EdgeInsets.all(16),
-        //       child: ElevatedButton(
-        //         onPressed: () {
-        //           _getImage(ImageSource.gallery);
-        //         },
-        //         child: Text('갤러리 이미지 가져오기'),
-        //       ),
-        //     ),
-        //     if (_image != null) Text(_text ?? ""),
-        //   ],
-        // ),
+      // body: CameraView(
+      //   customPaint: _customPaint,
+      //   onImage: _processImage,
+      // )
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          _image != null
+              ? SizedBox(
+                  height: 400,
+                  width: 400,
+                  child: Image.file(_image!),
+                )
+              : Center(
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    margin: EdgeInsets.all(32),
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: Center(
+                      child: Text('이미지를 불러와주세요'),
+                    ),
+                  ),
+                ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: () {
+                _getImage(ImageSource.gallery);
+              },
+              child: Text('갤러리 이미지 가져오기'),
+            ),
+          ),
+          if (_image != null) Text(_text ?? ""),
+        ],
+      ),
     );
   }
 
