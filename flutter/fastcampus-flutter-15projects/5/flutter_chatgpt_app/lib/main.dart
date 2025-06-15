@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chatgpt_app/key.dart';
 import 'package:flutter_chatgpt_app/model/open_ai_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:rxdart/rxdart.dart';
 
 
 void main() {
@@ -123,6 +124,75 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
+  Stream requestChatStream(String text) async* {
+    ChatCompletionModel openAiModel = ChatCompletionModel(
+        model: "gpt-3.5-turbo",
+        messages: [
+          Messages(
+            role: "system",
+            content: "You are a helpful assistant.",
+          ),
+          ..._historyList,
+        ],
+        stream: true);
+
+    final url = Uri.https("api.openai.com", "/v1/chat/completions");
+    final request = http.Request("POST", url)
+      ..headers.addAll(
+        {
+          "Authorization": "Bearer $apiKey",
+          "Content-Type": 'application/json; charset=UTF-8',
+          "Connection": "keep-alive",
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br",
+        },
+      );
+    request.body = jsonEncode(openAiModel.toJson());
+
+    final resp = await http.Client().send(request);
+
+    final byteStream = resp.stream.asyncExpand(
+      (event) => Rx.timer(
+        event,
+        const Duration(milliseconds: 50),
+      ),
+    );
+    final statusCode = resp.statusCode;
+
+    var respText = "";
+
+    await for (final byte in byteStream) {
+      try {
+        var decoded = utf8.decode(byte, allowMalformed: false);
+        if (decoded.contains('"content":')) {
+          final strings = decoded.split("data: ");
+          for (final string in strings) {
+            final trimmedString = string.trim();
+            if (trimmedString.isNotEmpty && !trimmedString.endsWith("[DONE]")) {
+              final map = jsonDecode(trimmedString) as Map;
+              final choices = map["choices"] as List;
+              final delta = choices[0]["delta"] as Map;
+              if (delta["content"] != null) {
+                final content = delta["content"] as String;
+                respText += content;
+                setState(() {
+                  streamText = respText;
+                });
+                yield content;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+
+    if (respText.isNotEmpty) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -225,56 +295,55 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         )
                       : GestureDetector(
                           onTap: () => FocusScope.of(context).unfocus(),
-                          child: Container(
-                            child: ListView.builder(
-                              itemCount: _historyList.length,
-                              itemBuilder: (context, index) {
-                                if (_historyList[index].role == "user") {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    child: Row(
+                          child: ListView.builder(
+                            controller: scrollController,
+                            itemCount: _historyList.length,
+                            itemBuilder: (context, index) {
+                              if (_historyList[index].role == "user") {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text('User'),
+                                            Text(_historyList[index].content),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const CircleAvatar(
+                                    backgroundColor: Colors.teal,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const CircleAvatar(),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text('User'),
-                                              Text(_historyList[index].content),
-                                            ],
-                                          ),
-                                        )
+                                        const Text('ChatGPT'),
+                                        Text(_historyList[index].content),
                                       ],
                                     ),
-                                  );
-                                }
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.teal,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text('ChatGPT'),
-                                          Text(_historyList[index].content),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
-                ),                
+                ),
               ),
               Dismissible(
                 key: const Key('chat-bar'),
@@ -332,7 +401,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ));
                         });
                         try {
-                          await requestChat(messageTextController.text.trim());
+                          var text = "";
+                          final stream = requestChatStream(
+                              messageTextController.text.trim());
+                          await for (final textChunk in stream) {
+                            text += textChunk;
+                            setState(() {
+                              _historyList.last =
+                                  _historyList.last.copyWith(content: text);
+                              _scrollDown();
+                            });
+                          }
+                          // await requestChat(messageTextController.text.trim());
                           messageTextController.clear();
                           streamText = "";
                         } catch (e) {
