@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:part5_mlkit_image_labaling_start/camera_view_page.dart';
+import 'package:part5_mlkit_image_labaling_start/label_detector_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,10 +43,12 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
   CustomPaint? _customPaint;
   String? _text;
   
+  late ImageLabeler imageLabeler;
 
   @override
   void initState() {
     super.initState();
+    _initializeLabeler();
   }
 
   @override
@@ -61,7 +64,11 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
     return null;
   }
 
-  void _initializeLabeler() async {}
+  void _initializeLabeler() async {
+    imageLabeler = ImageLabeler(
+      options: ImageLabelerOptions(),
+    );
+  }
 
   void _initializeDetector() async {}
 
@@ -77,38 +84,42 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
           ),
         ],
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          _image != null
-              ? SizedBox(
-                  height: 400,
-                  width: 400,
-                  child: Image.file(_image!),
-                )
-              : Center(
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    margin: EdgeInsets.all(32),
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Center(
-                      child: Text('이미지를 불러와주세요'),
-                    ),
-                  ),
-                ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {
-                _getImage(ImageSource.gallery);
-              },
-              child: Text('갤러리 이미지 가져오기'),
-            ),
-          ),
-          if (_image != null) Text(_text ?? ""),
-        ],
-      ),
+        body: CameraView(
+          customPaint: _customPaint,
+          onImage: _processImage,
+        )
+        // body: ListView(
+        //   shrinkWrap: true,
+        //   children: [
+        //     _image != null
+        //         ? SizedBox(
+        //             height: 400,
+        //             width: 400,
+        //             child: Image.file(_image!),
+        //           )
+        //         : Center(
+        //             child: Container(
+        //               height: 200,
+        //               width: 200,
+        //               margin: EdgeInsets.all(32),
+        //               decoration: BoxDecoration(border: Border.all()),
+        //               child: Center(
+        //                 child: Text('이미지를 불러와주세요'),
+        //               ),
+        //             ),
+        //           ),
+        //     Padding(
+        //       padding: const EdgeInsets.all(16),
+        //       child: ElevatedButton(
+        //         onPressed: () {
+        //           _getImage(ImageSource.gallery);
+        //         },
+        //         child: Text('갤러리 이미지 가져오기'),
+        //       ),
+        //     ),
+        //     if (_image != null) Text(_text ?? ""),
+        //   ],
+        // ),
     );
   }
 
@@ -132,5 +143,27 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
     _processImage(inputImage);
   }
 
-  Future<void> _processImage(InputImage inputImage) async {}
+  Future<void> _processImage(InputImage inputImage) async {
+    setState(() {
+      _text = '';
+    });
+
+    final labels = await imageLabeler.processImage(inputImage);
+
+    if (inputImage.metadata?.size != null &&
+        inputImage.metadata?.rotation != null) {
+      final painter = LabelDetectorPainter(labels);
+      _customPaint = CustomPaint(
+        painter: painter,
+      );
+    } else {
+      String text = 'Label: ${labels.length}\n\n';
+      for (var label in labels) {
+        text += 'Label: ${label.label} | Confidence: ${label.confidence}\n';
+      }
+      setState(() {
+        _text = text;
+      });
+    }
+  }
 }
