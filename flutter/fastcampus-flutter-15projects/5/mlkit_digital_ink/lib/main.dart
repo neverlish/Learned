@@ -29,13 +29,26 @@ class DigitalInkApp extends StatefulWidget {
 }
 
 class _DigitalInkAppState extends State<DigitalInkApp> {
+  final DigitalInkRecognizerModelManager _modelManager =
+      DigitalInkRecognizerModelManager();
+
   String _language = "en";
+  var _digitalInkRecognizer = DigitalInkRecognizer(
+    languageCode: "en",
+  );
+
   final _languages = ["en", "ko", "ja", "zh-Hani"];
 
   String _recognizedText = "";
 
   final Ink _ink = Ink();
   List<StrokePoint> _points = [];
+
+  @override
+  void dispose() {
+    _digitalInkRecognizer.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +78,26 @@ class _DigitalInkAppState extends State<DigitalInkApp> {
                     if (v != null) {
                       setState(() {
                         _language = v;
+                        _digitalInkRecognizer.close();
+                        _digitalInkRecognizer =
+                            DigitalInkRecognizer(languageCode: _language);
                       });
                     }
                   },
                 ),
                 SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final value =
+                        await _modelManager.isModelDownloaded(_language);
+                    final result = value ? '다운로드 되어있음.' : '다운로드된 모델 없음';
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(result),
+                      ),
+                    );
+                  },
                   child: Text(
                     '모델 체크',
                   ),
@@ -81,14 +107,32 @@ class _DigitalInkAppState extends State<DigitalInkApp> {
             Row(
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final value = await _modelManager.downloadModel(_language);
+                    final result = value ? '다운로드 성공' : '다운로드 실패';
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(result),
+                      ),
+                    );
+                  },
                   child: Text(
                     '모델 다운로드',
                   ),
                 ),
                 SizedBox(width: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final value = await _modelManager.deleteModel(_language);
+                    final result = value ? '성공' : '실패 ';
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(result),
+                      ),
+                    );
+                  },
                   child: Text('모델 삭제'),
                 ),
               ],
@@ -150,7 +194,20 @@ class _DigitalInkAppState extends State<DigitalInkApp> {
                 ),
               ),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                try {
+                  final candidates =
+                      await _digitalInkRecognizer.recognize(_ink);
+                  _recognizedText = "";
+                  for (final candidate in candidates) {
+                    _recognizedText += "\n${candidate.text}";
+                  }
+                  setState(() {});
+                } catch (e) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(e.toString())));
+                }
+              },
               child: Container(
                 height: 64,
                 margin: EdgeInsets.symmetric(vertical: 16),
