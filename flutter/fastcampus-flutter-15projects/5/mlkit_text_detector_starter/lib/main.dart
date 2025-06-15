@@ -4,6 +4,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:part5_mlkit_text_detector_starter/camera_view_page.dart';
+import 'package:part5_mlkit_text_detector_starter/text_detector_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,7 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Column(
+      body: CameraView(
+        customPaint: _customPaint,
+        onImage: _processImage,
+      ),
+    );
+  }
+
+  Widget buildGalleryView() => Column(
         children: [
           DropdownButton(
             items: TextRecognitionScript.values
@@ -105,9 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )
         ],
-      ),
-    );
-  }
+      );
 
   Future _getImage(ImageSource source) async {
     setState(() {
@@ -141,6 +148,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
+      final painter = TextRecognizerPainter(
+        recognizedText,
+        inputImage.metadata!.size,
+        inputImage.metadata!.rotation,
+        _cameraLensDirection,
+      );
+      _customPaint = CustomPaint(painter: painter);
+      
     } else {
       _text = "recognized Text:  \n\n";
       for (var block in recognizedText.blocks) {
