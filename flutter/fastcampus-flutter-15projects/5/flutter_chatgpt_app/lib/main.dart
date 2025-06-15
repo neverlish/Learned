@@ -48,6 +48,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late Animation<int> _characterCount;
   late AnimationController animationController;
 
+  void _scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
   setupAnimations() {
     animationController = AnimationController(
       vsync: this,
@@ -101,7 +109,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         },
         body: jsonEncode(openAiModel.toJson()));
     print(resp.body);
-    if (resp.statusCode == 200) {}
+    if (resp.statusCode == 200) {
+      final jsonData = jsonDecode(utf8.decode(resp.bodyBytes)) as Map;
+      String role = jsonData["choices"][0]["message"]["role"];
+      String content = jsonData["choices"][0]["message"]["content"];
+      _historyList.last = _historyList.last.copyWith(
+        role: role,
+        content: content,
+      );
+      setState(() {
+        _scrollDown();
+      });
+    }
   }
 
   @override
@@ -115,6 +134,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     messageTextController.dispose();
     scrollController.dispose();
     super.dispose();
+  }
+
+  Future clearChat() async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("새로운 대화의 시작"),
+        content: const Text("신규 대화를 생성하시겠어요?"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  messageTextController.clear();
+                  _historyList.clear();
+                });
+              },
+              child: const Text("네"))
+        ],
+      ),
+    );
   }
 
   @override
@@ -142,8 +182,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             title: Text('설정'),
                           ),
                         ),
-                        const PopupMenuItem(
-                          child: ListTile(
+                        PopupMenuItem(
+                          onTap: () {
+                            clearChat();
+                          },
+                          child: const ListTile(
                             title: Text('새로운 채팅'),
                           ),
                         ),
@@ -155,76 +198,83 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Center(
-                    child: AnimatedBuilder(
-                      animation: _characterCount,
-                      builder: (context, child) {
-                        String text =
-                            _currentString.substring(0, _characterCount.value);
-                        return Row(
-                          children: [
-                            Text(
-                              text,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                              ),
+                  child: _historyList.isEmpty
+                      ? Center(
+                          child: AnimatedBuilder(
+                            animation: _characterCount,
+                            builder: (context, child) {
+                              String text = _currentString.substring(
+                                  0, _characterCount.value);
+                              return Row(
+                                children: [
+                                  Text(
+                                    text,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: Colors.orange[200],
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () => FocusScope.of(context).unfocus(),
+                          child: Container(
+                            child: ListView.builder(
+                              itemCount: _historyList.length,
+                              itemBuilder: (context, index) {
+                                if (_historyList[index].role == "user") {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    child: Row(
+                                      children: [
+                                        const CircleAvatar(),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text('User'),
+                                              Text(_historyList[index].content),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundColor: Colors.teal,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('ChatGPT'),
+                                          Text(_historyList[index].content),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
-                            CircleAvatar(
-                              radius: 8,
-                              backgroundColor: Colors.orange[200],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // child: Container(
-
-                //   child: ListView.builder(
-                //     itemCount: 100,
-                //     itemBuilder: (context, index) {
-                //       if (index % 2 == 0) {
-                //         return const Padding(
-                //           padding: EdgeInsets.symmetric(vertical: 16),
-                //           child: Row(
-                //             children: [
-                //               CircleAvatar(),
-                //               SizedBox(width: 8),
-                //               Expanded(
-                //                 child: Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text('User'),
-                //                     Text('message'),
-                //                   ],
-                //                 ),
-                //               )
-                //             ],
-                //           ),
-                //         );
-                //       }
-                //       return const Row(
-                //         children: [
-                //           CircleAvatar(
-                //             backgroundColor: Colors.teal,
-                //           ),
-                //           SizedBox(width: 8),
-                //           Expanded(
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Text('ChatGPT'),
-                //                 Text('OpenAI OpenAI OpenAI OpenAI'),
-                //               ],
-                //             ),
-                //           ),
-                //         ],
-                //       );
-                //     },
-                //   ),
-                // ),
+                          ),
+                        ),
+                ),                
               ),
               Dismissible(
                 key: const Key('chat-bar'),
@@ -242,7 +292,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
                 confirmDismiss: (d) async {
                   if (d == DismissDirection.startToEnd) {
-                    //
+                    if (_historyList.isEmpty) return;
+                    clearChat();
                   }
                   return null;
                 },
@@ -270,6 +321,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         if (messageTextController.text.isEmpty) {
                           return;
                         }
+                        setState(() {
+                          _historyList.add(Messages(
+                            role: "user",
+                            content: messageTextController.text.trim(),
+                          ));
+                          _historyList.add(Messages(
+                            role: "assistant",
+                            content: "",
+                          ));
+                        });
                         try {
                           await requestChat(messageTextController.text.trim());
                           messageTextController.clear();
