@@ -269,11 +269,23 @@ class _CameraViewState extends State<CameraView> {
 
     if (image.planes.length != 1) return null;
     final plane = image.planes.first;
-    return null;
-    
+    return InputImage.fromBytes(
+      bytes: plane.bytes,
+      metadata: InputImageMetadata(
+        size: Size(
+          image.width.toDouble(),
+          image.height.toDouble(),
+        ),
+        rotation: rotation,
+        format: format,
+        bytesPerRow: plane.bytesPerRow,
+      ),
+    );
   }
 
   void _processCameraImage(CameraImage image) {
-    
+    final inputImage = _inputImageFromCameraImage(image);
+    if (inputImage == null) return;
+    widget.onImage(inputImage);
   }
 }

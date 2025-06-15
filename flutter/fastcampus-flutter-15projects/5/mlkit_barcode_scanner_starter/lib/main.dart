@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:part5_mlkit_barcode_scanner_starter/barcode_painter.dart';
 import 'package:part5_mlkit_barcode_scanner_starter/camera_view_page.dart';
 import 'package:part5_mlkit_barcode_scanner_starter/gallery_page.dart';
 
@@ -73,6 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final barcodes = await _barcodeScanner.processImage(inputImage);
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
+      final painter = BarcodeDetectorPainter(
+        barcodes,
+        inputImage.metadata!.size,
+        inputImage.metadata!.rotation,
+        _cameraLensDirection,
+      );
+      _customPaint = CustomPaint(
+        painter: painter,
+      );
     } else {
       String text = '바코드 탐색: ${barcodes.length}개 \n';
 
