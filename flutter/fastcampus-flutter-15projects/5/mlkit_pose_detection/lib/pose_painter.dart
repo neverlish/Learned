@@ -1,3 +1,7 @@
+import 'dart:math';
+import 'dart:ui' as ui;
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
@@ -134,7 +138,91 @@ class PosePainter extends CustomPainter {
         PoseLandmarkType.leftHip,
         paint3,
       );
+
+      var angleKnee = calculateAngle(
+        pose,
+        PoseLandmarkType.rightHip,
+        PoseLandmarkType.rightKnee,
+        PoseLandmarkType.rightAnkle,
+      );
+
+      var angleHip = calculateAngle(
+        pose,
+        PoseLandmarkType.rightShoulder,
+        PoseLandmarkType.rightHip,
+        PoseLandmarkType.rightKnee,
+      );
+
+      var kneeAngle = 180 - angleKnee;
+
+      final Paint background = Paint()..color = Colors.black;
+
+      final builder = ParagraphBuilder(ParagraphStyle(
+        textAlign: TextAlign.left,
+        fontSize: 12,
+        textDirection: TextDirection.ltr,
+      ));
+
+      builder
+          .pushStyle(ui.TextStyle(color: Colors.white, background: background));
+      builder.addText(
+          '${kneeAngle.toStringAsFixed(1)} | ${angleKnee.toStringAsFixed(1)}');
+
+      builder.pop();
+
+      final builder2 = ParagraphBuilder(ParagraphStyle(
+        textAlign: TextAlign.left,
+        fontSize: 12,
+        textDirection: TextDirection.ltr,
+      ));
+
+      builder2
+          .pushStyle(ui.TextStyle(color: Colors.white, background: background));
+      builder2.addText(angleHip.toStringAsFixed(1));
+
+      builder2.pop();
+
+      final rkJoint = pose.landmarks[PoseLandmarkType.rightKnee]!;
+      final rhJoint = pose.landmarks[PoseLandmarkType.rightHip]!;
+      var textOffset = Offset(
+        translateX(rkJoint.x, size, imageSize, rotation, cameraLensDirection),
+        translateY(rkJoint.y, size, imageSize, rotation, cameraLensDirection),
+      );
+
+      canvas.drawParagraph(
+        builder.build()
+          ..layout(
+            ParagraphConstraints(width: 100),
+          ),
+        textOffset,
+      );
+
+      textOffset = Offset(
+        translateX(rhJoint.x, size, imageSize, rotation, cameraLensDirection),
+        translateY(rhJoint.y, size, imageSize, rotation, cameraLensDirection),
+      );
+
+      canvas.drawParagraph(
+        builder2.build()
+          ..layout(
+            ParagraphConstraints(width: 100),
+          ),
+        textOffset,
+      );
     }
+  }
+
+  double calculateAngle(pose, a, b, c) {
+    final PoseLandmark joint1 = pose.landmarks[a]!;
+    final PoseLandmark joint2 = pose.landmarks[b]!;
+    final PoseLandmark joint3 = pose.landmarks[c]!;
+
+    var radians = atan2(joint3.y - joint2.y, joint3.x - joint2.x) -
+        atan2(joint1.y - joint2.y, joint1.x - joint2.x);
+
+    var angle = radians * (180 / pi);
+
+    return angle;
   }
 
   @override
