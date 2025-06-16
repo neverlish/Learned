@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:google_mlkit_face_mesh_detection/google_mlkit_face_mesh_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:part5_mlkit_face_detection_start/camera_view_page.dart';
-import 'package:part5_mlkit_face_detection_start/face_detector_painter.dart';
+import 'package:part5_mlkit_face_detection_start/face_mesh_detector_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,17 +41,27 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
   String? resultText;
   CustomPaint? customPaint;
 
-  final FaceDetector _faceDetector = FaceDetector(
-      options: FaceDetectorOptions(
-    enableLandmarks: true,
-    enableTracking: true,
-    enableClassification: true,
-    enableContours: true,
-  ));
+  // final FaceDetector _faceDetector = FaceDetector(
+  //     options: FaceDetectorOptions(
+  //   enableLandmarks: true,
+  //   enableTracking: true,
+  //   enableClassification: true,
+  //   enableContours: true,
+  // ));
+
+  // final SelfieSegmenter segmenter = SelfieSegmenter(
+  //   mode: SegmenterMode.stream,
+  //   enableRawSizeMask: true,
+  // );
+
+  final meshDetector = FaceMeshDetector(
+    option: FaceMeshDetectorOptions.faceMesh,
+  );
 
   @override
   void dispose() {
-    _faceDetector.close();
+    // _faceDetector.close();
+    // segmenter.close();
     super.dispose();
   }
 
@@ -135,13 +145,23 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
       resultText = "";
     });
 
-    final faces = await _faceDetector.processImage(inputImage);
-    String text = "Faces founded: ${faces.length}\n\n";
+    // final faces = await _faceDetector.processImage(inputImage);
+
+    // final mask = await segmenter.processImage(inputImage);
+
+    final meshes = await meshDetector.processImage(inputImage);
 
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
-      final painter = FaceDetectorPainter(
-        faces,
+      // final painter = SegmentationPainter(
+      //   mask,
+      //   inputImage.metadata!.size,
+      //   inputImage.metadata!.rotation,
+      //   CameraLensDirection.back,
+      // );
+
+      final painter = FaceMeshDetectorPainter(
+        meshes,
         inputImage.metadata!.size,
         inputImage.metadata!.rotation,
         CameraLensDirection.back,
@@ -152,15 +172,16 @@ class _FaceDetectorAppState extends State<FaceDetectorApp> {
       });
 
     } else {
-      for (final face in faces) {
-        text += "face: ${face.boundingBox}\n";
-        text +=
-            '${face.smilingProbability} | ${face.leftEyeOpenProbability} | ${face.rightEyeOpenProbability}\n';
-      }
+      // String text = "Faces founded: ${faces.length}\n\n";
+      // for (final face in faces) {
+      //   text += "face: ${face.boundingBox}\n";
+      //   text +=
+      //       '${face.smilingProbability} | ${face.leftEyeOpenProbability} | ${face.rightEyeOpenProbability}\n';
+      // }
 
-      setState(() {
-        resultText = text;
-      });
+      // setState(() {
+      //   resultText = text;
+      // });
     }
   }
 }
