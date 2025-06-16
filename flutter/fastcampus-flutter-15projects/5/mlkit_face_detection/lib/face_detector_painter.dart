@@ -30,6 +30,108 @@ class FaceDetectorPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0
       ..color = Colors.blue;
+
+    for (final face in faces) {
+      final left = translateX(
+        face.boundingBox.left,
+        size,
+        imageSize,
+        rotation,
+        cameraLensDirection,
+      );
+
+      final right = translateX(
+        face.boundingBox.right,
+        size,
+        imageSize,
+        rotation,
+        cameraLensDirection,
+      );
+
+      final top = translateY(
+        face.boundingBox.top,
+        size,
+        imageSize,
+        rotation,
+        cameraLensDirection,
+      );
+
+      final bottom = translateY(
+        face.boundingBox.bottom,
+        size,
+        imageSize,
+        rotation,
+        cameraLensDirection,
+      );
+
+      canvas.drawRect(
+        Rect.fromLTRB(left, top, right, bottom),
+        paint1,
+      );
+
+      void paintContour(FaceContourType type) {
+        final contour = face.contours[type];
+
+        if (contour?.points != null) {
+          for (final point in contour!.points) {
+            canvas.drawCircle(
+              Offset(
+                translateX(
+                  point.x.toDouble(),
+                  size,
+                  imageSize,
+                  rotation,
+                  cameraLensDirection,
+                ),
+                translateY(
+                  point.y.toDouble(),
+                  size,
+                  imageSize,
+                  rotation,
+                  cameraLensDirection,
+                ),
+              ),
+              3,
+              paint2,
+            );
+          }
+        }
+      }
+
+      void paintLandmark(FaceLandmarkType type) {
+        final landmark = face.landmarks[type];
+        if (landmark?.position != null) {
+          canvas.drawCircle(
+            Offset(
+              translateX(
+                landmark!.position.x.toDouble(),
+                size,
+                imageSize,
+                rotation,
+                cameraLensDirection,
+              ),
+              translateY(
+                landmark.position.y.toDouble(),
+                size,
+                imageSize,
+                rotation,
+                cameraLensDirection,
+              ),
+            ),
+            3,
+            paint3,
+          );
+        }
+      }
+
+      for (final type in FaceContourType.values) {
+        paintContour(type);
+      }
+
+      for (final type in FaceLandmarkType.values) {
+        paintLandmark(type);
+      }
+    }
   }
 
   @override
