@@ -2,7 +2,7 @@ import 'package:e_commerce_app/core/utils/constant.dart';
 import 'package:e_commerce_app/core/utils/error/error_response.dart';
 import 'package:e_commerce_app/data/data_source/remote/display/display.api.dart';
 import 'package:e_commerce_app/data/repository_impl/display.repository_impl.dart';
-import 'package:e_commerce_app/domain/model/common/result.dart';
+import 'package:e_commerce_app/domain/model/common/result/result.dart';
 import 'package:e_commerce_app/domain/model/display/menu/menu.model.dart';
 import 'package:e_commerce_app/domain/repository/display.repository.dart';
 import 'package:e_commerce_app/domain/usecase/display/display.usecase.dart';

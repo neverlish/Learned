@@ -7,7 +7,7 @@ import '../../../../../domain/usecase/display/display.usecase.dart';
 import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/exception/common_exception.dart';
 import '../../../../core/utils/logger.dart';
-import '../../../../domain/model/common/result.dart';
+import '../../../../domain/model/common/result/result.dart';
 import '../../../../domain/usecase/display/menu/get_menus.usecase.dart';
 
 part 'menu_bloc.freezed.dart';
