@@ -1,5 +1,5 @@
+import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/error/error_response.dart';
-import '../../../../presentation/main/cubit/mall_type_cubit.dart';
 import '../../../model/common/result.dart';
 import '../../../repository/display.repository.dart';
 import '../../base/remote.usecase.dart';
@@ -7,7 +7,7 @@ import '../../base/remote.usecase.dart';
 class GetMenusUsecase extends RemoteUsecase<DisplayRepository> {
   final MallType mallType;
 
-  GetMenusUsecase(this.mallType);
+  GetMenusUsecase({required this.mallType});
 
   @override
   Future call(DisplayRepository repository) async {
