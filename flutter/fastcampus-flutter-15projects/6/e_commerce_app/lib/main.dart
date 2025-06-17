@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'core/theme/theme_data.dart';
+import 'dependency_injection.dart';
 import 'presentation/routes/routes.dart';
-import 'service_locator.dart';
 
 void main() async {
-  setLocator();
+  configureDependencies();
 
   runApp(const MainApp());
 }
