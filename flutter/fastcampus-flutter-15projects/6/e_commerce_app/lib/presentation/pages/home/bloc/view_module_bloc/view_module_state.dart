@@ -5,7 +5,7 @@ class ViewModuleState with _$ViewModuleState {
   factory ViewModuleState({
     @Default(Status.initial) Status status,
     @Default(0) int tabId,
-    @Default(<ViewModule>[]) List<ViewModule> viewModules,
+    @Default(<Widget>[]) List<Widget> viewModules,
     @Default(ErrorResponse()) ErrorResponse error,
   }) = _ViewModuleState;
 }

@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ViewModuleState {
   Status get status => throw _privateConstructorUsedError;
   int get tabId => throw _privateConstructorUsedError;
-  List<ViewModule> get viewModules => throw _privateConstructorUsedError;
+  List<Widget> get viewModules => throw _privateConstructorUsedError;
   ErrorResponse get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $ViewModuleStateCopyWith<$Res> {
   $Res call(
       {Status status,
       int tabId,
-      List<ViewModule> viewModules,
+      List<Widget> viewModules,
       ErrorResponse error});
 }
 
@@ -69,7 +69,7 @@ class _$ViewModuleStateCopyWithImpl<$Res, $Val extends ViewModuleState>
       viewModules: null == viewModules
           ? _value.viewModules
           : viewModules // ignore: cast_nullable_to_non_nullable
-              as List<ViewModule>,
+              as List<Widget>,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -89,7 +89,7 @@ abstract class _$$ViewModuleStateImplCopyWith<$Res>
   $Res call(
       {Status status,
       int tabId,
-      List<ViewModule> viewModules,
+      List<Widget> viewModules,
       ErrorResponse error});
 }
 
@@ -121,7 +121,7 @@ class __$$ViewModuleStateImplCopyWithImpl<$Res>
       viewModules: null == viewModules
           ? _value._viewModules
           : viewModules // ignore: cast_nullable_to_non_nullable
-              as List<ViewModule>,
+              as List<Widget>,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -136,7 +136,7 @@ class _$ViewModuleStateImpl implements _ViewModuleState {
   _$ViewModuleStateImpl(
       {this.status = Status.initial,
       this.tabId = 0,
-      final List<ViewModule> viewModules = const <ViewModule>[],
+      final List<Widget> viewModules = const <Widget>[],
       this.error = const ErrorResponse()})
       : _viewModules = viewModules;
 
@@ -146,10 +146,10 @@ class _$ViewModuleStateImpl implements _ViewModuleState {
   @override
   @JsonKey()
   final int tabId;
-  final List<ViewModule> _viewModules;
+  final List<Widget> _viewModules;
   @override
   @JsonKey()
-  List<ViewModule> get viewModules {
+  List<Widget> get viewModules {
     if (_viewModules is EqualUnmodifiableListView) return _viewModules;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_viewModules);
@@ -192,7 +192,7 @@ abstract class _ViewModuleState implements ViewModuleState {
   factory _ViewModuleState(
       {final Status status,
       final int tabId,
-      final List<ViewModule> viewModules,
+      final List<Widget> viewModules,
       final ErrorResponse error}) = _$ViewModuleStateImpl;
 
   @override
@@ -200,7 +200,7 @@ abstract class _ViewModuleState implements ViewModuleState {
   @override
   int get tabId;
   @override
-  List<ViewModule> get viewModules;
+  List<Widget> get viewModules;
   @override
   ErrorResponse get error;
   @override
