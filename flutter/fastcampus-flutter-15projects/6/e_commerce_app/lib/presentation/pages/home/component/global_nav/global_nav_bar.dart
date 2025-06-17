@@ -5,7 +5,7 @@ import '../../../../../core/theme/custom/custom_font_weight.dart';
 import '../../../../../core/theme/custom/custom_theme.dart';
 import '../../../../../core/utils/constant.dart';
 import '../../../../../domain/model/display/menu/menu.model.dart';
-import '../../bloc/menu_bloc.dart';
+import '../../bloc/menu_bloc/menu_bloc.dart';
 
 class GlobalNavBar extends StatelessWidget {
   const GlobalNavBar(this.menus, {super.key});

@@ -6,7 +6,7 @@ import '../../../core/utils/dialog/common_dialog.dart';
 import '../../../domain/usecase/display/display.usecase.dart';
 import '../../../service_locator.dart';
 import '../../main/cubit/mall_type_cubit.dart';
-import 'bloc/menu_bloc.dart';
+import 'bloc/menu_bloc/menu_bloc.dart';
 import 'component/global_nav/global_nav_bar.dart';
 import 'component/global_nav/global_nav_bar_view.dart';
 
