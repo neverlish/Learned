@@ -49,24 +49,11 @@ class DisplayMockApi implements DisplayApi {
         ),
       );
     }
-    late String source;
-    final endOfTabId = tabId % 10;
 
-    switch (endOfTabId) {
-      case 1:
-        source = DisplayMockData.viewModulesByTabIdCaseOne;
-      case 2:
-        source = DisplayMockData.viewModulesByTabIdCaseTwo;
-      case 3:
-        source = DisplayMockData.viewModulesByTabIdCaseThree;
-      case 4:
-        source = DisplayMockData.viewModulesByTabIdCaseFour;
-      case 5:
-        source = DisplayMockData.viewModulesByTabIdCaseFive;
-    }
+    String source = DisplayMockData.getViewModules();
 
     return Future.delayed(
-      const Duration(milliseconds: 400),
+      Duration(milliseconds: 800),
       () => ResponseWrapper(
         status: 'SUCCESS',
         code: '0000',

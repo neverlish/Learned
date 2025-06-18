@@ -1,5 +1,7 @@
 import '../../domain/model/display/display.model.dart';
+import '../../domain/model/display/product_info/product_info.model.dart';
 import '../dto/display/menu/menu.dto.dart';
+import '../dto/display/product_info/product_info.dto.dart';
 import '../dto/display/view_module/view_module.dto.dart';
 
 extension MenuEx on MenuDto {
@@ -15,6 +17,22 @@ extension ViewModuleDtoEx on ViewModuleDto {
       title: title ?? '',
       subtitle: subtitle ?? '',
       imageUrl: imageUrl ?? '',
+      products: products?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+}
+
+extension ProductInfoDtoEx on ProductInfoDto {
+  ProductInfo toModel() {
+    return ProductInfo(
+      productId: productId ?? '',
+      title: title ?? '',
+      subtitle: subtitle ?? '',
+      imageUrl: imageUrl ?? '',
+      price: price ?? -1,
+      originalPrice: originalPrice ?? -1,
+      discrountRate: discountRate ?? -1,
+      reviewCount: reviewCount ?? -1,
     );
   }
 }
