@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../../../../core/utils/extensions.dart';
 import '../../../../../../domain/model/display/view_module/view_module.model.dart';
+import '../carousel.view_module.dart';
 import '../view_module_A.dart';
 import '../view_module_B.dart';
 import '../view_module_C.dart';
@@ -10,7 +11,14 @@ import '../view_module_E.dart';
 import '../view_module_NONE.dart';
 import 'view_module_widget.dart';
 
-enum Modules { viewModuleA, viewModuleB, viewModuleC, viewModuleD, viewModuleE }
+enum Modules {
+  viewModuleA,
+  viewModuleB,
+  viewModuleC,
+  viewModuleD,
+  viewModuleE,
+  carouselViewModule,
+}
 
 class ViewModuleFactory {
   Widget textToWidget(ViewModule viewModule) {
@@ -20,7 +28,7 @@ class ViewModuleFactory {
       final String name = module.name.toSnakeCase();
 
       if (name.contains(type)) {
-        return module.toWidget() as Widget;
+        return module.toWidget(viewModule) as Widget;
       }
     }
 
@@ -29,7 +37,7 @@ class ViewModuleFactory {
 }
 
 extension ModulesX on Modules {
-  ViewModuleWidget toWidget() {
+  ViewModuleWidget toWidget(ViewModule info) {
     switch (this) {
       case Modules.viewModuleA:
         return ViewModuleA();
@@ -41,6 +49,8 @@ extension ModulesX on Modules {
         return ViewModuleD();
       case Modules.viewModuleE:
         return ViewModuleE();
+      case Modules.carouselViewModule:
+        return CarouselViewModule(info: info);
     }
   }
 }

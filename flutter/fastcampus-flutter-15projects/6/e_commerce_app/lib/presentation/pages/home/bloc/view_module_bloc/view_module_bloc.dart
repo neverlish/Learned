@@ -13,7 +13,7 @@ import '../../../../../domain/model/common/result/result.dart';
 import '../../../../../domain/model/display/view_module/view_module.model.dart';
 import '../../../../../domain/usecase/display/display.usecase.dart';
 import '../../../../../domain/usecase/display/view_module/get_view_modules.usecase.dart';
-import '../../component/view_module_list/view_module_factory/view_module_factory.dart';
+import '../../component/view_module_list/factory/view_module_factory.dart';
 
 part 'view_module_bloc.freezed.dart';
 part 'view_module_event.dart';
