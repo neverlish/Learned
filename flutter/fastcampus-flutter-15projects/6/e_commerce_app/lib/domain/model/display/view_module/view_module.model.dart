@@ -13,6 +13,7 @@ class ViewModule with _$ViewModule {
     required String subtitle,
     required String imageUrl,
     required List<ProductInfo> products,
+    required int time,
   }) = _ViewModule;
 
   factory ViewModule.fromJson(Map<String, Object?> json) =>

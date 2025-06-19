@@ -21,6 +21,7 @@ dependencies:
   intl:
   json_annotation: ^4.8.1
   logger: ^1.4.0
+  lottie:
   mocktail: ^1.0.0
   retrofit: ^4.0.1
   stream_transform: ^2.1.0
