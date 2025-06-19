@@ -14,6 +14,7 @@ class ViewModuleDto with _$ViewModuleDto {
     @Default('') String? imageUrl,
     @Default(-1) int? time,
     @Default(<ProductInfoDto>[]) List<ProductInfoDto>? products,
+    @Default([]) List<String> tabs,
   }) = _ViewModuleDto;
 
   factory ViewModuleDto.fromJson(Map<String, Object?> json) =>

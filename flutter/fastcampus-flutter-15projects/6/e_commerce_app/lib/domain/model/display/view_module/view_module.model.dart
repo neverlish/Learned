@@ -14,6 +14,7 @@ class ViewModule with _$ViewModule {
     required String imageUrl,
     required List<ProductInfo> products,
     required int time,
+    required List<String> tabs,
   }) = _ViewModule;
 
   factory ViewModule.fromJson(Map<String, Object?> json) =>
