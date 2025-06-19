@@ -14,6 +14,7 @@ import 'component/cart_total_price.dart';
 class CartListPage extends StatelessWidget {
   const CartListPage({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -25,6 +26,7 @@ class CartListPage extends StatelessWidget {
 
 class CartListView extends StatelessWidget {
   const CartListView({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,41 +53,59 @@ class CartListView extends StatelessWidget {
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(48),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: colorScheme.outline)),
+            ),
+            child: BlocBuilder<CartListBloc, CartListState>(
+              builder: (context, state) {
+                final bool isSelectedAll =
+                    (state.selectedProduct.length == state.cartList.length) &&
+                    state.cartList.length != 0;
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgIconButton(
-                      icon: AppIcons.checkMarkCircle,
-                      color: colorScheme.contentFourth,
-                      onPressed: null,
-                    ),
-                    const SizedBox(width: 8),
-                    BlocBuilder<CartListBloc, CartListState>(
-                      builder: (context, state) {
-                        return Text(
+                    Row(
+                      children: [
+                        SvgIconButton(
+                          icon: isSelectedAll
+                              ? AppIcons.checkMarkCircleFill
+                              : AppIcons.checkMarkCircle,
+                          color: isSelectedAll
+                              ? colorScheme.primary
+                              : colorScheme.contentFourth,
+                          onPressed: () => context.read<CartListBloc>().add(
+                            CartListSelectedAll(),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
                           '전체 선택 (${state.selectedProduct.length}/${state.cartList.length})',
-                        );
-                      },
+                          style: textTheme.titleSmall?.copyWith(
+                            color: colorScheme.contentPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      child: Text(
+                        '선택 삭제',
+                        style: textTheme.titleSmall.semiBold?.copyWith(
+                          color: colorScheme.contentSecondary,
+                        ),
+                      ),
+                      onTap: () => context.read<CartListBloc>().add(
+                        CartListDeleted(productIds: state.selectedProduct),
+                      ),
                     ),
                   ],
-                ),
-                GestureDetector(
-                  child: Text(
-                    '선택 삭제',
-                    style: textTheme.titleSmall.semiBold?.copyWith(
-                      color: colorScheme.contentSecondary,
-                    ),
-                  ),
-                  onTap: null,
-                ),
-              ],
+                );
+              },
             ),
           ),
+          preferredSize: Size.fromHeight(48),
         ),
         backgroundColor: colorScheme.surface,
         centerTitle: true,

@@ -5,7 +5,6 @@ import '../../../../../../core/theme/constant/app_icons.dart';
 import '../../../../../../core/theme/custom/custom_font_weight.dart';
 import '../../../../../../core/theme/custom/custom_theme.dart';
 import '../../../../../../core/utils/extensions.dart';
-import '../../../../../../domain/model/display/product_info/product_info.model.dart';
 import '../../../../bloc/cart_bloc/cart_bloc.dart';
 import '../../../../component/widgets/svg_icon_button.dart';
 
@@ -18,19 +17,15 @@ const double _counterHeight = 36;
 const double _iconPadding = 8;
 
 class CartPriceInfo extends StatelessWidget {
-  final ProductInfo productInfo;
-
-  final int quantity;
-  const CartPriceInfo({
-    super.key,
-    required this.productInfo,
-    required this.quantity,
-  });
+  const CartPriceInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
+    final productInfo = context.watch<CartBloc>().state.productInfo;
+    final quantity = context.watch<CartBloc>().state.quantity;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),

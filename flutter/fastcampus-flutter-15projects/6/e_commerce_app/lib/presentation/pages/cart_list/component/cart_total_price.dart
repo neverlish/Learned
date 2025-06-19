@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/constant/app_icons.dart';
 import '../../../../core/theme/custom/custom_font_weight.dart';
 import '../../../../core/theme/custom/custom_theme.dart';
 import '../../../../core/utils/extensions.dart';
+import '../bloc/cart_list_bloc/cart_list_bloc.dart';
 
 class CartTotalPrice extends StatelessWidget {
   const CartTotalPrice({required this.isEmpty, super.key});
@@ -22,6 +24,7 @@ class CartTotalPrice extends StatelessWidget {
 
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final totalPrice = context.watch<CartListBloc>().state.totalPrice;
 
     return Column(
       children: [
@@ -41,7 +44,7 @@ class CartTotalPrice extends StatelessWidget {
                         .regular,
                   ),
                   Text(
-                    7300.toWon(),
+                    totalPrice.toWon(),
                     style: textTheme.titleLarge?.copyWith(
                       color: colorScheme.contentPrimary,
                     ),
@@ -96,7 +99,9 @@ class CartTotalPrice extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.only(right: 4),
                             child: Text(
-                              NumberFormat('###,###,###,###').format(10309),
+                              NumberFormat(
+                                '###,###,###,###',
+                              ).format(totalPrice),
                               style: textTheme.titleLarge.bold?.copyWith(
                                 color: colorScheme.contentPrimary,
                               ),
