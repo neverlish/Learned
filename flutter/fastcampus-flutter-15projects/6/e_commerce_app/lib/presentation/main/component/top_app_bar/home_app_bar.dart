@@ -24,6 +24,7 @@ class HomeAppBar extends StatelessWidget {
               child: SvgIconButton(
                 icon: AppIcons.mainLogo,
                 color: state.theme.logoColor,
+                onPressed: null,
               ),
             ),
             title: AnimatedContainer(
@@ -73,8 +74,13 @@ class HomeAppBar extends StatelessWidget {
               SvgIconButton(
                 icon: AppIcons.location,
                 color: state.theme.iconColor,
+                onPressed: null,
               ),
-              SvgIconButton(icon: AppIcons.cart, color: state.theme.iconColor),
+              SvgIconButton(
+                icon: AppIcons.cart,
+                color: state.theme.iconColor,
+                onPressed: null,
+              ),
             ],
             backgroundColor: Colors.transparent,
             centerTitle: true,

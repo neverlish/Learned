@@ -6,9 +6,11 @@ import '../pages/category/category_page.dart';
 import '../pages/home/home_page.dart';
 import '../pages/search/search_page.dart';
 import '../pages/user/user_page.dart';
+import 'bloc/cart_bloc/cart_bloc.dart';
 import 'component/top_app_bar/top_app_bar.dart';
 import 'cubit/bottom_nav_cubit.dart';
 import 'cubit/mall_type_cubit.dart';
+import 'utils/bottom_sheet/cart_bottom_sheet/cart_bottom_sheet.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -32,19 +34,27 @@ class MainScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopAppBar(),
-      body: BlocBuilder<BottomNavCubit, BottomNav>(
-        builder: (_, state) {
-          switch (state) {
-            case BottomNav.home:
-              return HomePage();
-            case BottomNav.category:
-              return CategoryPage();
-            case BottomNav.search:
-              return SearchPage();
-            case BottomNav.user:
-              return UserPage();
-          }
+      body: BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          cartBottomSheet(
+            context,
+          ).whenComplete(() => context.read<CartBloc>()..add(CartClosed()));
         },
+        listenWhen: (prev, cur) => prev.status != cur.status,
+        child: BlocBuilder<BottomNavCubit, BottomNav>(
+          builder: (_, state) {
+            switch (state) {
+              case BottomNav.home:
+                return HomePage();
+              case BottomNav.category:
+                return CategoryPage();
+              case BottomNav.search:
+                return SearchPage();
+              case BottomNav.user:
+                return UserPage();
+            }
+          },
+        ),
       ),
       bottomNavigationBar: BlocBuilder<BottomNavCubit, BottomNav>(
         builder: (_, state) {
