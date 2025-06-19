@@ -10,11 +10,19 @@ import 'add_cart_button.dart';
 class ProductCardWidget extends StatelessWidget {
   final ProductInfo productInfo;
   final double imageAspect;
+  final TextStyle? titleStyle;
+  final TextStyle? priceStyle;
+  final TextStyle? originalPriceStyle;
+  final TextStyle? reviewStyle;
 
   const ProductCardWidget({
     Key? key,
     required this.productInfo,
     required this.imageAspect,
+    this.titleStyle,
+    this.priceStyle,
+    this.originalPriceStyle,
+    this.reviewStyle,
   }) : super(key: key);
 
   @override
@@ -32,17 +40,28 @@ class ProductCardWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 9),
-        Text(productInfo.title, overflow: TextOverflow.ellipsis, maxLines: 2),
+        Text(
+          productInfo.title,
+          style: titleStyle?.titleCopyWith(),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
         const SizedBox(height: 1),
         Row(
           children: [
-            Text('${productInfo.discrountRate}%'),
+            Text(
+              '${productInfo.discrountRate}%',
+              style: priceStyle?.discountRateCopyWith(),
+            ),
             const SizedBox(height: 4),
-            Text(productInfo.price.toWon()),
+            Text(productInfo.price.toWon(), style: priceStyle?.priceCopyWith()),
           ],
         ),
         const SizedBox(height: 2),
-        Text(productInfo.originalPrice.toWon()),
+        Text(
+          productInfo.originalPrice.toWon(),
+          style: originalPriceStyle?.originalPriceCopyWith(),
+        ),
         Row(
           children: [
             SvgPicture.asset(
@@ -55,7 +74,10 @@ class ProductCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 4),
-            Text('후기 ${productInfo.reviewCount.toReview()}'),
+            Text(
+              '후기 ${productInfo.reviewCount.toReview()}',
+              style: reviewStyle?.reviewCountCopyWith(),
+            ),
           ],
         ),
       ],

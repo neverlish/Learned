@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../domain/model/display/display.model.dart';
 import 'factory/view_module_widget.dart';
-import 'widget/product_card_widget.dart';
+import 'widget/product_card.component.dart';
 
 class ScrollViewModule extends StatelessWidget with ViewModuleWidget {
   final ViewModule info;
@@ -11,9 +11,6 @@ class ScrollViewModule extends StatelessWidget with ViewModuleWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductCardWidget(
-      productInfo: info.products[0],
-      imageAspect: 150 / 195,
-    );
+    return LargeProductCard(context: context, productInfo: info.products[0]);
   }
 }
