@@ -7,6 +7,7 @@ import '../../../../core/utils/constant.dart';
 import '../../../../core/utils/error/error_response.dart';
 import '../../../../core/utils/exception/common_exception.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../domain/model/common/result/result.dart';
 import '../../../../domain/usecase/user/login.usecase.dart';
 import '../../../../domain/usecase/user/login_with_token.usecase.dart';
 import '../../../../domain/usecase/user/logout.usecase.dart';
@@ -30,15 +31,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       emit(state.copyWith(status: Status.loading));
 
-      final User? user = await _userUsecase.execute(
+      final response = await _userUsecase.execute<Result<User>>(
         usecase: LoginUsecase(),
       );
 
-      if (user == null) {
-        emit(state.copyWith(status: Status.initial));
-      } else {
-        emit(state.copyWith(status: Status.success, user: user));
-      }
+      response.when(
+        success: (user) {
+          emit(state.copyWith(status: Status.success, user: user));
+        },
+        failure: (_) {
+          emit(state.copyWith(status: Status.initial));
+        },
+      );
     } on ErrorResponse catch (error) {
       emit(state.copyWith(status: Status.error, error: error));
     } catch (error) {
@@ -58,15 +62,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(state.copyWith(status: Status.loading));
     try {
-      final User? user = await _userUsecase.execute(
+      final response = await _userUsecase.execute<Result<User>>(
         usecase: LoginWithTokenUsecase(),
       );
 
-      if (user == null) {
-        emit(state.copyWith(status: Status.initial));
-      } else {
-        emit(state.copyWith(status: Status.success, user: user));
-      }
+      response.when(
+        success: (user) {
+          emit(state.copyWith(status: Status.success, user: user));
+        },
+        failure: (_) {
+          emit(state.copyWith(status: Status.initial));
+        },
+      );
     } on ErrorResponse catch (error) {
       emit(state.copyWith(status: Status.error, error: error));
     } catch (error) {

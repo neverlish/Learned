@@ -48,3 +48,9 @@ app.*.map.json
 .env
 
 payment_api_keys.dart
+
+firebase_options.dart
+firebase.json
+
+google-services.json
+GoogleService-Info.plist
