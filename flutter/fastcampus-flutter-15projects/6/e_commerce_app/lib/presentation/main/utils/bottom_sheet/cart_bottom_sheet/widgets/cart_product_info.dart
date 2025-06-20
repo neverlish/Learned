@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/utils/component/common_image.dart';
 import '../../../../../../core/utils/extensions.dart';
 import '../../../../bloc/cart_bloc/cart_bloc.dart';
 
@@ -15,11 +16,10 @@ class CartProductInfo extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
-          Image.network(
+          CommonImage(
             productInfo.imageUrl,
             height: 40,
             width: 40,
-            fit: BoxFit.cover,
           ),
           const SizedBox(width: 10),
           Expanded(

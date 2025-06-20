@@ -5,6 +5,7 @@ import '../../../core/theme/constant/app_colors.dart';
 import '../../../core/theme/constant/app_icons.dart';
 import '../../../core/theme/custom/custom_font_weight.dart';
 import '../../../core/theme/custom/custom_theme.dart';
+import '../../../core/utils/component/common_image.dart';
 import '../../../core/utils/constant.dart';
 import '../../main/bloc/user_bloc/user_bloc.dart';
 
@@ -79,7 +80,7 @@ class UserProfile extends StatelessWidget {
         child: Column(
           children: [
             ClipOval(
-              child: Image.network(
+              child: CommonImage(
                 user?.kakaoAccount?.profile?.profileImageUrl ?? '',
                 width: 110,
                 height: 110,

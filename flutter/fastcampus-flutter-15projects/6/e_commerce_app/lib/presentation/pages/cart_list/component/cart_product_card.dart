@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/constant/app_icons.dart';
 import '../../../../core/theme/custom/custom_font_weight.dart';
 import '../../../../core/theme/custom/custom_theme.dart';
+import '../../../../core/utils/component/common_image.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/widgets/cart_counter_btn.dart';
 import '../../../../domain/model/display/cart/cart.model.dart';
@@ -79,7 +80,7 @@ class CartProductCard extends StatelessWidget {
                 Row(
                   children: [
                     // 상품 이미지
-                    Image.network(
+                    CommonImage(
                       cart.product.imageUrl,
                       width: _imageWidth,
                       height: _imageHeight,

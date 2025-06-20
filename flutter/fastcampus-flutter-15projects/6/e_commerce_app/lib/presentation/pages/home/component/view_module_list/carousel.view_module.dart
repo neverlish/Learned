@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/constant/app_colors.dart';
+import '../../../../../core/utils/component/common_image.dart';
 import '../../../../../domain/model/display/display.model.dart';
-import '../../../../../domain/model/display/product_info/product_info.model.dart';
 import 'factory/view_module_widget.dart';
 
 class CarouselViewModule extends StatefulWidget with ViewModuleWidget {
@@ -65,7 +65,7 @@ class _CarouselViewModuleState extends State<CarouselViewModule> {
             itemBuilder: (_, index) {
               String src = products[index % products.length].imageUrl;
 
-              return Image.network(src, fit: BoxFit.cover);
+              return CommonImage(src);
             },
           ),
           Align(
