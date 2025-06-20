@@ -1,11 +1,10 @@
-import '../../domain/model/display/cart/cart.model.dart';
 import '../../domain/model/display/display.model.dart';
-import '../../domain/model/display/product_info/product_info.model.dart';
 import '../dto/display/menu/menu.dto.dart';
 import '../dto/display/product_info/product_info.dto.dart';
 import '../dto/display/view_module/view_module.dto.dart';
 import '../entity/display/cart/cart.entity.dart';
 import '../entity/display/product_info/product_info.entity.dart';
+import '../entity/display/view_module/view_module.entity.dart';
 
 extension MenuEx on MenuDto {
   Menu toModel() {
@@ -27,6 +26,33 @@ extension ViewModuleDtoEx on ViewModuleDto {
   }
 }
 
+extension ViewModuleEntityEx on ViewModuleEntity {
+  ViewModule toModel() {
+    return ViewModule(
+      type: type,
+      title: title,
+      subtitle: subtitle,
+      imageUrl: imageUrl,
+      time: time,
+      products: products.map((entity) => entity.toModel()).toList(),
+      tabs: tabs,
+    );
+  }
+}
+
+extension ViewModuleEx on ViewModule {
+  ViewModuleEntity toEntity() {
+    return ViewModuleEntity(
+      type: type,
+      title: title,
+      subtitle: subtitle,
+      imageUrl: imageUrl,
+      time: time,
+      products: products.map((model) => model.toEntity()).toList(),
+      tabs: tabs,
+    );
+  }
+}
 extension ProductInfoDtoEx on ProductInfoDto {
   ProductInfo toModel() {
     return ProductInfo(

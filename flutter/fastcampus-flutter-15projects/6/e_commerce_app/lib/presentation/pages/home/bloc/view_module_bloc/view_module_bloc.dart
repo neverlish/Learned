@@ -1,5 +1,5 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -33,7 +33,7 @@ class ViewModuleBloc extends Bloc<ViewModuleEvent, ViewModuleState> {
     on<ViewModuleInitialized>(_onViewModuleInitialized);
     on<ViewModuleFetched>(
       _onViewModuleFetched,
-      transformer: _throttleDroppable(const Duration(milliseconds: 400)),
+      transformer: _throttleDroppable(Duration(milliseconds: 400)),
     );
   }
 
@@ -44,32 +44,92 @@ class ViewModuleBloc extends Bloc<ViewModuleEvent, ViewModuleState> {
     try {
       final tabId = event.tabId;
 
-      if (event.isRefresh) {
-        emit(
-          state.copyWith(
-            status: Status.initial,
-            currentPage: 1,
-            isEndOfPage: false,
-            viewModules: [],
-          ),
-        );
-      }
+      // if (event.isRefresh) {
+      emit(
+        state.copyWith(
+          status: Status.initial,
+          currentPage: 1,
+          isEndOfPage: false,
+          viewModules: [],
+        ),
+      );
+      // }
 
       emit(state.copyWith(status: Status.loading));
 
-      final response = await _fetch(tabId: tabId);
+      final response = await _fetch(tabId: tabId, isRefresh: event.isRefresh);
       response.when(
         success: (data) {
           ViewModuleFactory viewModuleFactory = ViewModuleFactory();
           final List<Widget> viewModules = data
               .map((e) => viewModuleFactory.textToWidget(e))
               .toList();
-
           emit(
             state.copyWith(
               status: Status.success,
               tabId: tabId,
               viewModules: viewModules,
+            ),
+          );
+        },
+        failure: (error) {
+          emit(state.copyWith(status: Status.error, error: error));
+        },
+      );
+    } catch (error) {
+      CustomLogger.logger.e(error);
+      emit(
+        state.copyWith(
+          status: Status.error,
+          error: CommonException.setError(error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onViewModuleFetched(
+    ViewModuleFetched event,
+    Emitter<ViewModuleState> emit,
+  ) async {
+    //끝 페이지인 경우 리턴
+    if (state.isEndOfPage) return;
+    final nextPage = state.currentPage + 1;
+    final tabId = state.tabId;
+    emit(state.copyWith(status: Status.loading));
+    try {
+      final response = await _fetch(
+        tabId: tabId,
+        page: nextPage,
+        isRefresh: false,
+      );
+      response.when(
+        success: (data) {
+          // 다음 페이지 호출시 리스트가 비어있는 경우 isEndOfPage => true
+          if (data.isEmpty) {
+            emit(
+              state.copyWith(
+                status: Status.success,
+                currentPage: nextPage,
+                isEndOfPage: true,
+              ),
+            );
+
+            return;
+          }
+          final List<Widget> viewModules = [...state.viewModules];
+          ViewModuleFactory viewModuleFactory = ViewModuleFactory();
+          viewModules.addAll(
+            List.generate(
+              data.length,
+              (index) => viewModuleFactory.textToWidget(data[index]),
+            ),
+          );
+
+          emit(
+            state.copyWith(
+              status: Status.success,
+              viewModules: viewModules,
+              currentPage: nextPage,
             ),
           );
         },
@@ -91,70 +151,14 @@ class ViewModuleBloc extends Bloc<ViewModuleEvent, ViewModuleState> {
   Future<Result<List<ViewModule>>> _fetch({
     required int tabId,
     int page = 1,
+    required bool isRefresh,
   }) async {
     return await _displayUsecase.execute(
-      usecase: GetViewModulesUsecase(tabId: tabId, page: page),
+      usecase: GetViewModulesUsecase(
+        tabId: tabId,
+        page: page,
+        isRefresh: isRefresh,
+      ),
     );
-  }
-
-  Future<void> _onViewModuleFetched(
-    ViewModuleFetched event,
-    Emitter<ViewModuleState> emit,
-  ) async {
-    if (state.isEndOfPage) return;
-
-    final nextPage = state.currentPage + 1;
-    final tabId = state.tabId;
-
-    emit(state.copyWith(status: Status.loading));
-    await Future.delayed(const Duration(seconds: 1));
-
-    try {
-      final response = await _fetch(tabId: tabId, page: nextPage);
-      response.when(
-        success: (data) {
-          if (data.isEmpty) {
-            emit(
-              state.copyWith(
-                status: Status.success,
-                currentPage: nextPage,
-                isEndOfPage: true,
-              ),
-            );
-            return;
-          }
-
-          ViewModuleFactory viewModuleFactory = ViewModuleFactory();
-
-          final List<Widget> viewModules = [...state.viewModules];
-
-          viewModules.addAll(
-            List.generate(
-              data.length,
-              (index) => viewModuleFactory.textToWidget(data[index]),
-            ),
-          );
-
-          emit(
-            state.copyWith(
-              status: Status.success,
-              tabId: tabId,
-              viewModules: viewModules,
-            ),
-          );
-        },
-        failure: (error) {
-          emit(state.copyWith(status: Status.error, error: error));
-        },
-      );
-    } catch (error) {
-      CustomLogger.logger.e(error);
-      emit(
-        state.copyWith(
-          status: Status.error,
-          error: CommonException.setError(error),
-        ),
-      );
-    }
   }
 }
