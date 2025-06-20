@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/constant/app_icons.dart';
+import '../../main/bloc/user_bloc/user_bloc.dart';
 import '../../routes/routes_path.dart';
 
 class SplashPage extends StatefulWidget {
@@ -23,9 +25,12 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: SvgPicture.asset(AppIcons.mainLogo)),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+    return BlocListener<UserBloc, UserState>(
+      listener: (context, state) {},
+      child: Scaffold(
+        body: Center(child: SvgPicture.asset(AppIcons.mainLogo)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
     );
   }
 }
