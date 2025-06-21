@@ -5,6 +5,7 @@ import 'package:bootpay/bootpay.dart';
 import 'package:bootpay/model/extra.dart';
 import 'package:bootpay/model/item.dart';
 import 'package:bootpay/model/payload.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -29,7 +30,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     emit(state.copyWith(status: PaymentStatus.initial));
 
     Payload payload = _getPayLoad(event.cartList);
-
+    try {
+     
     var (isSuccess, data) = await _bootPay(event.context, payload);
 
     if (isSuccess) {
@@ -49,6 +51,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       }
       emit(state.copyWith(status: PaymentStatus.error, message: message));
     }
+     
+    } catch (e) {
+      await FirebaseCrashlytics.instance.recordFlutterFatalError(
+        FlutterErrorDetails(exception: e),
+      );
+    }
+
   }
 }
 
