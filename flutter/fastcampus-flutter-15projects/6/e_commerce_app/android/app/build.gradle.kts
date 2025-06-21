@@ -40,6 +40,21 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions += "app"
+
+    productFlavors {
+        create("dev") {
+            dimension = "app"
+            applicationIdSuffix = ".dev"
+            resValue("string", "app_name", "Facam Market Dev")
+        }
+
+        create("prod") {
+            dimension = "app"
+            resValue("string", "app_name", "Facam Market")
+        }
+    }
 }
 
 flutter {
