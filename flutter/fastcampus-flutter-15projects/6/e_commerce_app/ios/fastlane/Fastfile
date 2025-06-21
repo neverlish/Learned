@@ -1,0 +1,69 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  lane :distribution_release do
+    build_ios_adhoc
+
+    firebase_app_distribution(
+      app: "1:100000000000:ios:0000000000000000000000",
+      groups: "testes",
+      ipa_path: "../build/ios/ipa/e_commerce_app.ipa"
+    )
+  end
+end
+
+platform :ios do
+  lane :testflight_release do
+    build_ios
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      groups: "testes",
+      ipa: "../build/ios/ipa/e_commerce_app.ipa"
+    )
+  end
+end
+
+platform :ios do
+  lane :release do
+    build_ios
+
+    upload_to_app_store(
+      ipa: "../build/ios/ipa/e_commerce_app.ipa",
+      skip_screenshots: true,
+      skip_metadata: true,
+      force: true,
+      submit_for_review: true,
+      automatic_release: true,
+      submission_information: {
+        add_id_info_uses_idfa: false
+      }
+    )
+  end
+end
+
+lane :build_ios do
+  sh("cd", "..")
+  sh("flutter", "build", "ipa", "--flavor", "prod", "-t", "lib/entry/prod.entry.dart")
+end
+
+
+lane :build_ios_adhoc do
+  sh("cd", "..")
+  sh("flutter", "build", "ipa", "--flavor", "prod", "-t", "lib/entry/prod.entry.dart", "--export-method", "ad-hoc")
+end
