@@ -32,6 +32,7 @@ dependencies:
   hive_flutter: ^1.1.0
   mocktail: ^1.0.0
   retrofit: ^4.0.1
+  shimmer:
   stream_transform: ^2.1.0
 
 dependency_overrides:
