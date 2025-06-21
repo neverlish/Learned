@@ -1,0 +1,17 @@
+default_platform(:android)
+
+platform :android do
+  desc "submit new test app to internal track"
+  lane :release_build do
+    gradle(task: "clean")
+    gradle(task: "bundle", build_type: "release")
+    upload_to_play_store(
+      track: "internal",
+      release_status: "completed",
+      version_code: 5,
+      version_name: "5.0.1",
+      aab: "../build/app/outputs/bundle/prodRelease/app-prod-release.aab"
+    )
+  end
+
+end
