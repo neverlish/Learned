@@ -52,13 +52,18 @@ class _ViewModuleListState extends State<ViewModuleList> {
         builder: (_, state) {
           return (state.status.isInitial || state.viewModules.isEmpty)
               ? HomePlaceholder()
-              : ListView(
+              : ListView.builder(
                   controller: scrollController,
-                  children: [
-                    ...state.viewModules,
-                    if (state.status.isLoading) LoadingWidget(),
-                    Footer(),
-                  ],
+                  itemBuilder: (_, index) {
+                    return Column(
+                      children: [
+                        ...state.viewModules,
+                        if (state.status.isLoading) LoadingWidget(),
+                        Footer(),
+                      ],
+                    );
+                  },
+                  itemCount: state.viewModules.length,
                 );
         },
       ),
