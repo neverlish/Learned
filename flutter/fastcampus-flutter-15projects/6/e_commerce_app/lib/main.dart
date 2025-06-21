@@ -12,13 +12,12 @@ import 'data/entity/display/target_api/target_api.dart';
 import 'data/entity/display/view_module/view_module.entity.dart';
 import 'data/entity/display/view_module_list/view_module_list.entity.dart';
 import 'dependency_injection.dart';
-import 'firebase_options_dev.dart';
 import 'presentation/main/bloc/cart_bloc/cart_bloc.dart';
 import 'presentation/main/bloc/user_bloc/user_bloc.dart';
 import 'presentation/pages/cart_list/bloc/cart_list_bloc/cart_list_bloc.dart';
 import 'presentation/routes/routes.dart';
 
-void main() async {
+void main(name, options) async {
   await Hive.initFlutter();
   Hive.registerAdapter(ProductInfoEntityAdapter());
   Hive.registerAdapter(CartEntityAdapter());
@@ -32,7 +31,7 @@ void main() async {
 
   KakaoSdk.init(nativeAppKey: '');
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(name: name, options: options);
 
   runApp(const MainApp());
 }
