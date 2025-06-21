@@ -50,6 +50,7 @@ app.*.map.json
 payment_api_keys.dart
 
 firebase_options.dart
+firebase_options_dev.dart
 firebase.json
 
 google-services.json
