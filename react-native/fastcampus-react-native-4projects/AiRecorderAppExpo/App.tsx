@@ -16,6 +16,7 @@ import {CameraView, useCameraPermissions} from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UpdateScreen from './src/UpdateScreen';
 import {version} from './package.json';
+import usePushNotification from './src/usePushNotification';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
 const DATABASE_KEY = 'database';
 
 const App = () => {
+  const {expoPushToken} = usePushNotification();
   const webViewRef = useRef<WebView | null>(null);
   const [audioPermissionResponse, requestAudioPermission] =
     Audio.usePermissions();
