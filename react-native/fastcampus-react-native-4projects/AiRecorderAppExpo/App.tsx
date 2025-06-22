@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UpdateScreen from './src/UpdateScreen';
 import {version} from './package.json';
 import usePushNotification from './src/usePushNotification';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -172,6 +173,14 @@ const App = () => {
   const saveDatabase = useCallback(async (database: any) => {
     await AsyncStorage.setItem(DATABASE_KEY, JSON.stringify(database));
   }, []);
+
+  useEffect(() => {
+    if (expoPushToken != null) {
+      axios.post('https://updatetoken-mx4ra5mtaa-uc.a.run.app', {
+        token: expoPushToken,
+      });
+    }
+  }, [expoPushToken]);
 
   return (
     <SafeAreaView style={styles.safearea}>
