@@ -172,6 +172,14 @@ const App = () => {
     await AsyncStorage.setItem(DATABASE_KEY, JSON.stringify(database));
   }, []);
 
+  useEffect(() => {
+    if (fcmToken != null) {
+      axios.post('https://updatetoken-dk5ihlwhwa-uc.a.run.app', {
+        token: fcmToken,
+      });
+    }
+  }, [fcmToken]);
+
   return (
     <SafeAreaView style={styles.safearea}>
       <Text style={styles.versionText}>{version}</Text>
