@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -16,8 +16,10 @@ import Permission from 'react-native-permissions';
 import RNFS from 'react-native-fs';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import UpdateScreen from './src/UpdateScreen';
 import {version} from './package.json';
+import usePushNotification from './src/usePushNotification';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
 const DATABASE_KEY = 'database';
 
 const App = () => {
+  const {fcmToken} = usePushNotification();
   const webViewRef = useRef<WebView | null>(null);
   const audioRecorderPlayerRef = useRef(new AudioRecorderPlayer());
   const device = useCameraDevice('back');
