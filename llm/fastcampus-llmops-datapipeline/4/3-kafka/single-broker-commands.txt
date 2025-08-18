@@ -1,0 +1,21 @@
+$ docker-compose up -d 
+
+#####################
+### topic cli 실습 ###
+#####################
+
+// topic 생성
+$ docker-compose exec kafka kafka-topics --create --topic first-topic --bootstrap-server kafka:9092 
+$ docker-compose exec kafka kafka-topics --create --topic second-topic --bootstrap-server kafka:9092 --partitions 3 
+$ docker-compose exec kafka kafka-topics --create --topic third-topic --bootstrap-server kafka:9092 --partitions 3 --replication-factor 2
+
+$ docker-compose exec kafka kafka-topics --create --topic third-topic --bootstrap-server kafka:9092 --partitions 3 --replication-factor 1
+
+// topic 리스트 확인
+$ docker-compose exec kafka kafka-topics --list --bootstrap-server kafka:9092
+
+// 각 topic의 상세 설명
+$ docker-compose exec kafka kafka-topics --describe --topic first-topic --bootstrap-server kafka:9092
+
+// topic 삭제
+$ docker-compose exec kafka kafka-topics --delete --topic first-topic --bootstrap-server kafka:9092
