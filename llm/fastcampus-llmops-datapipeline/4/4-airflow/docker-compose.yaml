@@ -101,6 +101,15 @@ services:
       start_period: 5s
     restart: always
 
+  mysql:
+    image: mysql:8.0
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ${AIRFLOW_PROJ_DIR:-.}/raw_data:/var/lib/mysql-files/
+      - ${AIRFLOW_PROJ_DIR:-.}/mysql_config/mysql.snf:/etc/mysql/mysql.snf
+
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
     # https://redis.io/blog/redis-adopts-dual-source-available-licensing/
