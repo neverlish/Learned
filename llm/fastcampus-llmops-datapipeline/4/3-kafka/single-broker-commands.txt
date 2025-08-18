@@ -19,3 +19,24 @@ $ docker-compose exec kafka kafka-topics --describe --topic first-topic --bootst
 
 // topic 삭제
 $ docker-compose exec kafka kafka-topics --delete --topic first-topic --bootstrap-server kafka:9092
+
+
+########################
+### producer cli 실습 ###
+########################
+
+
+// topic 재생성
+$ docker-compose exec kafka kafka-topics --create --topic first-topic --bootstrap-server kafka:9092 
+$ docker-compose exec kafka bash
+
+// producer 생성
+$ kafka-console-producer --topic first-topic --broker-list kafka:9092
+
+$ kafka-console-producer --topic first-topic --broker-list kafka:9092 --producer-property acks=all
+
+// 없는 topic에 producer 생성? -> 동적으로 topic을 생성하게 됨. 실무에선 지양
+$ kafka-console-producer --topic new-topic --broker-list kafka:9092
+
+// producer with keys
+$ kafka-console-producer --topic first-topic --broker-list kafka:9092 --property parse.key=true --property key.separator=:
