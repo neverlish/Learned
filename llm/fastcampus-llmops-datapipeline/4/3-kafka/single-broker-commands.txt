@@ -73,3 +73,35 @@ $ kafka-console-consumer --bootstrap-server localhost:9092 --topic second-topic 
 
 // key, value, timestamp 출력
 $ kafka-console-consumer --bootstrap-server localhost:9092 --topic second-topic --formatter kafka.tools.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true --property print.partition=true --from-beginning
+
+
+#############################
+### Consumer groups 실습 1 ###
+#############################
+
+
+// topic 생성 (partition 3개)
+
+$ docker-compose exec kafka kafka-topics --create --topic third-topic --bootstrap-server kafka:9092 --partitions 3 --replication-factor 1
+
+$ docker-compose exec kafka bash
+
+// consumer 1
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic third-topic --group my-first-application
+
+// producer
+$ kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic third-topic
+
+// consumer 2
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic third-topic --group my-first-application
+
+// consumer 3
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic third-topic --group my-first-application
+
+// consumer 4
+// partition 개수보다 consumer 개수가 더 많으면, 1개 이상의 conusmer는 데이터를 아예 못 받을 수도 있음.
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic third-topic --group my-first-application
+
+// 같은 명령어를 한 번 더 입력하면, 아무 것도 보이지 않음.
+// --from-beginning : consumer_offset 이 없을 때만 유효하게 동작함.
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic third-topic --group my-second-application --from-beginning
