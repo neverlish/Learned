@@ -1,0 +1,262 @@
+GET my_index/_settings
+
+
+PUT my_index2
+{
+  "settings": {
+    "number_of_replicas": 2,
+    "number_of_shards": 2
+  }
+}
+
+GET my_index2
+
+PUT my_index2/_settings
+{
+  "index.number_of_replicas": 1
+}
+
+PUT my_index2/_settings
+{
+  "index.number_of_shards": 1
+}
+
+# 매핑과 필드타입
+
+PUT my_index2/_doc/1
+{
+  "title": "hello world",
+  "price": 12000,
+  "content":"fastcampus elastic search",
+  "created_at": "2025-02-25T14:00:00Z",
+  "review_cnt": 100
+}
+
+
+GET my_index2
+
+# 매핑을 미리 선언
+
+PUT mapping_test
+{
+  "mappings": {
+        "properties": {
+            "created_at": {
+                "type": "date",
+                "format": "strict_date_time || epoch_millis"
+            },
+            "keywordString": {
+                "type": "keyword"
+            },
+            "textString": {
+                "type": "text"
+            }
+        }
+    },
+    "settings": {
+        "number_of_replicas": 1,
+        "number_of_shards": 1
+    }
+}
+
+
+PUT mapping_test/_doc/1
+{
+    "created_at": "2025-02-25T00:00:00Z"
+}
+
+PUT mapping_test/_doc/2
+{
+    "created_at": 1740727886000
+}
+
+GET mapping_test/_search
+{
+  "query": {
+    "range": {
+      "created_at": {
+        "gte": "2025-02-24T00:00:00Z",
+        "lte": "2025-02-26T00:00:00Z"
+      }
+    }
+  }
+}
+
+# 배열 Array
+
+PUT array_test
+{
+    "mappings": {
+        "properties": {
+            "longField": {
+                "type": "long"
+            },
+            "keywordField": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+
+
+PUT array_test/_doc/1
+{
+    "longField": 309,
+    "keywordField": ["hello", "world"]
+}
+
+
+PUT array_test/_doc/2
+{
+    "longField": [309, 310, 311],
+    "keywordField": "hello"
+}
+
+PUT array_test/_doc/3
+{
+    "longField": [309, "222"],
+    "keywordField": "hello"
+}
+
+
+GET array_test/_search
+{
+  "query": {
+    "term": {
+      "longField": "222"
+    }
+  }
+}
+
+# 계층 구조 지원 - object vs nested
+
+
+# object
+PUT object_test
+
+PUT object_test/_doc/1
+{
+    "price": 3000.25,
+    "spec": {
+        "cores": 12,
+        "memory": 512,
+        "storage": 8192
+    }
+}
+
+
+PUT object_test/_doc/2
+{
+    "price": 3000.25,
+    "spec": [
+        {
+            "cores": 12,
+            "memory": 512,
+            "storage": 8192
+        },
+        {
+            "cores": 8,
+            "memory": 1024,
+            "storage": 4096
+        },
+        {
+            "cores": 4,
+            "memory": 256,
+            "storage": 1024
+        }
+    ]
+}
+
+
+GET object_test/_search
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "term": {
+                        "spec.cores": 8
+                    }
+                },
+                {
+                    "term": {
+                        "spec.memory": 256
+                    }
+                }
+            ]
+        }
+    }
+}
+
+# nested
+
+PUT nested_test
+{
+    "mappings": {
+        "properties": {
+            "spec": {
+                "type": "nested",
+                "properties": {
+                    "cores": {
+                        "type": "long"
+                    },
+                    "memory": {
+                        "type": "long"
+                    },
+                    "storage": {
+                        "type": "long"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+PUT nested_test/_doc/2
+{
+    "price": 3000.25,
+    "spec": [
+        {
+            "cores": 12,
+            "memory": 512,
+            "storage": 8192
+        },
+        {
+            "cores": 8,
+            "memory": 1024,
+            "storage": 4096
+        },
+        {
+            "cores": 4,
+            "memory": 256,
+            "storage": 1024
+        }
+    ]
+}
+
+
+GET nested_test/_search
+{
+    "query": {
+        "nested": {
+            "path": "spec",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "spec.cores": 12
+                            }
+                        },
+                        {
+                            "term": {
+                                "spec.memory": 512
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
