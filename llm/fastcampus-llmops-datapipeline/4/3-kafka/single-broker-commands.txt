@@ -40,3 +40,36 @@ $ kafka-console-producer --topic new-topic --broker-list kafka:9092
 
 // producer with keys
 $ kafka-console-producer --topic first-topic --broker-list kafka:9092 --property parse.key=true --property key.separator=:
+
+########################
+### consumer cli 실습 ###
+########################
+
+$ docker-compose exec kafka bash
+$ kafka-console-consumer --topic first-topic --bootstrap-server localhost:9092
+
+// 토픽 생성
+$ docker-compose exec kafka kafka-topics --bootstrap-server localhost:9092 --topic second-topic --create --partitions 3
+
+$ docker-compose exec kafka bash
+// consumer
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic second-topic --from-beginning
+
+// 다른 터미널 열기
+$ docker-compose exec kafka bash
+// producer 생성
+// RoundRobinPartitioner : 실무에선 사용 X, 동작 방식 확인용
+$ kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic second-topic
+// producer에 string을 추가하면, consumer에서 잘 보이는 것을 확인.
+
+// consumer 종료 후 다시 띄우기
+
+
+// from beginning.
+// producer에서 전송한 순서대로 데이터가 보이지는 않음.
+// -> (토픽 내의 여러 개의 파티션이 존재하고, 각 파티션 별로 데이터를 보여주기 때문.)
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic second-topic --from-beginning
+
+
+// key, value, timestamp 출력
+$ kafka-console-consumer --bootstrap-server localhost:9092 --topic second-topic --formatter kafka.tools.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true --property print.partition=true --from-beginning
