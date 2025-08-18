@@ -1,0 +1,18 @@
+GET mapping_test
+
+PUT mapping_test/_doc/3
+{
+  "keywordString": "Hello elasticsearch!",
+  "textString": "Hello elasticsearch!"
+}
+
+GET mapping_test/_doc/3
+
+GET mapping_test/_search
+{
+  "query": {
+    "match": {
+      "keywordString": "elasticsearch"
+    }
+  }
+}
