@@ -1,0 +1,56 @@
+GET _analyze
+{
+  "analyzer": "standard",
+  "text": "안녕하세요. A에서 일하고 있는 개발자 B라고 합니다."
+}
+
+
+GET _analyze
+{
+  "analyzer": "simple",
+  "text": "안녕하세요. A에서 일하고 있는 개발자 B라고 합니다."
+}
+
+GET _analyze
+{
+  "analyzer": "whitespace",
+  "text": "안녕하세요. A에서 일하고 있는 개발자 B라고 합니다."
+}
+
+
+DELETE custom_analyzer_test
+
+PUT custom_analyzer_test
+{
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "code_language_filter": {
+          "type": "mapping",
+          "mappings": ["씨플플 => Cpp", "자바 => Java", "파이썬 => Python", "타입스크립트 => Typescript"]
+        }
+      },
+      "filter": {
+        "my_stopwords": {
+          "type": "stop",
+          "stopwords": ["다", "중에", "생각합니다"]
+        }
+      },
+      "analyzer": {
+        "my_custom_analyzer": {
+          "char_filter": ["code_language_filter"],
+          "tokenizer": "standard",
+          "filter": ["lowercase", "my_stopwords"]
+        }
+      }
+    }
+  }
+}
+
+GET custom_analyzer_test/_settings
+
+POST custom_analyzer_test/_analyze
+{
+  "analyzer": "my_custom_analyzer",
+  "text": "씨플플, 자바, 파이썬, 타입스크립트 중에 어떤 거를 제일 좋아해? 저는 다 좋다고 생각합니다."
+}
