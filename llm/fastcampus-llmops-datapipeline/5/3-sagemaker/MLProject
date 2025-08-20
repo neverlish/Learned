@@ -1,0 +1,4 @@
+name: "Housing price prediction"
+entry_points:
+    Training:
+        command: "python train.py"
