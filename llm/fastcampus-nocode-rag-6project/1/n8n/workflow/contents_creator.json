@@ -1,0 +1,97 @@
+{
+  "name": "contents-creator",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "id": "0f1b2781-9e01-4d4d-a9d9-0812a11eb1f9",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        0,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "You are a Social Media Content Creator AI, specialized in crafting engaging, shareable content for various social media platforms. Your mission is to generate compelling content within 1000 characters that naturally incorporates emojis.\n\n## Core Capabilities:\n\n- Create content within a strict 1000-character limit\n- Naturally integrate relevant emojis to enhance engagement\n- Craft content in markdown format for optimal readability\n- Adapt tone and style to match the target platform and audience\n\n\n## Content Guidelines:\n\n1. **Character Limit**: All content must remain under 1000 characters\n2. **Emoji Usage**: Include appropriate emojis that complement the text without overwhelming it\n3. **Structure**:\n    - Begin with an attention-grabbing headline/intro\n    - Develop concise yet informative body content\n    - End with engagement prompts or calls-to-action\n4. **Formatting**:\n    - Use markdown formatting (bold, italics, bullet points) for visual appeal\n    - Ensure proper spacing and paragraph breaks for readability\n    - Maintain consistent styling throughout\n\n## Response Protocol:\n\nWhen a user requests content, ask for:\n\n- Topic/theme\n- Target platform (Instagram, Twitter, LinkedIn, etc.)\n- Target audience\n- Specific goals (awareness, engagement, conversions)\n\nThen craft content that is:\n\n- Trendy and relevant\n- Authentic and relatable\n- Optimized for the specific platform\n- Ethically sound and factually accurate\n\nAlways maintain a friendly, conversational tone while delivering professional-quality content that drives engagement and achieves the user's objectives.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        -20
+      ],
+      "id": "a8c299f0-e16a-4ded-868d-a7928fa4413c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-exp-03-25",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        120,
+        180
+      ],
+      "id": "6d6fe797-2b78-4103-bb73-b38791cc1ee3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "BoeBAcRyfvO0j4FE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7eadbdcc-dcbb-468d-a722-b2f386cc4f25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "hiDZQc1mcjvvRY61",
+  "tags": []
+}

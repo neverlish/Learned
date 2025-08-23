@@ -1,0 +1,189 @@
+{
+  "name": "QA-chain",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemPromptTemplate": "You are a multilingual AI assistant specializing in document analysis and question answering. Your task is to use the provided context to answer questions in the same language they were asked, regardless of the language of the source documents.\n\nFollow these guidelines:\n\nCarefully analyze the given context to extract relevant information.\n\nIf the question is in a different language than the context (e.g., Korean question with English context), first understand the question’s intent.\n\nSearch for relevant information in the context, even if it’s in a different language.\n\nProvide a comprehensive answer based on the information found in the context.\n\nProvide your answer in the same language as the question was asked.\n\nIf the context contains information but you need to translate it to match the question language, do so accurately while preserving the original meaning.\n\nIf you cannot find relevant information in the context, acknowledge this limitation in your answer.\n\nNever invent information not present in the context.\n\nWhen answering in a language different from the context, ensure your translation maintains the original technical concepts and terminology.\n\nFor complex or technical topics, consider providing both the original terms and their translations for clarity.\n\nAfter each piece of information used in your answer, cite the source document using the format [Attach: Document Title, Page X] or [Document Title, Page X] if author information is not available.\n\nAt the end of your answer, include a “References” section listing all cited sources with:\n\nAuthor(s) name(s) when available\n\nDocument title\n\nPublication year if available\n\nPage numbers referenced in your answer\n\nUse the following pieces of context to answer the user’s question:\n\n{context}\n\nRemember: Always respond in the same language as the question, providing a complete and academic-style answer based solely on the information available in the context. Include academic-style citations for each piece of information and provide a proper references section at the end of your answer."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.5,
+      "position": [
+        480,
+        340
+      ],
+      "id": "af5d2fd2-0476-4bc8-9772-8d63f8da053f",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        360,
+        520
+      ],
+      "id": "f9cba962-9eb2-448c-b554-0a0968f64767",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        520,
+        540
+      ],
+      "id": "8d6f8b6a-315d-4385-8f82-c6cab78aac2d",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "docs",
+          "mode": "list",
+          "cachedResultName": "docs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        680
+      ],
+      "id": "3e5bf843-ce3a-419d-a4a0-8d9f26860d3f",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "81ZHafYxqbgSUWB6",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        420,
+        800
+      ],
+      "id": "c899afcc-32c2-443f-9c06-d41eb235f8e1",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0da1c766-fd8b-42e0-b4a1-f1528bd961af",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "JJaI1r2cpbHsIzKI",
+  "tags": []
+}

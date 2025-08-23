@@ -1,0 +1,482 @@
+{
+  "name": "vectordb_many_pdfs",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 1. VectorDB 저장\n- 구글 드라이브 경로에\n- 파일이 저장되면\n- Vector DB로 변환",
+        "height": 620,
+        "width": 1220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -420,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "1bbcbcb5-affd-4019-a5cd-fe288a584d74",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2. 채팅을 통해 RAG 구성\n- Vector DB를 불러옴\n- Tool로 연결",
+        "height": 620,
+        "width": 780
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        820,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "eaf8ff20-ffdc-4b49-a549-e695329196b1",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "docs",
+          "mode": "list",
+          "cachedResultName": "docs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        220
+      ],
+      "id": "8c8bcd1a-c9fa-4ef8-9c7c-c3ddb68e96f0",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "81ZHafYxqbgSUWB6",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        340,
+        380
+      ],
+      "id": "1ae1aa85-59da-4a8a-a6ba-5fd1277a173b",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        500,
+        380
+      ],
+      "id": "5c693753-12e9-4a75-801d-52276beb358a",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        400,
+        500
+      ],
+      "id": "77bf61e4-9578-4433-8332-ba63dc94e16e",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        940,
+        140
+      ],
+      "id": "07555b54-1b44-4666-96d6-5f3d932f031d",
+      "name": "When chat message received",
+      "webhookId": "b8f4af8f-07d3-4f53-8603-d6d181882da7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a multilingual AI assistant specializing in document analysis and question answering. Your task is to use the provided context to answer questions in the same language they were asked, regardless of the language of the source documents.\n\nFollow these guidelines:\n\nCarefully analyze the given context to extract relevant information.\n\n- **Always refer to vector store to find exact information.**\n\nIf the question is in a different language than the context (e.g., Korean question with English context), first understand the question’s intent.\n\nSearch for relevant information in the context, even if it’s in a different language.\n\nProvide a comprehensive answer based on the information found in the context.\n\nProvide your answer in the same language as the question was asked.\n\nIf the context contains information but you need to translate it to match the question language, do so accurately while preserving the original meaning.\n\nIf you cannot find relevant information in the context, acknowledge this limitation in your answer.\n\nNever invent information not present in the context.\n\nWhen answering in a language different from the context, ensure your translation maintains the original technical concepts and terminology.\n\nFor complex or technical topics, consider providing both the original terms and their translations for clarity.\n\nAfter each piece of information used in your answer, cite the source document using the format [Attach: Document Title, Page X] or [Document Title, Page X] if author information is not available.\n\nAt the end of your answer, include a “References” section listing all cited sources with:\n\nAuthor(s) name(s) when available\n\nDocument title\n\nPublication year if available\n\nPage numbers referenced in your answer\n\nUse the following pieces of context to answer the user’s question:\n\n{context}\n\nRemember: Always respond in the same language as the question, providing a complete and academic-style answer based solely on the information available in the context. Include academic-style citations for each piece of information and provide a proper references section at the end of your answer."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1160,
+        140
+      ],
+      "id": "fff29b68-e7d8-4e03-8bbd-73d44cd2b8c0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1080,
+        380
+      ],
+      "id": "ae893700-ff56-469f-ada1-db40e2d214fa",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        140
+      ],
+      "id": "2b8cfd97-9484-4aed-a1da-d4fe9eaf3377",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "limit": 10,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "13MNLhucMhOcJcTPOSA-eswiivTPvHQMm",
+            "mode": "list",
+            "cachedResultName": "PAPER",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/13MNLhucMhOcJcTPOSA-eswiivTPvHQMm"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -160,
+        140
+      ],
+      "id": "99d8934c-a3b4-4e43-814e-4ba32c28441c",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "heR8bEHpQN0bY8HM",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        40,
+        140
+      ],
+      "id": "45b0c9b3-f4d0-42c3-a826-ad1e5d3b99c8",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        200,
+        220
+      ],
+      "id": "f374aec3-5fdc-491a-870e-625d26dbd388",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "heR8bEHpQN0bY8HM",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1320,
+        820
+      ],
+      "id": "b8b7b440-99dd-454a-97eb-a4ae7b94862f",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "rag_knowledge_base",
+        "toolDescription": "work with vector store in qdrant collection",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "docs",
+          "mode": "list",
+          "cachedResultName": "docs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.1,
+      "position": [
+        1320,
+        680
+      ],
+      "id": "4f9746d4-77f5-4f0d-9168-ee30ab3b7168",
+      "name": "Qdrant Vector Store1",
+      "credentials": {
+        "qdrantApi": {
+          "id": "81ZHafYxqbgSUWB6",
+          "name": "QdrantApi account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "call this tool to check vector store",
+        "workflowId": {
+          "__rl": true,
+          "value": "JJaI1r2cpbHsIzKI",
+          "mode": "list",
+          "cachedResultName": "QA-chain"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1340,
+        380
+      ],
+      "id": "00729025-0a66-418c-98e6-94909ab38b69",
+      "name": "Call n8n Workflow Tool"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store1": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "297f34fd-2b77-4606-bb48-cf22d43c1692",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "pILIBxeV28qmCOZS",
+  "tags": []
+}
