@@ -3,6 +3,8 @@ package moviebuddy.domain;
 import moviebuddy.MovieBuddyFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 
@@ -11,8 +13,8 @@ import java.util.List;
  */
 public class MovieFinderTest {
 
-	final MovieBuddyFactory factory = new MovieBuddyFactory();
-	final MovieFinder movieFinder = factory.movieFinder();
+	final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MovieBuddyFactory.class);
+	final MovieFinder movieFinder = applicationContext.getBean(MovieFinder.class);
 
 
 	@Test

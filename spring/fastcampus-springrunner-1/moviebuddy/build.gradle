@@ -11,6 +11,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.5.1'
+
+    implementation 'org.springframework:spring-context:5.3.9'
+    implementation 'org.springframework:spring-context-support:5.3.9'
 }
 
 java {
