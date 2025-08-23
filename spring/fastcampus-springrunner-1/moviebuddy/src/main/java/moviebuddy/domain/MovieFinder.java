@@ -12,7 +12,7 @@ public class MovieFinder {
     private MovieReader movieReader;
 
 //    @Autowired
-    public MovieFinder(@Qualifier("csvMovieReader") MovieReader movieReader) {
+    public MovieFinder(@Qualifier("jaxbMovieReader") MovieReader movieReader) {
         this.movieReader = Objects.requireNonNull(movieReader);
     }
 
