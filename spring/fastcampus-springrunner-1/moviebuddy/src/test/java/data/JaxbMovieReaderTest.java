@@ -1,8 +1,10 @@
-package moviebuddy.domain;
+package data;
 
 import java.util.List;
 
 import moviebuddy.MovieBuddyFactory;
+import moviebuddy.data.JaxbMovieReader;
+import moviebuddy.domain.Movie;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

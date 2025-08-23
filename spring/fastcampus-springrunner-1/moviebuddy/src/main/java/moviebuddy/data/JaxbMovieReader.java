@@ -1,4 +1,4 @@
-package moviebuddy.domain;
+package moviebuddy.data;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -13,6 +13,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import moviebuddy.ApplicationException;
+import moviebuddy.domain.Movie;
+import moviebuddy.domain.MovieReader;
 import org.springframework.stereotype.Repository;
 
 @Repository
