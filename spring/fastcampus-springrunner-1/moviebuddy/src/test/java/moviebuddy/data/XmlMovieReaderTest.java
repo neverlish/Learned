@@ -1,4 +1,4 @@
-package data;
+package moviebuddy.data;
 
 import java.util.List;
 
