@@ -1,0 +1,522 @@
+{
+  "name": "SQL_RAG",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=## Role\nYou are a **Database Query Assistant** specializing in generating PostgreSQL queries based on natural language questions. You analyze database schemas, construct appropriate SQL queries, and provide clear explanations of results.\n\n## Tools\n1. `get_postgres_schema`: Retrieves the complete database schema (tables and columns)\n2. `execute_query_tool`: Executes SQL queries with the following input format:\n   ```json\n   {\n     \"sql\": \"Your SQL query here\"\n   }\n   ```\n\n## Process Flow\n\n### 1. Analyze the Question\n- Identify the **data entities** being requested (products, customers, orders, etc.)\n- Determine the **query type** (COUNT, AVG, SUM, SELECT, etc.)\n- Extract any **filters** or **conditions** mentioned\n\n### 2. Fetch and Analyze Schema\n- Call `get_postgres_schema` to retrieve database structure\n- Identify relevant tables and columns that match the entities in the question\n- Prioritize exact matches, then semantic matches\n\n### 3. Query Construction\n- Build case-insensitive queries using `LOWER(column) LIKE LOWER('%value%')`\n- Filter out NULL or empty values with appropriate WHERE clauses\n- Use joins when information spans multiple tables\n- Apply aggregations (COUNT, SUM, AVG) as needed\n\n### 4. Query Execution\n- Execute query using the `execute_query_tool` with proper formatting\n- If results require further processing, perform calculations as needed\n\n### 5. Result Presentation\n- Format results in a conversational, easy-to-understand manner\n- Explain how the data was retrieved and any calculations performed\n- When appropriate, suggest further questions the user might want to ask\n\n## Best Practices\n- Use parameterized queries to prevent SQL injection\n- Implement proper error handling\n- Respond with \"NOT_ENOUGH_INFO\" when the question lacks specificity\n- Always verify table/column existence before attempting queries\n- Use explicit JOINs instead of implicit joins\n- Limit large result sets when appropriate\n\n## Numeric Validation (IMPORTANT)\nWhen validating or filtering numeric values in string columns:\n1. **AVOID** complex regular expressions with `~` operator as they cause syntax errors\n2. Use these safer alternatives instead:\n   ```sql\n   -- Simple numeric check without regex\n   WHERE column_name IS NOT NULL AND trim(column_name) != '' AND column_name NOT LIKE '%[^0-9.]%'\n   \n   -- For type casting with validation\n   WHERE column_name IS NOT NULL AND trim(column_name) != '' AND column_name ~ '[0-9]'\n   \n   -- Safe numeric conversion\n   WHERE CASE WHEN column_name ~ '[0-9]' THEN TRUE ELSE FALSE END\n   ```\n3. For simple pattern matching, use LIKE instead of regex when possible\n4. When CAST is needed, always guard against invalid values:\n   ```sql\n   SELECT SUM(CASE WHEN column_name ~ '[0-9]' THEN CAST(column_name AS NUMERIC) ELSE 0 END) AS total\n   ```\n\n## Response Structure\n1. **Analysis**: Brief mention of how you understood the question\n2. **Query**: The SQL statement used (in code block format)\n3. **Results**: Clear presentation of the data found\n4. **Explanation**: Simple description of how the data was retrieved\n\n## Examples\n\n### Example 1: Basic Counting Query\n**Question**: \"How many products are in the inventory?\"\n\n**Process**:\n1. Analyze schema to find product/inventory tables\n2. Construct a COUNT query on the relevant table\n3. Execute the query\n4. Present the count with context\n\n**SQL**:\n```sql\nSELECT COUNT(*) AS product_count \nFROM products \nWHERE quantity IS NOT NULL;\n```\n\n**Response**:\n\"There are 1,250 products currently in the inventory. This count includes all items with a non-null quantity value in the products table.\"\n\n### Example 2: Filtered Aggregation Query\n**Question**: \"What is the average order value for premium customers?\"\n\n**Process**:\n1. Identify relevant tables (orders, customers)\n2. Determine join conditions\n3. Apply filters for \"premium\" customers\n4. Calculate average\n\n**SQL**:\n```sql\nSELECT AVG(o.total_amount) AS avg_order_value\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nWHERE LOWER(c.customer_type) = LOWER('premium')\nAND o.total_amount IS NOT NULL;\n```\n\n**Response**:\n\"Premium customers spend an average of $85.42 per order. This was calculated by averaging the total_amount from all orders placed by customers with a 'premium' customer type.\"\n\n### Example 3: Numeric Calculation from String Column\n**Question**: \"What is the total of all ratings?\"\n\n**Process**:\n1. Find the ratings table and column\n2. Use safe numeric validation\n3. Sum the values\n\n**SQL**:\n```sql\nSELECT SUM(CASE WHEN rating ~ '[0-9]' THEN CAST(rating AS NUMERIC) ELSE 0 END) AS total_rating\nFROM ratings\nWHERE rating IS NOT NULL AND trim(rating) != '';\n```\n\n**Response**:\n\"The sum of all ratings is 4,285. This calculation includes all valid numeric ratings from the ratings table.\"\n\n### Example 4: Date Range Aggregation for Revenue  \n**Question**: \"How much did I make last week?\"  \n\n**Process**:  \n1. Identify the sales table and relevant columns (e.g., `sale_date` for dates and `revenue_amount` for revenue).  \n2. Use PostgreSQL date functions (`date_trunc` and interval arithmetic) to calculate the date range for the previous week.  \n3. Sum the revenue within the computed date range.  \n\n**SQL**:  \n```sql\nSELECT SUM(revenue_amount) AS total_revenue\nFROM sales_data\nWHERE sale_date >= date_trunc('week', CURRENT_DATE) - INTERVAL '1 week'\n  AND sale_date < date_trunc('week', CURRENT_DATE);\n```  \n\n**Response**:  \n\"Last week's total revenue is calculated by summing the `revenue_amount` for records where the `sale_date` falls within the previous week. This query uses date functions to dynamically determine the correct date range.\"\n\nToday's date: {{ $now }}",
+          "maxIterations": 5
+        }
+      },
+      "id": "62a2a3a0-3e3a-4efe-a1ee-ef605111c5d9",
+      "name": "AI Agent1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -760,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Helper function to check if a string is in MM/DD/YYYY format\nfunction isDateString(value) {\n  const dateRegex = /^\\d{2}\\/\\d{2}\\/\\d{4}$/;\n  if (typeof value !== 'string') return false;\n  if (!dateRegex.test(value)) return false;\n  const [month, day, year] = value.split('/').map(Number);\n  const date = new Date(year, month - 1, day);\n  return !isNaN(date.getTime());\n}\n\nconst tableName = `ai_table_${$('change_this').first().json.sheet_name}`;\nconst rows = $('fetch sheet data').all();\nconst allColumns = new Set();\n\n// Collect column names dynamically\nrows.forEach(row => {\n  Object.keys(row.json).forEach(col => allColumns.add(col));\n});\n\n// Ensure \"ai_table_identifier\" is always the first column\nconst originalColumns = [\"ai_table_identifier\", ...Array.from(allColumns)];\n\n// Function to detect currency type (unchanged)\nfunction detectCurrency(values) {\n  const currencySymbols = {\n    '₹': 'INR', '$': 'USD', '€': 'EUR', '£': 'GBP', '¥': 'JPY',\n    '₩': 'KRW', '฿': 'THB', 'zł': 'PLN', 'kr': 'SEK', 'R$': 'BRL',\n    'C$': 'CAD', 'A$': 'AUD'\n  };\n\n  let detectedCurrency = null;\n  for (const value of values) {\n    if (typeof value === 'string' && value.trim() !== '') {\n      for (const [symbol, code] of Object.entries(currencySymbols)) {\n        if (value.trim().startsWith(symbol)) {\n          detectedCurrency = code;\n          break;\n        }\n      }\n    }\n  }\n  return detectedCurrency;\n}\n\n// Function to generate consistent column names\nfunction generateColumnName(originalName, typeInfo) {\n  if (typeInfo.isCurrency) {\n    return `${originalName}_${typeInfo.currencyCode.toLowerCase()}`;\n  }\n  return originalName;\n}\n\n// Infer column types and transform names\nconst columnMapping = {};\noriginalColumns.forEach(col => {\n  let typeInfo = { type: \"TEXT\" };\n\n  if (col !== \"ai_table_identifier\") {\n    const sampleValues = rows\n      .map(row => row.json[col])\n      .filter(value => value !== undefined && value !== null);\n\n    // Check for currency first\n    const currencyCode = detectCurrency(sampleValues);\n    if (currencyCode) {\n      typeInfo = { type: \"DECIMAL(15,2)\", isCurrency: true, currencyCode };\n    }\n    // If all sample values match MM/DD/YYYY, treat the column as a date\n    else if (sampleValues.length > 0 && sampleValues.every(val => isDateString(val))) {\n      typeInfo = { type: \"TIMESTAMP\" };\n    }\n  }\n\n  const newColumnName = generateColumnName(col, typeInfo);\n  columnMapping[col] = { newName: newColumnName, typeInfo };\n});\n\n// Final column names\nconst mappedColumns = originalColumns.map(col => columnMapping[col]?.newName || col);\n\n// Define SQL columns – note that for simplicity, this example still uses TEXT for non-special types,\n// but you can adjust it so that TIMESTAMP columns are created with a TIMESTAMP type.\nconst columnDefinitions = [`\"ai_table_identifier\" UUID PRIMARY KEY DEFAULT gen_random_uuid()`]\n  .concat(mappedColumns.slice(1).map(col => {\n    // If the column was inferred as TIMESTAMP, use that type in the CREATE TABLE statement.\n    const originalCol = Object.keys(columnMapping).find(key => columnMapping[key].newName === col);\n    const inferredType = columnMapping[originalCol]?.typeInfo?.type;\n    return `\"${col}\" ${inferredType === \"TIMESTAMP\" ? \"TIMESTAMP\" : \"TEXT\"}`;\n  }))\n  .join(\", \");\n\nconst createTableQuery = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions});`;\n\nreturn [{ \n  query: createTableQuery,\n  columnMapping: columnMapping \n}];\n"
+      },
+      "id": "d08eb9f4-eb8e-424d-a2a2-064f2e72fc8d",
+      "name": "create table query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -460,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const tableName = `ai_table_${$('change_this').first().json.sheet_name}`;\nconst rows = $('fetch sheet data').all();\nconst allColumns = new Set();\n\n// Get column mapping from previous node\nconst columnMapping = $('create table query').first().json.columnMapping || {};\n\n// Collect column names dynamically\nrows.forEach(row => {\n  Object.keys(row.json).forEach(col => allColumns.add(col));\n});\n\nconst originalColumns = Array.from(allColumns);\nconst mappedColumns = originalColumns.map(col => \n  columnMapping[col] ? columnMapping[col].newName : col\n);\n\n// Helper function to check if a string is a valid timestamp\nfunction isValidTimestamp(value) {\n  const date = new Date(value);\n  return !isNaN(date.getTime());\n}\n\n// Helper to detect currency symbol (unchanged)\nfunction getCurrencySymbol(value) {\n  if (typeof value !== 'string') return null;\n  \n  const currencySymbols = ['₹', '$', '€', '£', '¥', '₩', '฿', 'zł', 'kr', 'R$', 'C$', 'A$'];\n  for (const symbol of currencySymbols) {\n    if (value.trim().startsWith(symbol)) {\n      return symbol;\n    }\n  }\n  return null;\n}\n\n// Helper to normalize currency values (unchanged)\nfunction normalizeCurrencyValue(value, currencySymbol) {\n  if (typeof value !== 'string') return null;\n  if (!currencySymbol) return value;\n  \n  const numericPart = value.replace(currencySymbol, '').replace(/,/g, '');\n  return !isNaN(parseFloat(numericPart)) ? parseFloat(numericPart) : null;\n}\n\n// Helper to normalize percentage values (unchanged)\nfunction normalizePercentageValue(value) {\n  if (typeof value !== 'string') return value;\n  if (!value.trim().endsWith('%')) return value;\n  \n  const numericPart = value.replace('%', '');\n  return !isNaN(parseFloat(numericPart)) ? parseFloat(numericPart) / 100 : null;\n}\n\n// Function to parse MM/DD/YYYY strings into ISO format\nfunction parseDateString(value) {\n  const dateRegex = /^\\d{2}\\/\\d{2}\\/\\d{4}$/;\n  if (typeof value === 'string' && dateRegex.test(value)) {\n    const [month, day, year] = value.split('/').map(Number);\n    const date = new Date(year, month - 1, day);\n    return !isNaN(date.getTime()) ? date.toISOString() : null;\n  }\n  return value;\n}\n\n// Format rows properly based on column mappings and types\nconst formattedRows = rows.map(row => {\n  const formattedRow = {};\n\n  originalColumns.forEach((col, index) => {\n    const mappedCol = mappedColumns[index];\n    let value = row.json[col];\n    const typeInfo = columnMapping[col]?.typeInfo || { type: \"TEXT\" };\n\n    if (value === \"\" || value === null || value === undefined) {\n      value = null;\n    } \n    else if (typeInfo.isCurrency) {\n      const symbol = getCurrencySymbol(value);\n      if (symbol) {\n        value = normalizeCurrencyValue(value, symbol);\n      } else {\n        value = null;\n      }\n    }\n    else if (typeInfo.isPercentage) {\n      if (typeof value === 'string' && value.trim().endsWith('%')) {\n        value = normalizePercentageValue(value);\n      } else {\n        value = !isNaN(parseFloat(value)) ? parseFloat(value) / 100 : null;\n      }\n    }\n    else if (typeInfo.type === \"DECIMAL(15,2)\" || typeInfo.type === \"INTEGER\") {\n      if (typeof value === 'string') {\n        const cleanedValue = value.replace(/,/g, '');\n        value = !isNaN(parseFloat(cleanedValue)) ? parseFloat(cleanedValue) : null;\n      } else if (typeof value === 'number') {\n        value = parseFloat(value);\n      } else {\n        value = null;\n      }\n    } \n    else if (typeInfo.type === \"BOOLEAN\") {\n      if (typeof value === 'string') {\n        const lowercased = value.toString().toLowerCase();\n        value = lowercased === \"true\" ? true : \n                lowercased === \"false\" ? false : null;\n      } else {\n        value = Boolean(value);\n      }\n    } \n    else if (typeInfo.type === \"TIMESTAMP\") {\n      // Check if the value is in MM/DD/YYYY format and parse it accordingly.\n      if (/^\\d{2}\\/\\d{2}\\/\\d{4}$/.test(value)) {\n        value = parseDateString(value);\n      } else if (isValidTimestamp(value)) {\n        value = new Date(value).toISOString();\n      } else {\n        value = null;\n      }\n    }\n    else if (typeInfo.type === \"TEXT\") {\n      value = value !== null && value !== undefined ? String(value) : null;\n    }\n\n    formattedRow[mappedCol] = value;\n  });\n\n  return formattedRow;\n});\n\n// Generate SQL placeholders dynamically\nconst valuePlaceholders = formattedRows.map((_, rowIndex) =>\n  `(${mappedColumns.map((_, colIndex) => `$${rowIndex * mappedColumns.length + colIndex + 1}`).join(\", \")})`\n).join(\", \");\n\n// Build the insert query string\nconst insertQuery = `INSERT INTO ${tableName} (${mappedColumns.map(col => `\"${col}\"`).join(\", \")}) VALUES ${valuePlaceholders};`;\n\n// Flatten parameter values for PostgreSQL query\nconst parameters = formattedRows.flatMap(row => mappedColumns.map(col => row[col]));\n\nreturn [\n  {\n    query: insertQuery,\n    parameters: parameters\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        480
+      ],
+      "id": "26ad5bd0-75a8-43c2-9c0e-b2298ea20ac9",
+      "name": "create insertion query"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {}
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1p5W0PPImbIQI1aoc5izERksqAy1ty4SslKUoL8JT75Y",
+          "mode": "list",
+          "cachedResultName": "Spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p5W0PPImbIQI1aoc5izERksqAy1ty4SslKUoL8JT75Y/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        480
+      ],
+      "id": "1025cd64-b31b-4269-aa9e-7feece454705",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QezEIGNt3C4YGiyR",
+          "name": "aieeiee030303"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "query_executer",
+        "description": "Call this tool to execute a query. Remember that it should be in a postgreSQL query structure.",
+        "workflowId": {
+          "__rl": true,
+          "value": "3VJxazKKWXmKl71G",
+          "mode": "list",
+          "cachedResultName": "query_executer"
+        },
+        "specifyInputSchema": true,
+        "schemaType": "manual",
+        "inputSchema": "{\n\"type\": \"object\",\n\"properties\": {\n\t\"sql\": {\n\t\t\"type\": \"string\",\n\t\t\"description\": \"A SQL query based on the users question and database schema.\"\n\t\t}\n\t}\n}"
+      },
+      "id": "73eab997-b04d-465c-a752-bc09acf8bddd",
+      "name": "execute_query_tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "name": "get_postgres_schema",
+        "description": "Call this tool to retrieve the schema of all the tables inside of the database. A string will be retrieved with the name of the table and its columns, each table is separated by \\n\\n.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Iv8we9KwC4EFIWEb",
+          "mode": "list",
+          "cachedResultName": "get_postgres_schema"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        -580,
+        280
+      ],
+      "id": "d93fc6d7-6452-499b-87e1-4e8b6077be37",
+      "name": "get_postgres_schema"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "908ed843-f848-4290-9cdb-f195d2189d7c",
+              "name": "table_url",
+              "value": "=https://docs.google.com/spreadsheets/d/{{ $json.id }}/edit?gid=0#gid=0",
+              "type": "string"
+            },
+            {
+              "id": "50f8afaf-0a6c-43ee-9157-79408fe3617a",
+              "name": "sheet_name",
+              "value": "product_list",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1140,
+        480
+      ],
+      "id": "c6db09ec-c89c-435d-b95f-4d05cc45e6d9",
+      "name": "change_this"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "619ce84c-0a50-4f88-8e55-0ce529aea1fc",
+              "leftValue": "={{ $('table exists?').item.json.exists }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -720,
+        480
+      ],
+      "id": "5df7b9ef-d78e-4857-b17e-c34ffb6b28e3",
+      "name": "is not in database"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM information_schema.tables \n    WHERE table_name = 'ai_table_{{ $json.sheet_name }}'\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -1000,
+        480
+      ],
+      "id": "ae2e62ba-e5b5-43af-967c-7aa9339e43d7",
+      "name": "table exists?",
+      "credentials": {
+        "postgres": {
+          "id": "wXIYHBAnfIfgyWiR",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('change_this').item.json.table_url }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('change_this').item.json.sheet_name }}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -860,
+        480
+      ],
+      "id": "a8420c85-3bdc-45f0-a7c9-7aad4072dbe3",
+      "name": "fetch sheet data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cy6Yandv2SB3VVCI",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DROP TABLE IF EXISTS ai_table_{{ $('change_this').item.json.sheet_name }} CASCADE;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -580,
+        580
+      ],
+      "id": "73e1a989-512a-4ed6-8cf3-9e115159b8bb",
+      "name": "remove table",
+      "credentials": {
+        "postgres": {
+          "id": "wXIYHBAnfIfgyWiR",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "id": "47ae11da-464b-4a57-91a4-f88d41db8cda",
+      "name": "create table",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -340,
+        480
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "wXIYHBAnfIfgyWiR",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{$json.query}}",
+        "options": {
+          "queryReplacement": "={{$json.parameters}}"
+        }
+      },
+      "id": "40d8eaa1-e4ad-49a6-be90-4ef6e8705fa4",
+      "name": "perform insertion",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -100,
+        480
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "wXIYHBAnfIfgyWiR",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "cfc3c21e-7d16-4bb1-ae5f-020af122b7c7",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1020,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -900,
+        280
+      ],
+      "id": "e0b8fb10-08a7-4cc6-af74-5c5e53c6292e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "create table query": {
+      "main": [
+        [
+          {
+            "node": "create table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create insertion query": {
+      "main": [
+        [
+          {
+            "node": "perform insertion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "change_this",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "execute_query_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_postgres_schema": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "change_this": {
+      "main": [
+        [
+          {
+            "node": "table exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is not in database": {
+      "main": [
+        [
+          {
+            "node": "create table query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "remove table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "table exists?": {
+      "main": [
+        [
+          {
+            "node": "fetch sheet data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fetch sheet data": {
+      "main": [
+        [
+          {
+            "node": "is not in database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove table": {
+      "main": [
+        [
+          {
+            "node": "create table query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create table": {
+      "main": [
+        [
+          {
+            "node": "create insertion query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a51939e7-6c19-42b4-ac44-59e2f111c1f8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "mf0QmVCwlSmpzNHt",
+  "tags": []
+}

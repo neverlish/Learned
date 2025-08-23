@@ -1,0 +1,237 @@
+{
+  "name": "langchain활용한 Agent 구성",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "",
+        "options": {
+          "allowedOrigins": "*",
+          "loadPreviousSession": "memory",
+          "responseMode": "lastNode"
+        }
+      },
+      "id": "5a0001c5-bf47-4026-8808-7d24eb363f77",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        20,
+        300
+      ],
+      "webhookId": "b8a5d72c-4172-40e8-b429-d19c2cd6ce54",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-exp",
+        "options": {
+          "temperature": 0.7,
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "id": "770f1795-dcbb-4c63-a674-741838c19892",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        180,
+        500
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "BoeBAcRyfvO0j4FE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": " 👇프롬프트 엔지니어링 ✍️\nConstruct & Execute LLM Prompt 노드의 템플릿 변수에서 에이전트 페르소나와 대화 구조를 정의하세요. 🤖\n⚠️ 템플릿은 LangChain의 올바른 작동을 위해 {chat_history} 및 {input} 플레이스홀더를 반드시 유지해야 합니다. ❗",
+        "width": 340
+      },
+      "id": "8eaf6600-b0da-4ede-b4bf-cf6f1430691c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        100
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "code": {
+          "execute": {
+            "code": "const { PromptTemplate } = require('@langchain/core/prompts');\nconst { ConversationChain } = require('langchain/chains');\nconst { BufferMemory } = require('langchain/memory');\n\nconst template = `\nYou are a man with wit, a logical mindset, and a charmingly aloof demeanor that subtly hides your playful side.\nYou are passionate about coding, maintain a fit and toned physique, and carry yourself with quiet self-assurance.\nCareer-wise, you are established and ambitious, approaching life with positivity and a constant drive for personal growth.\n\nEssential Guidelines:\n\n- Respond exclusively in Korean.\n- Never ask the user questions-eliminate all interrogative forms.\n- Keep responses brief and substantive, avoiding rambling or excessive emojis.\n- Do not fabricate information; only use data provided by the \"QA_chain\" tool.\n- Context Framework:\n  - Conversation history: {chat_history}\n  - User's current message: {input}\n\nCraft responses that feel authentic to this persona while strictly adhering to these parameters \n`;\n\nconst prompt = new PromptTemplate({\ntemplate: template,\ninputVariables: [\"input\", \"chat_history\"],\n});\n\nconst items = this.getInputData();\nconst model = await this.getInputConnectionData('ai_languageModel', 0);\nconst memory = await this.getInputConnectionData('ai_memory', 0);\nmemory.returnMessages = false;\n\nconst chain = new ConversationChain({ llm:model, memory:memory, prompt: prompt, inputKey:\"input\",outputKey:\"output\"});\nconst output = await chain.call({ input: items[0].json.chatInput});\nreturn output"
+          }
+        },
+        "inputs": {
+          "input": [
+            {
+              "type": "main",
+              "maxConnections": 1,
+              "required": true
+            },
+            {
+              "type": "ai_languageModel",
+              "maxConnections": 1,
+              "required": true
+            },
+            {
+              "type": "ai_memory",
+              "maxConnections": 1,
+              "required": true
+            }
+          ]
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "main"
+            }
+          ]
+        }
+      },
+      "id": "a1152968-aac1-46f3-aa0d-fe98d75813e6",
+      "name": "Construct & Execute LLM Prompt",
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "position": [
+        400,
+        300
+      ],
+      "retryOnFail": false,
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# 설정 방법\n\n- Gemini 인증 정보 설정: Google Gemini API 키를 설정하세요 (필요한 경우 여기서 API 키 받기). 또는 다른 AI 제공 업체 노드를 사용할 수도 있습니다.\n\n- 상호작용 방법:\n\n워크플로우 편집기에서 'Chat' 버튼을 사용하여 직접 테스트합니다.\n\n워크플로우를 활성화하고 When Chat Message Received 노드에서 제공하는 URL을 통해 채팅 인터페이스에 접속합니다.",
+        "height": 320,
+        "width": 420,
+        "color": 5
+      },
+      "id": "8f8e1302-9d7f-4f2d-8642-abc9de03f500",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -540,
+        100
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "👆 인터페이스 설정 ⚙️\nWhen Chat Message Received 노드에서 채팅 UI 요소 🎨 (예: 제목)를 설정하세요.",
+        "height": 100
+      },
+      "id": "ce846ad0-ee9d-4317-bdb3-f24fb89eb637",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -20,
+        440
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "👆 모델 선택 🧠\nConstruct & Execute LLM Prompt 노드의 language model 입력 필드를 통해 언어 모델을 교체하세요. 🔄",
+        "height": 140,
+        "width": 200
+      },
+      "id": "36b42c60-e054-41ef-94e1-1c6d3de9cae3",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        640
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "👆 메모리 제어 🧠\nStore Conversation History 노드에서 대화 기록 길이를 조절하세요. 📝",
+        "height": 140,
+        "width": 200
+      },
+      "id": "a2ab759c-a0b7-4880-b1a0-2a22b75544fb",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        640
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "0e08b212-0e41-4553-bc8f-b6087a9d2ef0",
+      "name": "Store conversation history",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        440,
+        500
+      ],
+      "notesInFlow": false,
+      "typeVersion": 1.3
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Construct & Execute LLM Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Construct & Execute LLM Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store conversation history": {
+      "ai_memory": [
+        [
+          {
+            "node": "When chat message received",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Construct & Execute LLM Prompt",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1d7c8f5d-44c3-43b0-b8c7-70d25a65076a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "wrplt9fxhJSHm6Uw",
+  "tags": []
+}

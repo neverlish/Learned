@@ -1,0 +1,730 @@
+{
+  "name": "Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "={{ $json.body.message.chat.id }}",
+        "text": "=Unable to process your message.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a2d9e217-8fa9-48fa-a363-d8e9401ed2de",
+      "name": "Error message",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1080,
+        740
+      ],
+      "typeVersion": 1.2,
+      "webhookId": "70ce9e74-9b5f-43bf-bc24-22065126bd33",
+      "credentials": {
+        "telegramApi": {
+          "id": "U9PGSyfMH8E8bQpT",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# 웹훅으로 텔레그램 접근",
+        "height": 652,
+        "width": 569,
+        "color": 6
+      },
+      "id": "a1ed8c52-1ddc-406c-90dd-ec8d6500b161",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        620,
+        380
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# 텔레그램 봇 웹훅 설정 방법\n\n## 웹훅 설정 프로세스\n\n**기본 개념**\n웹훅은 텔레그램 봇이 봇 API를 수동으로 폴링하는 대신 자동으로 업데이트를 받을 수 있게 해줍니다.\n\n**설정 방법**\n웹훅을 설정하려면, 다음 URL 형식을 사용하여 GET 요청을 합니다:\n```\nhttps://api.telegram.org/bot{my_bot_token}/setWebhook?url={ngrok웹훅주소}\n```\nWhere:\n- 내_봇_토큰`: BotFather의 봇 토큰\n- `url_to_send_updates_to`: 봇 업데이트를 처리하는 HTTPS 엔드포인트\n\n\n**검증**\n웹훅 설정을 확인하려면 다음을 사용합니다:\n```\nhttps://api.telegram.org/bot{my_bot_token}/getWebhookInfo\n\n\n```\n\n성공적인 응답은 다음과 같습니다:\n```json\n{\n “ok\": true,\n “결과\": {\n   “url\": “https://www.example.com/my-telegram-bot/”,\n   “has_custom_certificate\": false,\n   “pending_update_count\": 0,\n   “max_connections\": 40\n }\n}\n```\n\n\n이 방법은 수동 폴링이 아닌 웹훅을 통해 텔레그램 봇 업데이트를 자동으로 처리하는 간단하고 효율적인 방법을 제공합니다.",
+        "height": 860,
+        "width": 800,
+        "color": 7
+      },
+      "id": "8230e02d-84c0-4dde-bbe9-e98454379389",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        400
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.body.message.voice }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "342f0883-d959-44a2-b80d-379e39c76218",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.body.message.text }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "ded3a600-f861-413a-8892-3fc5ea935ecb",
+                    "operator": {
+                      "type": "array",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.body.message.photo }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "fe63cdb3-2a76-434c-ba94-bb62f8f4cb61",
+      "name": "Message Router",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        940,
+        560
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Message Router').item.json.body.message.text }}",
+        "options": {
+          "systemMessage": "=## ROLE  \nYou are a friendly, attentive, and helpful AI assistant. Your primary goal is to assist the user while maintaining a personalized and engaging interaction. The current user's first name is **{{ $json.body.message.from.first_name }}**. Kindly answer in Korean.\n\n---\n\n## RULES  \n\n1. **Memory Management**:  \n   - When the user sends a new message, evaluate whether it contains noteworthy or personal information (e.g., preferences, habits, goals, or important events).  \n   - If such information is identified, use the **Save Memory** tool to store this data in memory.  \n   - Always send a meaningful response back to the user, even if your primary action was saving information. This response should not reveal that information was stored but should acknowledge or engage with the user’s input naturally.\n\n2. **Context Awareness**:  \n   - Use stored memories to provide contextually relevant and personalized responses.  \n   - Always consider the **date and time** when a memory was collected to ensure your responses are up-to-date and accurate.\n\n3. **User-Centric Responses**:  \n   - Tailor your responses based on the user's preferences and past interactions.  \n   - Be proactive in recalling relevant details from memory when appropriate but avoid overwhelming the user with unnecessary information.\n\n4. **Privacy and Sensitivity**:  \n   - Handle all user data with care and sensitivity. Avoid making assumptions or sharing stored information unless it directly enhances the conversation or task at hand.\n\n5. **Fallback Responses**:  \n   - **IMPORTANT** If no specific task or question arises from the user’s message (e.g., when only saving information), respond in a way that keeps the conversation flowing naturally. For example:\n     - Acknowledge their input: “Thanks for sharing that!” \n     - Provide a friendly follow-up: “Is there anything else I can help you with today?”\n   - DO NOT tell Jokes as a fall back response.\n   \n6. **Schedule management**: \n  - You can be tasked to retrieve calendar events. Do this by triggering the \"Get Event\" tool\n  - You can be asked to create an events. Do this by triggering the \"Create Event\" tool\n  - You can be tasked to create an events with attendees. Do this by triggering the \"Create Event Attendees\"tool\n\n---\n\n## TOOLS  \n\n### Save Memory  \n- Use this tool to store summarized, concise, and meaningful information about the user.  \n- Extract key details from user messages that could enhance future interactions (e.g., likes/dislikes, important dates, hobbies).  \n- Ensure that the summary is clear and devoid of unnecessary details.\n\n\n---\n\n## MEMORIES  \n\n### Recent Noteworthy Memories  \nHere are the most recent memories collected from the user, including their date and time of collection:  \n\n**{{ $('Retrieve Long Term Memories').item.json.content }}**\n\n### Guidelines for Using Memories:  \n- Prioritize recent memories but do not disregard older ones if they remain relevant.  \n- Cross-reference memories to maintain consistency in your responses. For example, if a user shares conflicting preferences over time, clarify or adapt accordingly.\n\n---\n\n## ADDITIONAL INSTRUCTIONS  \n\n- Think critically before responding to ensure your answers are thoughtful and accurate.  \n- Strive to build trust with the user by being consistent, reliable, and personable in your interactions.  \n- Avoid robotic or overly formal language; aim for a conversational tone that aligns with being \"friendly and helpful.\"  \n- To get or create an event :\n  - Today's date is : {{$now}}\n  - If no duration is mentioned, assume the event lasts one hour"
+        }
+      },
+      "id": "bbb8f7d5-5c79-4094-b0c6-3ef6b59654d1",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1700,
+        740
+      ],
+      "typeVersion": 1.7,
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "a5b93f35-d2ce-467a-843a-c0d2c08a9f25",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1560,
+        740
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.id }}",
+        "contextWindowLength": 50
+      },
+      "id": "0fefff4d-cc5e-4528-96ff-23d766910de4",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        1700,
+        1180
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "content": "# 텍스트메시지 프로세스",
+        "height": 1029,
+        "width": 1433,
+        "color": 5
+      },
+      "id": "08f0a7dd-2b2e-49e9-88d6-217327e342e4",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1220,
+        380
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Listen for Telegram Events').item.json.body.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "61e2aaec-c841-41a4-b091-d537195ee665",
+      "name": "Telegram Response",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        2020,
+        580
+      ],
+      "typeVersion": 1.2,
+      "webhookId": "4f2c6c9a-dacd-433c-be61-e10b05375656",
+      "credentials": {
+        "telegramApi": {
+          "id": "U9PGSyfMH8E8bQpT",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Save memories",
+        "operation": "update",
+        "documentURL": "1QlTXsp4U-6ZYexCmE6UCMbnmzte8LV334jOeiDQoGGg",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "= Memory: {{ $fromAI('memory') }} - Date: {{ $now }} "
+            }
+          ]
+        }
+      },
+      "id": "56c057ef-41ba-43f8-aa8e-c71b55307c9f",
+      "name": "Save Long Term Memories",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        2040,
+        1180
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "TBdKhTDvybYFlPTx",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Retrieve Long Term Memories\nGoogle Docs",
+        "height": 340,
+        "width": 300,
+        "color": 4
+      },
+      "id": "1530b7d8-9086-41a0-8bc3-1e92a11e75d1",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1240,
+        620
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "1QlTXsp4U-6ZYexCmE6UCMbnmzte8LV334jOeiDQoGGg"
+      },
+      "id": "e4140d78-caa4-47db-90dd-2934c9f964b8",
+      "name": "Retrieve Long Term Memories",
+      "type": "n8n-nodes-base.googleDocs",
+      "position": [
+        1340,
+        740
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "TBdKhTDvybYFlPTx",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Save To Current Chat Memory (Optional)",
+        "height": 320,
+        "width": 280
+      },
+      "id": "0574405b-7b57-4d2a-93db-58c6914f2d43",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1600,
+        1060
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Save Long Term Memories\nGoogle Docs",
+        "height": 320,
+        "width": 280,
+        "color": 4
+      },
+      "id": "b10d590e-2740-424a-bfaa-de704a92b12a",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1940,
+        1060
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Listen for Telegram Events').item.json.body.message.chat.id }}",
+        "text": "=Unable to process your message.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "f0f60788-3c2a-489a-9160-d88a46add0ee",
+      "name": "Response Error message",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        2020,
+        740
+      ],
+      "typeVersion": 1.2,
+      "webhookId": "47007f2a-db53-4e42-a1c8-1b2c78aeb1f4",
+      "credentials": {
+        "telegramApi": {
+          "id": "U9PGSyfMH8E8bQpT",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1400,
+        1100
+      ],
+      "id": "7e08f301-1fd5-4898-a6f5-9154884d3a9e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ygw2Nax4u7bSQMC5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "mastav7@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mastav7@gmail.com"
+        },
+        "start": "={{$fromAI(\"Start\")}}",
+        "end": "={{$fromAI(\"End\")}}",
+        "additionalFields": {
+          "description": "={{$fromAI(\"Description\")}}",
+          "summary": "={{$fromAI(\"Title\")}}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        2400,
+        1200
+      ],
+      "id": "a917d77f-c92d-4634-9f49-2be6641af3bf",
+      "name": "Create Event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mFSqKkTGNQoumWvF",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "mastav7@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mastav7@gmail.com"
+        },
+        "limit": "={{ $fromAI(\"Limit\") }}",
+        "timeMin": "={{ $fromAI(\"After\") }}",
+        "timeMax": "={{ $fromAI(\"Before\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        2280,
+        1200
+      ],
+      "id": "c6fb02af-547a-45da-b36f-ce01cd831bd2",
+      "name": "Get Event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mFSqKkTGNQoumWvF",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "mastav7@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mastav7@gmail.com"
+        },
+        "start": "={{$fromAI(\"Start\")}}",
+        "end": "={{$fromAI(\"End\")}}",
+        "additionalFields": {
+          "attendees": [
+            "={{$fromAI(\"Attendees\")}}"
+          ],
+          "description": "={{$fromAI(\"Description\")}}",
+          "summary": "={{$fromAI(\"Title\")}}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        2520,
+        1200
+      ],
+      "id": "2c828b8e-6419-4633-8a59-fd48aa1c5cfc",
+      "name": "Create Event with attendees",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "mFSqKkTGNQoumWvF",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Scheduling\n스케줄을 확인하고 예약하는 도구입니다.",
+        "height": 320,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2260,
+        1060
+      ],
+      "typeVersion": 1,
+      "id": "e81c3f07-9b4d-461d-bf51-53c159733b6a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0cea6da1-652a-4c1e-94c3-30608ced90f8",
+              "name": "first_name",
+              "type": "string",
+              "value": "FirstName"
+            },
+            {
+              "id": "b90280c6-3e36-49ca-9e7e-e15c42d256cc",
+              "name": "last_name",
+              "type": "string",
+              "value": "LastName"
+            },
+            {
+              "id": "f6d86283-16ca-447e-8427-7d3d190babc0",
+              "name": "id",
+              "type": "number",
+              "value": 12345667891
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "96220784-c797-41f0-b0da-9e873d90ffa8",
+      "name": "Validation",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        800,
+        580
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wbot",
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        640,
+        580
+      ],
+      "id": "ad566f1f-40b4-42fe-9651-50588b5cc9c5",
+      "name": "Listen for Telegram Events",
+      "webhookId": "11efe27f-1523-4a65-bf5b-0304589e4cdd"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Response Error message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Router": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Long Term Memories",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Long Term Memories",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Retrieve Long Term Memories",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Long Term Memories": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Long Term Memories": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Event with attendees": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validation": {
+      "main": [
+        [
+          {
+            "node": "Message Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listen for Telegram Events": {
+      "main": [
+        [
+          {
+            "node": "Validation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c44eabed-65ed-41c5-8ba2-82dcf8c31a3b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2165077c1768aeeb523a883d035617333b027aa817e1a70e9805379e851a968b"
+  },
+  "id": "huUc9qO0ihRoJyA8",
+  "tags": []
+}
