@@ -1,7 +1,9 @@
 package moviebuddy;
 
 import moviebuddy.data.CsvMovieReader;
+import moviebuddy.data.XmlMovieReader;
 import org.springframework.context.annotation.*;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import java.io.FileNotFoundException;
@@ -31,6 +33,15 @@ public class MovieBuddyFactory {
         public CsvMovieReader csvMovieReader() {
             CsvMovieReader movieReader = new CsvMovieReader();
             movieReader.setMetadata("movie_metadata.csv");
+
+            return movieReader;
+        }
+
+        @Profile(MovieBuddyProfile.XML_MODE)
+        @Bean
+        public XmlMovieReader xmlMovieReader(Unmarshaller unmarshaller) {
+            XmlMovieReader movieReader = new XmlMovieReader(unmarshaller);
+            movieReader.setMetadata("movie_metadata.xml");
 
             return movieReader;
         }

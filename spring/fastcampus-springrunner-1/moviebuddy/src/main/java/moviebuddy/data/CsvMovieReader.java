@@ -12,9 +12,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,25 +21,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Profile(MovieBuddyProfile.CSV_MODE)
 @Repository
-//public class CsvMovieReader implements MovieReader, InitializingBean, DisposableBean {
-public class CsvMovieReader implements MovieReader {
-    public final Logger log = LoggerFactory.getLogger(getClass());
+public class CsvMovieReader extends AbstractFileSystemMovieReader implements MovieReader {
 
-    public String metadata;
-
-    public String getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
-    }
 
     @Override
     public List<Movie> loadMovies() {
@@ -80,20 +65,5 @@ public class CsvMovieReader implements MovieReader {
         }
     }
 
-    @PostConstruct
-    public void afterPropertiesSet() throws Exception {
-        URL metadataUrl = ClassLoader.getSystemResource(metadata);
-        if (Objects.isNull(metadataUrl)) {
-            throw new FileNotFoundException(metadata);
-        }
-        if (Files.isReadable(Path.of(metadataUrl.toURI())) == false) {
-            throw new ApplicationException(String.format("cannot read to metadata. [%s]", metadata));
-        }
-    }
-
-    @PreDestroy
-    public void destroy() throws Exception {
-        log.info("Destroyed bean");
-    }
 }
 
