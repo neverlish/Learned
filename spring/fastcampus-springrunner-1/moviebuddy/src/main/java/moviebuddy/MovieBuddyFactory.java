@@ -4,6 +4,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
+@PropertySource("/application.properties")
 @ComponentScan(basePackages = { "moviebuddy" })
 @Import({ MovieBuddyFactory.DomainModuleConfig.class, MovieBuddyFactory.DataSourceModuleConfig.class })
 public class MovieBuddyFactory {
