@@ -7,7 +7,11 @@ import moviebuddy.data.CachingMovieReader;
 import moviebuddy.data.CsvMovieReader;
 import moviebuddy.domain.Movie;
 import moviebuddy.domain.MovieReader;
+import org.aopalliance.aop.Advice;
+import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.ApplicationContext;
@@ -37,6 +41,17 @@ public class MovieBuddyFactory {
         return cacheManager;
     }
 
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        return new DefaultAdvisorAutoProxyCreator();
+    }
+
+    @Bean
+    public Advisor cachingAdvisor(CacheManager cacheManager) {
+        Advice advice = new CachingAdvice(cacheManager);
+        return new DefaultPointcutAdvisor(advice);
+    }
+
     @Configuration
     static class DomainModuleConfig {
 
@@ -44,18 +59,6 @@ public class MovieBuddyFactory {
 
     @Configuration
     static class DataSourceModuleConfig {
-        @Primary
-        @Bean
-        public ProxyFactoryBean cachingMovieReader(ApplicationContext applicationContext) {
-            MovieReader target = applicationContext.getBean(MovieReader.class);
-            CacheManager cacheManager = applicationContext.getBean(CacheManager.class);
 
-            ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
-            proxyFactoryBean.setTarget(target);
-//            proxyFactoryBean.setProxyTargetClass(true);
-            proxyFactoryBean.addAdvice(new CachingAdvice(cacheManager));
-
-            return proxyFactoryBean;
-        }
     }
 }
