@@ -12,12 +12,15 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.support.NameMatchMethodPointcut;
+import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import javax.cache.annotation.CacheResult;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -48,8 +51,11 @@ public class MovieBuddyFactory {
 
     @Bean
     public Advisor cachingAdvisor(CacheManager cacheManager) {
+//        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+//        pointcut.setMappedName("load*");
+        AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, CacheResult.class);
         Advice advice = new CachingAdvice(cacheManager);
-        return new DefaultPointcutAdvisor(advice);
+        return new DefaultPointcutAdvisor(pointcut, advice);
     }
 
     @Configuration

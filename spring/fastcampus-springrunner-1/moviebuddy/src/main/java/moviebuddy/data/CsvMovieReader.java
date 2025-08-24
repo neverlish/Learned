@@ -7,6 +7,7 @@ import moviebuddy.domain.MovieReader;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.cache.annotation.CacheResult;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Repository
 public class CsvMovieReader extends AbstractMetadataResourceMovieReader implements MovieReader {
     @Override
+//    @CacheResult(cacheName = "movies")
     public List<Movie> loadMovies() {
         try {
             final InputStream content = getMetadataResource().getInputStream();

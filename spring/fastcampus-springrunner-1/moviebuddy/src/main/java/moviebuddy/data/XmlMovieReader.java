@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.cache.annotation.CacheResult;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -30,6 +31,7 @@ public class XmlMovieReader extends AbstractMetadataResourceMovieReader implemen
     }
 
     @Override
+//    @CacheResult(cacheName = "movies")
     public List<Movie> loadMovies() {
         try {
             final InputStream content = getMetadataResource().getInputStream();
