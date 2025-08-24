@@ -28,11 +28,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 //            .addResourceLocations("assets/");
 //            .addResourceLocations("file:/Users/hyeonjinho/Desktop/dev/Learned/spring/fastcampus-springrunner-2/todos/files/assets/");
 //            .addResourceLocations("classpath:assets/");
-    registry.addResourceHandler("/assets/**")
-            .addResourceLocations(
-                    "assets/",
-                    "file:/Users/hyeonjinho/Desktop/dev/Learned/spring/fastcampus-springrunner-2/todos/files/assets/",
-                    "classpath:assets/");
+
   }
 
   @Override
