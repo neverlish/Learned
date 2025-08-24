@@ -3,6 +3,7 @@ package moviebuddy.data;
 import moviebuddy.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -21,6 +22,7 @@ public abstract class AbstractFileSystemMovieReader {
         return metadata;
     }
 
+    @Value("${movie.metadata}")
     public void setMetadata(String metadata) {
         this.metadata = metadata;
     }
