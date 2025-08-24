@@ -16,7 +16,10 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.interceptor.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -29,8 +32,9 @@ import java.util.concurrent.TimeUnit;
 @PropertySource("/application.properties")
 @ComponentScan(basePackages = { "moviebuddy" })
 @Import({ MovieBuddyFactory.DomainModuleConfig.class, MovieBuddyFactory.DataSourceModuleConfig.class })
-@EnableAspectJAutoProxy
-public class MovieBuddyFactory {
+//@EnableAspectJAutoProxy
+@EnableCaching
+public class MovieBuddyFactory implements CachingConfigurer {
     @Bean
     public Jaxb2Marshaller jaxb2Marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -44,6 +48,29 @@ public class MovieBuddyFactory {
         cacheManager.setCaffeine(Caffeine.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS));
 
         return cacheManager;
+    }
+
+    @Override
+    public CacheManager cacheManager() {
+        return caffeineCacheManager();
+    }
+
+    @Override
+    public CacheResolver cacheResolver() {
+        return new SimpleCacheResolver(caffeineCacheManager());
+    }
+
+    @Override
+    public KeyGenerator keyGenerator() {
+        return new SimpleKeyGenerator();
+    }
+
+    @Override
+    public CacheErrorHandler errorHandler() {
+//        @EnableAsync -> AsyncConfigurer
+//        @EnableScheduling -> SchedulingConfigurer
+
+        return new SimpleCacheErrorHandler();
     }
 
 //    @Bean
@@ -60,10 +87,10 @@ public class MovieBuddyFactory {
 //        return new DefaultPointcutAdvisor(pointcut, advice);
 //    }
 
-    @Bean
-    public CachingAspect cachingAspect(CacheManager cacheManager) {
-        return new CachingAspect(cacheManager);
-    }
+//    @Bean
+//    public CachingAspect cachingAspect(CacheManager cacheManager) {
+//        return new CachingAspect(cacheManager);
+//    }
 
     @Configuration
     static class DomainModuleConfig {
