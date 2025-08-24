@@ -3,6 +3,7 @@ package todoapp.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
@@ -19,6 +20,19 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
   public WebMvcConfiguration() {
     logger.debug("스프링 MVC 설정자가 생성됩니다.");
+  }
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//    registry.addResourceHandler("/assets/**")
+//            .addResourceLocations("assets/");
+//            .addResourceLocations("file:/Users/hyeonjinho/Desktop/dev/Learned/spring/fastcampus-springrunner-2/todos/files/assets/");
+//            .addResourceLocations("classpath:assets/");
+    registry.addResourceHandler("/assets/**")
+            .addResourceLocations(
+                    "assets/",
+                    "file:/Users/hyeonjinho/Desktop/dev/Learned/spring/fastcampus-springrunner-2/todos/files/assets/",
+                    "classpath:assets/");
   }
 
   @Override
