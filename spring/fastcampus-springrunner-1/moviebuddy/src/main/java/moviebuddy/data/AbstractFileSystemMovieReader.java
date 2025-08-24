@@ -27,9 +27,19 @@ public abstract class AbstractFileSystemMovieReader {
         this.metadata = metadata;
     }
 
+    public URL getMetadataUrl() {
+        String location = getMetadata();
+        if (location.startsWith("file:")) {
+
+        } else if (location.startsWith("http:")) {
+
+        }
+        return ClassLoader.getSystemResource(metadata);
+    }
+
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
-        URL metadataUrl = ClassLoader.getSystemResource(metadata);
+        URL metadataUrl = getMetadataUrl();
         if (Objects.isNull(metadataUrl)) {
             throw new FileNotFoundException(metadata);
         }
