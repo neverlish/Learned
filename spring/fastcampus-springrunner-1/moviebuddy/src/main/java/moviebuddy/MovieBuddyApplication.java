@@ -131,7 +131,8 @@ public class MovieBuddyApplication {
                 }
                 commandAction.accept(arguments);
             } catch (ApplicationException error) {
-                output.println(error.getMessage());
+                String code = String.format("application.errors.%s", error.getClass().getSimpleName());
+                output.println(messageSource.getMessage(code, new Object[0], error.getMessage(), Locale.getDefault()));
             } finally {
                 output.flush();
             }
