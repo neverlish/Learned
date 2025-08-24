@@ -4,21 +4,15 @@ import moviebuddy.ApplicationException;
 import moviebuddy.MovieBuddyProfile;
 import moviebuddy.domain.Movie;
 import moviebuddy.domain.MovieReader;
-import moviebuddy.util.FileSystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -26,14 +20,14 @@ import java.util.stream.Collectors;
 
 @Profile(MovieBuddyProfile.CSV_MODE)
 @Repository
-public class CsvMovieReader extends AbstractFileSystemMovieReader implements MovieReader {
+public class CsvMovieReader extends AbstractMetadataResourceMovieReader implements MovieReader {
 
 
     @Override
     public List<Movie> loadMovies() {
         try {
-            final URI resourceUri = ClassLoader.getSystemResource(getMetadata()).toURI();
-            final Path data = Path.of(FileSystemUtils.checkFileSystem(resourceUri));
+            final InputStream content = getMetadataResource().getInputStream();
+
             final Function<String, Movie> mapCsv = csv -> {
                 try {
                     // split with comma
@@ -55,12 +49,12 @@ public class CsvMovieReader extends AbstractFileSystemMovieReader implements Mov
                 }
             };
 
-            return Files.readAllLines(data, StandardCharsets.UTF_8)
-                    .stream()
+            return new BufferedReader(new InputStreamReader(content, StandardCharsets.UTF_8))
+                    .lines()
                     .skip(1)
                     .map(mapCsv)
                     .collect(Collectors.toList());
-        } catch (IOException | URISyntaxException error) {
+        } catch (IOException error) {
             throw new ApplicationException("failed to load movies data.", error);
         }
     }
