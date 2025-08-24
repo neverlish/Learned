@@ -3,6 +3,7 @@ package moviebuddy;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import moviebuddy.cache.CachingAdvice;
+import moviebuddy.cache.CachingAspect;
 import moviebuddy.data.CachingMovieReader;
 import moviebuddy.data.CsvMovieReader;
 import moviebuddy.domain.Movie;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 @PropertySource("/application.properties")
 @ComponentScan(basePackages = { "moviebuddy" })
 @Import({ MovieBuddyFactory.DomainModuleConfig.class, MovieBuddyFactory.DataSourceModuleConfig.class })
+@EnableAspectJAutoProxy
 public class MovieBuddyFactory {
     @Bean
     public Jaxb2Marshaller jaxb2Marshaller() {
@@ -44,18 +46,23 @@ public class MovieBuddyFactory {
         return cacheManager;
     }
 
-    @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        return new DefaultAdvisorAutoProxyCreator();
-    }
+//    @Bean
+//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+//        return new DefaultAdvisorAutoProxyCreator();
+//    }
+//
+//    @Bean
+//    public Advisor cachingAdvisor(CacheManager cacheManager) {
+////        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+////        pointcut.setMappedName("load*");
+//        AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, CacheResult.class);
+//        Advice advice = new CachingAdvice(cacheManager);
+//        return new DefaultPointcutAdvisor(pointcut, advice);
+//    }
 
     @Bean
-    public Advisor cachingAdvisor(CacheManager cacheManager) {
-//        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
-//        pointcut.setMappedName("load*");
-        AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, CacheResult.class);
-        Advice advice = new CachingAdvice(cacheManager);
-        return new DefaultPointcutAdvisor(pointcut, advice);
+    public CachingAspect cachingAspect(CacheManager cacheManager) {
+        return new CachingAspect(cacheManager);
     }
 
     @Configuration
