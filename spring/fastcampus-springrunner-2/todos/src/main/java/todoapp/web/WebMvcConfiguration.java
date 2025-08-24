@@ -1,5 +1,8 @@
 package todoapp.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
@@ -9,12 +12,19 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
  *
  * @author springrunner.kr@gmail.com
  */
+@Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
+
+  private Logger logger = LoggerFactory.getLogger(getClass());
+
+  public WebMvcConfiguration() {
+    logger.debug("스프링 MVC 설정자가 생성됩니다.");
+  }
 
   @Override
   public void configureViewResolvers(ViewResolverRegistry registry) {
     // registry.enableContentNegotiation();
-    // 위와 같이 직접 설정하면, 스프링부트가 구성한 ContentNegotiatingViewResolver 전략이 무시된다.
+    // 위와 같이 직접 설정하면, 스프링부 트가 구성한 ContentNegotiatingViewResolver 전략이 무시된다.
   }
 
   /**
