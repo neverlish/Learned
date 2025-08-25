@@ -1,5 +1,6 @@
 site:
-  author: 스프링러너
+  author: SpringRunner
+  description: What're your plans today?
 
 logging:
   level:

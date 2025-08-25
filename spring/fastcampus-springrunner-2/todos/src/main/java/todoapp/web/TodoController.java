@@ -12,21 +12,23 @@ public class TodoController {
 
     private Environment environment;
     private String siteAuthor;
+    private SiteProperties siteProperties;
 
-    public TodoController(Environment environment, @Value("${site.author}") String siteAuthor) {
+    public TodoController(Environment environment, @Value("${site.author}") String siteAuthor, SiteProperties siteProperties) {
         this.environment = environment;
         this.siteAuthor = siteAuthor;
+        this.siteProperties = siteProperties;
     }
 
     @RequestMapping("/todos")
     public ModelAndView todos() throws Exception {
-        SiteProperties site = new SiteProperties(
-//                environment.getProperty("site.author"),
-                siteAuthor,
-                "스프링 MVC 할 일 관리 앱");
+//        SiteProperties site = new SiteProperties(
+////                environment.getProperty("site.author"),
+//                siteAuthor,
+//                "스프링 MVC 할 일 관리 앱");
 
         ModelAndView mav = new ModelAndView();
-        mav.addObject("site", site);
+        mav.addObject("site", siteProperties);
         mav.setViewName("todos");
 
         return mav;
