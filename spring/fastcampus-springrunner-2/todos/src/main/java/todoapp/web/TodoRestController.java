@@ -1,5 +1,8 @@
 package todoapp.web;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,7 +36,7 @@ public class TodoRestController {
 //    @RequestMapping(path = "/api/todos", method = RequestMethod.POST)
     @PostMapping("/api/todos")
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateTodoCommand command) {
+    public void create(@RequestBody @Valid CreateTodoCommand command) {
         logger.debug("request command : {}", command);
 
         editor.register(command.getTitle());
@@ -42,6 +45,8 @@ public class TodoRestController {
     static class CreateTodoCommand {
         private String title;
 
+        @NotBlank
+        @Size(min = 4)
         public String getTitle() {
             return title;
         }
