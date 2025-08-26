@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import todoapp.core.todo.domain.TodoEntityNotFoundException;
 
 /**
  * 스프링부트에 기본 구현체인 {@link DefaultErrorAttributes}에 message 속성을 덮어쓰기 할 목적으로 작성한 컴포넌트이다.
@@ -39,8 +40,11 @@ public class ReadableErrorAttributes implements ErrorAttributes, HandlerExceptio
     log.debug("errorAttributes: {}, error: {}", attributes, error);
 
     if (Objects.nonNull(error)) {
-      // TODO attributes, error 을 사용해 message 속성을 읽기 좋은 문구로 가공한다.
-      // TODO ex) attributes.put("message", "문구");
+      if (error instanceof TodoEntityNotFoundException) {
+        attributes.put("message", "요청한 할 일을 찾을 수 없어요.");
+      } else if (error instanceof MethodArgumentNotValidException) {
+        attributes.put("message", "입력 값이 없거나 올바르지 않아요.");
+      }
     }
 
     return attributes;
