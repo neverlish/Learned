@@ -1,9 +1,7 @@
 package todoapp.web;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import todoapp.core.todo.application.TodoFind;
 import todoapp.core.todo.domain.Todo;
 
@@ -19,9 +17,16 @@ public class TodoRestController {
         this.finder = finder;
     }
 
-    @RequestMapping("/api/todos")
+//    @RequestMapping(path = "/api/todos", method = RequestMethod.GET)
 //    @ResponseBody
+    @GetMapping("/api/todos")
     public List<Todo> list() {
         return finder.all();
+    }
+
+//    @RequestMapping(path = "/api/todos", method = RequestMethod.POST)
+    @PostMapping("/api/todos")
+    public void create() {
+
     }
 }
