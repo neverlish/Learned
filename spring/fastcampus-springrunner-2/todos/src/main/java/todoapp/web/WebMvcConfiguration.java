@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import todoapp.commons.web.view.CommaSeparatedValuesView;
 import todoapp.core.todo.domain.Todo;
 
 import java.util.List;
@@ -59,8 +60,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
   }
 
   @Bean(name = "todos")
-  public TodoController.TodoCsvView todoCsvView() {
-    return new TodoController.TodoCsvView();
+  public CommaSeparatedValuesView todoCsvView() {
+    return new CommaSeparatedValuesView();
   }
 
   /**
