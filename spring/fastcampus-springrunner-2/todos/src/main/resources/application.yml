@@ -13,6 +13,9 @@ server:
       force: true
 #      mapping:
 #        ko: UTF-8
+  error:
+    include-message: always
+    include-binding-errors: always
 
 logging:
   level:
