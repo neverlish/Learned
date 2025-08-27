@@ -4,6 +4,7 @@ todos:
   feature:
     toggles:
       auth: true
+      onlineUsersCounter: true
 
 site:
   author: SpringRunner
