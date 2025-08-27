@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
@@ -33,10 +34,10 @@ public class ReadableErrorAttributes implements ErrorAttributes, HandlerExceptio
   private final DefaultErrorAttributes delegate = new DefaultErrorAttributes();
   private final Logger log = LoggerFactory.getLogger(ReadableErrorAttributes.class);
 
-  private final Environment environment;
+  private final MessageSource messageSource;
 
-  public ReadableErrorAttributes(Environment environment) {
-    this.environment = environment;
+  public ReadableErrorAttributes(MessageSource messageSource) {
+    this.messageSource = messageSource;
   }
 
   @Override
@@ -48,7 +49,7 @@ public class ReadableErrorAttributes implements ErrorAttributes, HandlerExceptio
 
     if (Objects.nonNull(error)) {
       String errorCode = String.format("Exception.%s", error.getClass().getSimpleName());
-      String errorMessage = environment.getProperty(errorCode, error.getMessage());
+      String errorMessage = messageSource.getMessage(errorCode, new Object[0], error.getMessage(), webRequest.getLocale());
       attributes.put("message", errorMessage);
     }
 
