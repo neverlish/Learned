@@ -1,7 +1,10 @@
 package todoapp.commons.web.error;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -57,6 +60,16 @@ public class ReadableErrorAttributes implements ErrorAttributes, HandlerExceptio
         errorMessage = messageSource.getMessage(errorCode, new Object[0], error.getMessage(), webRequest.getLocale());
       }
       attributes.put("message", errorMessage);
+
+      BindingResult bindingResult = extractBindingResult(error);
+      if (Objects.nonNull(bindingResult)) {
+        List<String> errors = bindingResult.getAllErrors()
+                .stream()
+                .map(oe -> messageSource.getMessage(oe, webRequest.getLocale()))
+                .collect(Collectors.toList());
+
+        attributes.put("errors", errors);
+      }
     }
 
     return attributes;
