@@ -8,6 +8,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
@@ -48,8 +49,13 @@ public class ReadableErrorAttributes implements ErrorAttributes, HandlerExceptio
     log.debug("errorAttributes: {}, error: {}", attributes, error);
 
     if (Objects.nonNull(error)) {
-      String errorCode = String.format("Exception.%s", error.getClass().getSimpleName());
-      String errorMessage = messageSource.getMessage(errorCode, new Object[0], error.getMessage(), webRequest.getLocale());
+      String errorMessage = error.getMessage();
+      if (MessageSourceResolvable.class.isAssignableFrom(error.getClass())) {
+        errorMessage = messageSource.getMessage((MessageSourceResolvable) error, webRequest.getLocale());
+      } else {
+        String errorCode = String.format("Exception.%s", error.getClass().getSimpleName());
+        errorMessage = messageSource.getMessage(errorCode, new Object[0], error.getMessage(), webRequest.getLocale());
+      }
       attributes.put("message", errorMessage);
     }
 
