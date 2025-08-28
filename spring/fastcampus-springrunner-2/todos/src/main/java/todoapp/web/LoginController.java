@@ -1,6 +1,7 @@
 package todoapp.web;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import todoapp.core.user.application.UserPasswordVerifier;
 import todoapp.core.user.application.UserRegistration;
+import todoapp.core.user.domain.User;
 import todoapp.core.user.domain.UserEntityNotFoundException;
 import todoapp.core.user.domain.UserPasswordNotMatchedException;
 
@@ -42,8 +44,10 @@ public class LoginController {
 //        String password
         @Valid LoginCommand command,
         BindingResult bindingResult,
-        Model model
+        Model model,
+        HttpSession session
     ) {
+        logger.debug("login command: {}", command);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
@@ -51,17 +55,18 @@ public class LoginController {
             return "login";
         }
 
-        logger.debug("login command: {}", command);
+        User user;
 
         try {
-            userPasswordVerifier.verify(command.getUsername(), command.getPassword());
+            user = userPasswordVerifier.verify(command.getUsername(), command.getPassword());
         } catch (UserEntityNotFoundException error) {
-            userRegistration.join(command.getUsername(), command.password);
+            user = userRegistration.join(command.getUsername(), command.password);
         }
 //        catch (UserPasswordNotMatchedException error) {
 //            model.addAttribute("message", error.getMessage());
 //            return "login";
 //        }
+        session.setAttribute("user", user);
 
         return "redirect:/todos";
     }
