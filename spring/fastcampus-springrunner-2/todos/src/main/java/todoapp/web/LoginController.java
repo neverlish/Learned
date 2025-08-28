@@ -1,9 +1,15 @@
 package todoapp.web;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,8 +39,16 @@ public class LoginController {
 //        @RequestParam String username,
 //        String username,
 //        String password
-        LoginCommand command
+        @Valid LoginCommand command,
+        BindingResult bindingResult,
+        Model model
     ) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            model.addAttribute("message", "입력 값이 없거나 올바르지 않아요");
+            return "login";
+        }
 
         logger.debug("login command: {}", command);
 
@@ -47,7 +61,15 @@ public class LoginController {
         return "redirect:/todos";
     }
 
+    @ExceptionHandler(BindException.class)
+    public String handleBindException(BindException error, Model model) {
+        model.addAttribute("bindingResult", error.getBindingResult());
+        model.addAttribute("message", "입력 값이 없거나 올바르지 않아요");
+        return "login";
+    }
+
     static class LoginCommand {
+        @Size(min = 4, max = 20)
         String username;
         String password;
 
