@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import todoapp.core.user.application.UserPasswordVerifier;
 import todoapp.core.user.application.UserRegistration;
 import todoapp.core.user.domain.UserEntityNotFoundException;
+import todoapp.core.user.domain.UserPasswordNotMatchedException;
 
 @Controller
 public class LoginController {
@@ -57,6 +58,10 @@ public class LoginController {
         } catch (UserEntityNotFoundException error) {
             userRegistration.join(command.getUsername(), command.password);
         }
+//        catch (UserPasswordNotMatchedException error) {
+//            model.addAttribute("message", error.getMessage());
+//            return "login";
+//        }
 
         return "redirect:/todos";
     }
@@ -65,6 +70,12 @@ public class LoginController {
     public String handleBindException(BindException error, Model model) {
         model.addAttribute("bindingResult", error.getBindingResult());
         model.addAttribute("message", "입력 값이 없거나 올바르지 않아요");
+        return "login";
+    }
+
+    @ExceptionHandler(UserPasswordNotMatchedException.class)
+    public String handleUserPasswordNotMatchedException(UserPasswordNotMatchedException error, Model model) {
+        model.addAttribute("message", error.getMessage());
         return "login";
     }
 
