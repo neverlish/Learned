@@ -15,15 +15,8 @@ import java.util.Objects;
 
 @RestController
 public class UserRestController {
-    private final UserSessionRepository userSessionRepository;
-
-    public UserRestController(UserSessionRepository userSessionRepository) {
-        this.userSessionRepository = userSessionRepository;
-    }
-
     @GetMapping("/api/user/profile")
-    public ResponseEntity<UserProfile> userProfile() {
-        UserSession userSession = userSessionRepository.get();
+    public ResponseEntity<UserProfile> userProfile(UserSession userSession) {
         if (Objects.nonNull(userSession)) {
             return ResponseEntity.ok(new UserProfile(userSession.getUser()));
         }
