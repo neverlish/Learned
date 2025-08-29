@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import todoapp.core.user.application.UserPasswordVerifier;
 import todoapp.core.user.application.UserRegistration;
 import todoapp.core.user.domain.User;
@@ -21,6 +18,7 @@ import todoapp.core.user.domain.UserEntityNotFoundException;
 import todoapp.core.user.domain.UserPasswordNotMatchedException;
 
 @Controller
+@SessionAttributes("user")
 public class LoginController {
     private final UserPasswordVerifier userPasswordVerifier;
     private final UserRegistration userRegistration;
@@ -44,8 +42,8 @@ public class LoginController {
 //        String password
         @Valid LoginCommand command,
         BindingResult bindingResult,
-        Model model,
-        HttpSession session
+        Model model
+//        HttpSession session
     ) {
         logger.debug("login command: {}", command);
 
@@ -66,7 +64,8 @@ public class LoginController {
 //            model.addAttribute("message", error.getMessage());
 //            return "login";
 //        }
-        session.setAttribute("user", user);
+//        session.setAttribute("user", user);
+        model.addAttribute("user", user);
 
         return "redirect:/todos";
     }
