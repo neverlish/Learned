@@ -3,10 +3,13 @@ package todoapp.security.web.servlet;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import todoapp.commons.NotImplementedException;
+import todoapp.security.UnauthorizedAccessException;
+import todoapp.security.UserSession;
 import todoapp.security.UserSessionRepository;
 import todoapp.security.support.RolesAllowedSupport;
 
@@ -26,7 +29,15 @@ public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesA
 
   @Override
   public final boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    throw new NotImplementedException();
+      if (handler instanceof HandlerMethod) {
+          UserSession userSession = sessionRepository.get();
+
+          if (Objects.isNull(userSession)) {
+              throw new UnauthorizedAccessException();
+          }
+      }
+
+      return true;
   }
 
 }
