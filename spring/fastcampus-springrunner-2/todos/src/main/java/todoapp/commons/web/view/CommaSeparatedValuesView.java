@@ -34,6 +34,12 @@ public class CommaSeparatedValuesView extends AbstractView implements Spreadshee
 
   @Override
   protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    // Check if response is already committed to prevent conflicts
+    if (response.isCommitted()) {
+      log.warn("Response already committed, skipping CSV rendering");
+      return;
+    }
+    
     Spreadsheet spreadsheet = obtainSpreadsheet(model);
     log.info("write spreadsheet content to csv file: {}", spreadsheet);
 
