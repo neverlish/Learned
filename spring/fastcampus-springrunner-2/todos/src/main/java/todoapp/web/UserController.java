@@ -39,7 +39,7 @@ public class UserController {
 
            Resource profilePicture = profilePictureStorage.load(((ProfilePicture) returnValue).getUri());
            profilePicture.getInputStream().transferTo(response.getOutputStream());
-           
+
            // Mark the request as handled to prevent view resolution
            mavContainer.setRequestHandled(true);
         }
