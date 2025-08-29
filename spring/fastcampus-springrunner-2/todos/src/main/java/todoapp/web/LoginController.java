@@ -16,22 +16,34 @@ import todoapp.core.user.application.UserRegistration;
 import todoapp.core.user.domain.User;
 import todoapp.core.user.domain.UserEntityNotFoundException;
 import todoapp.core.user.domain.UserPasswordNotMatchedException;
+import todoapp.security.UserSession;
+import todoapp.security.UserSessionRepository;
+
+import java.util.Objects;
 
 @Controller
-@SessionAttributes("user")
 public class LoginController {
     private final UserPasswordVerifier userPasswordVerifier;
     private final UserRegistration userRegistration;
+    private final UserSessionRepository userSessionRepository;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public LoginController(UserPasswordVerifier userPasswordVerifier, UserRegistration userRegistration) {
+    public LoginController(
+            UserPasswordVerifier userPasswordVerifier,
+            UserRegistration userRegistration,
+            UserSessionRepository userSessionRepository) {
         this.userPasswordVerifier = userPasswordVerifier;
         this.userRegistration = userRegistration;
+        this.userSessionRepository = userSessionRepository;
     }
 
     @GetMapping("login")
-    public void loginForm() {
-
+    public String loginForm() {
+        if (Objects.nonNull(userSessionRepository.get())) {
+            return "redirect:/todos";
+        }
+        return "login";
     }
 
     @PostMapping("login")
@@ -43,7 +55,6 @@ public class LoginController {
         @Valid LoginCommand command,
         BindingResult bindingResult,
         Model model
-//        HttpSession session
     ) {
         logger.debug("login command: {}", command);
 
@@ -64,8 +75,7 @@ public class LoginController {
 //            model.addAttribute("message", error.getMessage());
 //            return "login";
 //        }
-//        session.setAttribute("user", user);
-        model.addAttribute("user", user);
+        userSessionRepository.set(new UserSession(user));
 
         return "redirect:/todos";
     }
