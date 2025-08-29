@@ -1,5 +1,6 @@
 package todoapp.web;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,6 +30,7 @@ public class TodoRestController {
 //    @RequestMapping(path = "/api/todos", method = RequestMethod.GET)
 //    @ResponseBody
     @GetMapping("/api/todos")
+    @RolesAllowed("ROLE_USER")
     public List<Todo> list() {
         return finder.all();
     }
