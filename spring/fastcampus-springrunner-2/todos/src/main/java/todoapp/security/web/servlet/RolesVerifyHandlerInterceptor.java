@@ -27,12 +27,7 @@ import todoapp.security.support.RolesAllowedSupport;
  */
 public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesAllowedSupport {
 
-  private final UserSessionRepository sessionRepository;
   private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-  public RolesVerifyHandlerInterceptor(UserSessionRepository sessionRepository) {
-    this.sessionRepository = Objects.requireNonNull(sessionRepository);
-  }
 
   @Override
   public final boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,14 +39,12 @@ public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesA
           if (Objects.nonNull(rolesAllowed)) {
               log.debug("verify roles-allowed: {}", rolesAllowed);
 
-              UserSession userSession = sessionRepository.get();
-
-              if (Objects.isNull(userSession)) {
+              if (Objects.isNull(request.getUserPrincipal())) {
                   throw new UnauthorizedAccessException();
               }
 
               Set<String> matchedRoles = Stream.of(rolesAllowed.value())
-                      .filter(role -> userSession.hasRole(role))
+                      .filter(role -> request.isUserInRole(role))
                       .collect(Collectors.toSet());
 
               log.debug("matched roles: {}", matchedRoles);

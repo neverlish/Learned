@@ -34,7 +34,10 @@ public class UserSessionFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     log.info("Processing user-session filter");
 
-    throw new NotImplementedException();
+    UserSession userSession = userSessionRepository.get();
+    UserSessionRequestWrapper requestWrapper = new UserSessionRequestWrapper(request, userSession);
+
+    filterChain.doFilter(requestWrapper, response);
   }
 
 
@@ -54,12 +57,12 @@ public class UserSessionFilter extends OncePerRequestFilter {
 
     @Override
     public Principal getUserPrincipal() {
-      throw new NotImplementedException();
+      return userSession.orElse(null);
     }
 
     @Override
     public boolean isUserInRole(String role) {
-      throw new NotImplementedException();
+      return userSession.map(us -> us.hasRole(role)).orElse(false);
     }
 
   }

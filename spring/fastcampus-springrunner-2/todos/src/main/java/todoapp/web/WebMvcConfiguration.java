@@ -25,6 +25,7 @@ import todoapp.commons.web.view.CommaSeparatedValuesView;
 import todoapp.core.todo.domain.Todo;
 import todoapp.security.UserSessionRepository;
 import todoapp.security.web.servlet.RolesVerifyHandlerInterceptor;
+import todoapp.security.web.servlet.UserSessionFilter;
 import todoapp.security.web.servlet.UserSessionHandlerMethodArgumentResolver;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingHandlerInterceptor());
         registry.addInterceptor(new ExecutionTimeHandlerInterceptor());
-        registry.addInterceptor(new RolesVerifyHandlerInterceptor(userSessionRepository));
+        registry.addInterceptor(new RolesVerifyHandlerInterceptor());
     }
 
     @Override
@@ -98,6 +99,17 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
       FilterRegistrationBean<CommonsRequestLoggingFilter> filter = new FilterRegistrationBean<>();
 
       filter.setFilter(commonsRequestLoggingFilter);
+      filter.setUrlPatterns(Collections.singletonList("/*"));
+
+      return filter;
+  }
+
+  @Bean
+  public FilterRegistrationBean<UserSessionFilter> userSessionFilter() {
+      UserSessionFilter userSessionFilter = new UserSessionFilter(userSessionRepository);
+
+      FilterRegistrationBean<UserSessionFilter> filter = new FilterRegistrationBean<>();
+      filter.setFilter(userSessionFilter);
       filter.setUrlPatterns(Collections.singletonList("/*"));
 
       return filter;
