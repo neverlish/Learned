@@ -1,0 +1,32 @@
+todos:
+  data:
+    initialize: true
+  feature:
+    toggles:
+      auth: true
+      onlineUsersCounter: true
+
+site:
+  author: SpringRunner
+  description: What're your plans today?
+
+Exception:
+  TodoEntityNotFoundException: 요청한 할 일을 찾을 수 없어요.
+  MethodArgumentNotValidException: 입력 값이 없거나 올바르지 않아요.
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+#      mapping:
+#        ko: UTF-8
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    todoapp: debug
+    org.springframework.beans: debug
+    org.springframework.web: trace
