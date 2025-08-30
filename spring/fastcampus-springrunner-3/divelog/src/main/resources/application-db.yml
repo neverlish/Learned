@@ -6,7 +6,7 @@ spring:
     database-platform: MYSQL
     hibernate:
       ddl-auto: none
-      use-new-id-generator-mappings: false
+      use-new-id-generator-mappings: true
     properties:
       hibernate.format_sql: true
       hibernate.show_sql: false
@@ -16,31 +16,32 @@ spring:
       hibernate.jdbc.batch_size: ${chunkSize:100}
       hibernate.order_inserts: true
       hibernate.order_updates: true
-
+      
 ---
 spring:
   config:
     activate:
       on-profile: "db-local"
-
+      
   jpa:
     show-sql: true
     database-platform: H2
     hibernate:
-      ddl-auto: update
-
+      ddl-auto: create-drop
+      
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:mem:divelog;MODE=MySQL;DATABASE_TO_LOWER=true;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+      jdbc-url: jdbc:h2:mem://localhost/~/divelog;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
       username: sa
-      password:
+      password: 
+ 
 ---
 spring:
   config:
     activate:
       on-profile: "db-dev"
-
+      
   jpa:
     hibernate:
       ddl-auto: none

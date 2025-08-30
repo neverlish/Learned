@@ -1,14 +1,14 @@
 spring:
   profiles:
     active:
-      - local
+    - local
     group:
-      local: "site-local,db-local"
-      dev: "site-dev,db-local"
+      local: "site-local,db-local,my-service"
+      dev: "site-dev"
     include:
-      - db
-      - my-service
-      - site
+    - db
+    - site
+    - my-service
   main:
     banner-mode: off
   banner:
