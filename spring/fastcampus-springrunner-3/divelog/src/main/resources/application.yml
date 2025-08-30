@@ -6,3 +6,16 @@ spring:
       bitdepth: 8
       width: 100
       height: 15
+my.service:
+  enabled: false
+  remote-address: 192.168.0.1
+  security:
+    username: honeymon
+    password: 810301
+    roles:
+    - ADMIN
+    - USER
+    attrs:
+      hasWriteAuthority: false
+      hasReadAuthority: true
+      hasDeleteAuthority: false
