@@ -1,0 +1,8 @@
+spring:
+  main:
+    banner-mode: off
+  banner:
+    image:
+      bitdepth: 8
+      width: 100
+      height: 15
