@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(args = {"--app.name=dive-log-test"})
 public class ApplicationArgumentsTest {
-
     @Test
     void testApplicationArguments(@Autowired ApplicationArguments appArguments) {
         assertThat(appArguments.getOptionNames()).containsOnly("app.name");
         assertThat(appArguments.getOptionValues("app.name")).containsOnly("dive-log-test");
     }
+
 }

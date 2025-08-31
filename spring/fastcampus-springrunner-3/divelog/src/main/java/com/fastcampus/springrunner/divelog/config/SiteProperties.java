@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 import lombok.Getter;
 import lombok.ToString;
 
-
 @Getter
 @ToString
 @ConfigurationProperties(prefix = "site")
