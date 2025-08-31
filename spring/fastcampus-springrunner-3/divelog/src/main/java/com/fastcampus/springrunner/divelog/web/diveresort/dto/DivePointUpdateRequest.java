@@ -1,9 +1,9 @@
 package com.fastcampus.springrunner.divelog.web.diveresort.dto;
 
+import jakarta.validation.constraints.NotBlank;
 
 import com.fastcampus.springrunner.divelog.core.diveresort.application.dto.DivePointUpdateCommand;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 /**

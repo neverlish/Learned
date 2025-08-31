@@ -4,7 +4,7 @@ spring:
     - local
     group:
       local: "site-local,db-local,my-service"
-      dev: "site-dev"
+      dev: "site-dev,db-dev,my-service"
     include:
     - db
     - site
@@ -17,6 +17,7 @@ spring:
   jpa:
     hibernate:
       use-new-id-generator-mappings: "false"
+  #mvc.static-path-pattern: /resources/**
 logging:
   level:
     '[org.springframework.web]': DEBUG

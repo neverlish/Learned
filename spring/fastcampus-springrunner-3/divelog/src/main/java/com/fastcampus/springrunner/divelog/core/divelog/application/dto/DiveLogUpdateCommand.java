@@ -3,10 +3,11 @@ package com.fastcampus.springrunner.divelog.core.divelog.application.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fastcampus.springrunner.divelog.core.divelog.domain.DiveLog;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+import com.fastcampus.springrunner.divelog.core.divelog.domain.DiveLog;
+
 import lombok.Getter;
 
 @Getter
@@ -19,8 +20,8 @@ public class DiveLogUpdateCommand {
     private String comment;
     
     public static DiveLogUpdateCommand create(@NotNull LocalDate diveDate, @NotNull LocalTime entryTime,
-                                              @NotNull LocalTime exitTime, @NotEmpty String weather, @NotEmpty String buddyName,
-                                              @NotEmpty String comment) {
+            @NotNull LocalTime exitTime, @NotEmpty String weather, @NotEmpty String buddyName,
+            @NotEmpty String comment) {
         DiveLogUpdateCommand updateCommand = new DiveLogUpdateCommand();
         updateCommand.diveDate = diveDate;
         updateCommand.entryTime = entryTime;

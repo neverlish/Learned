@@ -32,6 +32,7 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
     modules {
@@ -52,12 +53,30 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+
 tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags("integration")
+    }
+}
+
+tasks.register("integrationTest", Test) {
+    outputs.dir snippetsDir
+    useJUnitPlatform {
+        includeTags("integration")
+    }
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+    inputs.dir snippetsDir
+    configurations 'asciidoctorEx'
+    dependsOn integrationTest
+}
+
+bootJar {
+    dependsOn asciidoctor
+    print "Asciidoctor OutputDir: ${asciidoctor.outputDir}"
+    from ("${asciidoctor.outputDir}") { // 패키징!! +_+) 운영환경 배포시에는
+        into 'static/docs'
+    }
 }
