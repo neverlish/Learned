@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fastcampus.springrunner.divelog.IntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import com.fastcampus.springrunner.divelog.core.diveresort.domain.DivePointRepos
 import com.fastcampus.springrunner.divelog.core.diveresort.domain.DiveResort;
 import com.fastcampus.springrunner.divelog.core.diveresort.domain.DiveResortRepository;
 
+@IntegrationTest
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class DiveLogRepositoryTest {
