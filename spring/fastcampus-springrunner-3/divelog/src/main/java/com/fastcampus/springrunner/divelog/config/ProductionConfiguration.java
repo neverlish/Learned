@@ -1,4 +1,3 @@
-
 package com.fastcampus.springrunner.divelog.config;
 
 import jakarta.annotation.PostConstruct;
@@ -17,9 +16,9 @@ public class ProductionConfiguration {
     public ProductionConfiguration(AppProfileProperties appProfileProperties) {
         this.appProfileProperties = appProfileProperties;
     }
-
+    
     @PostConstruct
     public void setUp() {
         System.out.println(String.format("Name: %s, SiteUrl: %s", appProfileProperties.getName(), appProfileProperties.getSiteUrl()));
-    }
+    }   
 }

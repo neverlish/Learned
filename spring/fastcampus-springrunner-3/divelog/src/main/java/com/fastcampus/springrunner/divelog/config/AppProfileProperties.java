@@ -1,4 +1,3 @@
-
 package com.fastcampus.springrunner.divelog.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,7 +7,7 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 public class AppProfileProperties {
     private String profile;
     private String siteUrl;
-
+    
     @ConstructorBinding
     public AppProfileProperties(String profile, String siteUrl) {
         this.profile = profile;

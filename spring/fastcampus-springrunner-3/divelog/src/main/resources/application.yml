@@ -1,15 +1,15 @@
 spring:
   profiles:
     active:
-      - local
+    - local
     group:
       local: "site-local,db-local"
       dev: "site-dev,db-dev"
       beta: "site-beta,db-beta"
       prod: "site-prod,db-prod"
-  #    include:
-  #    - db
-  #    - site
+    include:
+    - db
+    - site
   banner:
     image:
       bitdepth: 8
