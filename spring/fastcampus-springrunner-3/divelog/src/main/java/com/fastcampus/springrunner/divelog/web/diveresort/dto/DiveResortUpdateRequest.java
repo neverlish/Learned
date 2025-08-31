@@ -2,6 +2,7 @@ package com.fastcampus.springrunner.divelog.web.diveresort.dto;
 
 import com.fastcampus.springrunner.divelog.core.diveresort.application.dto.DiveResortUpdateCommand;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 /**
@@ -12,11 +13,15 @@ import lombok.Getter;
  */
 @Getter
 public class DiveResortUpdateRequest {
-    //TODO validation 
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String ownerName;
+    @NotEmpty
     private String contactNumber;
+    @NotEmpty
     private String address;
+    @NotEmpty
     private String description;
     
     public DiveResortUpdateCommand convertToUpdateCommand() {
