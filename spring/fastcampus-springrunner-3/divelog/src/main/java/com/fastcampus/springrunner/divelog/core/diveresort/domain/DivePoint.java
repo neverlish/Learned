@@ -2,7 +2,6 @@ package com.fastcampus.springrunner.divelog.core.diveresort.domain;
 
 import java.time.LocalDateTime;
 
-import com.fastcampus.springrunner.divelog.core.common.AbstractEntity;
 import jakarta.persistence.*;
 
 import org.springframework.util.Assert;
@@ -11,7 +10,10 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class DivePoint extends AbstractEntity {
+public class DivePoint {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @JoinColumn(name = "dive_resort_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private DiveResort diveResort;
