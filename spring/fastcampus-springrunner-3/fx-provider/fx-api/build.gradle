@@ -1,0 +1,14 @@
+description("fx-api module")
+
+dependencies {
+    implementation(project(":fx-core"))
+    implementation(project(":fx-common"))
+    implementation(project(":clients:kafka"))
+    implementation(project(":clients:toast"))
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    testImplementation(testFixtures(project(":fx-core")))
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
