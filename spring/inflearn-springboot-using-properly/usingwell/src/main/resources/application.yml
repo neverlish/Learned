@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: usingwell
+  task:
+    execution:
+#      pool:
+#      shutdown:
+      thread-name-prefix: myTask-
