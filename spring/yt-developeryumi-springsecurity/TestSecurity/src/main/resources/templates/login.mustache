@@ -9,10 +9,11 @@
 <body>
     login page
     <hr>
-    <form action="/loginProc" method="post" name="loginForm">
-        <input id="username" type="text" name="username" placeholder="id"/>
-        <input id="password" type="password" name="password" placeholder="password"/>
-        <input type="submit" value="login"/>
+    <form action="/loginReceiver" method="post" name="loginForm">
+        <input type="text" name="username" placeholder="아이디"/>
+        <input type="password" name="password" placeholder="비밀번호"/>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="로그인"/>
     </form>
 </body>
 </html>
