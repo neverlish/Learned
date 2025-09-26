@@ -95,12 +95,18 @@ public class SecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
 
-        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
-
-        hierarchy.setHierarchy("ROLE_C > ROLE_B\n" +
-                "ROLE_B > ROLE_A");
-
-        return hierarchy;
+//        return RoleHierarchyImpl.fromHierarchy("""
+//            ROLE_C > ROLE_B
+//            ROLE_B > ROLE_A
+//            """);
+//        return RoleHierarchyImpl.withRolePrefix("접두사_")
+//                .role("C").implies("B")
+//                .role("B").implies("A")
+//                .build();
+        return RoleHierarchyImpl.withDefaultRolePrefix()
+                .role("C").implies("B")
+                .role("B").implies("A")
+                .build();
     }
 
 }
