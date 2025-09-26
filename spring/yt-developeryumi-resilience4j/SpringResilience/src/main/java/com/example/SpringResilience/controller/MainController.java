@@ -1,6 +1,7 @@
 package com.example.SpringResilience.controller;
 
 import com.example.SpringResilience.component.Rest1Comp;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,16 @@ public class MainController {
         this.rest1Comp = rest1Comp;
     }
 
+    @CircuitBreaker(name = "MainControllerMethod1", fallbackMethod = "실패시수행할메소드이름")
     @GetMapping("/")
     public String mainP() {
 
         return rest1Comp.restTemplate1().getForObject("/data", String.class);
     }
+
+    private String 실패시수행할메소드이름(Throwable throwable) {
+
+        return throwable.getMessage();
+    }
+
 }
