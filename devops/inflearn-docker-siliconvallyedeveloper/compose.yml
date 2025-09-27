@@ -1,0 +1,6 @@
+services:
+  app: # Name of the service
+    build: # Build the image using the Dockerfile in the current directory
+      context: my-first-docker
+    ports:
+      - "5001:5000" # Map port 5001 on the host to port 5000 in the container
