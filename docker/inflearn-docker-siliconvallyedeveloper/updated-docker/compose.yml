@@ -1,0 +1,33 @@
+services:
+  app: # Flask application service
+    build:
+      context: . # Use the Dockerfile in the current directory
+    ports:
+      - "5001:5000" # Map port 5000 on the host to port 5000 in the container
+    depends_on:
+      - db # Ensure the MySQL service starts before the app
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=exampledb
+
+  db: # MySQL database service
+    image: mysql:8.0 # Use the official MySQL image
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: exampledb
+    ports:
+      - "3306:3306" # Map port 3306 on the host to port 3306 in the container
+    volumes:
+      - db_data:/var/lib/mysql # Persist database data using a named volume
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+volumes:
+  db_data: # Named volume for MySQL persistence
+
+# if you see any issue, remove all the volumes
+# docker-compose down --rmi all --volumes --remove-orphans
