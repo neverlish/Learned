@@ -103,3 +103,43 @@ docker top [container-id/name]
 # Streams real-time events from the Docker daemon.
 docker events
 ```
+
+## Volume Commands
+
+```shell
+# Create a Volume
+docker volume create my_volume
+
+# List Volumes
+docker volume ls
+
+# Inspect a Volume
+docker volume inspect my_volume
+
+# Remove a Volume
+docker volume rm my_volume
+
+# Remove Unused Volumes
+docker volume prune
+
+# Creating and Using a Named Volume Example
+docker volume create my_volume
+docker run --rm -it -v my_volume:/data busybox sh
+
+    # inside of busybox
+    echo "Hello, Docker Volumes!" > /data/hello.txt
+    exit
+
+docker run --rm -it -v my_volume:/data busybox sh
+cat /data/hello.txt
+
+# Sharing a Volume Between Two Containers
+docker run --rm -it -v shared_volume:/shared busybox sh
+
+    # inside of busybox
+    echo "Shared Data" > /shared/shared_file.txt
+    exit
+
+docker run --rm -it -v shared_volume:/shared busybox sh
+    cat /shared/shared_file.txt
+```
