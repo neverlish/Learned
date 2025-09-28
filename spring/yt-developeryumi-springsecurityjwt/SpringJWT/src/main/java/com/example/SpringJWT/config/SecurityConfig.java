@@ -1,5 +1,6 @@
 package com.example.SpringJWT.config;
 
+import com.example.SpringJWT.filter.JWTFilter;
 import com.example.SpringJWT.filter.LoginFilter;
 import com.example.SpringJWT.util.JWTUtil;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-
         http
                 .csrf((auth) -> auth.disable());
 
@@ -56,7 +56,10 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/join").permitAll()
                         .anyRequest().authenticated());
 
-        //AuthenticationManager()와 JWTUtil 인수 전달
+        //JWTFilter 등록
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
