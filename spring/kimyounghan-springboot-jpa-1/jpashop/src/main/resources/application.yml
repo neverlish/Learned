@@ -13,6 +13,10 @@ spring:
         show_sql: true
         format_sql: true
 
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
 logging:
   level:
     org.hibernate.SQL: debug
