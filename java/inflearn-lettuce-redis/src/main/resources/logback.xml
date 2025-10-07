@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- mac 사용자인경우 아래 추가 -->
+    <logger name="io.netty.resolver.dns.DnsServerAddressStreamProviders" level="ERROR"/>
+
+    <root level="INFO"> <!-- TRACE > DEBUG > INFO > WARN > ERROR -->
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+
+        <!-- 공식 메뉴얼
+        https://logback.qos.ch/manual/configuration.html
+        -->
