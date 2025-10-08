@@ -1,5 +1,6 @@
 package hello.world.virtualthread.controller;
 
+import hello.world.virtualthread.service.VirtualService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 @RequiredArgsConstructor
 public class VirtualController {
+
+    private final VirtualService virtualService;
+
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/sleep")
@@ -18,5 +22,12 @@ public class VirtualController {
         log.info("1) counter: {}, thread: {}", counter.incrementAndGet(), Thread.currentThread());
         Thread.sleep(5000);
         log.info("2) thread: {}", Thread.currentThread());
+    }
+
+    @GetMapping("/async")
+    public void async() {
+        log.info("1) async. thread: {}", Thread.currentThread());
+        virtualService.async();
+        log.info("2) async. thread: {}", Thread.currentThread());
     }
 }
