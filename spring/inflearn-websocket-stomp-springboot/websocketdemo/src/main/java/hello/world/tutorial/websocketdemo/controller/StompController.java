@@ -15,21 +15,29 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 
 @Controller
 @Slf4j
 public class StompController {
     private final StompEventListener eventListener;
     private final SimpMessagingTemplate messagingTemplate;
+    private final ConcurrentHashMap<String, ScheduledFuture<?>> scheduledMap = new ConcurrentHashMap<>();
+    private final TaskScheduler taskScheduler;
 
-    public StompController(StompEventListener eventListener, SimpMessagingTemplate messagingTemplate) {
+    public StompController(StompEventListener eventListener, SimpMessagingTemplate messagingTemplate, TaskScheduler taskScheduler) {
         this.eventListener = eventListener;
         this.messagingTemplate = messagingTemplate;
+        this.taskScheduler = taskScheduler;
     }
 
     //    @GetMapping("/aaa")
@@ -104,6 +112,29 @@ public class StompController {
         }
         headerAccessor.setLeaveMutable(true);
         return headerAccessor.getMessageHeaders();
+    }
+
+    @MessageMapping("/start")
+    public void start(ReqDto request, MessageHeaders headers) {
+        log.info("request: {}", request);
+        String sourceSessionId = headers.get("simpSessionId").toString();
+
+        ScheduledFuture<?> scheduledFuture = taskScheduler.scheduleAtFixedRate(() -> {
+            Random random = new Random();
+            int currentPrice = random.nextInt(100);
+            messagingTemplate.convertAndSendToUser(sourceSessionId, "/queue/trade", currentPrice, createHeaders(sourceSessionId));
+        }, Duration.ofSeconds(3));
+
+        scheduledMap.put(sourceSessionId, scheduledFuture);
+    }
+
+    @MessageMapping("/stop")
+    public void stop(ReqDto request, MessageHeaders headers) {
+        log.info("request: {}", request);
+        String sourceSessionId = headers.get("simpSessionId").toString();
+
+        ScheduledFuture<?> scheduledFuture = scheduledMap.remove(sourceSessionId);
+        scheduledFuture.cancel(true);
     }
 
 }
