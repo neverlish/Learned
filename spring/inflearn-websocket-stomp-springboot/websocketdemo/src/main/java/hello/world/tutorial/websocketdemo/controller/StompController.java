@@ -4,12 +4,16 @@ import hello.world.tutorial.websocketdemo.dto.ReqDto;
 import hello.world.tutorial.websocketdemo.dto.ResDto;
 import hello.world.tutorial.websocketdemo.dto.ResSessionsDto;
 import hello.world.tutorial.websocketdemo.listener.StompEventListener;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +25,11 @@ import java.util.Set;
 @Slf4j
 public class StompController {
     private final StompEventListener eventListener;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public StompController(StompEventListener eventListener) {
+    public StompController(StompEventListener eventListener, SimpMessagingTemplate messagingTemplate) {
         this.eventListener = eventListener;
+        this.messagingTemplate = messagingTemplate;
     }
 
     //    @GetMapping("/aaa")
@@ -69,6 +75,35 @@ public class StompController {
         Set<String> sessions = eventListener.getSessions();
         String sourceSessionId = headers.get("simpSessionId").toString();
         return new ResSessionsDto(sessions.size(), sessions.stream().toList(), sourceSessionId, LocalDateTime.now());
+    }
+
+    @MessageMapping("/code1")
+    public void code1(ReqDto request) {
+        log.info("request: {}", request);
+        ResDto resDto = new ResDto(request.getMessage().toUpperCase(), LocalDateTime.now());
+
+        messagingTemplate.convertAndSend("/topic/hello", resDto);
+    }
+
+    @MessageMapping("/code2")
+    public void code2(ReqDto request, MessageHeaders headers) {
+        log.info("request: {}", request);
+        String sourceSessionId = headers.get("simpSessionId").toString();
+        Set<String> sessions = eventListener.getSessions();
+
+        ResSessionsDto resSessionsDto = new ResSessionsDto(sessions.size(), sessions.stream().toList(), sourceSessionId, LocalDateTime.now());
+
+        messagingTemplate.convertAndSendToUser(sourceSessionId, "/queue/sessions", resSessionsDto, createHeaders(sourceSessionId));
+    }
+
+    private MessageHeaders createHeaders(@Nullable String sessionId) {
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+
+        if (sessionId != null) {
+            headerAccessor.setSessionId(sessionId);
+        }
+        headerAccessor.setLeaveMutable(true);
+        return headerAccessor.getMessageHeaders();
     }
 
 }
