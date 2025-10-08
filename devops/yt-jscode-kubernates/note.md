@@ -2,3 +2,10 @@
 
 - kubectl apply -f nginx-pod.yaml
 - kubectl get pods
+
+# 2.3 파드(Pod)로 띄운 프로그램에 접속이 안 되는 이유
+
+- kubectl exec -it nginx-pod -- bash
+  - root@nginx-pod:/# curl localhost:80
+- sudo kubectl port-forward pod/nginx-pod 80:80
+- kubectl delete pod nginx-pod
