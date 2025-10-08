@@ -5,3 +5,13 @@ spring:
   threads:
     virtual:
       enabled: true
+  task:
+    scheduling:
+      thread-name-prefix: mySch-
+  #  task:
+  #    execution:
+  #      thread-name-prefix: myTask-
+  #    scheduling:
+  #      thread-name-prefix: myScheduler-
+  #  main:
+  #    keep-alive: true
