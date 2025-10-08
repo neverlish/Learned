@@ -10,20 +10,24 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class Pinning {
 
+    private final ReentrantLock lock = new ReentrantLock();
+
     // -Djdk.tracePinnedThreads=full  or -Djdk.tracePinnedThreads=short 를 통해  detect
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
 
-            synchronized (this) {
-                log.info("1) run. thread: " + Thread.currentThread());
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                log.info("2) run. thread: " + Thread.currentThread());
+            log.info("1) run. thread: " + Thread.currentThread());
+            lock.lock();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                lock.unlock();
             }
+
+            log.info("2) run. thread: " + Thread.currentThread());
 
         }
     };
