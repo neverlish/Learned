@@ -15,3 +15,12 @@
 - ./gradlew clean build
 - docker build -t spring-server .
 - kubectl apply -f spring-pod.yaml
+
+# 2.5 이미지가 없다고 에러가 뜨는 이유 (이미지 풀 정책)
+
+- kubectl delete pod spring-pod
+- kubectl apply -f spring-pod.yaml
+- kubectl exec -it spring-pod -- bash
+  - bash-4.4# curl localhost:8080
+- kubectl port-forward pod/spring-pod 12345:8080
+- kubectl delete pod spring-pod

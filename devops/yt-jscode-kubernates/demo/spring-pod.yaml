@@ -10,3 +10,4 @@ spec:
       image: spring-server
       ports:
         - containerPort: 8080
+      imagePullPolicy: IfNotPresent
