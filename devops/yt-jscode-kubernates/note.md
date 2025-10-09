@@ -86,3 +86,27 @@
 - docker build -t nest-server:1.0 .
 - kubectl apply -f nest-deployment.yaml
 - kubectl apply -f nest-service.yaml
+
+# 4.2 EC2에서 도커 쿠버네티스 설치하기(k3s)
+
+```
+$
+sudo apt-get update && \
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
+sudo apt-key fingerprint 0EBFCD88 && \
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+sudo apt-get update && \
+sudo apt-get install -y docker-ce && \
+sudo usermod -aG docker ubuntu && \
+newgrp docker && \
+sudo curl -L "https://github.com/docker/compose/releases/download/2.27.1/docker-compose-$(uname- s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+sudo chmod +x /usr/local/bin/docker-compose && \
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+
+- docker -v
+- docker compose version
+- curl -sfL https://get.k3s.io | sh -
+- sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+- sudo kubectl version
