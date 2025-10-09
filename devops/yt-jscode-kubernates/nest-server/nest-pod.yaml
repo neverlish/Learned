@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nest-pod
+
+spec:
+  containers:
+    - name: nest-container
+      image: nest-server
+      imagePullPolicy: IfNotPresent

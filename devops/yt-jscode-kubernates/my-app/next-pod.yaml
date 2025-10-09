@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: next-pod
+
+spec:
+  containers:
+    - name: next-container
+      image: next-server
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 3000
