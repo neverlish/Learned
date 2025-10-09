@@ -24,3 +24,9 @@
   - bash-4.4# curl localhost:8080
 - kubectl port-forward pod/spring-pod 12345:8080
 - kubectl delete pod spring-pod
+
+# 2.6 [예제] 백엔드(Nest.js) 서버를 파드(Pod)로 띄워보기
+
+- docker build -t nest-server .
+- kubectl apply -f nest-pod.yaml
+- kubectl port-forward nest-pod 3000:3000
