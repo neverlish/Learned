@@ -79,3 +79,10 @@
 # 3.7 새로운 버전의 서버로 업데이트 시키기
 
 - kubectl apply -f spring-deployment.yaml
+
+# 3.8 [예제] 디플로이먼트, 서비스를 활용해 백엔드(Nest.js) 서버 띄워보기
+
+- kubectl delete all --all
+- docker build -t nest-server:1.0 .
+- kubectl apply -f nest-deployment.yaml
+- kubectl apply -f nest-service.yaml
