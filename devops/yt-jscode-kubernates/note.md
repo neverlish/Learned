@@ -30,3 +30,9 @@
 - docker build -t nest-server .
 - kubectl apply -f nest-pod.yaml
 - kubectl port-forward nest-pod 3000:3000
+
+# 2.7 [예제] 프론트엔드(HTML, CSS, Nginx) 서버를 파드(Pod)로 띄워보기
+
+- docker build -t my-web-server .
+- kubectl apply -f web-server-pod.yaml
+- kubectl port-forward web-server-pod 5000:80
