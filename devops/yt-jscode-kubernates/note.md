@@ -110,3 +110,8 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 - curl -sfL https://get.k3s.io | sh -
 - sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 - sudo kubectl version
+
+# 4.3 [예제] 디플로이먼트, 서비스를 활용해 웹 서버(Nginx) 띄워보기
+
+- kubectl apply -f deployment.yaml
+- kubectl apply -f service.yaml
