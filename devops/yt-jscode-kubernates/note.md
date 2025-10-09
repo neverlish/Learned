@@ -36,3 +36,9 @@
 - docker build -t my-web-server .
 - kubectl apply -f web-server-pod.yaml
 - kubectl port-forward web-server-pod 5000:80
+
+# 2.8 [예제] 프론트엔드(Next.js) 서버를 파드(Pod)로 띄워보기
+
+- docker build -t next-server .
+- kubectl apply -f next-pod.yaml
+- kubectl port-forward next-pod 3000:3000
