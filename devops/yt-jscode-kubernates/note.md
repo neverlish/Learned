@@ -54,3 +54,8 @@
 - kubectl apply -f spring-deployment.yaml
 - kubectl get deployment
 - kubectl get replicaset
+
+# 3.4 [예제] 서비스(Service)를 활용해 백엔드(Spring Boot) 서버와 통신해보기
+
+- kubectl apply -f spring-service.yaml
+- kubectl get service
