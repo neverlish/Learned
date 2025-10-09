@@ -63,3 +63,15 @@
 # 3.5 디플로이먼트를 활용한 서버 개수 조절 방법
 
 - kubectl apply -f spring-deployment.yaml
+
+# 3.6 서버가 죽었을 때 자동으로 복구하는 기능 (Self-Healing)
+
+- docker ps
+- docker kill {CONTAINER_ID}
+- kubectl get pods
+  NAME READY STATUS RESTARTS AGE
+  spring-deployment-77fb8d465f-9k8nf 1/1 Running 0 14m
+  spring-deployment-77fb8d465f-bxh9z 1/1 Running 0 14m
+  spring-deployment-77fb8d465f-hwrcc 1/1 Running 0 98s
+  spring-deployment-77fb8d465f-j9mnl 1/1 Running 1 (23s ago) 98s
+  spring-deployment-77fb8d465f-lxc6f 1/1 Running 0 14m
