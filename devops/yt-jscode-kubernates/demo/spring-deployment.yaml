@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: spring-deployment
+
+# Deployment 세부 정보
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-app
+
+  # 배포할 Pod 정의
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+        - name: spring-container
+          image: spring-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080

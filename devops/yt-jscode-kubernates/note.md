@@ -48,3 +48,9 @@
 - kubectl describe pods {POD}
 - kubectl logs {POD}
 - kubectl exec -it {POD} -- bash
+
+# 3.2 [예제] 디플로이먼트를 활용해 백엔드(Spring Boot) 서버 3개 띄워보기
+
+- kubectl apply -f spring-deployment.yaml
+- kubectl get deployment
+- kubectl get replicaset
