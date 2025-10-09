@@ -2,7 +2,39 @@ apiVersion: v1
 kind: Pod
 
 metadata:
-  name: spring-pod
+  name: spring-pod-1
+
+spec:
+  containers:
+    - name: spring-container
+      image: spring-server
+      ports:
+        - containerPort: 8080
+      imagePullPolicy: IfNotPresent
+
+---
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: spring-pod-2
+
+spec:
+  containers:
+    - name: spring-container
+      image: spring-server
+      ports:
+        - containerPort: 8080
+      imagePullPolicy: IfNotPresent
+
+---
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: spring-pod-3
 
 spec:
   containers:
