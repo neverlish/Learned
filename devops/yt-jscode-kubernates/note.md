@@ -42,3 +42,9 @@
 - docker build -t next-server .
 - kubectl apply -f next-pod.yaml
 - kubectl port-forward next-pod 3000:3000
+
+# 2.10 [보충 강의] 파드(Pod) 디버깅 하는 방법
+
+- kubectl describe pods {POD}
+- kubectl logs {POD}
+- kubectl exec -it {POD} -- bash
