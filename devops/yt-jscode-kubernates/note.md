@@ -59,3 +59,7 @@
 
 - kubectl apply -f spring-service.yaml
 - kubectl get service
+
+# 3.5 디플로이먼트를 활용한 서버 개수 조절 방법
+
+- kubectl apply -f spring-deployment.yaml
