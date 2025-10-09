@@ -75,3 +75,7 @@
   spring-deployment-77fb8d465f-hwrcc 1/1 Running 0 98s
   spring-deployment-77fb8d465f-j9mnl 1/1 Running 1 (23s ago) 98s
   spring-deployment-77fb8d465f-lxc6f 1/1 Running 0 14m
+
+# 3.7 새로운 버전의 서버로 업데이트 시키기
+
+- kubectl apply -f spring-deployment.yaml

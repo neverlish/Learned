@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: spring-container
-          image: spring-server
+          image: spring-server:1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

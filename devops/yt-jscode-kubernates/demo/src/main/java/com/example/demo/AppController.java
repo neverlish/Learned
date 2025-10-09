@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
     @GetMapping("/")
     public String home() {
-        return "Hello, World!";
+        return "Version 1.0";
     }
 }
