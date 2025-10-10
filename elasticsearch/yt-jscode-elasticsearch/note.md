@@ -506,3 +506,62 @@ GET /boards/_analyze
     "text": "백화점에서 쇼핑을 하다가 친구를 만났다."
 }
 ```
+
+# 4.2 [실습] Nori Analyzer를 활용해 한글(korean)이 제대로 검색되게 만들기
+
+```
+GET /_analyze
+{
+    "text": "백화점에서 쇼핑을 하다가 친구를 만났다.",
+    "analyzer": "nori"
+}
+
+GET /_analyze
+{
+    "text": "백화점에서 쇼핑을 하다가 친구를 만났다.",
+    "char_filter": [],
+    "tokenizer": "nori_tokenizer",
+    "filter": ["nori_part_of_speech", "nori_readingform", "lowercase"]
+}
+
+DELETE /boards
+
+PUT /boards
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "boards_content_analyzer": {
+                   "char_filter": [],
+                    "tokenizer": "nori_tokenizer",
+                    "filter": ["nori_part_of_speech", "nori_readingform", "lowercase"]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "boards_content_analyzer"
+            }
+        }
+    }
+}
+
+GET /boards
+
+POST /boards/_doc
+{
+    "content": "백화점에서 쇼핑을 하다가 친구를 만났다."
+}
+
+GET /boards/_search
+{
+    "query": {
+        "match": {
+          "content": "친구"
+        }
+    }
+}
+```
