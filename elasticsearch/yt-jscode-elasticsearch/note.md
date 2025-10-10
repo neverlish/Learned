@@ -565,3 +565,15 @@ GET /boards/_search
     }
 }
 ```
+
+# 4.3 [실습] 한글(korean)과 영어(english)가 섞인 글을 검색 가능하게 만들기
+
+```
+GET /_analyze
+{
+    "text": "오늘 영어 책에서 'It depends on the results.'이라는 문구를 봤다.",
+    "char_filter": [],
+    "tokenizer": "nori_tokenizer",
+    "filter": ["nori_part_of_speech", "nori_readingform", "lowercase", "stop", "stemmer"]
+}
+```
