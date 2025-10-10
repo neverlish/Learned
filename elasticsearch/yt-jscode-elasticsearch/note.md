@@ -87,3 +87,32 @@ DELETE /users/_doc/2
 
 GET /users/_doc/2
 ```
+
+# 3.2 [실습] Elasitcsearch의 검색 기능 테스트해보기
+
+```
+PUT /products
+
+PUT /products/_mappings
+{
+  "properties": {
+    "name": {"type": "text"}
+  }
+}
+
+POST /products/_doc
+{
+  "name": "Apple 2025 맥북 에어 13 M4 10코어"
+}
+
+GET /products/_search
+
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "맥북 13 에어 M4"
+    }
+  }
+}
+```
