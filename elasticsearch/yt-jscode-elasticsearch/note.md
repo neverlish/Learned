@@ -185,3 +185,63 @@ GET /_analyze
   "filter": ["lowercase"]
 }
 ```
+
+# 3.8 [실습] 대소문자 구분없이 검색하는 방법 (lowercase)
+
+```
+DELETE /products
+
+PUT /products
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "products_name_analyzer": {
+          "char_filter": [],
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text",
+        "analyzer": "products_name_analyzer"
+      }
+    }
+  }
+}
+
+GET /products
+
+POST /products/_create/1
+{
+  "name": "Apple 2025 아이패드 mini A17 Pro"
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "name": "apple"
+        }
+    }
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "name": "Apple"
+        }
+    }
+}
+
+GET /products/_analyze
+{
+    "field": "name",
+    "text": "Apple 2025 아이패드 mini A17 Pro"
+}
+```
