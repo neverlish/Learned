@@ -455,3 +455,54 @@ GET /products/_analyze
     "text": "Samsung Notebook"
 }
 ```
+
+# 4.1 한글(korean)이 제대로 검색되지 않는 현상
+
+```
+DELETE /boards
+
+PUT /boards
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "boards_content_analyzer": {
+                    "char_filter": [],
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "stop", "stemmer"]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "boards_content_analyzer"
+            }
+        }
+    }
+}
+
+GET /boards
+
+POST /boards/_doc
+{
+    "content": "백화점에서 쇼핑을 하다가 친구를 만났다."
+}
+
+GET /boards/_search
+{
+    "query": {
+        "match": {
+          "content": "친구"
+        }
+    }
+}
+
+GET /boards/_analyze
+{
+    "field": "content",
+    "text": "백화점에서 쇼핑을 하다가 친구를 만났다."
+}
+```
