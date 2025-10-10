@@ -294,3 +294,52 @@ GET /boards/_analyze
   "text": "<h1>Running cats, jumping quickly - over the lazy dogs!</h1>"
 }
 ```
+
+# 3.10 [실습] 검색할 때 필요없는 불용어(a, an, the, or, but) 제거하기 (stop)
+
+```
+DELETE /boards
+
+PUT /boards
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "boards_content_analyzer": {
+          "char_filter": [],
+          "tokenizer": "standard",
+          "filter": ["lowercase", "stop"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "content": {
+        "type": "text",
+        "analyzer": "boards_content_analyzer"
+      }
+    }
+  }
+}
+
+POST /boards/_doc
+{
+  "content": "The cat and the dog are friends"
+}
+
+GET /boards/_search
+{
+  "query": {
+    "match": {
+      "content": "the"
+    }
+  }
+}
+
+GET /boards/_analyze
+{
+  "field": "content",
+  "text": "The cat and the dog are friends"
+}
+```
