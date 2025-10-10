@@ -245,3 +245,52 @@ GET /products/_analyze
     "text": "Apple 2025 아이패드 mini A17 Pro"
 }
 ```
+
+# 3.9 [실습] 검색할 때 필요없는 HTML 태그 제거하기 (html_strip)
+
+```
+DELETE /boards
+
+PUT /boards
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "boards_content_analyzer": {
+          "char_filter": ["html_strip"],
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "content": {
+        "type": "text",
+        "analyzer": "boards_content_analyzer"
+      }
+    }
+  }
+}
+
+POST /boards/_doc
+{
+  "content": "<h1>Running cats, jumping quickly - over the lazy dogs!</h1>"
+}
+
+GET /boards/_search
+{
+  "query": {
+    "match": {
+      "content": "h1"
+    }
+  }
+}
+
+GET /boards/_analyze
+{
+  "field": "content",
+  "text": "<h1>Running cats, jumping quickly - over the lazy dogs!</h1>"
+}
+```
