@@ -343,3 +343,52 @@ GET /boards/_analyze
   "text": "The cat and the dog are friends"
 }
 ```
+
+# 3.11 [실습] 단어의 형태(-ed, -ing, -s 등)에 상관없이 검색하는 방법 (stemmer)
+
+```
+DELETE /boards
+
+PUT /boards
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "boards_content_analyzer": {
+          "char_filter": [],
+          "tokenizer": "standard",
+          "filter": ["lowercase", "stemmer"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "content": {
+        "type": "text",
+        "analyzer": "boards_content_analyzer"
+      }
+    }
+  }
+}
+
+POST /boards/_doc
+{
+  "content": "Running cats, jumping!"
+}
+
+GET /boards/_search
+{
+  "query": {
+    "match": {
+      "content": "cat"
+    }
+  }
+}
+
+GET /boards/_analyze
+{
+  "field": "content",
+  "text": "Running cats, jumping!"
+}
+```
