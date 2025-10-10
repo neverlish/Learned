@@ -46,3 +46,44 @@ POST /users/_doc
 
 GET /users/_search
 ```
+
+# 1.7 도큐먼트 저장, 조회, 수정, 삭제하기
+
+```
+POST /users/_create/1
+{
+  "name": "jscode",
+  "age": 30,
+  "is_active": true
+}
+
+GET /users/_search
+
+PUT /users/_doc/2
+{
+  "name": "jason",
+  "age": 30,
+  "is_active": true
+}
+
+GET /users/_search
+
+GET /users/_doc/1
+
+PUT /users/_doc/1
+{
+  "name": "new"
+}
+
+POST /users/_update/2
+{
+  "doc": {
+    "age": 10,
+    "is_active": false
+  }
+}
+
+DELETE /users/_doc/2
+
+GET /users/_doc/2
+```
