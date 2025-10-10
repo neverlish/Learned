@@ -167,3 +167,21 @@ GET /products/_search
 }
 
 ```
+
+# 3.7 [실습] 애널라이저(Analyzer)가 토큰을 어떻게 나누는 지 확인하는 방법
+
+```
+GET /_analyze
+{
+  "text": "Apple 2025 맥북 에어 13 M4 10코어",
+  "analyzer": "standard"
+}
+
+GET /_analyze
+{
+  "text": "Apple 2025 맥북 에어 13 M4 10코어",
+  "char_filter": [],
+  "tokenizer": "standard",
+  "filter": ["lowercase"]
+}
+```
