@@ -392,3 +392,66 @@ GET /boards/_analyze
   "text": "Running cats, jumping!"
 }
 ```
+
+# 3.12 [실습] 동의어로 검색하는 방법 (synonym)
+
+```
+DELETE /products
+
+PUT /products
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "products_synonyms_filter": {
+                    "type": "synonym",
+                    "synonyms": [
+                        "notebook, 노트북, 랩탑, 휴대용 컴퓨터, laptop",
+                        "samsung, 삼성"
+                    ]
+                }
+            },
+            "analyzer": {
+                "products_name_analyzer": {
+                    "char_filter": [],
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "products_synonyms_filter"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "text",
+                "analyzer": "products_name_analyzer"
+            }
+        }
+    }
+}
+
+GET /products
+
+POST /products/_doc
+{
+    "name": "Samsung Notebook"
+}
+
+GET /products/_search
+{
+    "query": {
+        "match": {
+          "name": "노트북"
+        }
+    }
+}
+
+GET /products/_analyze
+{
+    "field": "name",
+    "text": "Samsung Notebook"
+}
+```
