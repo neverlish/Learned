@@ -1,0 +1,7 @@
+spring:
+  elasticsearch:
+    urls: http://localhost:9200
+
+logging:
+  level:
+    org.elasticsearch.client: TRACE
