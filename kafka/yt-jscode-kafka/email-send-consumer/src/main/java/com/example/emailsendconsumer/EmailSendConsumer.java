@@ -15,6 +15,12 @@ public class EmailSendConsumer {
 
         EmailSendMessage emailSendMessage = EmailSendMessage.fromJson(message);
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("이메일 발송 실패");
+        }
+
         System.out.println("이메일 발송 완료");
     }
 }
