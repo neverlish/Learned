@@ -54,3 +54,11 @@
 - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic email.send --from-beginning --group email-send-group
 - bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
 - bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group email-send-group --describe
+
+# 2.7 [실습] Spring Boot가 Kafka에 메시지 잘 넣는 지 테스트해보기
+
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic email.send
+- bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+- bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group email-send-group
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic email.send
