@@ -32,3 +32,10 @@
 - sudo lsof -i:9092
 
 - bin/kafka-server-stop.sh
+
+# 2.2 토픽 생성하기 조회하기 삭제하기
+
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic email.send
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic email.send
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic email.send
