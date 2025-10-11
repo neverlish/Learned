@@ -14,7 +14,8 @@ public class EmailSendConsumer {
     )
     @RetryableTopic(
         attempts = "5",
-        backoff = @Backoff(delay = 1000, multiplier = 2)
+        backoff = @Backoff(delay = 1000, multiplier = 2),
+        dltTopicSuffix = ".dlt"
     )
     public void consume(String message) {
         System.out.println("Kafka로부터 받아온 메시지 : " + message);

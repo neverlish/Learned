@@ -62,3 +62,7 @@
 - bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
 - bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group email-send-group
 - bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic email.send
+
+# 3.2 [실습] Spring Boot로 Kafka에서 재시도조차 실패한 메시지를 따로 보관하기 (DLT, Dead Letter Topic)
+
+- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic email.send.dlt --from-beginning
