@@ -1,0 +1,34 @@
+# 1.4 AWS EC2에 Kafka 설치 실행하기
+
+- sudo apt update
+- sudo apt install openjdk-17-jdk
+- java -version
+
+- wget https://dlcdn.apache.org/kafka/4.0.0/kafka_2.13-4.0.0.tgz
+- tar -xzf kafka_2.13-4.0.0.tgz
+- cd kafka_2.13-4.0.0
+
+- export KAFKA_HEAP_OPTS="-Xmx400m -Xms400m"
+- sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+- sudo chmod 600 /swapfile
+- sudo mkswap /swapfile
+- sudo swapon /swapfile
+- sudo vi /etc/fstab
+  - /swapfile swap swap default 0 0
+- free
+
+- vi config/server.properties
+
+  - advertised.listeners=PLAINTEXT://{PUBLIC_IP}:9092,CONTROLLER://{PUBLIC_IP}:9093
+
+- KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+- bin/kafka-storage.sh format -standalone -t $KAFKA_CLUSTER_ID -c config/server.properties
+
+- bin/kafka-server-start.sh config/server.properties
+- bin/kafka-server-start.sh -daemon config/server.properties
+
+- tail -f logs/kafkaServer.out
+
+- sudo lsof -i:9092
+
+- bin/kafka-server-stop.sh
