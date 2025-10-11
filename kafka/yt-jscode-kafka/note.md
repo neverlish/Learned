@@ -48,3 +48,9 @@
   > hello2
   > hello3
 - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic email.send --from-beginning
+
+# 2.4 메시지를 어디까지 읽었는 지 기억하고, 그 다음 메시지부터 처리하기 (Consumer Group, Offset)
+
+- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic email.send --from-beginning --group email-send-group
+- bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+- bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group email-send-group --describe
