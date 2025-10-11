@@ -39,3 +39,12 @@
 - bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 - bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic email.send
 - bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic email.send
+
+# 2.3 Kafka에 메시지 넣기 Kafka에서 메시지 조회하기
+
+- bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic email.send
+- bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic email.send
+  > hello1
+  > hello2
+  > hello3
+- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic email.send --from-beginning
