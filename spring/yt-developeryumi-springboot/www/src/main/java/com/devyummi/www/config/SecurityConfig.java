@@ -40,6 +40,8 @@ public class SecurityConfig {
         // 접근 경로별 인가 설정
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/join").permitAll()
+                        .requestMatchers("/user/update/**").hasRole("USER")
                         .requestMatchers("/**").permitAll());
 
         // 로그인 방식 설정 Form 로그인 방식

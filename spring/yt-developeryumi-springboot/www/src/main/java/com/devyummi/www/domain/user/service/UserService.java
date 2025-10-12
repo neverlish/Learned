@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
     }
 
     // 유저 접근 권한 체크
-    public Boolean isAccess(String username) {
+    public Boolean  isAccess(String username) {
 
         // 현재 로그인 되어 있는 유저의 username
         String sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
