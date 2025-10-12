@@ -1,0 +1,8 @@
+<h1>board update page</h1>
+<hr>
+
+<form action="/board/update/{{BOARD.id}}" method="post" name="boardForm">
+    <input type="text" name="title" placeholder="title" value="{{BOARD.title}}">
+    <textarea name="content">{{BOARD.content}}</textarea>
+    <input type="submit" value="submit"/>
+</form>
