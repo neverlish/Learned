@@ -5,6 +5,7 @@ import com.devyummi.www.domain.user.dto.UserResponseDTO;
 import com.devyummi.www.domain.user.entity.UserEntity;
 import com.devyummi.www.domain.user.entity.UserRoleType;
 import com.devyummi.www.domain.user.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,28 @@ public class UserService implements UserDetailsService {
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    // 유저 접근 권한 체크
+    public Boolean isAccess(String username) {
+
+        // 현재 로그인 되어 있는 유저의 username
+        String sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        // 현재 로그인 되어 있는 유저의 role
+        String sessionRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority();
+
+        // 수직적으로 ADMIN이면 무조건 접근 가능
+        if ("ROLE_ADMIN".equals(sessionRole)) {
+            return true;
+        }
+
+        // 수평적으로 특정 행위를 수행할 username에 대해 세션(현재 로그인한) username과 같은지
+        if (username.equals(sessionUsername)) {
+            return true;
+        }
+
+        // 나머지 다 불가
+        return false;
     }
 
     // 유저 한 명 생성
