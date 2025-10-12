@@ -1,5 +1,6 @@
 package com.devyummi.www.domain.board.entity;
 
+import com.devyummi.www.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,8 @@ public class BoardEntity {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @ManyToOne
+    private UserEntity userEntity;
 
 }
