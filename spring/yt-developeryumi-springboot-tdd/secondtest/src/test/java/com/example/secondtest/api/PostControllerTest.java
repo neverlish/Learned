@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -62,6 +61,25 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.id").value(1));
 
         verify(postService).create(any(PostRequestDTO.class));
+    }
+
+    @Test
+    void post_method_테스트3() throws Exception {
+
+        // given
+        PostRequestDTO requestDTO = new PostRequestDTO();
+        requestDTO.setTitle("");
+        requestDTO.setContent("내용");
+
+        given(postService.create(any(PostRequestDTO.class))).willThrow(new IllegalArgumentException());
+
+        // when & then
+        mockMvc.perform(post("/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
     }
 
 }
