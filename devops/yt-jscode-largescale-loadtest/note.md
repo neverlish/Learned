@@ -61,3 +61,31 @@ sudo apt-get install -y k6
 ```
 
 - k6
+
+# 1.7 [실습] 내가 구성한 백엔드 서버는 1초당 몇 개의 요청을 견뎌낼 수 있을까?
+
+- vi script.js
+
+```
+import http from 'k6/http';
+import { sleep } from 'k6';
+
+export const options = {
+  stages: [
+    { duration: '10m', target: 6000 }
+  ],
+}
+
+export default function() {
+  http.get('http://{API_SERVER_PUBLIC_IP}/boards');
+  sleep(1);
+}
+```
+
+- K6_WEB_DASHBOARD=true k6 run script.js
+  - {K6_SERVER_PUBLIC_IP}:5665 로 접속
+    - 주요 항목
+      - HTTP Request Rate
+      - VUs
+      - HTTP Request Duration
+      - HTTP Request Failed
