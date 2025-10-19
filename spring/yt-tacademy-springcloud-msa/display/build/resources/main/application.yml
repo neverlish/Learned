@@ -15,3 +15,9 @@ hystrix:
       circuitBreaker:
         requestVolumeThreshold: 1
         errorThresholdPercentage: 50
+
+product:
+  ribbon:
+    listOfServers: localhost:8082,localhost:7777
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 1

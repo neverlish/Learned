@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ProductRemoteServiceImpl implements ProductRemoteService {
-    public static final String URL = "http://localhost:8082/products/";
+    public static final String URL = "http://product/products/";
 
     @Autowired
     private RestTemplate restTemplate;
