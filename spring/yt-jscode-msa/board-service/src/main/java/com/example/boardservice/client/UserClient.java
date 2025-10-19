@@ -1,8 +1,10 @@
 package com.example.boardservice.client;
 
+import com.example.boardservice.dto.AddActivityScoreRequestDto;
 import com.example.boardservice.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -41,5 +43,16 @@ public class UserClient {
         } catch (RestClientException e) {
             return Collections.emptyList();
         }
+    }
+
+    public void addActivityScore(Long userId, int score) {
+        AddActivityScoreRequestDto addActivityScoreRequestDto = new AddActivityScoreRequestDto(userId, score);
+
+        this.restClient.post()
+            .uri("/users/activity-score/add")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(addActivityScoreRequestDto)
+            .retrieve()
+            .toBodilessEntity();
     }
 }
