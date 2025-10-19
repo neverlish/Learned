@@ -6,3 +6,9 @@
   - mysql> create schema `user-db`;
 - docker exec -it {CONTAINER2_ID} mysql -uroot -ppassword
   - mysql> create schema `board-db`;
+
+# 4.2 [실습] Point Microservice 만들기 - 1
+
+- docker run -e MYSQL_ROOT_PASSWORD=password -p 3308:3306 -d mysql
+- docker exec -it {CONTAINER3_ID} mysql -uroot -ppassword
+  - mysql> create schema `point-db`;
