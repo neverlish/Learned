@@ -10,6 +10,11 @@ import com.example.boardservice.dto.UserResponseDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
@@ -50,7 +55,34 @@ public class BoardService {
         );
 
         return boardResponseDto;
+    }
 
+    public List<BoardResponseDto> getBoards() {
+        List<Board> boards = boardRepository.findAll();
 
+        List<Long> userIds = boards.stream()
+                .map(Board::getUserId)
+                .distinct()
+                .toList();
+
+        List<UserResponseDto> userResponseDtos = userClient.fetchUsersByIds(userIds);
+
+        Map<Long, UserDto> userMap = new HashMap<>();
+
+        for (UserResponseDto userResponseDto: userResponseDtos) {
+            Long userId = userResponseDto.getUserId();
+            String name = userResponseDto.getName();
+
+            userMap.put(userId, new UserDto(userId, name));
+        }
+
+        return boards.stream()
+            .map(board -> new BoardResponseDto(
+                board.getBoardId(),
+                board.getTitle(),
+                board.getContent(),
+                userMap.get(board.getUserId())
+            ))
+            .toList();
     }
 }
