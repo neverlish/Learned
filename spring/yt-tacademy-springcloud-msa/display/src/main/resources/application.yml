@@ -7,7 +7,7 @@ spring:
 
 hystrix:
   command:
-    default:
+    productInfo:
       execution:
         isolation:
           thread:
@@ -18,6 +18,10 @@ hystrix:
 
 product:
   ribbon:
-    listOfServers: localhost:8082,localhost:7777
+#    listOfServers: localhost:8082,localhost:7777
     MaxAutoRetries: 0
     MaxAutoRetriesNextServer: 1
+
+eureka:
+  instance:
+    prefer-ip-address: true

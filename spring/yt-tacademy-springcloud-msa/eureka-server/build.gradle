@@ -1,4 +1,3 @@
-
 buildscript {
     ext {
         springBootVersion = '2.0.7.RELEASE'
@@ -27,8 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -37,4 +35,3 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
-
