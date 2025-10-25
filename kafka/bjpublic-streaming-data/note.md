@@ -22,3 +22,9 @@
 - tar -xzf apache-storm-1.2.4-src.tar.gz
 - cd $KAFKA_DIR
   - bin/kafka-topics.sh --bootstrap-server localhost:9092 --create -topic meetup-topn-rsvps --partitions 1 --replication-factor 1
+
+## 9.3.3 분석 단계 통합
+- cd analysis-tier
+  - mvn clean package
+- $STORM_INSTALL_DIR/bin/storm jar target/analytics-0.0.1.jar
+- $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic meetup-topn-rsvps
