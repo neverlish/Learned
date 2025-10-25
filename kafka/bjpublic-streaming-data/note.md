@@ -13,4 +13,4 @@
 - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic meet-up-raw-rsvps
 - cd collection-service
   - mvn clean package
-  - jara -jar target/collection-service-0.1.1
+  - java -jar target/collection-service-0.0.1.jar
