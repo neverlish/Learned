@@ -14,3 +14,11 @@
 - cd collection-service
   - mvn clean package
   - java -jar target/collection-service-0.0.1.jar
+
+# 9.3 분석 단계
+
+## 9.3.1 카프카와 연동하는 스톰 설치
+- curl -O https://dlcdn.apache.org/storm/apache-storm-1.2.4/apache-storm-1.2.4-src.tar.gz
+- tar -xzf apache-storm-1.2.4-src.tar.gz
+- cd $KAFKA_DIR
+  - bin/kafka-topics.sh --bootstrap-server localhost:9092 --create -topic meetup-topn-rsvps --partitions 1 --replication-factor 1
