@@ -12,6 +12,7 @@
     <modules>
         <module>collection-service</module>
         <module>analysis-tier</module>
+        <module>streaming-api</module>
     </modules>
 
 </project>
