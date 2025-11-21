@@ -48,12 +48,6 @@ def user_processing():
         import csv
         from datetime import datetime
 
-        user_info = {
-            'id': "123",
-            'firstname': "John",
-            'lastname': "Doe",
-            'email': "john.doe@example.com",
-        }
         user_info['created_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with open("/tmp/user_info.csv", "a") as f:
