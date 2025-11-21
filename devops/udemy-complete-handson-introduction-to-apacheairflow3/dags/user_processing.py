@@ -47,7 +47,7 @@ def user_processing():
     def process_user(user_info):
         import csv
         from datetime import datetime
-        
+
         user_info = {
             'id': "123",
             'firstname': "John",
@@ -69,10 +69,7 @@ def user_processing():
             filename="/tmp/user_info.csv"
         )
 
-    fake_user = is_api_available()
-    user_info = extract_user(fake_user)
-    process_user(user_info)
-    store_user()
+    create_table >> process_user(extract_user(is_api_available())) >> store_user()
 
     
 user_processing()
