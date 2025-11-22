@@ -16,3 +16,9 @@
 ## 37 Materialize an Asset
 - /bin/bash
 - airflow assets materialize --name user
+
+# 6 Databases and Executors
+## 42 The default configuration
+- inside docker container `udemy-complete-handson-introduction-to-apacheairflow3-airflow-scheduler-1`
+    - files tab
+    - /opt/airflow/config/airflow.cfg
