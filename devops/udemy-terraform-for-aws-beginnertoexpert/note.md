@@ -5,3 +5,6 @@
 
 ## 21 Terraform PLAN
 - terraform plan
+
+## 22 Terraform APPLY
+- terraform apply
