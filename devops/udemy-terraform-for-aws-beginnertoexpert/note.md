@@ -8,3 +8,7 @@
 
 ## 22 Terraform APPLY
 - terraform apply
+
+## 23 Terraform DESTROY
+- terraform destroy
+
