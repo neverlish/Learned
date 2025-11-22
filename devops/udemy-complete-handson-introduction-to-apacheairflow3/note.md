@@ -26,3 +26,7 @@
 ## 47 Monitoring your tasks with Flower
 - docker compose --profile flower up
     - http://localhost:5555
+
+# 8 Create a new Decorator and Airflow provider to run SQL queries
+## 65 Installing your Provider
+- docker compose up --build
