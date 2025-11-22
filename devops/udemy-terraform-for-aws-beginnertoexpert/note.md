@@ -17,3 +17,6 @@
     - terraform init
     - terraform plan
     
+# 4 Terraform Version Changes
+## 42 Switch
+- terraform plan -var-file="test.tfvars"
