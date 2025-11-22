@@ -7,3 +7,7 @@ variable "sshport" {
   type = number
   default = 22
 }
+
+variable "enabled" {
+  default = true
+}
