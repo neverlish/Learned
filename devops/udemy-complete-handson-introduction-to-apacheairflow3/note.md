@@ -22,3 +22,7 @@
 - inside docker container `udemy-complete-handson-introduction-to-apacheairflow3-airflow-scheduler-1`
     - files tab
     - /opt/airflow/config/airflow.cfg
+
+## 47 Monitoring your tasks with Flower
+- docker compose --profile flower up
+    - http://localhost:5555
