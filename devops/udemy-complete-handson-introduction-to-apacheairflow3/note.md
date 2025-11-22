@@ -11,3 +11,8 @@
 - inside docker container `udemy-complete-handson-introduction-to-apacheairflow3-airflow-scheduler-1`
     - (airflow)/bin/bash
     - airflow@beaf462fa0c5:/opt/airflow$ airflow tasks test user_processing create_table
+
+# 5 Creating DAGs with Assets!
+## 37 Materialize an Asset
+- /bin/bash
+- airflow assets materialize --name user
