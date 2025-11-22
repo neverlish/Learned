@@ -12,3 +12,8 @@
 ## 23 Terraform DESTROY
 - terraform destroy
 
+## 35 Variables 101 - VPC Inputs
+- cd variables
+    - terraform init
+    - terraform plan
+    
