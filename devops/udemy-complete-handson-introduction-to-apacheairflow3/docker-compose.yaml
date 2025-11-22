@@ -190,7 +190,7 @@ services:
 
   airflow-worker-2:
     <<: *airflow-common
-    command: celery worker
+    command: celery worker -q high_cpu
     healthcheck:
       # yamllint disable rule:line-length
       test:
