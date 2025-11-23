@@ -210,3 +210,8 @@ Events:                   <none>
 - kubectl delete deployment mydeployment
 - kubectl delete pod nginx
 - kubectl taint nodes i-0928f3f19ae513758 team:NoSchedule-
+
+## 62 Increase and Decrease the Number of Nodes
+- kops get ig
+- kops edit ig nodes-ap-northeast-2a
+  - change maxSize, minSize
