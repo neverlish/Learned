@@ -188,3 +188,12 @@ Events:                   <none>
 - kubectl get nodes
 - kubectl drain i-0928f3f19ae513758
 - kubectl uncordon i-0928f3f19ae513758
+
+## 60 Pod Affinity
+- kubectl label nodes i-0928f3f19ae513758 location=frontend
+- cd kops
+  - kubectl create -f affinity.yaml
+  - kubectl get pods -o wide
+  - kubectl delete pod nginx
+- kubectl edit node
+  - delete location: frontend
