@@ -38,3 +38,19 @@
   - kubectl create -f initdeployment.yaml
   - kubectl get pods
   - kubectl logs mydeployment-6bcc5866f9-29fwv -c myinit
+
+# 7 Networking
+## 26 Ingress
+- minikube addons enable ingress
+- kubectl get pods -n kube-system
+- cd service/ingress
+  - kubectl create -f service.yaml
+  - kubectl get service
+  - kubectl create -f deployment.yaml
+  - kubectl get deployments
+  - kubectl create -f ingress.yaml
+  - kubectl get ingress
+- kubectl get ingress
+- sudo vi /private/etc/hosts
+  - 192.168.49.2 mysite.local
+- http://mysite.local/
