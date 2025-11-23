@@ -130,3 +130,12 @@ Events:                   <none>
   - kubectl create -f pod.yaml
   - kubectl delete pod nginx
   - kubectl delete cm nginx-conf
+
+# 9 Useful Commands
+## 46 Getting into a Container
+- cd service
+  - kubectl create -f deployment.yaml
+  - kubectl create -f ingress.yaml
+  - kubectl create -f service.yaml
+  - kubectl get pods
+  - kubectl exec -it webdeployment-7b86c68cb5-fqh6c -- /bin/bash
