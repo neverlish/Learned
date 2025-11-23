@@ -1,0 +1,247 @@
+# 5 Kubernetes Basics
+## 17 Deploying Your Pod
+- cd deployments
+  - kubectl create -f pod.yaml
+  - kubectl get pods
+  - kubectl apply -f pod.yaml
+  - kubectl delete pod nginx
+
+## 18 ReplicaSets
+- cd deployments
+  - kubectl create -f replicaset.yaml
+  - kubectl get pods
+  - kubectl get replicasets
+  - kubectl delete pod myreplicaset-xp4d5
+  - kubectl delete replicaset myreplicaset
+
+## 19 Deployments
+- cd deployments
+  - kubectl create -f deployments.yaml
+  - kubectl get pods
+  - kubectl get replicasets
+  - kubectl get deployments
+  - kubectl delete deployment mydeployment
+
+# 6 Beyond Basics
+## 22 Multi-Container Setup
+- cd multi
+  - watch kubectl get pods
+  - kubectl create -f deployment.yaml
+  - kubectl describe pod mydeployment-bd5b4878f-8gwvw
+  - kubectl exec -it mydeployment-bd5b4878f-8gwvw -c server -- /bin/bash
+    - apt-get update
+    - apt-get install curl
+    - curl localhost
+
+## 23 Init Containers
+- cd multi
+  - kubectl create -f initdeployment.yaml
+  - kubectl get pods
+  - kubectl logs mydeployment-6bcc5866f9-29fwv -c myinit
+
+# 7 Networking
+## 26 Ingress
+- minikube addons enable ingress
+- kubectl get pods -n kube-system
+- cd service/ingress
+  - kubectl create -f service.yaml
+  - kubectl get service
+  - kubectl create -f deployment.yaml
+  - kubectl get deployments
+  - kubectl create -f ingress.yaml
+  - kubectl get ingress
+- kubectl get ingress
+- sudo vi /private/etc/hosts
+  - 192.168.49.2 mysite.local
+- http://mysite.local/
+
+## 28 LoadBalancer
+- cd deployments
+  - kubectl create -f pod.yaml
+- cd service
+  - kubectl create -f loadbalancer.yaml
+  - kubectl get service
+  - kubectl delete service awslb
+- kubectl delete pod nginx 
+
+## 29 Pod to Pod Communication
+- kubectl describe service websrvc
+Name:                     websrvc
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 server=web
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.104.106.120
+IPs:                      10.104.106.120
+Port:                     <unset>  8080/TCP
+TargetPort:               80/TCP
+Endpoints:                10.244.0.55:80,10.244.0.56:80
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+-> websrvc.default.svc.cluster.local
+
+## 30 Namespaces
+- cd namespace
+  - kubectl create -f pod1.yaml
+  - kubectl create -f namespace.yaml
+  - kubectl get namespace
+  - kubectl create -f pod2.yaml
+  - kubectl get pods -n dev
+  - kubectl delete pod myapp2 -n dev
+  - kubectl delete namespace dev
+  - kubectl delete pod myapp1
+
+## 32 Challenge 3 Solution
+- cd challenge3
+  - kubectl create -f deployment.yaml
+  - kubectl create -f nodeport.yaml
+
+# 8 Storage
+## 40 Storage Deployment
+- cd storage
+  - kubectl create -f storage.yaml
+  - kubectl get pv
+  - kubectl get pvc
+  - kubectl delete pod storagedemo
+  - kubectl delete pvc mypvc
+  - kubectl delete pv pv01
+  
+## 41 ConfigMaps
+- cd storage
+  - kubectl create configmap httpd-conf --from-file httpd.conf
+  - kubectl get cm
+  - kubectl describe cm httpd-conf
+  - kubectl get cm httpd-conf -o yaml > httpd-configmap.yaml
+  - kubectl create -f podcm.yaml
+  - kubectl delete cm httpd-conf
+  - kubectl delete pod myapp
+
+## 45 Challenge 5 Solution
+- cd challenge5
+  - docker container run -d --name nginx nginx
+  - docker exec -it nginx /bin/bash
+    - cd /etc/nginx/
+      - cat nginx.conf
+  - kubectl create cm nginx-conf --from-file=nginx.conf
+  - kubectl create -f pod.yaml
+  - kubectl delete pod nginx
+  - kubectl delete cm nginx-conf
+
+# 9 Useful Commands
+## 46 Getting into a Container
+- cd service
+  - kubectl create -f deployment.yaml
+  - kubectl create -f ingress.yaml
+  - kubectl create -f service.yaml
+  - kubectl get pods
+  - kubectl exec -it webdeployment-7b86c68cb5-fqh6c -- /bin/bash
+
+## 47 Getting Logs
+- kubectl logs webdeployment-7b86c68cb5-fqh6c
+
+## 48 Getting More Details
+- kubectl describe pod webdeployment-7b86c68cb5-fqh6c
+
+## 49 Trick For Creating YAML Files
+- kubectl get service websrvc -o yaml > mysrvc.yaml
+
+## 50 Making Changes on the Fly
+- kubectl get deployments
+- kubectl edit deployment webdeployment
+
+## 51 See CPU and Memory Usage
+- minikube addons enable metrics-server
+- kubectl top pod
+- kubectl top pod webdeployment-7b86c68cb5-fqh6c --containers
+- kubectl top node
+
+## 52 Accessing the Dashboard
+- minikube dashboard
+
+# 10 Infrastructure
+## 56 Deploying Your Infrastructure
+- export KOPS_CLUSTER_NAME=kubecourse.k8s.local
+- export KOPS_STATE_STORE=s3://k8s-course-neverlish
+- kops create cluster --node-count=3 --node-size=t3.small --control-plane-size=t3.small --zones=ap-northeast-2a,ap-northeast-2b,ap-northeast-2c --ssh-public-key {PUB_KEY}
+- kops edit ig --name=kubecourse.k8s.local control-plane-ap-northeast-2a
+- kops update cluster --name kubecourse.k8s.local --yes --admin
+
+## 57 Kubernetes Contexts
+- kubectl config get-contexts
+- kubectl config use-context minikube
+- kubectl config use-context kubecourse.k8s.local
+
+## 58 Deploying Pods to Your Infrastructure
+- kubectl get nodes
+- cd deployments
+  - kubectl create -f deployment.yaml
+  - kubectl get pods -w
+  - kubectl scale --replicas=3 deployment/mydeployment
+  - kubectl get pods -o wide
+  - kubectl delete deploy mydeployment
+
+## 59 Maintenance Mode
+- kubectl get nodes
+- kubectl drain i-0928f3f19ae513758
+- kubectl uncordon i-0928f3f19ae513758
+
+## 60 Pod Affinity
+- kubectl label nodes i-0928f3f19ae513758 location=frontend
+- cd kops
+  - kubectl create -f affinity.yaml
+  - kubectl get pods -o wide
+  - kubectl delete pod nginx
+- kubectl edit node
+  - delete location: frontend
+
+## 61 Taints and Tolerations - Deploy Pods to Specific Nodes
+- kubectl taint nodes i-0928f3f19ae513758 team=devops:NoSchedule
+- cd deployments
+  - kubectl create -f deployments.yaml
+  - kubectl scale --replicas=2 deployment/mydeployment
+- cd kops
+  - kubectl create -f taint.yaml
+  - kubectl get pods -o wide
+  - kubectl delete pod nginx
+- kubectl delete deployment mydeployment
+- kubectl delete pod nginx
+- kubectl taint nodes i-0928f3f19ae513758 team:NoSchedule-
+
+## 62 Increase and Decrease the Number of Nodes
+- kops get ig
+- kops edit ig nodes-ap-northeast-2a
+  - change maxSize, minSize
+
+## 63 Infrastructure Teardown
+- kops delete cluster --yes
+
+## 64 Introduction to the Tool Changing the Industry
+- eksctl create cluster --name=
+eks-cluster --nodes=3 --auto-kubeconfig --node-type=t2.small
+- kubectl get nodes
+- kubectl config get-contexts
+- kubectl --kubeconfig=/Users/jinhohyeon/.kube/eksctl/clusters/eks-cluster get nodes
+- eksctl delete cluster --name=eks-cluster
+
+# 11 Autoscaling
+## 69 HPA Demo
+- cd hpa
+  - kubectl create -f service.yaml
+  - kubectl create -f hpa.yaml
+  - kubectl create -f deployment.yaml
+  - watch kubectl get pods
+  - kubectl get hpa
+  - kubectl describe hpa podhpa
+  - kubectl run stressor --image=busybox --command -- sleep 500
+  - kubectl exec -it stressor -- /bin/sh
+    - while true; do wget -q -O- http://phpservice.default.svc.cluster.local; done
+  - kubectl delete pod stressor
+  - kubectl delete deployment stressedout
+  - kubectl delete service phpservice
+  - kubectl delete hpa podhpa
+  
+  
