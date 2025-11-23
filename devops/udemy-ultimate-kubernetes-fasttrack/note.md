@@ -197,3 +197,16 @@ Events:                   <none>
   - kubectl delete pod nginx
 - kubectl edit node
   - delete location: frontend
+
+## 61 Taints and Tolerations - Deploy Pods to Specific Nodes
+- kubectl taint nodes i-0928f3f19ae513758 team=devops:NoSchedule
+- cd deployments
+  - kubectl create -f deployments.yaml
+  - kubectl scale --replicas=2 deployment/mydeployment
+- cd kops
+  - kubectl create -f taint.yaml
+  - kubectl get pods -o wide
+  - kubectl delete pod nginx
+- kubectl delete deployment mydeployment
+- kubectl delete pod nginx
+- kubectl taint nodes i-0928f3f19ae513758 team:NoSchedule-
