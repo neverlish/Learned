@@ -32,3 +32,9 @@
     - apt-get update
     - apt-get install curl
     - curl localhost
+
+## 23 Init Containers
+- cd multi
+  - kubectl create -f initdeployment.yaml
+  - kubectl get pods
+  - kubectl logs mydeployment-6bcc5866f9-29fwv -c myinit
