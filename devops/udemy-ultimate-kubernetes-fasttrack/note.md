@@ -63,3 +63,23 @@
   - kubectl get service
   - kubectl delete service awslb
 - kubectl delete pod nginx 
+
+## 29 Pod to Pod Communication
+- kubectl describe service websrvc
+Name:                     websrvc
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 server=web
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.104.106.120
+IPs:                      10.104.106.120
+Port:                     <unset>  8080/TCP
+TargetPort:               80/TCP
+Endpoints:                10.244.0.55:80,10.244.0.56:80
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+-> websrvc.default.svc.cluster.local
