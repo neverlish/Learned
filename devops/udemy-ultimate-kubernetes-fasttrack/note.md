@@ -94,3 +94,8 @@ Events:                   <none>
   - kubectl delete pod myapp2 -n dev
   - kubectl delete namespace dev
   - kubectl delete pod myapp1
+
+## 32 Challenge 3 Solution
+- cd challenge3
+  - kubectl create -f deployment.yaml
+  - kubectl create -f nodeport.yaml
