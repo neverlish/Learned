@@ -54,3 +54,12 @@
 - sudo vi /private/etc/hosts
   - 192.168.49.2 mysite.local
 - http://mysite.local/
+
+## 28 LoadBalancer
+- cd deployments
+  - kubectl create -f pod.yaml
+- cd service
+  - kubectl create -f loadbalancer.yaml
+  - kubectl get service
+  - kubectl delete service awslb
+- kubectl delete pod nginx 
