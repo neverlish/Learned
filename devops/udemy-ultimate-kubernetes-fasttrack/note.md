@@ -152,3 +152,9 @@ Events:                   <none>
 ## 50 Making Changes on the Fly
 - kubectl get deployments
 - kubectl edit deployment webdeployment
+
+## 51 See CPU and Memory Usage
+- minikube addons enable metrics-server
+- kubectl top pod
+- kubectl top pod webdeployment-7b86c68cb5-fqh6c --containers
+- kubectl top node
