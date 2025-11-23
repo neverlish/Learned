@@ -215,3 +215,6 @@ Events:                   <none>
 - kops get ig
 - kops edit ig nodes-ap-northeast-2a
   - change maxSize, minSize
+
+## 63 Infrastructure Teardown
+- kops delete cluster --yes
