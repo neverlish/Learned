@@ -99,3 +99,14 @@ Events:                   <none>
 - cd challenge3
   - kubectl create -f deployment.yaml
   - kubectl create -f nodeport.yaml
+
+# 8 Storage
+## 40 Storage Deployment
+- cd storage
+  - kubectl create -f storage.yaml
+  - kubectl get pv
+  - kubectl get pvc
+  - kubectl delete pod storagedemo
+  - kubectl delete pvc mypvc
+  - kubectl delete pv pv01
+  
