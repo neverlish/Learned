@@ -142,3 +142,6 @@ Events:                   <none>
 
 ## 47 Getting Logs
 - kubectl logs webdeployment-7b86c68cb5-fqh6c
+
+## 48 Getting More Details
+- kubectl describe pod webdeployment-7b86c68cb5-fqh6c
