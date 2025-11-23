@@ -158,3 +158,6 @@ Events:                   <none>
 - kubectl top pod
 - kubectl top pod webdeployment-7b86c68cb5-fqh6c --containers
 - kubectl top node
+
+## 52 Accessing the Dashboard
+- minikube dashboard
