@@ -226,3 +226,22 @@ eks-cluster --nodes=3 --auto-kubeconfig --node-type=t2.small
 - kubectl config get-contexts
 - kubectl --kubeconfig=/Users/jinhohyeon/.kube/eksctl/clusters/eks-cluster get nodes
 - eksctl delete cluster --name=eks-cluster
+
+# 11 Autoscaling
+## 69 HPA Demo
+- cd hpa
+  - kubectl create -f service.yaml
+  - kubectl create -f hpa.yaml
+  - kubectl create -f deployment.yaml
+  - watch kubectl get pods
+  - kubectl get hpa
+  - kubectl describe hpa podhpa
+  - kubectl run stressor --image=busybox --command -- sleep 500
+  - kubectl exec -it stressor -- /bin/sh
+    - while true; do wget -q -O- http://phpservice.default.svc.cluster.local; done
+  - kubectl delete pod stressor
+  - kubectl delete deployment stressedout
+  - kubectl delete service phpservice
+  - kubectl delete hpa podhpa
+  
+  
