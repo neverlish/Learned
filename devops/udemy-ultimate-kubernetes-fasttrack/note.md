@@ -119,3 +119,14 @@ Events:                   <none>
   - kubectl create -f podcm.yaml
   - kubectl delete cm httpd-conf
   - kubectl delete pod myapp
+
+## 45 Challenge 5 Solution
+- cd challenge5
+  - docker container run -d --name nginx nginx
+  - docker exec -it nginx /bin/bash
+    - cd /etc/nginx/
+      - cat nginx.conf
+  - kubectl create cm nginx-conf --from-file=nginx.conf
+  - kubectl create -f pod.yaml
+  - kubectl delete pod nginx
+  - kubectl delete cm nginx-conf
