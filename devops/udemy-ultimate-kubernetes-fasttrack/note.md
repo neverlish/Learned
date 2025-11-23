@@ -110,3 +110,12 @@ Events:                   <none>
   - kubectl delete pvc mypvc
   - kubectl delete pv pv01
   
+## 41 ConfigMaps
+- cd storage
+  - kubectl create configmap httpd-conf --from-file httpd.conf
+  - kubectl get cm
+  - kubectl describe cm httpd-conf
+  - kubectl get cm httpd-conf -o yaml > httpd-configmap.yaml
+  - kubectl create -f podcm.yaml
+  - kubectl delete cm httpd-conf
+  - kubectl delete pod myapp
