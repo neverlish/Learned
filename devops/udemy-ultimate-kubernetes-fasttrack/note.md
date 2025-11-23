@@ -174,3 +174,12 @@ Events:                   <none>
 - kubectl config get-contexts
 - kubectl config use-context minikube
 - kubectl config use-context kubecourse.k8s.local
+
+## 58 Deploying Pods to Your Infrastructure
+- kubectl get nodes
+- cd deployments
+  - kubectl create -f deployment.yaml
+  - kubectl get pods -w
+  - kubectl scale --replicas=3 deployment/mydeployment
+  - kubectl get pods -o wide
+  - kubectl delete deploy mydeployment
