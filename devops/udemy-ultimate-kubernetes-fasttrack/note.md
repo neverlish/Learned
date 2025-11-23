@@ -13,3 +13,11 @@
   - kubectl get replicasets
   - kubectl delete pod myreplicaset-xp4d5
   - kubectl delete replicaset myreplicaset
+
+## 19 Deployments
+- cd deployments
+  - kubectl create -f deployments.yaml
+  - kubectl get pods
+  - kubectl get replicasets
+  - kubectl get deployments
+  - kubectl delete deployment mydeployment
