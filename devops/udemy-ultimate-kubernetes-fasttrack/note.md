@@ -21,3 +21,14 @@
   - kubectl get replicasets
   - kubectl get deployments
   - kubectl delete deployment mydeployment
+
+# 6 Beyond Basics
+## 22 Multi-Container Setup
+- cd multi
+  - watch kubectl get pods
+  - kubectl create -f deployment.yaml
+  - kubectl describe pod mydeployment-bd5b4878f-8gwvw
+  - kubectl exec -it mydeployment-bd5b4878f-8gwvw -c server -- /bin/bash
+    - apt-get update
+    - apt-get install curl
+    - curl localhost
