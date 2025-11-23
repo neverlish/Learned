@@ -218,3 +218,11 @@ Events:                   <none>
 
 ## 63 Infrastructure Teardown
 - kops delete cluster --yes
+
+## 64 Introduction to the Tool Changing the Industry
+- eksctl create cluster --name=
+eks-cluster --nodes=3 --auto-kubeconfig --node-type=t2.small
+- kubectl get nodes
+- kubectl config get-contexts
+- kubectl --kubeconfig=/Users/jinhohyeon/.kube/eksctl/clusters/eks-cluster get nodes
+- eksctl delete cluster --name=eks-cluster
