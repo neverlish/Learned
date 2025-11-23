@@ -183,3 +183,8 @@ Events:                   <none>
   - kubectl scale --replicas=3 deployment/mydeployment
   - kubectl get pods -o wide
   - kubectl delete deploy mydeployment
+
+## 59 Maintenance Mode
+- kubectl get nodes
+- kubectl drain i-0928f3f19ae513758
+- kubectl uncordon i-0928f3f19ae513758
