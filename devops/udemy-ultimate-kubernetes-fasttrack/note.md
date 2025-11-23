@@ -145,3 +145,6 @@ Events:                   <none>
 
 ## 48 Getting More Details
 - kubectl describe pod webdeployment-7b86c68cb5-fqh6c
+
+## 49 Trick For Creating YAML Files
+- kubectl get service websrvc -o yaml > mysrvc.yaml
