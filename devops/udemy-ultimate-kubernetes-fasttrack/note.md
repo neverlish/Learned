@@ -139,3 +139,6 @@ Events:                   <none>
   - kubectl create -f service.yaml
   - kubectl get pods
   - kubectl exec -it webdeployment-7b86c68cb5-fqh6c -- /bin/bash
+
+## 47 Getting Logs
+- kubectl logs webdeployment-7b86c68cb5-fqh6c
