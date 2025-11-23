@@ -169,3 +169,8 @@ Events:                   <none>
 - kops create cluster --node-count=3 --node-size=t3.small --control-plane-size=t3.small --zones=ap-northeast-2a,ap-northeast-2b,ap-northeast-2c --ssh-public-key {PUB_KEY}
 - kops edit ig --name=kubecourse.k8s.local control-plane-ap-northeast-2a
 - kops update cluster --name kubecourse.k8s.local --yes --admin
+
+## 57 Kubernetes Contexts
+- kubectl config get-contexts
+- kubectl config use-context minikube
+- kubectl config use-context kubecourse.k8s.local
