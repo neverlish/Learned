@@ -4,9 +4,10 @@ metadata:
   name: nginx
   labels:
     name: myPod
+    type: proxy
 spec:
   containers:
-  - name: nginxContainer
+  - name: nginxcontainer
     image: nginx:latest
     resources:
       limits:
