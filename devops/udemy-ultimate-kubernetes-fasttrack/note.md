@@ -148,3 +148,7 @@ Events:                   <none>
 
 ## 49 Trick For Creating YAML Files
 - kubectl get service websrvc -o yaml > mysrvc.yaml
+
+## 50 Making Changes on the Fly
+- kubectl get deployments
+- kubectl edit deployment webdeployment
