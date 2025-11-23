@@ -161,3 +161,11 @@ Events:                   <none>
 
 ## 52 Accessing the Dashboard
 - minikube dashboard
+
+# 10 Infrastructure
+## 56 Deploying Your Infrastructure
+- export KOPS_CLUSTER_NAME=kubecourse.k8s.local
+- export KOPS_STATE_STORE=s3://k8s-course-neverlish
+- kops create cluster --node-count=3 --node-size=t3.small --control-plane-size=t3.small --zones=ap-northeast-2a,ap-northeast-2b,ap-northeast-2c --ssh-public-key {PUB_KEY}
+- kops edit ig --name=kubecourse.k8s.local control-plane-ap-northeast-2a
+- kops update cluster --name kubecourse.k8s.local --yes --admin
