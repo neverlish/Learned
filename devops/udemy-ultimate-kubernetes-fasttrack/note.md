@@ -83,3 +83,14 @@ Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
 -> websrvc.default.svc.cluster.local
+
+## 30 Namespaces
+- cd namespace
+  - kubectl create -f pod1.yaml
+  - kubectl create -f namespace.yaml
+  - kubectl get namespace
+  - kubectl create -f pod2.yaml
+  - kubectl get pods -n dev
+  - kubectl delete pod myapp2 -n dev
+  - kubectl delete namespace dev
+  - kubectl delete pod myapp1
