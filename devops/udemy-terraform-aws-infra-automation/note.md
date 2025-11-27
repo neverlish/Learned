@@ -4,3 +4,7 @@
 - terraform console
   > var.instance_type
 - terraform apply -var-file dev.tfvars
+
+## 14 Terraform 상태 - terraform.tfstate
+- terraform state list
+- terraform state mv aws_instance.example aws_instance.web
