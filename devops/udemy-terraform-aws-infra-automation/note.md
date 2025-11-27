@@ -8,3 +8,7 @@
 ## 14 Terraform 상태 - terraform.tfstate
 - terraform state list
 - terraform state mv aws_instance.example aws_instance.web
+
+## 15 VPC 첫 단계
+- terraform apply -target module.vpc
+- terraform taint aws_instance.web

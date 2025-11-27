@@ -9,3 +9,7 @@ variable "instance_type" {
     "other_instance": "t4g.micro"
   }
 }
+
+variable "aws_region" {
+  default = "ap-northeast-2"
+}
