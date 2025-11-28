@@ -46,5 +46,5 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_key_pair" "mykey" {
   key_name = "mykey-demo"
-  public_key = file("~/.ssh/id_ed25519.pub")
+  public_key = file("${path.module}/id_ed25519.pub")
 }

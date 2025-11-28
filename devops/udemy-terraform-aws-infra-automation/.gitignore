@@ -4,3 +4,5 @@ terraform.tfstate.backup
 .terraform.lock.hcl
 .terraform.tfstate.lock.info
 terraform.tfstate.*.backup
+*.pub
+id_ed25519
