@@ -20,3 +20,7 @@
 - enter ec2 instance
   $ sudo -s
   # cat /var/log/cloud-init-output.log
+
+## 20 원격 상태
+- terraform state pull
+- terraform force-unlock -h
