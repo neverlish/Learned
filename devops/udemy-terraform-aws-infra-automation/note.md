@@ -12,3 +12,6 @@
 ## 15 VPC 첫 단계
 - terraform apply -target module.vpc
 - terraform taint aws_instance.web
+
+## 16 VPC, Security Group, SSH Key 첫 단계
+- ssh -i ~/.ssh/id_ed25519 ubuntu@PUBLIC_IP

@@ -9,6 +9,10 @@ resource "aws_instance" "web" {
 
   subnet_id = module.vpc.public_subnets[0]
 
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  key_name = aws_key_pair.mykey.key_name
+
   tags = {
     Name = "example"
   }
@@ -17,7 +21,7 @@ resource "aws_instance" "web" {
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic and all outbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port   = 22
@@ -40,3 +44,7 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
+resource "aws_key_pair" "mykey" {
+  key_name = "mykey-demo"
+  public_key = file("~/.ssh/id_ed25519.pub")
+}
