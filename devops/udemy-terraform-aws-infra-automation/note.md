@@ -24,3 +24,6 @@
 ## 20 원격 상태
 - terraform state pull
 - terraform force-unlock -h
+
+## 21 Datasources
+- terraform output

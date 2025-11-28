@@ -12,3 +12,7 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"]
 }
+
+# data "aws_caller_identity" "current" {}
+
+# data "aws_region" "current" {}
