@@ -13,10 +13,26 @@ resource "aws_instance" "web" {
 
   key_name = aws_key_pair.mykey.key_name
 
-  user_data = templatefile("${path.module}/templates/web.tpl", {
-    "region" = var.aws_region
-    "bucketname" = var.bucket_name
-  })
+  # user_data = templatefile("${path.module}/templates/web.tpl", {
+  #   "region" = var.aws_region
+  #   "bucketname" = var.bucket_name
+  # })
+
+  user_data_replace_on_change = true
+
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    private_key = file("${path.module}/id_ed25519")
+    host = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y nginx"
+    ]
+  }
 
   tags = {
     Name = "example"
