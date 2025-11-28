@@ -15,3 +15,8 @@
 
 ## 16 VPC, Security Group, SSH Key 첫 단계
 - ssh -i ~/.ssh/id_ed25519 ubuntu@PUBLIC_IP
+
+## 18 user_data를 사용한 프로비저닝
+- enter ec2 instance
+  $ sudo -s
+  # cat /var/log/cloud-init-output.log
