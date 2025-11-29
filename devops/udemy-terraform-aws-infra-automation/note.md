@@ -64,3 +64,12 @@
   > [for k, v in var.map1 : k]
   > [for k, v in var.map1 : v]
   > {for k, v in var.map1 : k => v}
+
+
+# 7 패커
+## 67 데모: 테라 폼을 이용한 패커
+- cd packer-demo
+  - sh build-and-launch.sh
+  - ssh -i mykey ubuntu@PUBLIC_IP
+    - dpkg -l | grep nginx
+    - dpkg -l | grep docker
