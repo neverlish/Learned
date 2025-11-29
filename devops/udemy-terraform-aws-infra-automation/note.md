@@ -32,3 +32,24 @@
 - terraform init -upgrade
 - terraform graph
 - terraform show
+
+# 6 고급 테라폼 사용하기
+## 56 데모: 내장된 함수
+- terraform console
+  > replace("hello this is a string", "e", "!")
+  > "the server launched at ${timestamp()}"
+  > tolist(["subnet-1", "subnet-2", "subnet-3"])
+  > split(",", "subnet-1,subnet-2,subnet-3")
+  > element(tolist(["subnet-1", "subnet-2", "subnet-3"]), 0)
+  > element(tolist(["subnet-1", "subnet-2", "subnet-3"]), 1)
+  > element(tolist(["subnet-1", "subnet-2", "subnet-3"]), 2)
+  > slice(tolist(["subnet-1", "subnet-2", "subnet-3"]), 0, 2)
+  > join(",", ce(list("subnet-1", "subnet-2", "subnet-3"), 0, 2))
+  > tomap({"eu-west-1"="ami-1", "us-east-1"="ami-2"})
+  > lookup(tomap({"eu-west-1"="ami-1", "us-east-1"="ami-2"}), "us-east-1")
+  > index(tolist(["subnet-1", "subnet-2", "subnet-3"]), "subnet-2")
+  > substr("abcd", 0, 1)
+  > substr("abcd", 0, 3)
+  > substr("abcd", 1, 3)
+  > substr("abcd", -1, 1)
+  > substr("abcd", -2, 2)
