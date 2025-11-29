@@ -27,3 +27,8 @@
 
 ## 21 Datasources
 - terraform output
+
+## 24 Terraform 명령
+- terraform init -upgrade
+- terraform graph
+- terraform show
