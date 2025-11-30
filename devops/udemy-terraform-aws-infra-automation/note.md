@@ -73,3 +73,12 @@
   - ssh -i mykey ubuntu@PUBLIC_IP
     - dpkg -l | grep nginx
     - dpkg -l | grep docker
+
+# 8 ECS와 ECR를 이용한  AWS에서의 도커
+## 73 데모: NodeJS 앱 구축과 ECR 푸시하기
+- cd docker-demo-1
+  - terraform apply
+- cd docker-demo
+  - docker build -t ECR_URL/myapp:1 .
+  - aws ecr get-login-password | docker login --username AWS --password-stdin ECR_URL
+  - docker push ECR_URL/myapp:1 
