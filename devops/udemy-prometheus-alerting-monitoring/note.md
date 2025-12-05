@@ -234,3 +234,12 @@ ARGS="--web.external-url=https://example.com"
   - sudo service grafana-server start
   - sudo service grafana-server status
 - Visit PUBLIC_URL:3000 (Grafana UI)
+
+# 15 Setup the Prometheus Datasource
+- instance 1 web
+  - Login to Grafana UI at PUBLIC_URL:3000 (admin/admin)
+  - Add Prometheus as a data source
+  - Configure the data source
+    - URL as http://PUBLIC_URL:9090
+    - Auth: Basic Auth & admin/admin
+  - Save and test the connection
