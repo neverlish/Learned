@@ -85,3 +85,10 @@ server {
   - sudo iptables -A INPUT -p tcp -s localhost --dport 9100 -j ACCEPT
   - sudo iptables -A INPUT -p tcp --dport 9100 -j DROP
   - sudo iptables -L
+
+# 6 Scrape Target Basics
+- PUBLIC_URL:9090
+  - query
+- ssh
+  - curl localhost:9090/metrics
+  - sudo cat /etc/prometheus/prometheus.yml
