@@ -196,3 +196,32 @@ scrape_configs:
 ```
   - promtool check config /etc/prometheus/prometheus.yml
   - sudo service prometheus restart
+
+# 13 Configure Alertmanager to Send Email Alerts
+- instance 1 ssh
+  - cd /etc/prometheus
+  - cp alertmanager.yml alertmanager_orig.yml
+  - sudo vi alertmanager.yml
+```
+route:
+    receiver: smtp
+receivers:
+    - name: smtp
+      email_configs:
+          - smarthost: mail.your-email-service-domain:port
+            hello: your-email-service-domain
+            to: 'to@example.com'
+            from: 'from@example.com'
+            auth_username: 'from@example.com'
+            auth_password: 'your-password'
+            send_resolved: true
+            require_tls: false
+```
+  - amtool check-config alertmanager.yml
+  - sudo service prometheus-alertmanager restart
+  - journalctl -u prometheus-alertmanager.service -f
+  - sudo vi /etc/default/prometheus
+```
+ARGS="--web.external-url=https://example.com"
+```
+  - sudo service prometheus restart
