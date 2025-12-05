@@ -225,3 +225,12 @@ receivers:
 ARGS="--web.external-url=https://example.com"
 ```
   - sudo service prometheus restart
+
+# 14 Install Grafana
+- instance 1 ssh
+  - sudo apt-get install -y adduser libfontconfig1
+  - sudo wget https://dl.grafana.com/oss/release/grafana_9.3.2_amd64.deb
+  - sudo dpkg -i grafana_9.3.2_amd64.deb
+  - sudo service grafana-server start
+  - sudo service grafana-server status
+- Visit PUBLIC_URL:3000 (Grafana UI)
