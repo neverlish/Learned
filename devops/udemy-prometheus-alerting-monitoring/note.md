@@ -152,3 +152,31 @@ groups:
   - promtool check rules prometheus_rules.yml
   - sudo vi prometheus.yml
     - add `- "prometheus_rules.yml"` under the `rule_files` section
+
+# 11 Alerting Rules
+- instance 1 ssh
+  - add to prometheus_rules.yml
+```
+  - name: alert_rules
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+            severity: critical
+        annotations:
+            summary: 'Instance {{ $labels.instance }} down'
+            description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+  - alert: DiskSpaceFree10Percent
+        expr: node_filesystem_free_percent <= 10
+        labels:
+            severity: warning
+        annotations:
+            summary: 'Instance {{ $labels.instance }} has 10% or less Free disk space'
+            description: '{{ $labels.instance }} has only {{ $value }}% or less free.'
+```
+  - sudo service prometheus restart
+  - sudo service prometheus-node-exporter stop
+    - visit PUBLIC_URL:9090/classic/alerts
+  - sudo service prometheus-node-exporter start
+
