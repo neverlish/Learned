@@ -29,3 +29,9 @@
     - targets: ['localhost:9100']
 ```
 - brew services restart prometheus
+
+# 4 Installing and Configuring Grafana
+## 35 Configuring Grafana
+- cd /opt/homebrew/etc/grafana
+- sudo cp grafana.ini custom.ini
+- sudo vi grafana.inis
