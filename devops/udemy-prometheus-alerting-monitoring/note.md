@@ -115,3 +115,10 @@ scrape_configs:
   - sudo service prometheus restart
 - instance 1 url
   - https://PUBLIC_URL:9090/classic/targets
+
+# 8 Deleting a Time Series
+- instance 1 ssh
+  - sudo vi /etc/default/prometheus
+    - add ARGS="--web.enable-admin-api" to the file
+  - sudo service prometheus restart
+  - curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="INSTANCE"}'
