@@ -243,3 +243,9 @@ ARGS="--web.external-url=https://example.com"
     - URL as http://PUBLIC_URL:9090
     - Auth: Basic Auth & admin/admin
   - Save and test the connection
+
+# 16 Setup Prometheus Dashboards
+- instance 1 web
+  - datasource > Dashboards
+    - Prometheus 2.0 Stats Import
+  - visit configuration > Plugins
