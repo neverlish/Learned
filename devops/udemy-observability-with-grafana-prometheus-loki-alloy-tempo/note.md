@@ -16,3 +16,16 @@
   - cd /etc/prometheus
   - sudo vi prometheus.yml
     - add app url to targets
+
+## 18 (Optional) Collecting Metrics in Mac using Node Exporter
+- brew install node_exporter
+- brew services start node_exporter
+- visit localhost:9100
+- vi /opt/homebrew/etc/prometheus.yml
+```
+...
+- job_name: "node_exporter"
+  static_configs:
+    - targets: ['localhost:9100']
+```
+- brew services restart prometheus
