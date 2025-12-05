@@ -134,3 +134,21 @@ scrape_configs:
     - rate(node_netstat_Tcp_InSegs[10m])
     - sum(go_threads)
     - deriv(ceil(rate(node_netstat_Tcp_InSegs{instance="localhost:9100"}[1m]))[1m:])
+
+# 10 Recording Rules
+- instance 1 ssh
+  - cd /etc/prometheus
+  - sudo vi prometheus_rules.yml
+```
+groups:
+  - name: custom_rules
+    rules:
+      - record: node_memory_MemFree_percent
+        expr: 100 - (100 * node_memory_MemFree_bytes / node_memory_MemTotal_bytes)
+
+      - record: node_filesystem_free_percent
+        expr: 100 * node_filesystem_free_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}
+```
+  - promtool check rules prometheus_rules.yml
+  - sudo vi prometheus.yml
+    - add `- "prometheus_rules.yml"` under the `rule_files` section
