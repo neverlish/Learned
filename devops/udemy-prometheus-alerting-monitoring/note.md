@@ -122,3 +122,15 @@ scrape_configs:
     - add ARGS="--web.enable-admin-api" to the file
   - sudo service prometheus restart
   - curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance="INSTANCE"}'
+
+# 9 PromQL Example Queries
+- instance 1 web
+  - query
+    - scrape_duration_seconds
+    - scrape_duration_seconds{instance="localhost:9100"}
+    - node_cpu_seconds_total{mode=~".*irq"}
+    - node_netstat_Tcp_InSegs{instance="localhost:9100"}[5m]
+    - rate(scrape_duration_seconds{instance="localhost:9100"}[1m:20s])
+    - rate(node_netstat_Tcp_InSegs[10m])
+    - sum(go_threads)
+    - deriv(ceil(rate(node_netstat_Tcp_InSegs{instance="localhost:9100"}[1m]))[1m:])
