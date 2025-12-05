@@ -92,3 +92,26 @@ server {
 - ssh
   - curl localhost:9090/metrics
   - sudo cat /etc/prometheus/prometheus.yml
+
+# 7 Install an External Node Exporter
+- launce another ec2 instance with ubuntu ami
+- instance 2 ssh
+  - sudo apt update
+  - sudo apt-get install -y prometheus-node-exporter
+  - sudo service prometheus-node-exporter status
+- instance 1 ssh
+  - sudo vi /etc/prometheus/prometheus.yml
+  - add the following scrape config:
+```
+scrape_configs:
+  - job_name: node
+    # If prometheus-node-exporter is installed, grab stats about the local
+    # machine by default.
+    static_configs:
+      - targets: ['localhost:9100']
+      - targets: ['INSTANCE_2_PUBLIC_IP:9100']
+```
+  - promtool check config /etc/prometheus/prometheus.yml
+  - sudo service prometheus restart
+- instance 1 url
+  - https://PUBLIC_URL:9090/classic/targets
