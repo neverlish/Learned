@@ -61,3 +61,27 @@ server {
     return 404;
 }
 ```
+
+# 5 Add Basic Authentication to the Prometheus User Interface
+- ssh
+  - cd /etc/nginx/
+  - sudo apt install apache2-utils -y
+  - sudo htpasswd -c /etc/nginx/.htpasswd admin
+  - sudo vi /etc/nginx/sites-enabled/prometheus
+```
+server {
+    auth_basic "Protected Area";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+    ...
+    location / {
+        proxy_pass http://localhost:9090;
+    }
+}
+```
+  - sudo nginx -t
+  - sudo systemctl restart nginx
+  - sudo iptables -A INPUT -p tcp -s localhost --dport 9090 -j ACCEPT
+  - sudo iptables -A INPUT -p tcp --dport 9090 -j DROP
+  - sudo iptables -A INPUT -p tcp -s localhost --dport 9100 -j ACCEPT
+  - sudo iptables -A INPUT -p tcp --dport 9100 -j DROP
+  - sudo iptables -L
