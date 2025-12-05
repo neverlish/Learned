@@ -180,3 +180,19 @@ groups:
     - visit PUBLIC_URL:9090/classic/alerts
   - sudo service prometheus-node-exporter start
 
+# 12 Install the Prometheus Alertmanager
+- instance 1 ssh
+  - sudo apt install prometheus-alertmanager
+  - sudo service prometheus-alertmanager status
+    - Visit PUBLIC_URL:9093 (Alertmanager UI) to see the alerting configuration
+  - sudo vi /etc/prometheus/prometheus.yml
+```
+scrape_configs:
+  ...
+
+  - job_name: alertmanager
+    static_configs:
+      - targets: ['localhost:9093']
+```
+  - promtool check config /etc/prometheus/prometheus.yml
+  - sudo service prometheus restart
