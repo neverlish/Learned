@@ -107,3 +107,16 @@
       - Options -> Legend -> Custom: Cash
     - sum(shoehub_payments{CountryCode="US", PaymentMethod="Paypal"}) / sum(shoehub_payments{CountryCode="US"}) * 100
       - Options -> Legend -> Custom: Paypal
+
+## 49 Variables and Dynamic Dashboards
+- Dashboard Setting -> Variables -> Add Variable
+  - (type: custom, Name: country, Label: Country, Custom options: AU,IN,US)
+  - type: Query, Name: country, Label: Country, Data Source: prometheus, Query type; Classic Query, Classic Query: label_values(shoehub_payments{PaymentMethod="Card"}, CountryCode), Sort: Alphabetical(desc), Include all option
+- Panel "Percentage of Payment Methods in the US" -> edit
+  - title: Percentage of Payment Methods in the $country
+  - query
+    - sum(shoehub_payments{CountryCode="$country", PaymentMethod="Card"}) / sum(shoehub_payments{CountryCode="$country"}) * 100
+    - sum(shoehub_payments{CountryCode="$country", PaymentMethod="Cash"}) / sum(shoehub_payments{CountryCode="$country"}) * 100
+    - sum(shoehub_payments{CountryCode="$country", PaymentMethod="Paypal"}) / sum(shoehub_payments{CountryCode="$country"}) * 100
+  - Repeat options:
+    - Repeat by variable: country, Max per row: 3
