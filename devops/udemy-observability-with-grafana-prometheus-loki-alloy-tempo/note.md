@@ -42,3 +42,15 @@
   - connections -> Data Source & Add Data Source -> Prometheus
     - url: http://localhost:9090
     - save & test
+
+## 40 Creating and Managing Dashboards in Grafana
+- Dashboards -> New -> New Folder
+  - Folder Name: Tech Team
+  - Create Dashboard
+    - Save Dashbaord
+      - Title: ShoeHub
+      - Folder: Tech Team
+      - Save
+    - Edit -> Settings
+      - Tags: online course, shoehub, test
+    - Add -> Row
