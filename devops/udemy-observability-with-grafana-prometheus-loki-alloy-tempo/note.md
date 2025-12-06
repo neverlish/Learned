@@ -182,3 +182,10 @@
   - Set evaluation behavior
     - New evaluation group: Card Payments, 20s
     - Pending period: 1m
+
+## 56 Notification Policies and Contact Points
+- grafana.ini
+  - edit smtp
+- Alerting
+  - Contact points -> Create Contact Point
+  - Notification policies -> New child policy
