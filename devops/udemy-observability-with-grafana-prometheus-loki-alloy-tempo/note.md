@@ -259,3 +259,26 @@ WantedBy=default.target
       env: Prod
       component:
 ```
+
+## 65 Dynamic Labels: Extracting Labels from Unstructured Logs
+- edit /etc/promtail/config.yml
+```
+...
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+      team: DevOps
+      env: Prod
+      component:
+  pipeline_stages:
+  - logfmt:
+      mapping:
+        component:
+  - labels:
+      component:
+```
+- query on loki
+  - {filename="/var/log/loki_udemy.log", component="backend"}
