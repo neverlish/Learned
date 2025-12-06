@@ -132,3 +132,12 @@
      Options -> Legend -> Custom: {{CountryCode}}
   - Repeat options:
     - Repeat by variable: paymentMethod, Max per row: 3
+
+## 52 Increasing the visibility of data with logarithmic scaling
+- Add Visualization
+  - query
+    - 2
+    - 500
+  - Axis
+    - scale: Logarithmic
+    - Log base: 10
