@@ -244,3 +244,18 @@ WantedBy=default.target
   - sudo systemctl start promtail.service
   - sudo systemctl status promtail.service
   - sudo systemctl enable promtail.service
+
+## 64 Creating and Attaching Static Labels
+- edit /etc/promtail/config.yml
+```
+...
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+      team: DevOps
+      env: Prod
+      component:
+```
