@@ -120,3 +120,15 @@
     - sum(shoehub_payments{CountryCode="$country", PaymentMethod="Paypal"}) / sum(shoehub_payments{CountryCode="$country"}) * 100
   - Repeat options:
     - Repeat by variable: country, Max per row: 3
+
+## 51 Solved: Creating Dynamic Dashboards
+- Dashboard Setting -> Variables -> Add Variable
+  - type: Query, Name: paymentMethod, Label: Payment Method, Data Source: prometheus, Query type; Classic Query, Classic Query: label_values(shoehub_payments{Country="US"}, PaymentMethod), Sort: Alphabetical(desc), Include all option
+- Add Visualization
+  - Visualization: Time Series
+  - Title: Payment Amount by Method of $paymentMethod
+  - query
+    - shoehub_payments{PaymentMethod="$paymentMethod"}
+     Options -> Legend -> Custom: {{CountryCode}}
+  - Repeat options:
+    - Repeat by variable: paymentMethod, Max per row: 3
