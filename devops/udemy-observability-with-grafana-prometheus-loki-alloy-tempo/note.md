@@ -141,3 +141,18 @@
   - Axis
     - scale: Logarithmic
     - Log base: 10
+
+## 53 Working with the Gauge and Bar Gauge Panels
+- Add Visualization
+  - Visualization: Gauge
+  - query
+    - shoehub_payments{CountryCode="US"}
+    - Options -> Legend -> Custom: {{PaymentMethod}}
+  - Thresholds
+    - remove 80
+    - Add Threshold: 400, 600
+  - Value options
+    - Calculation: Mean
+  - Gauge
+    - show threshold labels
+  - title: Payments in US
