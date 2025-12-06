@@ -156,3 +156,29 @@
   - Gauge
     - show threshold labels
   - title: Payments in US
+
+# 6 Working with Alerts, Notifications and Annotations in Grafana
+## 55 Working with Alert Rules
+- Alerting -> Alert rules -> New alert rule
+  - Name: Low Card Payment
+  - Define query and alert condition
+    - query
+      - shoehub_payments{PaymentMethod="Card"}
+    - options
+      - Time Range: now-5m to now
+      - Max date points
+      - Min interval: 15s
+    - Advanced options
+      - delete Reduce, Threshold expression
+      - Add expression: Reduce
+        - Input: A
+        - Function: Last
+      - Add expression: Threshold
+        - Input: B
+        - Is Below: 400
+  - Add folder and labels
+    - Folder: Tech Team
+    - Add labels -> team = tech
+  - Set evaluation behavior
+    - New evaluation group: Card Payments, 20s
+    - Pending period: 1m
