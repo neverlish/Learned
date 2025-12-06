@@ -95,3 +95,15 @@
   - query
     - rate(shoehub_sales{ShoeType=~"Loafers"}[$__interval])
     - rate(shoehub_sales{ShoeType=~"Loafers"}[$__interval] offset 1m)
+
+## 48 Thresholds in Grafana
+- Add Visualization
+  - Visualization: Time Series
+  - Title: Percentage of Payment Methods in the US
+  - query
+    - sum(shoehub_payments{CountryCode="US", PaymentMethod="Card"}) / sum(shoehub_payments{CountryCode="US"}) * 100
+      - Options -> Legend -> Custom: Card
+    - sum(shoehub_payments{CountryCode="US", PaymentMethod="Cash"}) / sum(shoehub_payments{CountryCode="US"}) * 100
+      - Options -> Legend -> Custom: Cash
+    - sum(shoehub_payments{CountryCode="US", PaymentMethod="Paypal"}) / sum(shoehub_payments{CountryCode="US"}) * 100
+      - Options -> Legend -> Custom: Paypal
