@@ -75,3 +75,15 @@
     - Calculation: Total
     - Alias: Total Sales
   - Save
+
+## 45 Visually Comparing Values with Pie Charts
+- Add Visualization
+  - Visualization: Pie Chart
+  - Title: Card Payments in Countries
+  - query
+    - rate(shoehub_payments{CountryCode="AU", PaymentMethod="Card"}[$__rate_interval])
+      - Options -> Legend -> Custom: Australia
+    - rate(shoehub_payments{CountryCode="IN", PaymentMethod="Card"}[$__rate_interval])
+      - Options -> Legend -> Custom: India
+    - rate(shoehub_payments{CountryCode="US", PaymentMethod="Card"}[$__rate_interval])
+      - Options -> Legend -> Custom: US
