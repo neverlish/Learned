@@ -67,3 +67,11 @@
   - Standard options -> Display name: Response (ms)
 - New Visualization
   - query: rate(shoehub_sales{ShoeType=~"Boots|Loafers|HighHeels"}[1m])
+
+## 44 Data Transformations
+- Edit Panel
+  - Transformations -> Add Transformation -> Add field from calculation
+    - Mode: Reduce row
+    - Calculation: Total
+    - Alias: Total Sales
+  - Save
