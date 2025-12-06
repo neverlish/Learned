@@ -189,3 +189,6 @@
 - Alerting
   - Contact points -> Create Contact Point
   - Notification policies -> New child policy
+
+## 58 Silencing Alert Notifications
+- Alerting -> Silences -> Create silence
