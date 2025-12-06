@@ -282,3 +282,57 @@ WantedBy=default.target
 ```
 - query on loki
   - {filename="/var/log/loki_udemy.log", component="backend"}
+
+## 66 Visualising Loki Queries on Dashboards
+- edit /etc/promtail/config.yml
+```
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+      team: DevOps
+      env: Prod
+      component:
+      level:
+  pipeline_stages:
+  - logfmt:
+      mapping:
+        component:
+        level:
+  - labels:
+      component:
+      level:
+```
+- dashboard -> New dashboard 
+  - Add Visulization
+    - data source: loki
+    - Visualization: Logs
+    - Title: Logs
+    - query: {filename="/var/log/loki_udemy.log"}
+    - Options -> Line Limit: 10
+  - Add Visulization
+    - data source: Loki
+    - Visualization: Bar chart
+    - query
+      - rate({level="ERROR", component="database"} |= `` [10m])
+      - rate({level="ERROR", component="database"} |= `` [5m])
+  - Add Visulization
+    - data source: Loki
+    - Visualization: Pie chart
+    - query
+      - rate({component="database", level="ERROR"} |= `` [1h])
+      - rate({component="backend", level="ERROR"} |= `` [1h])
