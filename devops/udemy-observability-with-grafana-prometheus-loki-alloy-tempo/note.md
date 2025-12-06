@@ -192,3 +192,55 @@
 
 ## 58 Silencing Alert Notifications
 - Alerting -> Silences -> Create silence
+
+# 7 Grafana Loki
+## 62 Installing Loki and Promtail on Linux (Ubuntu)
+- instance 1 ssh
+  - sudo apt-get install loki
+- instance 2 ssh
+  - wget https://github.com/grafana/loki/releases/download/v2.8.6/promtail-linux-amd64.zip
+  - sudo apt install unzip
+  - unzip promtail-linux-amd64.zip
+  - sudo mv promtail-linux-amd64 /usr/local/bin/promtail
+  - sudo chmod +x /usr/local/bin/promtail
+  - cd /etc
+    - sudo mkdir promtail
+    - cd promtail
+      - sudo vi config.yml
+```
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://{INSTANCE_1_PUBLIC_IP}:3100/loki/api/v1/push
+
+scrape_configs:
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+```
+  - cd /etc/systemd/system
+  - sudo vi promtail.service
+```
+[Unit]
+Description=Loki Promtail
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/promtail -config.file=/etc/promtail/config.yml
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+  - sudo systemctl start promtail.service
+  - sudo systemctl status promtail.service
+  - sudo systemctl enable promtail.service
