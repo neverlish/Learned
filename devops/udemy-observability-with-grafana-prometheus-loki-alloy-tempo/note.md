@@ -87,3 +87,11 @@
       - Options -> Legend -> Custom: India
     - rate(shoehub_payments{CountryCode="US", PaymentMethod="Card"}[$__rate_interval])
       - Options -> Legend -> Custom: US
+
+## 46 Comparing Metric Data of Two Different Times (Time Shift)
+- Add Visualization
+  - Visualization: Time Series
+  - Title: Sales Today vs Sales Last Week
+  - query
+    - rate(shoehub_sales{ShoeType=~"Loafers"}[$__interval])
+    - rate(shoehub_sales{ShoeType=~"Loafers"}[$__interval] offset 1m)
