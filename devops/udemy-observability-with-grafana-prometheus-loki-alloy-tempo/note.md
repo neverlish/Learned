@@ -35,3 +35,10 @@
 - cd /opt/homebrew/etc/grafana
 - sudo cp grafana.ini custom.ini
 - sudo vi grafana.inis
+
+# 5 Using Grafana
+## 39 Connecting Grafana to Prometheus
+- localhost:3000
+  - connections -> Data Source & Add Data Source -> Prometheus
+    - url: http://localhost:9090
+    - save & test
