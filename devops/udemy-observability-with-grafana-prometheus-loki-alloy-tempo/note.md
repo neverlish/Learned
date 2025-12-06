@@ -54,3 +54,11 @@
     - Edit -> Settings
       - Tags: online course, shoehub, test
     - Add -> Row
+
+## 41 Creating Your First Panel : The Time Series Panel
+- Add -> Visualization
+  - Visualization: Time Series
+- Query
+  - code: rate(microsoft_aspnetcore_hosting_http_server_request_duration_sum[1m])
+- Save Dashboard
+ 
