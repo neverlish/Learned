@@ -61,4 +61,9 @@
 - Query
   - code: rate(microsoft_aspnetcore_hosting_http_server_request_duration_sum[1m])
 - Save Dashboard
- 
+
+## 42 Multiple and Accumulative Queries
+- Edit panel
+  - Standard options -> Display name: Response (ms)
+- New Visualization
+  - query: rate(shoehub_sales{ShoeType=~"Boots|Loafers|HighHeels"}[1m])
