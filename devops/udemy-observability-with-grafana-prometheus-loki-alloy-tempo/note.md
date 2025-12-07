@@ -336,3 +336,9 @@ scrape_configs:
     - query
       - rate({component="database", level="ERROR"} |= `` [1h])
       - rate({component="backend", level="ERROR"} |= `` [1h])
+
+# 8 Grafana Alloy for Logs and Opentelemetry Signals
+## 72 Intalling and Configuring Grafana Alloy on a Mac Computer
+- brew install grafana/grafana/alloy
+- brew services start grafana/grafana/alloy
+- cat /opt/homebrew/etc/alloy/config.alloy
