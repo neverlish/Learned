@@ -356,3 +356,8 @@ scrape_configs:
   - search in grafana explore
     - query type: TraceQL
     - input: TraceId
+
+## 83 Propagating Spans in a Distributed Systems :: Service Graphs in Tempo
+- run PaymentService
+- run OrderService
+  - visit http://localhost:5000 and get TraceId
