@@ -342,3 +342,17 @@ scrape_configs:
 - brew install grafana/grafana/alloy
 - brew services start grafana/grafana/alloy
 - cat /opt/homebrew/etc/alloy/config.alloy
+
+# 9 Grafana Tempo: Tracing in Distributed Systems
+## 82 Sending Traces from a Microservice to Grafana Tempo with OpenTelemetry
+- grafana ui
+  - add datasource
+    - tempo: set url as http://tempo:3200
+  - explore
+    - data source: tempo
+    - query type: search
+- run OrderService-Basic
+  - get TraceId
+  - search in grafana explore
+    - query type: TraceQL
+    - input: TraceId
