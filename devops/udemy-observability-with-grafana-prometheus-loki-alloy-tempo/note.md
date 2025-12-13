@@ -367,3 +367,7 @@ scrape_configs:
   - {}
   - {name="Making HTTP Call" && duration > 1ms}
   - {.service.name="Order Service" && .server.address="localhost"} | avg(duration) > 2ms
+
+## 86 Configuring Grafana Tempo to use AWS S3 for Storage
+- aws
+  - make s3 iam, role, bucket
