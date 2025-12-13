@@ -361,3 +361,9 @@ scrape_configs:
 - run PaymentService
 - run OrderService
   - visit http://localhost:5000 and get TraceId
+
+## 84 TraceQL for Selecting Traces and Spans in Grafana Tempo
+- write TraceQL
+  - {}
+  - {name="Making HTTP Call" && duration > 1ms}
+  - {.service.name="Order Service" && .server.address="localhost"} | avg(duration) > 2ms
