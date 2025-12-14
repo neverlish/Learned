@@ -371,3 +371,17 @@ scrape_configs:
 ## 86 Configuring Grafana Tempo to use AWS S3 for Storage
 - aws
   - make s3 iam, role, bucket
+
+# 10 Grafana Mimir: Observability at Scale
+## 92 Installing Minikube for Locally Deploying Mimir in Microservice Mode
+- brew install minikube
+- minikube delete
+- minikube start --driver=docker
+- minikube addons enable ingress
+- minikube addons enable dashboard
+- kubectl get nodes
+- minikube dashboard
+- brew install helm
+
+
+
