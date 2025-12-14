@@ -26,6 +26,16 @@ blocks_storage:
     insecure: false
 
 
+alertmanager_storage:
+  backend: s3
+  s3:
+    bucket_name: <your-alertmanager-bucket-name> # Replace with your S3 bucket name for Alertmanager
+    endpoint: s3.amazonaws.com
+    region: ap-southeast-2
+    access_key_id: 
+    secret_access_key: 
+    insecure: false
+
 ingester:
   ring:
     replication_factor: 1
