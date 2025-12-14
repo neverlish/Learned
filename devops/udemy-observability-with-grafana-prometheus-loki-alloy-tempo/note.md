@@ -407,3 +407,6 @@ scrape_configs:
   - http://localhost:3000/admin/users -> New User
     - Add User to organization
   - http://localhost:3000/org/teams
+
+## 106 Authenticating Users with Google
+- edit [auto.google] in grafana.ini
