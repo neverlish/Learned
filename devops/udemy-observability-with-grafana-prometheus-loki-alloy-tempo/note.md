@@ -396,3 +396,14 @@ scrape_configs:
 ## 99 Using Plugins to Leverage the Power AI in Grafana Effectively
 - https://github.com/grafana/plugin-tools
 - https://grafana.com/grafana/plugins/grafana-llm-app
+
+# 13 Administration of Grafana
+## 105 Working with Organisations, Teams and Users in Grafana
+- grafana ui
+  - login as admin
+  - http://localhost:3000/admin/orgs -> New Org
+    - create -> Org Setting -> Save
+    - on top left: can switch Org
+  - http://localhost:3000/admin/users -> New User
+    - Add User to organization
+  - http://localhost:3000/org/teams
