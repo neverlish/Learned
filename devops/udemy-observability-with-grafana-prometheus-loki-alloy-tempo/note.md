@@ -410,3 +410,6 @@ scrape_configs:
 
 ## 106 Authenticating Users with Google
 - edit [auto.google] in grafana.ini
+
+## 107 Authenticating Users with Active Directory
+- edit [auth.ldap] in grafana.ini
