@@ -384,4 +384,10 @@ scrape_configs:
 - brew install helm
 
 
-
+## 93 Deploying Grafana Mimir to Kubernetes using Helm
+- helm repo add grafana https://grafana.github.io/helm-charts
+- helm repo update
+- helm install mimir grafana/mimir-distributed --namespace mimir --create-namespace -f custom-values.yaml
+- kubectl get pods -n mimir
+- kubectl get svc -n mimir
+- kubectl port-forward svc/mimir-distributor -n mimir 9008:9009
