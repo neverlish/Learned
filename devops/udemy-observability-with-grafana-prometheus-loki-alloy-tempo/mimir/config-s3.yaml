@@ -25,6 +25,29 @@ blocks_storage:
     secret_access_key: 
     insecure: false
 
+
 ingester:
   ring:
     replication_factor: 1
+    kvstore:
+      store: memberlist #consul, etcd, or memberlist
+
+distributor:
+  ring:
+    kvstore:
+      store: memberlist
+
+store_gateway:
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+ruler:
+  ring:
+    kvstore:
+      store: memberlist
+
+querier:
+  sharding_ring:
+    kvstore:
+      store: memberlist  # or etcd, consul
