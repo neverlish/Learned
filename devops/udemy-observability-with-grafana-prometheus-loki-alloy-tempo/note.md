@@ -391,3 +391,8 @@ scrape_configs:
 - kubectl get pods -n mimir
 - kubectl get svc -n mimir
 - kubectl port-forward svc/mimir-distributor -n mimir 9008:9009
+
+# 11 Smart Observability: Integrating AI with Grafana
+## 99 Using Plugins to Leverage the Power AI in Grafana Effectively
+- https://github.com/grafana/plugin-tools
+- https://grafana.com/grafana/plugins/grafana-llm-app
