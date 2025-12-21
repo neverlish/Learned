@@ -175,3 +175,83 @@
   }
 }
 '
+
+## 44 N-그램, 2부
+- curl -XDELETE "127.0.0.1:9200/movies"
+- curl -XPUT "127.0.0.1:9200/movies" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20
+        }
+      },
+      "analyzer": {
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "autocomplete_filter"
+          ]
+        }
+      }
+    }
+  }
+}
+'
+- curl -XGET "127.0.0.1:9200/movies/_analyze?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "analyzer": "autocomplete",
+  "text": "sta"
+}
+'
+- curl -XPUT "127.0.0.1:9200/movies/_mapping?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "properties": {
+    "title": {
+      "type": "text",
+      "analyzer": "autocomplete"
+    }
+  }
+}
+'
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @movies.json
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match": {
+      "title": {
+        "query": "sta"
+      }
+    }
+  }
+}
+'
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match": {
+      "title": {
+        "query": "sta",
+        "analyzer": "standard"
+      }
+    }
+  }
+}
+'
