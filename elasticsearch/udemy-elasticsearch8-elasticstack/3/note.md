@@ -68,3 +68,27 @@
   "query": {"match": {"genre": "Sci-Fi"}}
 }
 '
+
+## 37 정렬 (Sorting)
+- curl -XGET "127.0.0.1:9200/movies/_search?sort=year&pretty"
+- curl -XDELETE "127.0.0.1:9200/movies"
+- curl -XPUT "127.0.0.1:9200/movies" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "fields": {
+          "raw": { "type": "keyword" }
+        }
+      }
+    }
+  }
+}
+'
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @movies.json
+- curl -XGET "127.0.0.1:9200/movies/_search?sort=title.raw&pretty"
