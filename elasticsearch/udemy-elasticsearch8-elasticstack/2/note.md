@@ -108,3 +108,74 @@
   }
 }
 '
+
+## 27 데이터 모델링 및 페어런트-차일드 관계, 2부
+- curl -XPUT http://127.0.0.1:9200/series \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "properties" :{
+      "film_to_franchise": {
+        "type": "join",
+        "relations": { "franchise": "film" }
+      }
+    }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @series.json
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "franchise",
+      "query": {
+        "match": {
+          "title": "Star Wars"
+        }
+      }
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "franchise",
+      "query": {
+        "match": {
+          "title": "Star Wars"
+        }
+      }
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_child": {
+      "type": "film",
+      "query": {
+        "match": {
+          "title": "The Forece Awakens"
+        }
+      }
+    }
+  }
+}
+'
