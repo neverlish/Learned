@@ -179,3 +179,115 @@
   }
 }
 '
+
+## 28 플랫 데이터 유형
+- curl -XPUT http://127.0.0.1:9200/demo-default/_doc/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "message": "[5592:1:039/123054.737712:ERROR:child_process_sandbox_support_impl_linux.cc(79)] FontService unique font name matching request did not receive a response.",
+  "fileset": {
+    "name": "syslog"
+  },
+  "process": {
+    "name": "org.gnome.Shell.desktop",
+    "pid": 3383
+  },
+  "@timestamp": "2020-03-09T18:00:54.000+05.30",
+  "host": {
+    "hostname": "bionic",
+    "name": "bionic"
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-default/_mapping?pretty=true
+
+- curl -XGET http://127.0.0.1:9200/_cluster/state?pretty=true >> es-cluster-state.json
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened/_mapping \
+-H "Content-Type: application/json" \
+-d '
+{
+  "properties": {
+    "host": {
+      "type": "flattened"
+    }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened/_doc/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "message": "[5592:1:039/123054.737712:ERROR:child_process_sandbox_support_impl_linux.cc(79)] FontService unique font name matching request did not receive a response.",
+  "fileset": {
+    "name": "syslog"
+  },
+  "process": {
+    "name": "org.gnome.Shell.desktop",
+    "pid": 3383
+  },
+  "@timestamp": "2020-03-09T18:00:54.000+05.30",
+  "host": {
+    "hostname": "bionic",
+    "name": "bionic"
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_mapping?pretty=true
+
+- curl -XPOST http://127.0.0.1:9200/demo-flattened/_update/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "doc": {
+    "host": {
+      "osVersion": "Bionic Beaver",
+      "osArchitecture": "x86_64"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_doc/1?pretty=true
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host": "Bionic Beaver"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host.osVersion": "Bionic Beaver"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host.osVersion": "Beaver"
+    }
+  }
+}
+'
