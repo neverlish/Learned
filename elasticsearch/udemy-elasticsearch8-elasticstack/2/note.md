@@ -25,3 +25,15 @@
   { "create": { "_index": "movies", "_id": "1924" } }
   { "id": "1924", "title": "Plan 9 from Outerspace", "year": 1959, "genre": ["Horror", "Sci-Fi"]}
 '
+
+## 21 Elasticsearch에서 데이터 업데이트
+- curl -XPOST http://127.0.0.1:9200/movies/_update/109487 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "doc": {
+    "title": "Interstellar"
+  }
+}
+'
+- curl -XGET http://127.0.0.1:9200/movies/_doc/109487?pretty
