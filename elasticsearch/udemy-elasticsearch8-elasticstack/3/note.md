@@ -55,3 +55,16 @@
   }
 }
 '
+
+# 36 페이징
+- curl -XGET "127.0.0.1:9200/movies/_search?size=2&from=2&pretty"
+- curl -XGET "127.0.0.1:9200/movies/_search?size=2&pretty"
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "from": 2,
+  "size": 2,
+  "query": {"match": {"genre": "Sci-Fi"}}
+}
+'
