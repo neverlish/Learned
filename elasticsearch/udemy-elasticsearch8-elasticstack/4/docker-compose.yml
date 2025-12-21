@@ -41,9 +41,9 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./json-split-structured.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./grok-example-02.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./data:/usr/share/logstash/data
-      - ./json-data:/usr/share/logstash/json-data
+      - ./grok:/usr/share/logstash/grok
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf
 
 volumes:

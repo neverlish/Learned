@@ -20,3 +20,22 @@
 ## 57 Logstash를 사용하여 JSON 데이터 가져오기
 - curl -XGET "http://127.0.0.1:9200/demo-json-drop/_search?pretty"
 - curl -XGET "http://127.0.0.1:9200/demo-json-split-structured/_search?pretty"
+
+## 59 Grok을 사용한 Logstash 구문 분석 및 필터링
+- curl -XGET "http://127.0.0.1:9200/demo-grok/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "_source": [
+    "logLevel",
+    "time",
+    "logMessage"
+  ]
+}
+'
+- curl -XDELETE http://127.0.0.1:9200/demo-grok
+- curl -XGET "http://127.0.0.1:9200/demo-grok/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{}
+'
