@@ -52,3 +52,59 @@
   "year": 2014
 }
 '
+
+## 25 분석기 및 토크나이저 사용
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match": {
+      "title": "Star Trek"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "genre": "sci"
+    }
+  }
+}
+'
+
+- curl -XDELETE http://127.0.0.1:9200/movies
+
+- curl -XPUT http://127.0.0.1:9200/movies \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "id": { "type": "integer" },
+    "year": { "type": "date" },
+    "genre": { "type": "keyword" },
+    "title": { "type": "text", "analyzer": "english" }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @movies.json
+
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "genre": "Sci-Fi"
+    }
+  }
+}
+'
