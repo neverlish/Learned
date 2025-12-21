@@ -37,3 +37,6 @@
 }
 '
 - curl -XGET http://127.0.0.1:9200/movies/_doc/109487?pretty
+
+## 22 Elasticsearch에서 데이터 삭제
+- curl -XDELETE http://127.0.0.1:9200/movies/_doc/58559
