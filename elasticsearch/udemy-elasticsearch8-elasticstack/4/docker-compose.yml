@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+    container_name: es7
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.26
+    container_name: logstash7
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5050:5000"
+      - "5051:5001"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./data:/usr/share/logstash/data
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+
+volumes:
+  esdata:
