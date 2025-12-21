@@ -120,3 +120,42 @@
   }
 }
 '
+
+## 41 부분 매치
+- curl -XDELETE "127.0.0.1:9200/movies"
+- curl -XPUT "127.0.0.1:9200/movies" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "properties": {
+      "year": { "type": "text" }
+    }
+  }
+}
+'
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @movies.json
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "prefix": {
+      "year": "201"
+    }
+  }
+}
+'
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "wildcard": {
+      "year": "1*"
+    }
+  }
+}
+'
