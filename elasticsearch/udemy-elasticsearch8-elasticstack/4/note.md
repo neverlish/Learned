@@ -6,3 +6,7 @@
 -H "Content-Type: application/json" \
 --data-binary @moremovies.json
 - curl -XGET "127.0.0.1:9200/movies/_search?q=mary%20poppins&pretty"
+
+## 49 클라이언트 라이브러리로 가져오기
+- python3 IndexRatings.py
+- curl -XGET "127.0.0.1:9200/ratings/_search?pretty"
