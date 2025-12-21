@@ -41,7 +41,7 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./logstash-mysql.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./csv-read-drop.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./data:/usr/share/logstash/data
       - ./csv-data:/usr/share/logstash/csv-data
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf

@@ -13,3 +13,6 @@
 
 ## 53 Logstash 실행
 - curl -XGET "http://127.0.0.1:9200/.ds-ilm-history-5-2025.12.21-000001/_search?pretty"
+
+## 56 Logstash를 사용하여 CSV 데이터 가져오기
+- curl -XGET "http://127.0.0.1:9200/demo-csv-drop/_mapping/field/age?pretty"
