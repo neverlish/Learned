@@ -40,3 +40,15 @@
 
 ## 22 Elasticsearch에서 데이터 삭제
 - curl -XDELETE http://127.0.0.1:9200/movies/_doc/58559
+
+## 24 동시성 처리
+- curl -XGET http://127.0.0.1:9200/movies/_doc/109487?pretty
+- curl -XPUT http://127.0.0.1:9200/movies/_doc/109487?if_seq_no=7&if_primary_term=1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "genre": ["IMAX", "Sci-Fi"],
+  "title": "Interstellar foo",
+  "year": 2014
+}
+'
