@@ -10,3 +10,6 @@
 ## 49 클라이언트 라이브러리로 가져오기
 - python3 IndexRatings.py
 - curl -XGET "127.0.0.1:9200/ratings/_search?pretty"
+
+## 53 Logstash 실행
+- curl -XGET "http://127.0.0.1:9200/.ds-ilm-history-5-2025.12.21-000001/_search?pretty"
