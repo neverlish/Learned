@@ -107,3 +107,16 @@
   }
 }
 '
+
+## 40 퍼지 쿼리
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "fuzzy": {
+      "title": { "value": "interstellar", "fuzziness": 2 }
+    }
+  }
+}
+'
