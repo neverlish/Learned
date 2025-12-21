@@ -30,3 +30,28 @@
   }
 }
 '
+
+## 34 구문 매치
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "title": "star wars"
+    }
+  }
+}
+'
+
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "title": { "query": "star beyond", "slop": 100 }
+    }
+  }
+}
+'
