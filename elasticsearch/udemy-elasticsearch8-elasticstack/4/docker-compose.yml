@@ -13,6 +13,25 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
 
+  mysql:
+    image: mariadb:10.11  # MariaDB 10.11 사용
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: movielens
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./ml-100k:/docker-entrypoint-initdb.d/ml-100k
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --local-infile=1
+
+
   logstash:
     image: docker.elastic.co/logstash/logstash:7.17.26
     container_name: logstash7
@@ -22,8 +41,9 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash-mysql.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./data:/usr/share/logstash/data
+      - ./csv-data:/usr/share/logstash/csv-data
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf
 
 volumes:
