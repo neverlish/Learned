@@ -255,3 +255,53 @@
   }
 }
 '
+
+## 45 "Search as you Type" 필드 타입
+- curl --silent --request POST 'http://localhost:9200/movies/_analyze?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{
+   "tokenizer" : "standard",
+   "filter": [{"type":"edge_ngram", "min_gram": 1, "max_gram": 4}],
+   "text" : "Star"
+}'
+- curl --request PUT 'http://localhost:9200/autocomplete' \
+-H "Content-Type: application/json" \
+-d '{
+   "mappings": {
+       "properties": {
+           "title": {
+               "type": "search_as_you_type"
+           },
+           "genre": {
+               "type": "search_as_you_type"
+           }
+       }
+   }
+}'
+- curl --silent --request POST 'http://localhost:9200/_reindex?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{
+ "source": {
+   "index": "movies"
+ },
+ "dest": {
+   "index": "autocomplete"
+ }
+}' | grep "total\|created\|failures"
+- curl -s --request GET 'http://localhost:9200/autocomplete/_search?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{
+   "size": 5,
+   "query": {
+       "multi_match": {
+           "query": "Sta",
+           "type": "bool_prefix",
+           "fields": [
+               "title",
+               "title._2gram",
+               "title._3gram"
+           ]
+       }
+   }
+}'
+- INPUT=''
