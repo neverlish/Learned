@@ -159,3 +159,19 @@
   }
 }
 '
+
+## 42 쿼리-타임 Search As You Type
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase_prefix": {
+      "title": {
+        "query": "star tr",
+        "slop": 10
+      }
+    }
+  }
+}
+'
