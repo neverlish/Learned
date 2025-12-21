@@ -16,3 +16,7 @@
 
 ## 56 Logstash를 사용하여 CSV 데이터 가져오기
 - curl -XGET "http://127.0.0.1:9200/demo-csv-drop/_mapping/field/age?pretty"
+
+## 57 Logstash를 사용하여 JSON 데이터 가져오기
+- curl -XGET "http://127.0.0.1:9200/demo-json-drop/_search?pretty"
+- curl -XGET "http://127.0.0.1:9200/demo-json-split-structured/_search?pretty"

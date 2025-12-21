@@ -41,9 +41,9 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./csv-read-drop.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./json-split-structured.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./data:/usr/share/logstash/data
-      - ./csv-data:/usr/share/logstash/csv-data
+      - ./json-data:/usr/share/logstash/json-data
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf
 
 volumes:
