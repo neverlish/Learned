@@ -92,3 +92,18 @@
 -H "Content-Type: application/json" \
 --data-binary @movies.json
 - curl -XGET "127.0.0.1:9200/movies/_search?sort=title.raw&pretty"
+
+## 38 필터에 대한 추가 정보
+- curl -XGET "127.0.0.1:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "bool": {
+      "must": {"match": {"genre": "Sci-Fi"}},
+      "must_not": {"match": {"title": "trek"}},
+      "filter": {"range": {"year": {"gte": 2010, "lt": 2015}}}
+    }
+  }
+}
+'
