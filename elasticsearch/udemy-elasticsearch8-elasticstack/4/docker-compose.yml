@@ -41,10 +41,17 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./grok-example-02.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./data:/usr/share/logstash/data
-      - ./grok:/usr/share/logstash/grok
-    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+      - ./logstash:/etc/logstash/conf.d/logstash
+    # command: logstash -f /etc/logstash/conf.d/logstash/nginx/nginx-access-final.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/iis/iis-final-working.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/mongodb/mongodb-final.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/apache/apache-access-enriched.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/elasticsearch_logs/es-logs-final.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/elasticsearch_slowlogs/es-slowlog-final.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/mysql_slowlogs/mysql-slowlog-final.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/aws_elb/aws-elb.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/aws_alb/aws-alb.conf
+    command: logstash -f /etc/logstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
 
 volumes:
   esdata:

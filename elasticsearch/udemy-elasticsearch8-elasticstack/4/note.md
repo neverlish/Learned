@@ -39,3 +39,188 @@
 -d '
 {}
 '
+
+## 61 일반 로그 형식에 대한 Logstash Grok 예제
+- https://grokdebugger.com/
+  - %{IPORHOST:remote_ip} - %{DATA:user_name} \[%{HTTPDATE:access_time}\] \"%{WORD:http_method} %{DATA:url} HTTP/%{NUMBER:http_version}\" %{NUMBER:response_code} %{NUMBER:body_sent_bytes} \"%{DATA:referrer}\" \"%{DATA:agent}\"
+  - 73.44.199.53 - - [01/Jun/2020:15:49:10 +0000] "GET /blog/join-in-mongodb/?relatedposts=1 HTTP/1.1" 200 131 "https://www.techstuds.com/blog/join-in-mongodb/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36"
+
+- curl -XGET "http://localhost:9200/nginx-access-logs-02/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+  "size": 1, 
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "_grokparsefailure"
+          }
+        }
+      ]
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/iis-log/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+  "size": 1, 
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "_grokparsefailure"
+          }
+        }
+      ]
+    }
+  }
+}'
+- curl -XGET "http://localhost:9200/mongo-logs-01/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+  "size": 1, 
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "tags.keyword": "_grokparsefailure"
+          }
+        }
+      ]
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/apache-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+  "size": 1,
+  "track_total_hits": true,
+  "query": {
+  "bool": {
+    "must_not": [
+      {
+        "term": {
+          "tags.keyword": "_grokparsefailure"
+        }
+      }
+    ]
+  }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/es-test-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+  "size": 1, 
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "match": {
+            "tags": "multiline"
+          }
+        }
+      ]
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/es-slow-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{  "size": 1}'
+
+- curl -XGET "http://localhost:9200/mysql-slowlogs-01/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'{
+
+  "size":1,
+  "query": {
+    "bool": {
+    "must_not": [
+      {
+        "term": {
+          "tags.keyword": "_grokparsefailure"
+        }
+      }
+    ]
+  }
+  }
+
+}'
+
+- curl -XGET "http://localhost:9200/aws-elb-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'
+{
+  "size": 1,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+        "term": {
+          "tags": {
+            "value": "_grokparsefailure"
+          }
+        }
+      }
+      ]
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/aws-alb-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'
+{
+  "size": 1,
+  "query": {
+    "bool": {
+      "must_not": [
+        {"term": {
+          "tags": {
+            "value": "_grokparsefailure"
+          }
+        }
+      }
+      ]
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/aws-cloudfront-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d'
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {"term": {
+          "tags": {
+            "value": "_grokparsefailure"
+          }
+        }
+      }
+      ]
+    }
+  }
+}'
+
+-
+curl -XDELETE localhost:9200/nginx-access-logs-02
+curl -XDELETE localhost:9200/iis-log
+curl -XDELETE localhost:9200/mongo-logs-01
+curl -XDELETE localhost:9200/apache-logs
+curl -XDELETE localhost:9200/es-test-logs
+curl -XDELETE localhost:9200/es-slow-logs
+curl -XDELETE localhost:9200/mysql-slowlogs-01
+curl -XDELETE localhost:9200/aws-elb-logs
+curl -XDELETE localhost:9200/aws-alb-logs
+curl -XDELETE localhost:9200/aws-cloudfront-logs
