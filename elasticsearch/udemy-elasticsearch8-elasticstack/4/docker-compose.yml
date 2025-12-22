@@ -41,7 +41,7 @@ services:
       - "5050:5000"
       - "5051:5001"
     volumes:
-      - ./logstash:/etc/logstash/conf.d/logstash
+      - ./logstash-input-plugins:/etc/logstash/conf.d/logstash-input-plugins
     # command: logstash -f /etc/logstash/conf.d/logstash/nginx/nginx-access-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/iis/iis-final-working.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/mongodb/mongodb-final.conf
@@ -51,7 +51,8 @@ services:
     # command: logstash -f /etc/logstash/conf.d/logstash/mysql_slowlogs/mysql-slowlog-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_elb/aws-elb.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_alb/aws-alb.conf
-    command: logstash -f /etc/logstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
+    command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/heartbeat/heartbeat.conf
 
 volumes:
   esdata:

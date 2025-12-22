@@ -224,3 +224,8 @@ curl -XDELETE localhost:9200/mysql-slowlogs-01
 curl -XDELETE localhost:9200/aws-elb-logs
 curl -XDELETE localhost:9200/aws-alb-logs
 curl -XDELETE localhost:9200/aws-cloudfront-logs
+
+## 62 Logstash 입력 플러그인, 1부: Heartbeat
+- curl -XGET "http://localhost:9200/heartbeat/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{"size": 1}'
