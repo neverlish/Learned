@@ -229,3 +229,20 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
 - curl -XGET "http://localhost:9200/heartbeat/_search?pretty" \
 -H "Content-Type: application/json" \
 -d '{"size": 1}'
+
+## 63 Logstash 입력 플러그인, 2부: 제너레이터 입력 및 지원배달 못한 편지 대기열(DLQ)
+- curl -XGET "http://localhost:9200/generator/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{"size": 1}'
+- curl -XGET "http://localhost:9200/dlq-sample-data/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "track_total_hits": true,
+  "size": 1
+}'
+- curl -XGET "http://localhost:9200/dlq-01/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "track_total_hits": true,
+  "size": 1
+}'

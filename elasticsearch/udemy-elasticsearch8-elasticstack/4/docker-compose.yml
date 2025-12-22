@@ -40,8 +40,12 @@ services:
     ports:
       - "5050:5000"
       - "5051:5001"
+    environment:
+      - "dead_letter_queue_enable=true"
+      - "path.dead_letter_queue=/home/student/dlq"
     volumes:
       - ./logstash-input-plugins:/etc/logstash/conf.d/logstash-input-plugins
+      - ./dlq:/home/student/dlq
     # command: logstash -f /etc/logstash/conf.d/logstash/nginx/nginx-access-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/iis/iis-final-working.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/mongodb/mongodb-final.conf
@@ -51,8 +55,12 @@ services:
     # command: logstash -f /etc/logstash/conf.d/logstash/mysql_slowlogs/mysql-slowlog-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_elb/aws-elb.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_alb/aws-alb.conf
-    # command: logstash -f /etc/logstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
-    command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/heartbeat/heartbeat.conf
+    # command: logstash -f /etc/logㅁstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/heartbeat/heartbeat.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/generator/generator.conf
+    command: >
+      bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq-data-01-ingest.conf;
+               logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq.conf"
 
 volumes:
   esdata:
