@@ -303,3 +303,17 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
 - docker exec -it spark /bin/bash
   - /opt/spark/bin/spark-shell --master spark://spark:7077 --packages org.elasticsearch:elasticsearch-spark-30_2.12:7.17.0
 
+## 69 Elasticsearch와 Apache Spark, 2부
+- docker exec -it spark /bin/bash
+  - /opt/spark/bin/spark-shell --master spark://spark:7077 --packages org.elasticsearch:elasticsearch-spark-30_2.12:7.17.0
+    - import org.elasticsearch.spark.sql._
+    - case class Person(ID:Int, name:String, age:Int, numFriends:Int)
+    - def mapper(line:String): Person = {
+    val fields = line.split(',')
+    val person:Person = Person(fields(0).toInt, fields(1), fields(2).toInt, fields(3).toInt)
+    return person
+    }
+    - import spark.implicits._
+    - val lines = spark.sparkContext.textFile("fakefriends.csv")
+    - val people = lines.map(mapper).toDF()
+    - people.saveToEs("spark-friends")
