@@ -290,3 +290,7 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
 -d '{
   "size": 1
 }'
+
+## 66 Elasticsearch와 Kafka, 1부
+- docker exec -it kafka bash
+  - kafka-topics --bootstrap-server localhost:29092 --create --replication-factor 1 --partitions 1 --topic kafka-logs
