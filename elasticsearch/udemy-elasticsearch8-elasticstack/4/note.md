@@ -246,3 +246,40 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
   "track_total_hits": true,
   "size": 1
 }'
+
+## 64 Logstash 입력 플러그인, 3부: HTTP Poller
+- curl -XGET "http://localhost:9200/http-poller-api/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "query": {
+    "match_all" :{
+
+    }
+  },
+  "size": 1,
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}'
+
+- curl -XGET "http://localhost:9200/http-poller-es-health/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "query": {
+    "match_all" :{
+
+    }
+  },
+  "size": 1,
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}'

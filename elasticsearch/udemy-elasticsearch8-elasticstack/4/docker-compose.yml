@@ -55,12 +55,14 @@ services:
     # command: logstash -f /etc/logstash/conf.d/logstash/mysql_slowlogs/mysql-slowlog-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_elb/aws-elb.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/aws_alb/aws-alb.conf
-    # command: logstash -f /etc/logㅁstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
+    # command: logstash -f /etc/logstash/conf.d/logstash/aws_cloudfront/aws-cloudfront.conf
     # command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/heartbeat/heartbeat.conf
     # command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/generator/generator.conf
-    command: >
-      bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq-data-01-ingest.conf;
-               logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq.conf"
+    # command: >
+    #   bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq-data-01-ingest.conf;
+    #            logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq.conf"
+    command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/http-poller/http-poller.conf
+    
 
 volumes:
   esdata:
