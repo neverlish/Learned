@@ -48,6 +48,7 @@ services:
       - ./logstash-input-plugins:/etc/logstash/conf.d/logstash-input-plugins\
       - ./logstash-syslog:/etc/logstash/conf.d/logstash-syslog
       - ./dlq:/home/student/dlq
+    command: logstash -f /etc/logstash/conf.d/logstash.conf  
     # command: logstash -f /etc/logstash/conf.d/logstash/nginx/nginx-access-final.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/iis/iis-final-working.conf
     # command: logstash -f /etc/logstash/conf.d/logstash/mongodb/mongodb-final.conf
@@ -64,10 +65,10 @@ services:
     #   bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq-data-01-ingest.conf;
     #            logstash -f /etc/logstash/conf.d/logstash-input-plugins/dead-letter-queue/dlq.conf"
     # command: logstash -f /etc/logstash/conf.d/logstash-input-plugins/http-poller/http-poller.conf
-    command: >
-      bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/generator/generator.conf;
-               logstash -f /etc/logstash/conf.d/logstash-syslog/syslog-forward-tcp.conf;
-               logstash -f /etc/logstash/conf.d/logstash-syslog/logstash-monitoring-syslog.conf;"
+    # command: >
+    #   bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/generator/generator.conf;
+    #            logstash -f /etc/logstash/conf.d/logstash-syslog/syslog-forward-tcp.conf;
+    #            logstash -f /etc/logstash/conf.d/logstash-syslog/logstash-monitoring-syslog.conf;"
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     container_name: zookeeper
