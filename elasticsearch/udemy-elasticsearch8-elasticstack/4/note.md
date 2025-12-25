@@ -283,3 +283,10 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
     }
   ]
 }'
+
+## 65 Logstash를 사용한 Syslog
+- curl -XGET "http://localhost:9200/syslog-monitor/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "size": 1
+}'
