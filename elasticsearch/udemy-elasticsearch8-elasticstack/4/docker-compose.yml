@@ -69,6 +69,7 @@ services:
     #   bash -c "logstash -f /etc/logstash/conf.d/logstash-input-plugins/generator/generator.conf;
     #            logstash -f /etc/logstash/conf.d/logstash-syslog/syslog-forward-tcp.conf;
     #            logstash -f /etc/logstash/conf.d/logstash-syslog/logstash-monitoring-syslog.conf;"
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     container_name: zookeeper
@@ -77,6 +78,11 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    healthcheck:
+      test: ["CMD-SHELL", "echo srvr | nc localhost 2181 | grep Mode"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
@@ -108,6 +114,49 @@ services:
     restart: unless-stopped
     
 
+  spark:
+    image: apache/spark:3.5.0
+    container_name: spark
+    user: root
+    ports:
+      - "4040:4040"  # Spark UI
+      - "7077:7077"  # Spark Master
+      - "8080:8080"  # Spark Master Web UI
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - IVY_HOME=/home/spark/.ivy2
+    volumes:
+      - ./spark-apps:/app  # Mount local directory for Spark applications
+      - spark-ivy-cache:/home/spark/.ivy2
+    command: 
+      - bash
+      - -c
+      - |
+        chown -R spark:spark /home/spark/.ivy2
+        chmod -R 777 /home/spark/.ivy2
+        gosu spark /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master -h spark
+
+  spark-worker:
+    image: apache/spark:3.5.0
+    container_name: spark-worker
+    depends_on:
+      - spark
+    environment:
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_MASTER=spark://spark:7077
+    volumes:
+      - ./spark-apps:/app
+    command: 
+      - /opt/spark/bin/spark-class
+      - org.apache.spark.deploy.worker.Worker
+      - spark://spark:7077
+
 volumes:
   esdata:
   kafka_data:
+  spark-ivy-cache:

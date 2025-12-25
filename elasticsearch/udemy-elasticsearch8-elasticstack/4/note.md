@@ -298,3 +298,8 @@ curl -XDELETE localhost:9200/aws-cloudfront-logs
 ## 67 Elasticsearch와 Kafka, 2부
 - docker exec -it kafka bash
   - kafka-console-producer --bootstrap-server localhost:29092 --topic kafka-logs < ../access_log
+
+## 68 Elasticsearch와 Apache Spark, 1부
+- docker exec -it spark /bin/bash
+  - /opt/spark/bin/spark-shell --master spark://spark:7077 --packages org.elasticsearch:elasticsearch-spark-30_2.12:7.17.0
+
