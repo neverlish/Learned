@@ -79,3 +79,28 @@
     }
   }
 }'
+
+## 78 중첩 집계, 1부
+- curl -XGET "http://localhost:9200/ratings/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "query": {
+    "match_phrase": {
+      "title": "Star Wars"
+    }
+  },
+  "aggs": {
+    "titles": {
+      "terms": {
+        "field": "title"
+      },
+      "aggs": {
+        "avg_rating": {
+          "avg": {
+            "field": "rating"
+          }
+        }
+      }
+    }
+  }
+}'
