@@ -33,3 +33,30 @@
     }
   }
 }'
+
+## 75 히스토그램
+- curl -XGET "http://localhost:9200/ratings/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "aggs": {
+    "whole_ratings": {
+      "histogram": {
+        "field": "rating",
+        "interval": 1.0
+      }
+    }
+  }
+}'
+
+- curl -XGET "http://localhost:9200/movies/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "aggs": {
+    "release": {
+      "histogram": {
+        "field": "year",
+        "interval": 10
+      }
+    }
+  }
+}'
