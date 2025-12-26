@@ -60,3 +60,22 @@
     }
   }
 }'
+
+## 76 시계열 데이터
+- curl -XGET "http://localhost:9200/kafka-logs/_search?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "query": {
+    "match": {
+      "user_agent.original": "Googlebot"
+    }
+  },
+  "aggs": {
+    "timestamp": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "calendar_interval": "hour"
+      }
+    }
+  }
+}'
