@@ -104,3 +104,31 @@
     }
   }
 }'
+
+## 79 중첩 집계, 2부
+- curl -XPUT "http://localhost:9200/ratings/_mapping?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "properties": {
+    "title": {
+      "type": "text",
+      "fielddata": true
+    }
+  }
+}'
+
+- curl -XPUT "http://localhost:9200/ratings/_mapping?pretty" \
+-H "Content-Type: application/json" \
+-d '{
+  "properties": {
+    "title": {
+      "type": "text",
+      "fielddata": true,
+      "fields": {
+        "raw": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}'
