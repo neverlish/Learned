@@ -7,6 +7,8 @@ services:
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "path.repo=/home/student/backups"
+      - "bootstrap.memory_lock=true"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
       interval: 10s
@@ -17,6 +19,7 @@ services:
       - "9300:9300"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - ./snapshots:/home/student/backups
   
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.26

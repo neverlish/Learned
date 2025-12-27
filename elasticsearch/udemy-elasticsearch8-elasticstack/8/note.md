@@ -15,3 +15,18 @@
 ## 106 모니터링 
 - visit localhost:5601 -> Stack monitoring
   - turn on monitoring
+
+## 107 일반적인 문제 해결
+- curl --request PUT "http://localhost:9200/_snapshot/backup-repo" \
+-H "Content-Type: application/json" \
+-d '{
+  "type": "fs",
+  "settings": {
+    "location": "/home/student/backups/backup-repo"
+  }
+}'
+- curl --request PUT "http://localhost:9200/_snapshot/backup-repo/snapshot-1"
+- curl --request GET "http://localhost:9200/_snapshot/backup-repo/snapshot-1?pretty"
+
+- curl http://localhost:9200/_cluster/allocation/explain?pretty
+- curl http://localhost:9200/_cat/shards?v
