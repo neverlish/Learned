@@ -1,0 +1,12 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: true
+setup.kibana:
+  host: "kibana:5601"
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "changeme"  # Change this to your Elasticsearch password
+processors:
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~

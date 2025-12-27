@@ -23,5 +23,23 @@ services:
     depends_on:
       - elasticsearch
 
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.17.26
+    container_name: metricbeat
+    user: root
+    command: --strict.perms=false
+    environment:
+      - setup.kibana.host=kibana:5601
+      - output.elasticsearch.hosts=["http://elasticsearch:9200"]
+    volumes:
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    depends_on:
+      - elasticsearch
+      - kibana
+
 volumes:
   esdata:
