@@ -30,3 +30,8 @@
 
 - curl http://localhost:9200/_cluster/allocation/explain?pretty
 - curl http://localhost:9200/_cat/shards?v
+
+## 108 장애 조치, 1부
+- curl -XGET "http://localhost:9200/_cluster/health?pretty"
+- curl -XGET "http://localhost:9201/_cluster/health?pretty"
+- curl -XGET "http://localhost:9201/shakespeare/_search?pretty"
