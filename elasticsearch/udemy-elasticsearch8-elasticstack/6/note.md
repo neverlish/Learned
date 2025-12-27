@@ -17,3 +17,11 @@
       - vertical axis: maximum
     - process.executable
   - Save Lens visualization
+
+## 86 Kibana 관리
+- go to Management → Stack Management -> Spaces
+  - create a new space called "devops"
+    - features
+  - curl 'localhost:5601/api/spaces/space/devops' \
+- go to Management → Stack Management -> Saved Objects
+  - import the saved objects from the "devops" space
