@@ -143,3 +143,8 @@
 
 - visit localhost:5601
   - Stack Management -> Transforms
+
+## 96 Kibana Dashboards를 사용한 로그 분석
+- visit localhost:5601
+  - Stack Management -> Index Patterns
+    - create Index Pattern -> filebeat-*
