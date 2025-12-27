@@ -46,3 +46,27 @@
 - curl -XPOST "localhost:9200/_sql/translate?pretty" \
 -H "Content-Type: application/json" \
 -d '{"query": "SELECT * FROM movies WHERE year < 1920 ORDER BY year"}'
+
+## 88 Kibana 캔버스 사용
+- curl --request PUT "http://localhost:9200/nginx" \
+-H "Content-Type: application/json" \
+-d '{
+   "settings": {
+       "number_of_shards": 1,
+       "number_of_replicas": 0
+   },
+   "mappings": {
+       "properties": {
+           "time": {"type":"date","format":"dd/MMM/yyyy:HH:mm:ss Z"},
+           "response": {"type":"keyword"}
+       }
+   }
+}'
+
+- curl --silent --request POST 'http://localhost:9200/nginx/_bulk' \
+--header 'Content-Type: application/x-ndjson' \
+--data-binary '@nginx_json_logs_bulk' | jq '.errors'
+
+- curl -XPOST "localhost:9200/_sql" \
+-H "Content-Type: application/json" \
+-d '{"query": "SELECT SUM(bytes) AS total_transferred FROM nginx GROUP BY remote_ip ORDER BY total_transferred DESC NULLS LAST LIMIT 5"}'
