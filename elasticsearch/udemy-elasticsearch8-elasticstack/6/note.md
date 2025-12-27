@@ -70,3 +70,15 @@
 - curl -XPOST "localhost:9200/_sql" \
 -H "Content-Type: application/json" \
 -d '{"query": "SELECT SUM(bytes) AS total_transferred FROM nginx GROUP BY remote_ip ORDER BY total_transferred DESC NULLS LAST LIMIT 5"}'
+
+- visit localhost:5601
+  - go to canvas -> Create workpad
+    - add element -> chart -> metric
+      - Elasticsearch SQL
+        - enter the SQL query: SELECT COUNT(*) AS count_documents from nginx
+
+## 89 Elasticsearch 와 Apache Hadoop
+- docker exec -it hadoop-namenode bash
+  - hdfs dfs -mkdir -p /user/root
+  - hdfs dfs -put /path/to/local/file /user/root/
+  - hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.4.jar wordcount /user/root/input /user/root/output
