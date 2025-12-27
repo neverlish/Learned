@@ -25,3 +25,24 @@
   - curl 'localhost:5601/api/spaces/space/devops' \
 - go to Management → Stack Management -> Saved Objects
   - import the saved objects from the "devops" space
+
+## 87 Elasticsearch SQL
+- curl -XPOST "localhost:9200/_sql" \
+-H "Content-Type: application/json" \
+-d '{"query": "DESCRIBE movies"}'
+
+- curl -XPOST "localhost:9200/_sql?format=txt" \
+-H "Content-Type: application/json" \
+-d '{"query": "DESCRIBE movies"}'
+
+- curl -XPOST "localhost:9200/_sql" \
+-H "Content-Type: application/json" \
+-d '{"query": "SELECT * FROM movies LIMIT 10"}'
+
+- curl -XPOST "localhost:9200/_sql" \
+-H "Content-Type: application/json" \
+-d '{"query": "SELECT * FROM movies WHERE year < 1920 ORDER BY year"}'
+
+- curl -XPOST "localhost:9200/_sql/translate?pretty" \
+-H "Content-Type: application/json" \
+-d '{"query": "SELECT * FROM movies WHERE year < 1920 ORDER BY year"}'
