@@ -11,3 +11,7 @@
 }
   - GET testindex
   - DELETE testindex
+
+## 106 모니터링 
+- visit localhost:5601 -> Stack monitoring
+  - turn on monitoring
