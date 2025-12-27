@@ -1,0 +1,26 @@
+filebeat.inputs:
+- type: container
+  paths:
+    - '/var/lib/docker/containers/*/*.log'
+  processors:
+    - add_docker_metadata: ~
+
+- type: log
+  enabled: true
+  paths:
+    - '/logs/access_log'
+  fields:
+    log_type: access_log
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  indices:
+    - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
+      when.contains:
+        docker.container.labels.com_docker_compose_service: "elasticsearch"
+    - index: "access-log-%{+yyyy.MM.dd}"
+      when.equals:
+        fields.log_type: "access_log"
+
+setup.ilm.enabled: false
+setup.template.name: "filebeat"
