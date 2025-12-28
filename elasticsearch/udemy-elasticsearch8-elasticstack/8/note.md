@@ -96,3 +96,21 @@
     "index.number_of_shards": 1
   }
 }'
+
+## 109 스냅샷
+- curl -XGET "http://localhost:9200/_cluster/health?pretty"
+- curl -XPUT "http://localhost:9200/_snapshot/backup-repo" \
+-H "Content-Type: application/json" \
+-d '{
+  "type": "fs",
+  "settings": {
+    "location": "/usr/share/elasticsearch/backups"
+  }
+}'
+
+- curl -XGET "http://localhost:9200/_snapshot/backup-repo/snapshot-1/_status"
+
+- curl -XPOST "http://localhost:9200/_all/_close"
+
+- curl -XPOST "http://localhost:9200/_snapshot/backup-repo/snapshot-1/_restore"
+

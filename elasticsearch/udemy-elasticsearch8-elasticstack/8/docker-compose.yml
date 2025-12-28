@@ -6,7 +6,7 @@ services:
     container_name: node-1
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/snapshots"
+      - "path.repo=/usr/share/elasticsearch/backups"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -27,7 +27,7 @@ services:
       - "9300:9300"
     volumes:
       - esdata1:/usr/share/elasticsearch/data
-      - ./snapshots:/usr/share/elasticsearch/snapshots
+      - ./backups:/usr/share/elasticsearch/backups
     ulimits:
       memlock:
         soft: -1
@@ -40,7 +40,7 @@ services:
     container_name: node-2
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/snapshots"
+      - "path.repo=/usr/share/elasticsearch/backups"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -61,7 +61,7 @@ services:
       - "9301:9301"
     volumes:
       - esdata2:/usr/share/elasticsearch/data
-      - ./snapshots:/usr/share/elasticsearch/snapshots
+      - ./backups:/usr/share/elasticsearch/backups
     ulimits:
       memlock:
         soft: -1
@@ -74,7 +74,7 @@ services:
     container_name: node-3
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/snapshots"
+      - "path.repo=/usr/share/elasticsearch/backups"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -95,7 +95,7 @@ services:
       - "9302:9302"
     volumes:
       - esdata3:/usr/share/elasticsearch/data
-      - ./snapshots:/usr/share/elasticsearch/snapshots
+      - ./backups:/usr/share/elasticsearch/backups
     ulimits:
       memlock:
         soft: -1
