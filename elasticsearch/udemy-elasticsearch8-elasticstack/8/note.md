@@ -35,3 +35,64 @@
 - curl -XGET "http://localhost:9200/_cluster/health?pretty"
 - curl -XGET "http://localhost:9201/_cluster/health?pretty"
 - curl -XGET "http://localhost:9201/shakespeare/_search?pretty"
+
+## 109 색인 디자인 변경(그룹화, 분할 및 축소)
+- curl -XPUT "http://localhost:9200/example-index" \
+-H "Content-Type: application/json" \
+-d '{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 0
+  }
+}'
+- cd index_design
+  - for bulk in *.bulk; do curl --silent --output /dev/null -XPOST "http://localhost:9200/example-index/_doc/_bulk?refresh=true" -H "Content-Type: application/json" --data-binary @"$bulk"; echo "Bulk file $bulk INDEXED"; done
+
+- curl -XGET "http://localhost:9200/example-index/_settings?include_defaults=true&flat_settings=true&human&pretty"
+
+- curl --location --request PUT "http://localhost:9200/example-index/_settings" \
+-H "Content-Type: application/json" \
+-d '{
+  "number_of_replicas": 1
+}'
+
+- curl -XGET "http://localhost:9200/_cat/shards?v"
+
+- curl -XPUT "http://localhost:9200/example-index/_settings" \
+-H "Content-Type: application/json" \
+-d '{
+  "index.blocks.write": true
+}'
+
+- curl -XGET "http://localhost:9200/_cluster/health?pretty"
+
+- curl -XPOST "http://localhost:9200/example-index/_split/example-index-sharded" \
+-H "Content-Type: application/json" \
+-d '{
+  "settings": {
+    "index.number_of_shards": 3
+  }
+}'
+
+- curl -XGET "http://localhost:9200/_cat/shards?v"
+
+- curl -XPOST "http://localhost:9200/example-index-sharded/_forcemerge"
+
+- curl -XPUT "http://localhost:9200/example-index-sharded/_settings" \
+-H "Content-Type: application/json" \
+-d '{
+  "settings": {
+    "index.routing.allocation.require._name": "node-1",
+    "index.blocks.write": true
+  }
+}'
+
+- curl -XPOST "http://localhost:9200/example-index-sharded/_shrink/example-index-shrunk" \
+-H "Content-Type: application/json" \
+-d '{
+  "settings": {
+    "index.routing.allocation.require._name": null,
+    "index.blocks.write": null,
+    "index.number_of_shards": 1
+  }
+}'
