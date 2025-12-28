@@ -2,11 +2,13 @@ version: "3.8"
 
 services:
   elasticsearch1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
     container_name: node-1
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/backups"
+      - "path.repo=/mnt/shared/es"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -27,7 +29,7 @@ services:
       - "9300:9300"
     volumes:
       - esdata1:/usr/share/elasticsearch/data
-      - ./backups:/usr/share/elasticsearch/backups
+      - ./es:/mnt/shared/es
     ulimits:
       memlock:
         soft: -1
@@ -36,11 +38,13 @@ services:
       - esnet
 
   elasticsearch2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
     container_name: node-2
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/backups"
+      - "path.repo=/mnt/shared/es"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -61,7 +65,7 @@ services:
       - "9301:9301"
     volumes:
       - esdata2:/usr/share/elasticsearch/data
-      - ./backups:/usr/share/elasticsearch/backups
+      - ./es:/mnt/shared/es
     ulimits:
       memlock:
         soft: -1
@@ -70,11 +74,13 @@ services:
       - esnet
 
   elasticsearch3:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
     container_name: node-3
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "path.repo=/usr/share/elasticsearch/backups"
+      - "path.repo=/mnt/shared/es"
       - "bootstrap.memory_lock=true"
       - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
       - "cluster.initial_master_nodes=node-1,node-2,node-3"
@@ -95,7 +101,7 @@ services:
       - "9302:9302"
     volumes:
       - esdata3:/usr/share/elasticsearch/data
-      - ./backups:/usr/share/elasticsearch/backups
+      - ./es:/mnt/shared/es
     ulimits:
       memlock:
         soft: -1

@@ -1,0 +1,4 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+
+# S3 Repository 플러그인 설치
+RUN elasticsearch-plugin install --batch repository-s3

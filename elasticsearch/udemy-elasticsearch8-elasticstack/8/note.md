@@ -114,3 +114,53 @@
 
 - curl -XPOST "http://localhost:9200/_snapshot/backup-repo/snapshot-1/_restore"
 
+## 111 스냅샷 수명 주기 관리
+- curl -XPUT "http://localhost:9200/_snapshot/backup_repository" \
+-H "Content-Type: application/json" \
+-d '{
+  "type": "fs",
+  "settings": {
+    "location": "/mnt/shared/es/backup_repository"
+  }
+}'
+- curl "http://localhost:9200/_snapshot?pretty"
+- curl -XPUT "http://localhost:9200/_slm/policy/backup_policy_daily" \
+-H "Content-Type: application/json" \
+-d '{
+  "schedule": "0 03 3 * * ?",
+  "name": "<backup-{now/d}>",
+  "repository": "backup_repository",
+  "config": {
+    "indices": ["*"]
+  },
+  "retention": {
+    "expire_after": "60d"
+  }
+}'
+- curl "http://localhost:9200/_slm/policy/backup_policy_daily?pretty"
+- curl -XPOST "http://localhost:9200/_slm/policy/backup_policy_daily/_execute"
+
+- curl -XPUT "http://localhost:9200/_snapshot/backup_repository_s3" \
+-H "Content-Type: application/json" \
+-d '{
+  "type": "s3",
+  "settings": {
+    "bucket": "BUCKET_NAME"
+  }
+}'
+- curl -XPUT "http://localhost:9200/_slm/policy/backup_policy_daily_s3" \
+-H "Content-Type: application/json" \
+-d '{
+  "schedule": "0 03 3 * * ?",
+  "name": "<backup-{now/d}>",
+  "repository": "backup_repository_s3",
+  "config": {
+    "indices": ["*"]
+  },
+  "retention": {
+    "expire_after": "60d",
+    "min_count": 10,
+    "max_count": 100
+  }
+}'
+- curl -XPOST "http://localhost:9200/_slm/policy/backup_policy_daily_s3/_execute"
