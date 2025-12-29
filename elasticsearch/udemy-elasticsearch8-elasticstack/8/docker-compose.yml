@@ -1,0 +1,155 @@
+version: "3.8"
+
+services:
+  elasticsearch1:
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
+    container_name: node-1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "path.repo=/mnt/shared/es"
+      - "bootstrap.memory_lock=true"
+      - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
+      - "cluster.initial_master_nodes=node-1,node-2,node-3"
+      - "node.name=node-1"
+      - "cluster.name=es-cluster"
+      - "node.master=true"
+      - "node.data=true"
+      - "network.publish_host=node-1"
+      - "http.port=9200"
+      - "transport.port=9300"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+      - ./es:/mnt/shared/es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  elasticsearch2:
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
+    container_name: node-2
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "path.repo=/mnt/shared/es"
+      - "bootstrap.memory_lock=true"
+      - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
+      - "cluster.initial_master_nodes=node-1,node-2,node-3"
+      - "node.name=node-2"
+      - "cluster.name=es-cluster"
+      - "node.master=true"
+      - "node.data=true"
+      - "network.publish_host=node-2"
+      - "http.port=9201"
+      - "transport.port=9301"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9201/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    ports:
+      - "9201:9201"
+      - "9301:9301"
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+      - ./es:/mnt/shared/es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  elasticsearch3:
+    build: 
+      context: .
+      dockerfile: Dockerfile.elasticsearch
+    container_name: node-3
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "path.repo=/mnt/shared/es"
+      - "bootstrap.memory_lock=true"
+      - "discovery.seed_hosts=node-1:9300,node-2:9301,node-3:9302"
+      - "cluster.initial_master_nodes=node-1,node-2,node-3"
+      - "node.name=node-3"
+      - "cluster.name=es-cluster"
+      - "node.master=true"
+      - "node.data=true"
+      - "network.publish_host=node-3"
+      - "http.port=9202"
+      - "transport.port=9302"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9202/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    ports:
+      - "9202:9202"
+      - "9302:9302"
+    volumes:
+      - esdata3:/usr/share/elasticsearch/data
+      - ./es:/mnt/shared/es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.26
+    container_name: kibana7
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=["http://node-1:9200","http://node-2:9201","http://node-3:9202"]
+      - NODE_OPTIONS=--openssl-legacy-provider=false
+      - SERVER_HOST=0.0.0.0
+      - ELASTICSEARCH_REQUESTTIMEOUT=120000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5601/api/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
+    networks:
+      - esnet
+
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:7.17.26
+    container_name: heartbeat
+    user: root
+    volumes:
+      - ./heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
+
+networks:
+  esnet:
+    driver: bridge
+
+volumes:
+  esdata1:
+  esdata2:
+  esdata3:

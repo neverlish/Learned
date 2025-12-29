@@ -1,0 +1,362 @@
+# 2 데이터 매핑 및 색인화
+## 19 JSON / REST를 통해 단일 동영상 가져오기
+
+- curl -XPUT http://127.0.0.1:9200/movies/_doc/109487 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "genre": ["IMAX", "Sci-Fi"],
+    "title": "Interstellar",
+    "year": 2014
+  }'
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty
+
+## 20 Bulk API로 한 번에 여러 동영상 삽입하기
+- curl -XPUT http://127.0.0.1:9200/_bulk \
+-H "Content-Type: application/json" \
+-d '
+  { "create": { "_index": "movies", "_id": "135569" } }
+  { "id": "135569", "title": "Star Trek Beyond", "year": 2016, "genre": ["Action", "Sci-Fi"]}
+  { "create": { "_index": "movies", "_id": "122886" } }
+  { "id": "122886", "title": "Star Trek Episode VII - The Force Awakens", "year": 20155, "genre": ["Action", "Adventure", "Fantasy", "Sci-Fi", "IMAX"]}
+  { "create": { "_index": "movies", "_id": "109487" } }
+  { "id": "109487", "title": "Interstellar", "year": 2014, "genre": ["Sci-Fi", "IMAX"]}
+  { "create": { "_index": "movies", "_id": "58559" } }
+  { "id": "58559", "title": "Dark Knight", "year": 2008, "genre": ["Action", "Crime", "Drama", "IMAX"]}
+  { "create": { "_index": "movies", "_id": "1924" } }
+  { "id": "1924", "title": "Plan 9 from Outerspace", "year": 1959, "genre": ["Horror", "Sci-Fi"]}
+'
+
+## 21 Elasticsearch에서 데이터 업데이트
+- curl -XPOST http://127.0.0.1:9200/movies/_update/109487 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "doc": {
+    "title": "Interstellar"
+  }
+}
+'
+- curl -XGET http://127.0.0.1:9200/movies/_doc/109487?pretty
+
+## 22 Elasticsearch에서 데이터 삭제
+- curl -XDELETE http://127.0.0.1:9200/movies/_doc/58559
+
+## 24 동시성 처리
+- curl -XGET http://127.0.0.1:9200/movies/_doc/109487?pretty
+- curl -XPUT http://127.0.0.1:9200/movies/_doc/109487?if_seq_no=7&if_primary_term=1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "genre": ["IMAX", "Sci-Fi"],
+  "title": "Interstellar foo",
+  "year": 2014
+}
+'
+
+## 25 분석기 및 토크나이저 사용
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match": {
+      "title": "Star Trek"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "genre": "sci"
+    }
+  }
+}
+'
+
+- curl -XDELETE http://127.0.0.1:9200/movies
+
+- curl -XPUT http://127.0.0.1:9200/movies \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "id": { "type": "integer" },
+    "year": { "type": "date" },
+    "genre": { "type": "keyword" },
+    "title": { "type": "text", "analyzer": "english" }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @movies.json
+
+- curl -XGET http://127.0.0.1:9200/movies/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "match_phrase": {
+      "genre": "Sci-Fi"
+    }
+  }
+}
+'
+
+## 27 데이터 모델링 및 페어런트-차일드 관계, 2부
+- curl -XPUT http://127.0.0.1:9200/series \
+-H "Content-Type: application/json" \
+-d '
+{
+  "mappings": {
+    "properties" :{
+      "film_to_franchise": {
+        "type": "join",
+        "relations": { "franchise": "film" }
+      }
+    }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/_bulk?pretty \
+-H "Content-Type: application/json" \
+--data-binary @series.json
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "franchise",
+      "query": {
+        "match": {
+          "title": "Star Wars"
+        }
+      }
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_parent": {
+      "parent_type": "franchise",
+      "query": {
+        "match": {
+          "title": "Star Wars"
+        }
+      }
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/_search?pretty \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "has_child": {
+      "type": "film",
+      "query": {
+        "match": {
+          "title": "The Forece Awakens"
+        }
+      }
+    }
+  }
+}
+'
+
+## 28 플랫 데이터 유형
+- curl -XPUT http://127.0.0.1:9200/demo-default/_doc/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "message": "[5592:1:039/123054.737712:ERROR:child_process_sandbox_support_impl_linux.cc(79)] FontService unique font name matching request did not receive a response.",
+  "fileset": {
+    "name": "syslog"
+  },
+  "process": {
+    "name": "org.gnome.Shell.desktop",
+    "pid": 3383
+  },
+  "@timestamp": "2020-03-09T18:00:54.000+05.30",
+  "host": {
+    "hostname": "bionic",
+    "name": "bionic"
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-default/_mapping?pretty=true
+
+- curl -XGET http://127.0.0.1:9200/_cluster/state?pretty=true >> es-cluster-state.json
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened/_mapping \
+-H "Content-Type: application/json" \
+-d '
+{
+  "properties": {
+    "host": {
+      "type": "flattened"
+    }
+  }
+}
+'
+
+- curl -XPUT http://127.0.0.1:9200/demo-flattened/_doc/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "message": "[5592:1:039/123054.737712:ERROR:child_process_sandbox_support_impl_linux.cc(79)] FontService unique font name matching request did not receive a response.",
+  "fileset": {
+    "name": "syslog"
+  },
+  "process": {
+    "name": "org.gnome.Shell.desktop",
+    "pid": 3383
+  },
+  "@timestamp": "2020-03-09T18:00:54.000+05.30",
+  "host": {
+    "hostname": "bionic",
+    "name": "bionic"
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_mapping?pretty=true
+
+- curl -XPOST http://127.0.0.1:9200/demo-flattened/_update/1 \
+-H "Content-Type: application/json" \
+-d '
+{
+  "doc": {
+    "host": {
+      "osVersion": "Bionic Beaver",
+      "osArchitecture": "x86_64"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_doc/1?pretty=true
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host": "Bionic Beaver"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host.osVersion": "Bionic Beaver"
+    }
+  }
+}
+'
+
+- curl -XGET http://127.0.0.1:9200/demo-flattened/_search?pretty=true \
+-H "Content-Type: application/json" \
+-d '
+{
+  "query": {
+    "term": {
+      "host.osVersion": "Beaver"
+    }
+  }
+}
+'
+
+## 29 매핑 예외 처리
+- curl -XPUT http://127.0.0.1:9200/microservice-logs \
+-H "Content-Type: application/json" \
+-d '
+{
+   "mappings": {
+       "properties": {
+           "timestamp": { "type": "date"  },
+           "service": { "type": "keyword" },
+           "host_ip": { "type": "ip" },
+           "port": { "type": "integer" },
+           "message": { "type": "text" }
+       }
+   }
+}
+'
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "XYZ", "host_ip": "10.0.2.15", "port": "15000", "message": "Hello!" }'
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "XYZ", "host_ip": "10.0.2.15", "port": "NONE", "message": "I am not well!" }'
+  - it failed
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_close'
+ 
+- curl --location --request PUT 'http://localhost:9200/microservice-logs/_settings' \
+-H "Content-Type: application/json" \
+--data-raw '{
+   "index.mapping.ignore_malformed": true
+}'
+ 
+- curl --request POST 'http://localhost:9200/microservice-logs/_open'
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "XYZ", "host_ip": "10.0.2.15", "port": "NONE", "message": "I am not well!" }'
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "ABC", "host_ip": "10.0.2.15", "port": 12345, "message": {"data": {"received":"here"}}}'
+  - it failed
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "ABC", "host_ip": "10.0.2.15", "port": 12345, "message": "Received...", "payload": {"data": {"received":"here"}}}'
+
+- curl --request POST 'http://localhost:9200/microservice-logs/_doc?pretty' \
+-H "Content-Type: application/json" \
+--data-raw '{"timestamp": "2020-04-11T12:34:56.789Z", "service": "ABC", "host_ip": "10.0.2.15", "port": 12345, "message": "Received...", "payload": {"data": {"received": {"even": "more"}}}}'
+  - it failed
+
+- thousandone_fields_json=$(echo {1..1001..1} | jq -Rn '( input | split(" ") ) as $nums | $nums[] | . as $key | [{key:($key|tostring),value:($key|tonumber)}] | from_entries' | jq -cs 'add')
+- echo "$thousandone_fields_json"
+
+- curl --request PUT 'http://localhost:9200/big-objects'
+
+- curl -X PUT "localhost:9200/big-objects/_settings" -H 'Content-Type: application/json' -d'
+{
+  "index.mapping.total_fields.limit": 2000
+}
+'
+
+- curl --request POST 'http://localhost:9200/big-objects/_doc?pretty' \
+-H "Content-Type: application/json" \
+-d "$thousandone_fields_json"

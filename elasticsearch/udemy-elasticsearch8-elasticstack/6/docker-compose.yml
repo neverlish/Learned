@@ -1,0 +1,128 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.26
+    container_name: es7
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - hadoop-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.26
+    container_name: kibana7
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - hadoop-network
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.17.26
+    container_name: metricbeat
+    user: root
+    command: --strict.perms=false
+    environment:
+      - setup.kibana.host=kibana:5601
+      - output.elasticsearch.hosts=["http://elasticsearch:9200"]
+    volumes:
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    depends_on:
+      - elasticsearch
+      - kibana
+    networks:
+      - hadoop-network
+
+  hadoop-namenode:
+    platform: linux/amd64
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    container_name: hadoop-namenode
+    environment:
+      - CLUSTER_NAME=test
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+      - ./hadoop-data:/hadoop-data:ro
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    networks:
+      - hadoop-network
+
+  hadoop-datanode:
+    platform: linux/amd64
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: hadoop-datanode
+    environment:
+      - SERVICE_PRECONDITION="hadoop-namenode:9870"
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    ports:
+      - "9864:9864"
+    depends_on:
+      - hadoop-namenode
+    networks:
+      - hadoop-network
+
+  hadoop-resourcemanager:
+    platform: linux/amd64
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8
+    container_name: hadoop-resourcemanager
+    environment:
+      - SERVICE_PRECONDITION="hadoop-namenode:9000"
+    ports:
+      - "8088:8088"
+    depends_on:
+      - hadoop-namenode
+    networks:
+      - hadoop-network
+
+  hadoop-nodemanager:
+    platform: linux/amd64
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8
+    container_name: hadoop-nodemanager
+    environment:
+      - SERVICE_PRECONDITION="hadoop-namenode:9000"
+    depends_on:
+      - hadoop-namenode
+      - hadoop-resourcemanager
+    networks:
+      - hadoop-network
+
+  hadoop-historyserver:
+    platform: linux/amd64
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop2.7.4-java8
+    container_name: hadoop-historyserver
+    environment:
+      - SERVICE_PRECONDITION="hadoop-namenode:9000"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    ports:
+      - "8188:8188"
+    depends_on:
+      - hadoop-namenode
+    networks:
+      - hadoop-network
+
+volumes:
+  esdata:
+  hadoop_namenode:
+  hadoop_datanode:
+  hadoop_historyserver:
+
+networks:
+  hadoop-network:
+    driver: bridge

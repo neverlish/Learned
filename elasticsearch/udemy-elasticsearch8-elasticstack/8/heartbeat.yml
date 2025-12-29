@@ -1,0 +1,16 @@
+heartbeat.config.monitors:
+  path: ${path.config}/monitors.d/*.yml
+  reload.enabled: true
+  reload.period: 5s
+
+output.elasticsearch:
+  hosts: 'http://node-1:9200'
+  username: "elastic"
+  password: "your-password-here"  # Elasticsearch 사용자 비밀번호로 변경 필요
+
+setup.kibana:
+  host: "http://kibana7:5601"
+
+monitoring:
+  enabled: true
+  cluster_uuid: "CVfKuDWFSWWCzmzRliFaFQ"  # Elasticsearch 클러스터 UUID
