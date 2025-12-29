@@ -1,0 +1,15 @@
+- type: http
+  name: "Elasticsearch Node 1"
+  enabled: true
+  urls: ["http://node-1:9200"]
+  schedule: '@every 10s'
+- type: http
+  name: "Elasticsearch Node 2"
+  enabled: true
+  urls: ["http://node-2:9201"]
+  schedule: '@every 10s'
+- type: http
+  name: "Elasticsearch Node 3"
+  enabled: true
+  urls: ["http://node-3:9202"]
+  schedule: '@every 10s'

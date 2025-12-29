@@ -115,7 +115,7 @@ services:
     ports:
       - "5601:5601"
     environment:
-      - ELASTICSEARCH_HOSTS=http://node-1:9200,http://node-2:9201,http://node-3:9202
+      - ELASTICSEARCH_HOSTS=["http://node-1:9200","http://node-2:9201","http://node-3:9202"]
       - NODE_OPTIONS=--openssl-legacy-provider=false
       - SERVER_HOST=0.0.0.0
       - ELASTICSEARCH_REQUESTTIMEOUT=120000
@@ -130,6 +130,20 @@ services:
       - elasticsearch3
     networks:
       - esnet
+
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:7.17.26
+    container_name: heartbeat
+    user: root
+    volumes:
+      - ./heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
 
 networks:
   esnet:
