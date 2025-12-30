@@ -1,0 +1,263 @@
+{
+  "name": "Team Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        0
+      ],
+      "id": "3222df2c-f838-4706-bfb5-5b4dd32ee797",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/1-D4oYJ1hwaLwVSn2LXoUi2AXIc49e74ybKxc_9SU1YA?fields=sheets.properties(title,index)",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        0
+      ],
+      "id": "d4bbed63-b69e-4e81-a898-a72f227903f0",
+      "name": "HTTP Request",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "7EmjejbOs6R8iLHu",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst sheets = items[0].json.sheets;\nconst last = sheets.reduce(\n  (a, b) => a.properties.index > b.properties.index ? a : b\n);\nreturn [{ json: { sheetName: last.properties.title } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        0
+      ],
+      "id": "878396f1-4855-4970-a143-085e93751f15",
+      "name": "Last Sheet"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-sonnet-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 3.5 (New)"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        940,
+        220
+      ],
+      "id": "1aaeec22-88b3-4247-81f6-bc2dd06dfb13",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "40kTQxsZJgttPSIc",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// -------------------- 1. 데이터 행만 추출 --------------------\nconst rows = items.filter(i => i.json.row_number > 2);   // 3행부터 실제 데이터\n\n// -------------------- 2. 날짜 열(key) 자동 감지 ---------------\nconst sample   = rows[0].json;\nconst dateKeys = Object.keys(sample)\n  .filter(k => !['row_number', 'col_1', 'col_4'].includes(k));  // 이름/상태 제외\n\n// -------------------- 3. 텍스트 블록 생성 --------------------\nlet out = '';\nrows.forEach((r, idx) => {\n  out += `### ${r.json.col_1}\\n`;                           // 이름(제목)\n  dateKeys.forEach(k => {\n    out += `- ${k}: ${r.json[k]}\\n`;                        // 주차별 업무\n  });\n  out += `- 상태: ${r.json.col_4}\\n`;                       // 작성상태\n  if (idx < rows.length - 1) out += '\\n';                   // 사람 간 공백\n});\n\n// -------------------- 4. 단일 아이템으로 반환 -----------------\nreturn [{ json: { text: out } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ],
+      "id": "79d4ba13-d217-4d5f-9a8d-b016851328eb",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "sendTo": "0sulemi0@gmail.com",
+        "subject": "주간 보고서 요약",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1320,
+        0
+      ],
+      "id": "c46a3b2d-0357-417d-83ea-a5277ed922c8",
+      "name": "Gmail",
+      "webhookId": "4f5a2eae-a440-4f45-849c-b913772f50cf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "20k9PUCP9umMc8Mw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D4oYJ1hwaLwVSn2LXoUi2AXIc49e74ybKxc_9SU1YA",
+          "mode": "list",
+          "cachedResultName": "마소 주간 업무 보고",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D4oYJ1hwaLwVSn2LXoUi2AXIc49e74ybKxc_9SU1YA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{$node[\"HTTP Request\"].json.sheets\n        .reduce((a,b)=>a.properties.index>b.properties.index?a:b)\n        .properties.title}}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        500,
+        0
+      ],
+      "id": "fba695f5-fc56-4b63-a506-a714ecb20b68",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=주간 보고서 내용:\n{{ $json.text }}",
+        "options": {
+          "systemMessage": "너는 팀장님 비서야. 최신 주간 보고서를 모두 읽고 다음 기준으로 요약한 다음에 문제가 있다면 따로 보고해.\n\n- 각 팀원의 업무량 분석\n- 전체 팀의 경향 분석\n- 출력 포맷은 HTML"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        960,
+        -60
+      ],
+      "id": "bdcdc19e-7835-4c24-83ce-e2ea1c8ffbcc",
+      "name": "AI Agent"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Last Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Last Sheet": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1c1273df-4dc1-42fc-afc4-41b5bf97f4ae",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d1e3751e2a7a3957de722938060116ba2b15e3c42ff92702faff91de0a772c0"
+  },
+  "id": "OPInc85bXwKrSmW5",
+  "tags": []
+}
