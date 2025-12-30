@@ -1,0 +1,91 @@
+services:
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "8080:80"    # HTTP entry point
+      - "8443:443"   # HTTPS entry point
+      - "9080:8080"  # Traefik dashboard (optional)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./certs:/etc/traefik/certs:ro
+    environment:
+      - TRAEFIK_HOST=${TRAEFIK_HOST}
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.tls=true"
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    environment:
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - N8N_EDITOR_BASE_URL=${WEBHOOK_URL}
+      - N8N_TRUST_PROXY_HEADER=true
+      - GENERIC_TIMEZONE=${TZ}
+      - DB_TYPE=${DB_TYPE}
+      - DB_POSTGRESDB_HOST=${DB_POSTGRESDB_HOST}
+      - DB_POSTGRESDB_PORT=${DB_POSTGRESDB_PORT}
+      - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE}
+      - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER}
+      - DB_POSTGRESDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+     
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - traefik-network
+      - postgres-network
+    depends_on:
+      - n8n-postgres
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.n8n.rule: "Host(`${N8N_HOST}`)"
+      traefik.http.routers.n8n.entrypoints: "websecure,web"
+      traefik.http.routers.n8n.tls: "true"
+      traefik.http.services.n8n.loadbalancer.server.port: "5678"
+      traefik.http.routers.n8n.middlewares: "security-headers@file,cors-headers@file" 
+  n8n-postgres:
+    image: postgres:15-alpine
+    container_name: n8n-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--data-checksums  # Add this line
+      - POSTGRES_HOST_AUTH_METHOD=trust  # 개발 환경에서만 사용
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d  # 초기화 스크립트 마운트
+    networks:
+      - postgres-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_POSTGRESDB_USER} -d ${DB_POSTGRESDB_DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  n8n_data:
+  postgres_data:
+
+networks:
+  traefik-network:
+    name: traefik-network
+    driver: bridge
+  postgres-network:
+    name: postgres-network
+    driver: bridge
