@@ -1,0 +1,44 @@
+# Traefik 정적 설정
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  #insecure: true  # 개발환경에서만 사용
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entrypoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+  traefik:
+    address: ":8080"
+
+providers:
+  docker:
+    exposedByDefault: false
+    watch: true
+    network: traefik-network
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+#추가
+tls:
+  options:
+    default:
+      minVersion: "VersionTLS12"
+
+log:
+  level: INFO
+
+# 개발환경에서만 사용 - 백엔드 SSL 검증 비활성화
+#serversTransport:
+#  insecureSkipVerify: false

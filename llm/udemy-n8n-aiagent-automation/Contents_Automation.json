@@ -1,0 +1,557 @@
+{
+  "name": "Contents Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        -140
+      ],
+      "id": "c870e6cf-5114-45d9-9e25-ff4508d87a47",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18KOQh7LmkFPSlOfvh0NyYO2qL-nZlLYoH6ZvkpwM9Pc",
+          "mode": "list",
+          "cachedResultName": "컨텐츠 자동화-글감",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18KOQh7LmkFPSlOfvh0NyYO2qL-nZlLYoH6ZvkpwM9Pc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "글감",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18KOQh7LmkFPSlOfvh0NyYO2qL-nZlLYoH6ZvkpwM9Pc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -240,
+        -140
+      ],
+      "id": "9f858cf5-8b6e-4150-9529-db5be84f4525",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const COL = '글감';\n\n// 비어있지 않은 \"글감\"만 모아 마지막 값 반환\nconst nonEmpty = items\n  .map(i => i.json[COL])\n  .filter(v => v !== undefined && String(v).trim() !== '');\n\nconst last = nonEmpty.length ? nonEmpty[nonEmpty.length - 1] : null;\n\nreturn [{ json: { 글감: last } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        -140
+      ],
+      "id": "5d6106e2-28b0-4f82-84a1-30a4b6dc343b",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "이메일로 전송할 컨텐츠를 작성해 줘. 주어진 글감에 대해 소제목 3개와 소제목마다 사진 1개를 작성해 줘. 소제목 하나 당 500자씩 써 줘.\n사진은 아래 사이트에서 찾아 줘.\n------\nhttps://www.pexels.com/ko-kr/discover/",
+              "role": "system"
+            },
+            {
+              "content": "=글감:  {{ $json['글감'] }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        200,
+        -140
+      ],
+      "id": "859c4557-35a9-4eab-b278-1a62726c124f",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "OZAeRdY9zjBjNCwE",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code (JavaScript) — Run Once for All Items\n// 입력: items[*].json.{ output | result | (json 자체) } 안에 데이터\n// 구조는 같지만 필드명이 바뀔 수 있음(예: image ↔ image_url ↔ imageUrl)\n\nfunction toArray(raw) {\n  if (raw == null) return [];\n  if (Array.isArray(raw)) return raw;\n  if (typeof raw === 'string') {\n    try { return JSON.parse(raw); }\n    catch (e) { throw new Error('입력이 JSON 문자열이 아닙니다: ' + e.message); }\n  }\n  return [raw];\n}\n\n// ── 키 정규화 & 동의어 찾기 유틸 ──────────────────────────────\nconst normalize = k => String(k || '').toLowerCase().replace(/[^a-z0-9]/g, ''); // 대소문자/_,-/공백 무시\n\nfunction pick(obj, synonyms) {\n  if (!obj || typeof obj !== 'object') return undefined;\n  const normMap = new Map(Object.entries(obj).map(([k, v]) => [normalize(k), v]));\n\n  // 1) 정확 매칭\n  for (const s of synonyms) {\n    const v = normMap.get(normalize(s));\n    if (v !== undefined) return v;\n  }\n  // 2) 포함 매칭(예: imageUrl, main_image 등)\n  for (const s of synonyms) {\n    const needle = normalize(s);\n    for (const [nk, v] of normMap.entries()) {\n      if (nk.includes(needle)) return v;\n    }\n  }\n  return undefined;\n}\n\n// 동의어 사전(필요시 여기에만 추가)\nconst SYN = {\n  subject: ['subject', 'title', 'heading', 'topic'],\n  blocks:  ['content', 'blocks', 'items', 'sections', 'list'],\n  subtitle:['subtitle', 'sub_title', 'subheading', 'sub_header', 'heading', 'title2'],\n  text:    ['text', 'body', 'content', 'description', 'desc', 'message'],\n  image:   ['image', 'image_url', 'imageurl', 'img', 'photo', 'picture', 'thumbnail', 'thumb']\n};\n\nfunction getBlocks(root) {\n  let b = pick(root, SYN.blocks);\n  if (Array.isArray(b)) return b;\n  // fallback: root의 값들 중 첫 번째 배열\n  for (const v of Object.values(root || {})) if (Array.isArray(v)) return v;\n  return [];\n}\n\nconst out = [];\n\nfor (const { json } of items) {\n  const raw = json.output ?? json.result ?? json; // 입력 경로 자동 탐색\n  const arr = toArray(raw);\n\n  for (const entry of arr) {\n    // 구조는 동일(메시지→컨텐츠)라고 가정하되 키는 유연하게\n    const container =\n      pick(entry, ['message'])?.content ??\n      pick(entry, ['content']) ??\n      entry?.message?.content ?? entry?.content ?? entry;\n\n    if (!container) continue;\n\n    // subject: 루트에서, 없으면 각 블록에서 fallback\n    const subjectRoot = pick(container, SYN.subject);\n\n    const blocks = getBlocks(container);\n    for (const b of blocks) {\n      const subj = subjectRoot ?? pick(b, SYN.subject) ?? '';\n      const subtitle = pick(b, SYN.subtitle) ?? '';\n      const text = pick(b, SYN.text) ?? '';\n      const image = pick(b, SYN.image) ?? '';\n\n      out.push({ json: { subject: subj, subtitle, text, image } });\n    }\n  }\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -140
+      ],
+      "id": "f7b7f830-cd97-4a61-a95f-4d76ed0a1c22",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "documentId": {
+          "__rl": true,
+          "value": "1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w",
+          "mode": "list",
+          "cachedResultName": "컨텐츠 자동화-초안",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w/edit?usp=drivesdk"
+        },
+        "title": "={{ 'n8n-sheet-' + $now.setZone('Asia/Seoul').toFormat('yyyy-LL-dd') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        760,
+        -60
+      ],
+      "id": "f272a5aa-860c-430f-bbe0-cacb8ebd4607",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w",
+          "mode": "list",
+          "cachedResultName": "컨텐츠 자동화-초안",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ 'n8n-sheet-' + $now.setZone('Asia/Seoul').toFormat('yyyy-LL-dd') }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        760,
+        -280
+      ],
+      "id": "d1dea4ae-00b0-4614-99df-e3afa4aa84a9",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        200
+      ],
+      "id": "5308a648-8f33-486f-b57f-da667724ca44",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w",
+          "mode": "list",
+          "cachedResultName": "컨텐츠 자동화-초안",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zKUguhfu_RIyoxq-8LT6r0untL9jW6Qk1NX3Zbuzq2w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ 'n8n-sheet-' + $now.setZone('Asia/Seoul').toFormat('yyyy-LL-dd') }}",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -220,
+        200
+      ],
+      "id": "d2f5bbf5-3b2a-4f8b-9120-37805efcfce6",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// N8N Code Node - Google Sheets to HTML Email Formatter\n// 이전 노드에서 받은 데이터를 items 변수로 접근 가능\n\n// 입력 데이터 가져오기\nconst inputItems = $input.all();\n\n// HTML 템플릿 생성 함수\nfunction createEmailHTML(data) {\n  // 기본 HTML 스타일 정의\n  const htmlStyle = `\n    <style>\n      body {\n        font-family: 'Malgun Gothic', '맑은 고딕', Arial, sans-serif;\n        line-height: 1.6;\n        color: #333;\n        background-color: #f5f5f5;\n        margin: 0;\n        padding: 20px;\n      }\n      .email-container {\n        max-width: 800px;\n        margin: 0 auto;\n        background-color: #ffffff;\n        border-radius: 10px;\n        box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n        overflow: hidden;\n      }\n      .email-header {\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        color: white;\n        padding: 30px;\n        text-align: center;\n      }\n      .email-header h1 {\n        margin: 0;\n        font-size: 28px;\n        font-weight: 600;\n      }\n      .content-section {\n        padding: 30px;\n      }\n      .content-card {\n        border: 1px solid #e0e0e0;\n        border-radius: 8px;\n        padding: 20px;\n        margin-bottom: 20px;\n        background-color: #fafafa;\n      }\n      .content-title {\n        font-size: 20px;\n        font-weight: bold;\n        color: #4a5568;\n        margin-bottom: 10px;\n        padding-bottom: 10px;\n        border-bottom: 2px solid #667eea;\n      }\n      .content-subtitle {\n        font-size: 16px;\n        color: #718096;\n        margin-bottom: 15px;\n        font-weight: 500;\n      }\n      .content-text {\n        font-size: 14px;\n        line-height: 1.8;\n        color: #2d3748;\n        white-space: pre-line;\n        background-color: white;\n        padding: 15px;\n        border-radius: 5px;\n        border-left: 4px solid #667eea;\n      }\n      .content-image {\n        margin-top: 15px;\n        text-align: center;\n      }\n      .content-image img {\n        max-width: 100%;\n        height: auto;\n        border-radius: 8px;\n        box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n        display: block;\n        margin: 0 auto;\n      }\n      .image-fallback {\n        padding: 40px;\n        background-color: #f0f0f0;\n        border-radius: 8px;\n        color: #666;\n        text-align: center;\n      }\n      .email-footer {\n        background-color: #f7fafc;\n        padding: 20px;\n        text-align: center;\n        color: #718096;\n        font-size: 12px;\n        border-top: 1px solid #e2e8f0;\n      }\n      .divider {\n        height: 1px;\n        background: linear-gradient(90deg, transparent, #cbd5e0, transparent);\n        margin: 20px 0;\n      }\n    </style>\n  `;\n\n  // HTML 본문 생성\n  let htmlBody = `\n    <!DOCTYPE html>\n    <html lang=\"ko\">\n    <head>\n      <meta charset=\"UTF-8\">\n      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n      <title>Newsletter</title>\n      ${htmlStyle}\n    </head>\n    <body>\n      <div class=\"email-container\">\n        <div class=\"email-header\">\n          <h1>📧 뉴스레터</h1>\n        </div>\n        <div class=\"content-section\">\n  `;\n\n  // 각 항목을 HTML로 변환\n  data.forEach((item, index) => {\n    // 필드 값 가져오기 (다양한 가능한 필드명 처리)\n    const subject = item.subject || item.제목 || '';\n    const subtitle = item.subtitle || item.부제 || '';\n    const text = item.text || item.내용 || item.텍스트 || '';\n    let image = item.image || item.이미지 || '';\n    \n    // 이미지 URL 처리\n    if (image) {\n      // URL 디코딩 처리\n      try {\n        image = decodeURIComponent(image);\n      } catch (e) {\n        // 디코딩 실패 시 원본 사용\n      }\n      \n      // Pexels URL 처리\n      if (image.includes('pexels.com')) {\n        // 이미 images.pexels.com URL인 경우 - 크기 최적화\n        if (image.includes('images.pexels.com')) {\n          // 기본 URL 유지하고 크기 파라미터 추가\n          const baseUrl = image.split('?')[0];\n          image = `${baseUrl}?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1`;\n        } \n        // 웹페이지 URL인 경우 - 실제 이미지 URL로 변환\n        else if (image.includes('pexels.com')) {\n          // Pexels 웹페이지 URL에서 photo ID 추출\n          // 패턴 1: https://www.pexels.com/photo/[title-text]-[PHOTO_ID]/\n          // 패턴 2: https://www.pexels.com/ko-kr/photo/[PHOTO_ID]/\n          // 패턴 3: https://pexels.com/[lang]/photo/[PHOTO_ID]/\n          \n          // URL 끝에서 숫자 ID 추출 (더 유연한 정규식)\n          const pexelsMatch = image.match(/\\/photo\\/(?:[^\\/]*-)?(\\d+)\\/?$/);\n          \n          if (pexelsMatch && pexelsMatch[1]) {\n            const photoId = pexelsMatch[1];\n            // Pexels 이미지 직접 URL 구성\n            image = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1`;\n          } else {\n            // ID를 찾을 수 없는 경우 - 기본 플레이스홀더\n            console.log('Pexels URL 파싱 실패:', image);\n            image = 'https://via.placeholder.com/800x600.png?text=Image+Not+Available';\n          }\n        }\n      }\n      // 이미 완전한 이미지 URL인 경우 그대로 사용\n      else if (image.startsWith('http://') || image.startsWith('https://')) {\n        // URL은 그대로 유지\n        image = image;\n      }\n      \n      // 디버깅용 로그\n      console.log('Original URL:', item.image || item.이미지);\n      console.log('Processed URL:', image);\n    }\n    \n    htmlBody += `\n      <div class=\"content-card\">\n        <div class=\"content-title\">\n          ${subject}\n        </div>\n        ${subtitle ? `<div class=\"content-subtitle\">${subtitle}</div>` : ''}\n        <div class=\"content-text\">\n          ${text.replace(/\\n/g, '<br>')}\n        </div>\n        ${image ? `\n          <div class=\"content-image\">\n            <img src=\"${image}\" alt=\"${subject}\" onerror=\"this.style.display='none'; this.nextElementSibling.style.display='block';\" />\n            <div class=\"image-fallback\" style=\"display:none;\">\n              🖼️ 이미지를 불러올 수 없습니다<br>\n              <small>원본 URL: ${item.image || item.이미지 || ''}</small>\n            </div>\n          </div>\n        ` : ''}\n      </div>\n    `;\n    \n    // 마지막 항목이 아니면 구분선 추가\n    if (index < data.length - 1) {\n      htmlBody += '<div class=\"divider\"></div>';\n    }\n  });\n\n  // HTML 마무리\n  htmlBody += `\n        </div>\n        <div class=\"email-footer\">\n          <p>© ${new Date().getFullYear()} Newsletter. All rights reserved.</p>\n          <p>이 이메일은 자동으로 생성되었습니다.</p>\n        </div>\n      </div>\n    </body>\n    </html>\n  `;\n\n  return htmlBody;\n}\n\n// 데이터 처리 및 HTML 생성\ntry {\n  // 입력 데이터 확인\n  if (!inputItems || inputItems.length === 0) {\n    throw new Error('입력 데이터가 없습니다.');\n  }\n\n  // Google Sheets 데이터 추출\n  let sheetData = [];\n  \n  // N8N의 Google Sheets 노드 출력 형식에 따라 처리\n  inputItems.forEach(item => {\n    // json 속성이 있는 경우\n    if (item.json) {\n      sheetData.push(item.json);\n    }\n    // 직접 데이터가 있는 경우\n    else if (item.subject || item.제목) {\n      sheetData.push(item);\n    }\n  });\n\n  // HTML 생성\n  const emailHTML = createEmailHTML(sheetData);\n  \n  // 결과 반환 (N8N 형식)\n  return [\n    {\n      json: {\n        html: emailHTML,\n        subject: $input.first().json.subject,\n        processedItems: sheetData.length,\n        timestamp: new Date().toISOString()\n      }\n    }\n  ];\n\n} catch (error) {\n  // 에러 처리\n  return [\n    {\n      json: {\n        error: error.message,\n        html: `\n          <html>\n            <body style=\"font-family: Arial, sans-serif; padding: 20px;\">\n              <h2 style=\"color: #e53e3e;\">처리 중 오류가 발생했습니다</h2>\n              <p>오류 메시지: ${error.message}</p>\n              <p>입력 데이터를 확인해주세요.</p>\n            </body>\n          </html>\n        `\n      }\n    }\n  ];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        80
+      ],
+      "id": "9ead6d6b-9287-48b6-81a0-1e05ada21022",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1FLdrvMdKeIETc-VD1oQSwgJF-KWwEkazb_ib3ilGjCk",
+          "mode": "list",
+          "cachedResultName": "메일 전송 리스트",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FLdrvMdKeIETc-VD1oQSwgJF-KWwEkazb_ib3ilGjCk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "mails",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FLdrvMdKeIETc-VD1oQSwgJF-KWwEkazb_ib3ilGjCk/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "A1:A"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        40,
+        280
+      ],
+      "id": "63a5a578-4341-4995-a821-f79f4f1a892d",
+      "name": "Google Sheets4",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dvKmkCNpdnLYzfiV",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53f2b1a0-76b3-4253-904c-e9e4afa1bb7b",
+              "name": "html",
+              "value": "={{ $json.html }}",
+              "type": "string"
+            },
+            {
+              "id": "e97e29bb-50d6-484d-92bc-036a54af5535",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "c56100f5-5952-4e32-ac51-13ff7759f5dc",
+              "name": "join",
+              "value": "email",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        80
+      ],
+      "id": "eaf08934-7a35-46b3-b126-87ffaee316b0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "04011532-56d2-41b8-a18c-22a9ae81ff55",
+              "name": "메일 리스트",
+              "value": "={{ $json['메일 리스트'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6d4c19c9-bff2-4048-a0ce-c28874ec8cfa",
+              "name": "join",
+              "value": "email",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        280
+      ],
+      "id": "86386c40-6203-4bfc-a861-ed3228bb0b35",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "join",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        520,
+        180
+      ],
+      "id": "675af70a-9331-4471-927d-6913ac9bae17",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['메일 리스트'] }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        740,
+        180
+      ],
+      "id": "91c6989d-2b40-4968-8436-7116db1686ed",
+      "name": "Gmail",
+      "webhookId": "3d9da219-0e4b-4441-b6db-5fd257880eee",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "20k9PUCP9umMc8Mw",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b4c6af65-398f-499a-8a11-7ce5c743cef7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d1e3751e2a7a3957de722938060116ba2b15e3c42ff92702faff91de0a772c0"
+  },
+  "id": "HDU3fmzn1gZuhBjs",
+  "tags": []
+}

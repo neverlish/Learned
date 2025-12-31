@@ -1,0 +1,140 @@
+{
+  "name": "Slack greeting",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=아침에 출근하는 사람들에게 반갑게 3문장 정도로 인사해.\n",
+        "options": {
+          "systemMessage": "너는 IT 회사에서 일하는 비서야. 성격이 발랄하고 친절하며 프로페셔녈해."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        720,
+        40
+      ],
+      "id": "5ff77ae7-d892-4df7-bfda-6f96e1763164",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#n8n_maso",
+          "mode": "name"
+        },
+        "text": "={{ $json.output }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        40
+      ],
+      "id": "c0664055-01ea-4315-9bf0-62647ffa580a",
+      "name": "Slack",
+      "webhookId": "caf06bcf-7807-4ab4-8b37-8abeb2b0649c",
+      "credentials": {
+        "slackApi": {
+          "id": "6psW1f98kYE7kHek",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 53
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        40
+      ],
+      "id": "f35732d6-b46e-4457-a2c3-dde4e880d177",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        260
+      ],
+      "id": "8223b088-b5f4-4344-9d46-8f2d777e501d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "l22BiFQlSEKiuwBZ",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7ae9421c-5dc6-4e91-b040-d92ce2c4c2f0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "05e615d8dbd87d7c0d0d3d5e1cd138fea749dd72eab4942a620294dd7eb32ed9"
+  },
+  "id": "IlLhQLpPMSrW2evt",
+  "tags": []
+}
