@@ -1,23 +1,10 @@
 <template>
   <Navbar />
   <Event :text="text" />
-  <h1>영화정보</h1>
-  <div v-for="(movie, i) in data" :key="i" class="item">
-    <figure>
-      <img :src="`${movie.imgUrl}`" :alt="movie.title">
-    </figure>
-    <div class="info">
-      <h3 class="bg-yellow">{{ movie.title }}</h3>
-      <p>개봉: {{ movie.year }}</p>
-      <p>장르: {{ movie.category }}</p>
-      <button @:click="increseLike(i)">좋아요
-      </button>
-      <span>{{ movie.like }}</span>
-      <p>
-        <button @click="isModal=true; selectedMovie=i">상세보기</button>
-      </p>
-    </div>
-  </div>
+  <Movies 
+    :data="data"
+    @openModal="isModal=true;selectedMovie=$event"
+  />
   <Modal 
     :data="data" 
     :isModal="isModal" 
@@ -32,6 +19,7 @@ import data from './assets/movies'; // 영화 데이터
 import Navbar from './components/Navbar.vue';
 import Event from './components/Event.vue'; // 이벤트 박스
 import Modal from './components/Modal.vue';
+import Movies from './components/Movies.vue';
 console.log(data);
 
 export default {
@@ -53,6 +41,7 @@ export default {
     Navbar: Navbar,
     Event: Event,
     Modal: Modal,
+    Movies: Movies,
   }
 }
 </script>
