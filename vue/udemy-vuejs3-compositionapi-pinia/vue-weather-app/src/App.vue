@@ -1,11 +1,11 @@
 <script setup>
   import Navbar from './components/Navbar.vue';
-
+  import SearchBar from './components/SearchBar.vue';
 </script>
 
 <template>
   <Navbar/>
-  <font-awesome-icon :icon="['fas', 'location-dot']" />
+  <SearchBar />
 </template>
 
 <style scoped lang="scss">
