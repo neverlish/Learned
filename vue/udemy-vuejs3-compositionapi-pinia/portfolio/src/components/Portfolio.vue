@@ -2,10 +2,10 @@
     <section id="portfolio" class="container">
       <h1>Portfolio</h1>
       <ul class="list row">
-        <li class="col-md-4">
-          <img :src="data[0].imgUrl" alt="1">
-          <h3>{{ data[0].title }}</h3>
-          <p>{{ data[0].desc }}</p>
+        <li class="col-md-4" v-for="item in data">
+          <img :src="item.imgUrl" alt="1">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.desc }}</p>
         </li>
       </ul>
     </section>
