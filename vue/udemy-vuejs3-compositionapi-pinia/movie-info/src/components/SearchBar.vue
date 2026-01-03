@@ -1,8 +1,12 @@
+
 <template>
   <div class="search-box">
     <input 
       type="search" 
-      @change="inputText = $event.target.value"
+      @change="
+        inputText = $event.target.value;
+        $event.target.value = ''
+      "
       placeholder="검색어 입력"
     >
     <button>검색</button>
@@ -18,11 +22,18 @@ export default {
       inputText: '',
     }
   },
+  props: {
+    data: Array,
+  },
   watch: {
     inputText(name) {
       // 입력한 영화제목이 데이터에 있는지 확인
-      if(name !== "노량") {
-        alert('해당하는 영화가 없습니다');
+      const findName = this.data.filter(movie => {
+        return movie.title.includes(name);
+      })
+
+      if(findName.length == 0) {
+        alert('해당하는 자료가 없습니다');
       }
     }
   }

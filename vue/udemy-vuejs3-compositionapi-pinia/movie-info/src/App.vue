@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <Event :text="text"/>
-  <SearchBar />
+  <SearchBar :data="data" />
   <Movies 
     :data="data"
     @openModal="isModal=true;selectedMovie=$event"
