@@ -10,43 +10,49 @@
       <h3 class="bg-yellow">{{ movie.title }}</h3>
       <p>개봉: {{ movie.year }}</p>
       <p>장르: {{ movie.category }}</p>
-      <button @click="increaseLike(i)">좋아요</button>
+      <button @:click="increseLike(i)">좋아요
+      </button>
       <span>{{ movie.like }}</span>
       <p>
         <button @click="isModal=true; selectedMovie=i">상세보기</button>
       </p>
     </div>
   </div>
-  <!-- <Modal /> -->
+  <Modal 
+    :data="data" 
+    :isModal="isModal" 
+    :selectedMovie="selectedMovie"
+    @closeModal="isModal=false"
+  />
+
 </template>
 
 <script>
-import data from './assets/movies.js';
+import data from './assets/movies'; // 영화 데이터
 import Navbar from './components/Navbar.vue';
 import Event from './components/Event.vue'; // 이벤트 박스
-
-// import Modal from './components/Modal.vue';
+import Modal from './components/Modal.vue';
 console.log(data);
 
 export default {
   name: 'App',
   data() {
     return {
-      isModal: false,
+      isModal: false, 
       data: data,
       selectedMovie: 0,
       text: "NEPLIX 강렬한 운명의 드라마, 경기크리처"
     }
   },
   methods: {
-    increaseLike(i) {
-      this.data[i].like++;
+    increseLike(i) {
+      this.data[i].like += 1;
     }
   },
   components: {
-    Navbar,
-    Event,
-    // Modal
+    Navbar: Navbar,
+    Event: Event,
+    Modal: Modal,
   }
 }
 </script>
@@ -60,7 +66,6 @@ export default {
 body {
   max-width: 768px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 h1,
