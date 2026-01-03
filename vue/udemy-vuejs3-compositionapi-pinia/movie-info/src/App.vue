@@ -1,6 +1,7 @@
 <template>
   <Navbar />
   <Event :text="text[eventTextNum]"/>
+  {{  eventTextNum }}
   <SearchBar 
     :data="data_temp" 
     @searchMovie="searchMovie($event)"
@@ -45,6 +46,7 @@ export default {
         '그날, 대한민국의 운명이 바뀌었다, 서울의 봄'
       ],
       eventTextNum: 0,
+      interval: null,
     }
   },
   methods: {
@@ -75,10 +77,18 @@ export default {
   },
   mounted() {
     console.log('mounted');
-    setTimeout(()=>{
-      this.eventTextNum += 1;
-    }, 3000);
+    setInterval(() => {
+      if(this.eventTextNum == this.text.length - 1) {
+        this.eventTextNum = 0;
+      } else {
+        this.eventTextNum += 1;
+      }
+    }, 3000)
+  },
+  unmounted() {
+    clearInterval(this.interval); // 인터발 해제
   }
+
 }
 </script>
 
