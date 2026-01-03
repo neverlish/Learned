@@ -6,7 +6,11 @@
           <img :src="item.imgUrl" alt="1">
           <h3>{{ item.title }}</h3>
           <p>{{ item.desc }}</p>
-          <router-link to="/detail/1">상세보기</router-link>
+          <small class="mb-3 text-secondary">{{  item.skills }}</small>
+          <router-link 
+            class="btn btn-primary" 
+            :to="'/detail/' + item.id"
+          >상세보기</router-link>
         </li>
       </ul>
     </section>
