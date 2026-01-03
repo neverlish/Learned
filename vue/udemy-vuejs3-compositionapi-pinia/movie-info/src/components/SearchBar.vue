@@ -1,9 +1,9 @@
-
 <template>
   <div class="search-box">
     <input 
       type="search" 
       @change="
+        $emit('searchMovie', $event.target.value);
         inputText = $event.target.value;
         $event.target.value = ''
       "
@@ -25,6 +25,7 @@ export default {
   props: {
     data: Array,
   },
+  emits: ['searchMovie'], // emits 옵션을 통해 명시적으로 이벤트 선언
   watch: {
     inputText(name) {
       // 입력한 영화제목이 데이터에 있는지 확인
