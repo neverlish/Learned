@@ -6,14 +6,17 @@
           <img :src="item.imgUrl" alt="1">
           <h3>{{ item.title }}</h3>
           <p>{{ item.desc }}</p>
+          <router-link to="/detail/1">상세보기</router-link>
         </li>
       </ul>
     </section>
 </template>
   
 <script setup>
-  import data from '../assets/portfolio';
-  console.log(data);
+  const props = defineProps({
+    data: Array,
+  })
+  console.log(props.data)
 </script>
   
 <style lang="scss">
@@ -33,6 +36,7 @@
           aspect-ratio: 16 / 9;
           object-fit: cover;
           object-position: top;
+          margin-bottom: 1em;
         }
         h4 { margin-top: 1rem; }
       }
