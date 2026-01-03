@@ -1,9 +1,10 @@
 <template>
   <Navbar />
-  <Event :text="text" />
+  <Event :text="text"/>
   <Movies 
     :data="data"
     @openModal="isModal=true;selectedMovie=$event"
+    @increseLike="increseLike($event)"
   />
   <Modal 
     :data="data" 
