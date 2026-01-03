@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+  <Event :text="text" />
   <h1>영화정보</h1>
   <div v-for="(movie, i) in data" :key="i" class="item">
     <figure>
@@ -16,13 +17,15 @@
       </p>
     </div>
   </div>
-  <Modal />
+  <!-- <Modal /> -->
 </template>
 
 <script>
 import data from './assets/movies.js';
 import Navbar from './components/Navbar.vue';
-import Modal from './components/Modal.vue';
+import Event from './components/Event.vue'; // 이벤트 박스
+
+// import Modal from './components/Modal.vue';
 console.log(data);
 
 export default {
@@ -31,7 +34,8 @@ export default {
     return {
       isModal: false,
       data: data,
-      selectedMovie: 0
+      selectedMovie: 0,
+      text: "NEPLIX 강렬한 운명의 드라마, 경기크리처"
     }
   },
   methods: {
@@ -41,7 +45,8 @@ export default {
   },
   components: {
     Navbar,
-    Modal
+    Event,
+    // Modal
   }
 }
 </script>
