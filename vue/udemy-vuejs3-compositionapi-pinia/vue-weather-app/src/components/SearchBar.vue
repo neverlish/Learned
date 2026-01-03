@@ -28,6 +28,7 @@
           padding: 1em 0;
           font-size: 18px;
           outline: none;
+          font-size: 14px;
         }
         button {
           background: transparent;
