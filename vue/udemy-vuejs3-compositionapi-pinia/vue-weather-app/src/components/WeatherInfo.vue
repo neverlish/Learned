@@ -6,9 +6,9 @@
         :alt="props.weatherData.icon"
       />
     </div>
-    <div class="temp">{{props.weatherData.temp}}</div>
+    <div class="temp">{{(props.weatherData.temp - 273.15).toFixed(1)}}&deg;</div>
     <div class="text">{{props.weatherData.text }}</div>
-    <div class="location">{{props.weatherData.location}}</div>
+    <div class="location">{{props.weatherData.city}}, {{props.weatherData.location}}</div>
   </div>
 </template>
 
