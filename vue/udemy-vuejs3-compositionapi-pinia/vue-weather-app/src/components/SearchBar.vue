@@ -3,7 +3,12 @@
     <form @submit.prevent>
       <div class="form-group">
         <input @input="inputText = $event.target.value" type="search" placeholder="지역을 입력해 주세요"/>
-        <button @click="emits('onSearchCity', inputText)">
+        <button 
+          @click="
+            $store.commit('onSearchCity', inputText);
+            $store.dispatch('getWeather');
+          "
+        >
           <font-awesome-icon class="icon" :icon="['fas', 'magnifying-glass']" />
         </button>
       </div>

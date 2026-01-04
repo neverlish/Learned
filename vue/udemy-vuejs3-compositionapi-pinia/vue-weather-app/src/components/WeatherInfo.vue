@@ -4,20 +4,22 @@
     <div class="icon">
       <img 
         :src="`https://openweathermap.org/img/wn/${$store.state.weatherData.icon}@2x.png`" 
-        :alt="props.weatherData.icon"
+        :alt="$store.state.weatherData.icon"
       />
     </div>
-    <div class="temp">{{($store.state.weatherData.temp - 273.15).toFixed(1)}}&deg;</div>
+    <div class="temp">
+      {{($store.state.weatherData.temp - 273.15).toFixed(1)}}&deg;
+    </div>
     <div class="text">{{$store.state.weatherData.text }}</div>
-    <div class="location">{{$store.state.weatherData.city}}, {{$store.state.weatherData.location}}</div>
+    <div class="location">
+      {{$store.state.weatherData.city}}, 
+      {{$store.state.weatherData.location}}
+    </div>
   </div>
 </template>
 
 <script setup>
-  const props = defineProps({
-    weatherData: Object,
-  })
-  console.log(props.weatherData);
+
 </script>
 
 <style lang="scss" scoped>

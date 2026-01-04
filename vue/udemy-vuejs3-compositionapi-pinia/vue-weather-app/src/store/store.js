@@ -24,6 +24,9 @@ export default createStore({
       state.weatherData.text = payload.weather[0].description;
       state.weatherData.location = payload.sys.country;
       state.weatherData.city = payload.name;
+    },
+    onSearchCity(state, payload) {
+      state.weatherData.city = payload;
     }
   },
   actions: {
