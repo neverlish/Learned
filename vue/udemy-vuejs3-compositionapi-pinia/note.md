@@ -56,3 +56,42 @@ let title = ref('title')
   />
 </template>
 ```
+
+## 61 computed로 동적인 계산값 처리하기
+
+```js
+<template>
+  <p>num:{{num}} -> result: {{result}}</p>
+</template>
+
+<script setup>
+import { ref, computed} from 'vue';
+
+const num = ref(2);
+
+const result = computed(() => {
+  return num.value * 2;
+})
+</script>
+```
+
+```js
+<template>
+  <input 
+    v-model="수입"
+    placeholder="수입을 숫자로 입력"
+  />
+  <p>실수령액: {{실수령액}}</p>
+</template>
+
+<script setup>
+import { ref, computed} from 'vue';
+
+const 수입 = ref(null);
+const 세율 = 3.3;
+
+const 실수령액 = computed(() => {
+  return 수입.value - (세율/100)*수입.value;
+})
+</script>
+```
