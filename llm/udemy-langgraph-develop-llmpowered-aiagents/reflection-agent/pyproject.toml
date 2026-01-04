@@ -13,7 +13,8 @@ dependencies = [
     "isort (>=7.0.0,<8.0.0)",
     "langchain (>=1.2.0,<2.0.0)",
     "langchain-openai (>=1.1.6,<2.0.0)",
-    "langgraph (>=1.0.5,<2.0.0)"
+    "langgraph (>=1.0.5,<2.0.0)",
+    "grandalf (>=0.8,<0.9)"
 ]
 
 
