@@ -36,7 +36,19 @@ def execute_tools(state: List[BaseMessage]) -> List[ToolMessage]:
 
     outputs = tool_executor.batch(tool_invocations)
 
+    # Map each output to its corresponding ID and tool input
+    outputs_map = defaultdict(dict)
+    for id_, output, invocation in zip(ids, outputs, tool_invocations):
+        outputs_map[id_][invocation.tool_input] = output
 
+    # Convert the mapped outputs to ToolMessage objects
+    tool_messages = []
+    for id_, mapped_output in outputs_map.items():
+        tool_messages.append(
+            ToolMessage(content=json.dumps(mapped_output), tool_call_id=id_)
+        )
+
+    return tool_messages
 
 
 if __name__ == "__main__":
