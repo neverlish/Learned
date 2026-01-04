@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import store from './store/store';
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -15,5 +16,6 @@ import { faBarsStaggered, faLocationDot, faMagnifyingGlass } from '@fortawesome/
 library.add(faBarsStaggered, faLocationDot, faMagnifyingGlass);
 
 createApp(App)
+  .use(store)
   .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app')
