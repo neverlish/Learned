@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 // store 만들기
-const useStore = defineStore('main', {
+export const useStore = defineStore('main', {
   state: () => ({
     // 상태변수 정의
     weatherData: {
@@ -15,7 +15,7 @@ const useStore = defineStore('main', {
   }),
   actions: {
     // 함수
-    addCount(palyload) {
+    addCount(palyload) { 
       this.count += 1 + palyload;
     },
     updateWeather(payload) {
@@ -49,3 +49,5 @@ const useStore = defineStore('main', {
     }
   }
 })
+
+// useStore 내보내기
