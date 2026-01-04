@@ -21,6 +21,23 @@ tool_executor = ToolExecutor([tavily_tool])
 def execute_tools(state: List[BaseMessage]) -> List[ToolMessage]:
     tool_invocation: AIMessage = state[-1]
 
+    parsed_tool_calls = parser.invoke(tool_invocation)
+    ids = []
+    tool_invocations = []
+    for parsed_call in parsed_tool_calls:
+        for query in parsed_call["args"]["search_queries"]:
+            tool_invocations.append(
+                ToolInvocation(
+                    tool="tavily_search_results_json",
+                    tool_input=query,
+                )
+            )
+            ids.append(parsed_call["id"])
+
+    outputs = tool_executor.batch(tool_invocations)
+
+
+
 
 if __name__ == "__main__":
     print("Tool Executor Enter")
