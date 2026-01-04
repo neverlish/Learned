@@ -23,3 +23,36 @@
 </template>
 
 ```
+
+## 60 양방향 데이터 전달, 이제 이거로 끝(v-model과 defineModel)
+
+```js
+// App.vue
+<script setup>
+import { ref } from 'vue';
+import Comp from './Comp.vue';
+
+let title = ref('title')
+</script>
+
+<template>
+  <h1>{{ title }}</h1>
+  <Comp v-model="title" />
+</template>
+
+// Comp.vue
+<script setup>
+  import { ref } from 'vue'
+
+  const model = defineModel();
+</script>
+
+<template>
+  <h2>{{ model }}</h2>
+  <p>inputText: {{ model}}</p>
+  <input 
+    type="text" 
+    v-model="model"
+  />
+</template>
+```
