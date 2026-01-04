@@ -8,7 +8,7 @@
   import { storeToRefs } from 'pinia';
  
   const store = useStore();
-  const { weatherData, toggle } = storeToRefs(store);
+  const { toggle } = storeToRefs(store);
 
   // 앱이 실행되면 날씨 데이터 가져오기
   onMounted(() => {
