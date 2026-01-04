@@ -1,2 +1,5 @@
 poetry.lock
 .env
+.chroma/*
+.chroma
+.pytest_cache
