@@ -3,3 +3,4 @@ poetry.lock
 .chroma/*
 .chroma
 .pytest_cache
+__pycache__
