@@ -1,8 +1,11 @@
+import sqlite3
+
 from dotenv import load_dotenv
+from langgraph.checkpoint.sqlite import SqliteSaver
+
 load_dotenv()
 from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
-from langgraph.checkpoint.memory import MemorySaver
 
 class State(TypedDict):
     input: str
@@ -30,10 +33,8 @@ builder.add_edge("step_1", "human_feedback")
 builder.add_edge("human_feedback", "step_3")
 builder.add_edge("step_3", END)
 
-
-memory = MemorySaver()
-
-
+conn = sqlite3.connect("checkpoints.sqlite",check_same_thread=False)
+memory = SqliteSaver(conn)
 graph = builder.compile(checkpointer=memory, interrupt_before=["human_feedback"])
 
 graph.get_graph().draw_mermaid_png(output_file_path="graph.png")

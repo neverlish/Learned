@@ -4,3 +4,4 @@ poetry.lock
 .chroma
 .pytest_cache
 __pycache__
+checkpoints.sqlite*
