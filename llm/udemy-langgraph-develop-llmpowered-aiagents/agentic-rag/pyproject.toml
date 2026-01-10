@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "langgaph-course"
+version = "0.1.0"
+description = ""
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+beautifulsoup4 = "*"
+langchain-community = "*"
+tiktoken = "*"
+langchainhub = "*"
+langchain = "*"
+langchain-core = "*"
+langgraph = "*"
+tavily-python = "*"
+langchain-openai = "*"
+python-dotenv = "*"
+black = "*"
+isort = "*"
+pytest = "*"
+langchain-chroma = "*"
+langchain-tavily = "^0.1.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
