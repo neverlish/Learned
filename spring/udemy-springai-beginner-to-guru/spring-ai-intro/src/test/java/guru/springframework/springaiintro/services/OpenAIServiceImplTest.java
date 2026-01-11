@@ -13,8 +13,8 @@ class OpenAIServiceImplTest {
 
     @Test
     void getAnswer() {
-        String answer = openAIService.getAnswer("What is the meaning of life?");
-
+        String answer = openAIService.getAnswer("Write the game snake in python.");
+        System.out.println("Got the answer");
         System.out.println(answer);
     }
 }
