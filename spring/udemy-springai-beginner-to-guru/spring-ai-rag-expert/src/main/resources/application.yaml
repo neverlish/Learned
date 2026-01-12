@@ -1,16 +1,28 @@
 spring:
   application:
     name: spring-ai-rag-expert
-#Pass API key as environment variable, e.g. -DOPENAI_API_KEY=your-api-key
+  #Pass API key as environment variable, e.g. -DOPENAI_API_KEY=your-api-key
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
       embedding:
-       options:
-         model: text-embedding-3-small
+        options:
+          model: text-embedding-3-small
       chat:
         options:
           model: gpt-4-turbo
+    vectorstore:
+      milvus:
+        client:
+          host: "localhost"
+          port: 19530
+          username: "root"
+          password: "milvus"
+        databaseName: "default"
+        collectionName: "vector_store"
+        embeddingDimension: 1536
+        indexType: IVF_FLAT
+        metricType: COSINE
 sfg:
   aiapp:
     vectorStorePath: /tmp/vectorstore.json
