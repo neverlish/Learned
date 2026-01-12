@@ -5,10 +5,12 @@ import guru.springframework.springaifunctions.functions.WeatherServiceFunction;
 import guru.springframework.springaifunctions.model.Answer;
 import guru.springframework.springaifunctions.model.Question;
 import guru.springframework.springaifunctions.model.WeatherRequest;
+import guru.springframework.springaifunctions.model.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.model.ModelOptionsUtils;
 import org.springframework.ai.model.function.FunctionCallback;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
@@ -36,6 +38,11 @@ public class OpenAIServiceImpl implements OpenAIService {
                         .function("CurrentWeather", new WeatherServiceFunction(apiNinjasKey))
                         .description("Get the current weather for a location")
                         .inputType(WeatherRequest.class)
+                        .responseConverter(response -> {
+                            String schema = ModelOptionsUtils.getJsonSchema(WeatherResponse.class, false);
+                            String json = ModelOptionsUtils.toJsonString(response);
+                            return schema + "\n" + json;
+                        })
                         .build()))
                 .build();
 
