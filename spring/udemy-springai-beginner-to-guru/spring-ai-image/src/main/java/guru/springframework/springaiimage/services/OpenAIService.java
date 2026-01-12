@@ -5,5 +5,5 @@ import guru.springframework.springaiimage.model.Question;
 
 public interface OpenAIService {
 
-    Object getImage(Question question);
+    byte[] getImage(Question question);
 }

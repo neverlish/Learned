@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class OpenAIServiceImpl implements OpenAIService {
 
     @Override
-    public Object getImage(Question question) {
+    public byte[] getImage(Question question) {
 
-       return new Object();
+       return null;
     }
 }
