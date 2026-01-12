@@ -8,3 +8,6 @@ spring:
       chat:
         options:
           model: gpt-4
+sfg:
+  aiapp:
+    apiNinjasKey: ${API_NINJAS_KEY}
