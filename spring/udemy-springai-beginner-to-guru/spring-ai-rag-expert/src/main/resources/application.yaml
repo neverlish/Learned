@@ -23,6 +23,7 @@ spring:
         embeddingDimension: 1536
         indexType: IVF_FLAT
         metricType: COSINE
+        initialize-schema: true
 sfg:
   aiapp:
     vectorStorePath: /tmp/vectorstore.json
