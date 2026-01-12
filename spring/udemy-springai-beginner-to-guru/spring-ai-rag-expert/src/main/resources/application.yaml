@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: spring-ai-rag-expert
+#Pass API key as environment variable, e.g. -DOPENAI_API_KEY=your-api-key
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      embedding:
+       options:
+         model: text-embedding-3-small
+      chat:
+        options:
+          model: gpt-4-turbo
+sfg:
+  aiapp:
+    vectorStorePath: /tmp/vectorstore.json
+    documentsToLoad:
+      - classpath:/movies500Trimmed.csv
