@@ -4,6 +4,7 @@ import guru.springframework.springaiimage.model.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.image.ImagePrompt;
+import org.springframework.ai.openai.OpenAiImageModel;
 import org.springframework.ai.openai.OpenAiImageOptions;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 @Service
 public class OpenAIServiceImpl implements OpenAIService {
-    private final ImageModel imageModel;
+    private final OpenAiImageModel imageModel;
 
     @Override
     public byte[] getImage(Question question) {
@@ -20,6 +21,8 @@ public class OpenAIServiceImpl implements OpenAIService {
                 .withHeight(1024).withWidth(1024)
                 .withResponseFormat("b64_json")
                 .withModel("dall-e-3")
+                .withQuality("hd")
+                .withStyle("natural")
                 .build();
 
         ImagePrompt imagePrompt = new ImagePrompt(question.question(), options);
