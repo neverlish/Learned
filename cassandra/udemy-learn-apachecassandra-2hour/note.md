@@ -72,3 +72,82 @@ AND publish_year > 2008 AND publish_year <2021;
 - SELECT * FROM books_by_author
 WHERE author_name='James peterson'
 AND book_name='Cross Country';
+
+## 8 Data Types Hands on
+- ALTER TABLE books_by_author
+ADD book_timeuuid TIMEUUID;
+- INSERT INTO books_by_author
+(author_name, publish_year, book_id, book_timeuuid, book_name, rating)
+VALUES('Tony',2017,uuid(),now(), 'Crust',4);
+- Select * from books_by_author where author_name='Tony';
+
+- ALTER TABLE books_by_author
+ADD emails SET<TEXT>;
+- DESCRIBE books_by_author;
+- UPDATE books_by_author
+	SET emails = {'michael@gmail.com', 'michael@yahoo.com'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET emails = emails + {'michael1234@yahoo.com', 'michael@gmail.com'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET emails = emails - {'michael1234@yahoo.com'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET emails = { }
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+
+- ALTER TABLE books_by_author
+ADD phone LIST<TEXT>;
+- UPDATE books_by_author
+	SET phone = ['1-180-11100']
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET phone = phone + ['1-180-11101']
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET phone[1] = '1-180-11102'
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+
+- UPDATE books_by_author
+	SET phone = phone - ['1-180-11101']
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET phone = []
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+
+- ALTER TABLE books_by_author
+ADD family MAP<TEXT,TEXT>;
+- UPDATE books_by_author
+	SET family = {'Wife': 'Sanya', 'Sibling': 'John'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET family = family + {'Son': 'Albert'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
+- UPDATE books_by_author
+	SET family = family - {'Wife'}
+	WHERE author_name='Michael Anderson'
+AND publish_year=2017
+AND rating=4;
