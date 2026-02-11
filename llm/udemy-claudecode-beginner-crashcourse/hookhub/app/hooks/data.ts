@@ -1,0 +1,118 @@
+import { Hook } from './types';
+
+export const hooks: Hook[] = [
+  {
+    id: 'github-mcp-server',
+    name: 'GitHub MCP Server',
+    category: 'Development Tools',
+    description: 'Official GitHub integration for seamless repository management, issue tracking, and pull request workflows.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/github',
+  },
+  {
+    id: 'claude-code-mcp',
+    name: 'Claude Code MCP',
+    category: 'Automation',
+    description: 'One-shot mode automation for running Claude Code tasks programmatically with predefined prompts.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/claude-code',
+  },
+  {
+    id: 'claude-mcp-community',
+    name: 'Claude MCP Community',
+    category: 'Documentation',
+    description: 'Central documentation hub for the MCP ecosystem with guides, examples, and best practices.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers',
+  },
+  {
+    id: 'claude-server-context',
+    name: 'Claude Server',
+    category: 'Context Management',
+    description: 'Advanced context management system for maintaining conversation history and project awareness.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/context',
+  },
+  {
+    id: 'postgresql-mcp-server',
+    name: 'PostgreSQL MCP Server',
+    category: 'Database',
+    description: 'Direct PostgreSQL database queries with connection pooling and schema introspection capabilities.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/postgres',
+  },
+  {
+    id: 'filesystem-mcp-server',
+    name: 'Filesystem MCP Server',
+    category: 'Development Tools',
+    description: 'Secure file system operations with configurable access controls and directory whitelisting.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem',
+  },
+  {
+    id: 'slack-mcp-server',
+    name: 'Slack MCP Server',
+    category: 'API',
+    description: 'Send messages and interact with Slack workspaces for team communication and notifications.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/slack',
+  },
+  {
+    id: 'google-maps-mcp-server',
+    name: 'Google Maps MCP Server',
+    category: 'API',
+    description: 'Location services integration for geocoding, directions, and place search functionality.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/google-maps',
+  },
+  {
+    id: 'puppeteer-mcp-server',
+    name: 'Puppeteer MCP Server',
+    category: 'Automation',
+    description: 'Browser automation for web scraping, testing, and generating screenshots or PDFs.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer',
+  },
+  {
+    id: 'brave-search-mcp-server',
+    name: 'Brave Search MCP Server',
+    category: 'API',
+    description: 'Privacy-focused web search integration using Brave Search API for real-time information.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search',
+  },
+  {
+    id: 'sqlite-mcp-server',
+    name: 'SQLite MCP Server',
+    category: 'Database',
+    description: 'Lightweight SQLite database management with query execution and table introspection.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/sqlite',
+  },
+  {
+    id: 'memory-mcp-server',
+    name: 'Memory MCP Server',
+    category: 'Context Management',
+    description: 'Persistent context storage for maintaining information across Claude conversations.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/memory',
+  },
+  {
+    id: 'github-issues-mcp-server',
+    name: 'GitHub Issues MCP Server',
+    category: 'Development Tools',
+    description: 'Specialized GitHub Issues integration for creating, updating, and managing issue workflows.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/github-issues',
+  },
+  {
+    id: 'fetch-mcp-server',
+    name: 'Fetch MCP Server',
+    category: 'API',
+    description: 'HTTP client for making web requests with support for various authentication methods.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/fetch',
+  },
+  {
+    id: 'aws-mcp-server',
+    name: 'AWS MCP Server',
+    category: 'Development Tools',
+    description: 'Amazon Web Services integration for managing cloud resources, S3, EC2, and Lambda functions.',
+    repoUrl: 'https://github.com/modelcontextprotocol/servers/tree/main/src/aws',
+  },
+];
+
+export const categoryColors: { [key: string]: string } = {
+  'Development Tools': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  'Database': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  'API': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+  'Automation': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+  'Documentation': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+  'Context Management': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
+};
