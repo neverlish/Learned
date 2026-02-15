@@ -1,6 +1,25 @@
+import os
+
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 def generate_x_post(usr_input: str) -> str:
-    # Call AI / LLM
-    pass
+    payload = {
+        "model": "gpt-4",
+        "input": "..."
+    }
+    response = requests.post(
+        "https://api.openai.com/v1/responses",
+        json=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
+        }
+    )
 
 def main():
     print("Hello from essentials!")
