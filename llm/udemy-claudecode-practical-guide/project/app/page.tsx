@@ -1,10 +1,26 @@
+import Link from "next/link";
+
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <main className="text-center">
-        <h1 className="text-4xl font-bold">Landing Page</h1>
-        <p className="mt-4 text-muted-foreground">Marketing / Log in or Sign up CTA</p>
-      </main>
-    </div>
-  );
+	return (
+		<div className="flex min-h-screen items-center justify-center">
+			<main className="text-center">
+				<h1 className="text-4xl font-bold">Note Taking App</h1>
+				<p className="mt-4 text-muted-foreground">Your thoughts, organized.</p>
+				<div className="mt-8 flex gap-4 justify-center">
+					<Link
+						href="/auth?mode=login"
+						className="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
+					>
+						Log In
+					</Link>
+					<Link
+						href="/auth?mode=signup"
+						className="rounded-md border px-6 py-2 font-medium"
+					>
+						Sign Up
+					</Link>
+				</div>
+			</main>
+		</div>
+	);
 }
