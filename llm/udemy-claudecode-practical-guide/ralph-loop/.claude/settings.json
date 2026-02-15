@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "dangerouslySkipPermissions": true
+  },
+  "sandbox": {
+    "enabled": true
+  }
+}
