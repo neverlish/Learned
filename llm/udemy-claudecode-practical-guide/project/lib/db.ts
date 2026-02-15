@@ -1,38 +1,45 @@
+import initSqlJs, { Database as SqlJsDatabase } from 'sql.js';
+
 const DB_PATH = process.env.DB_PATH || 'data/app.db';
 
-let db: unknown;
-let dbModule: any = null;
+let dbInstance: SqlJsDatabase | null = null;
+let SQL: any = null;
 
-function getDbModule() {
-  if (!dbModule) {
-    dbModule = require('bun:sqlite');
-  }
-  return dbModule;
+async function initSql() {
+	if (!SQL) {
+		SQL = await initSqlJs();
+	}
+	return SQL;
 }
 
-export function getDb(): unknown {
-  if (!db) {
-    const { Database } = getDbModule();
-    db = new Database(DB_PATH);
-    // Enable WAL mode for better concurrency
-    (db as any).exec('PRAGMA journal_mode = WAL;');
-    (db as any).exec('PRAGMA foreign_keys = ON;');
-    initializeTables(db as any);
-  }
-  return db;
+// Sync wrapper that throws if not initialized
+function getDbSync(): SqlJsDatabase {
+	if (!dbInstance) {
+		throw new Error('Database not initialized. Call initDb() first.');
+	}
+	return dbInstance;
 }
 
-interface Database {
-  exec(sql: string): void;
-  prepare(sql: string): {
-    all(...params: unknown[]): unknown[];
-    get(...params: unknown[]): unknown | undefined;
-    run(...params: unknown[]): void;
-  };
+// Async initialization
+export async function initDb(): Promise<void> {
+	if (!dbInstance) {
+		const SQL = await initSql();
+		const fs = await import('fs');
+		try {
+			const buffer = fs.readFileSync(DB_PATH);
+			dbInstance = new SQL.Database(buffer);
+		} catch (error) {
+			// File doesn't exist, create new database
+			dbInstance = new SQL.Database();
+		}
+		// Enable foreign keys
+		dbInstance.run('PRAGMA foreign_keys = ON;');
+		initializeTables(dbInstance);
+	}
 }
 
-function initializeTables(database: any): void {
-  database.exec(`
+function initializeTables(database: SqlJsDatabase): void {
+	database.run(`
 		CREATE TABLE IF NOT EXISTS user (
 			id TEXT PRIMARY KEY,
 			name TEXT NOT NULL,
@@ -99,22 +106,54 @@ function initializeTables(database: any): void {
 	`);
 }
 
+async function saveDb(): Promise<void> {
+	if (dbInstance) {
+		const fs = await import('fs');
+		const data = dbInstance.export();
+		const buffer = Buffer.from(data);
+		fs.writeFileSync(DB_PATH, buffer);
+	}
+}
+
+// Sync wrapper for better-auth compatibility
+export function getDb(): SqlJsDatabase {
+	return getDbSync();
+}
+
 export function query<T = unknown>(sql: string, params?: unknown[]): T[] {
-  const database = getDb() as Database;
-  const statement = database.prepare(sql);
-  const results = statement.all(...(params || []));
-  return results as T[];
+	const database = getDbSync();
+	const results = database.exec(sql, params);
+	if (results.length === 0) return [];
+
+	const columns = results[0].columns;
+	const values = results[0].values;
+
+	return values.map((row: any[]) => {
+		const obj: any = {};
+		columns.forEach((col: string, i: number) => {
+			obj[col] = row[i];
+		});
+		return obj as T;
+	});
 }
 
 export function get<T = unknown>(sql: string, params?: unknown[]): T | undefined {
-  const database = getDb() as Database;
-  const statement = database.prepare(sql);
-  const result = statement.get(...(params || []));
-  return result as T | undefined;
+	const database = getDbSync();
+	const results = database.exec(sql, params);
+	if (results.length === 0 || results[0].values.length === 0) return undefined;
+
+	const columns = results[0].columns;
+	const row = results[0].values[0];
+	const obj: any = {};
+	columns.forEach((col: string, i: number) => {
+		obj[col] = row[i];
+	});
+	return obj as T;
 }
 
 export function run(sql: string, params?: unknown[]): void {
-  const database = getDb() as Database;
-  const statement = database.prepare(sql);
-  statement.run(...(params || []));
+	const database = getDbSync();
+	database.run(sql, params);
+	// Save asynchronously, don't wait
+	saveDb().catch(console.error);
 }

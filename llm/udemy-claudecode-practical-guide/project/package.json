@@ -18,6 +18,7 @@
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "sql.js": "^1.14.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sql.js": "^1.4.9",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "oxfmt": "^0.32.0",
