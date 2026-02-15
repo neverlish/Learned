@@ -2,32 +2,45 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Development Commands
+## Project Overview
 
-- `npm run dev` - Start development server (http://localhost:3000)
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
+HookHub is a Next.js 15.4.6 application using the App Router architecture with TypeScript and Tailwind CSS.
 
-## Tech Stack
+## Essential Commands
 
-- **Next.js 16** with App Router (app/ directory structure)
-- **React 19** with TypeScript 5
-- **Tailwind CSS v4** with PostCSS integration
-- **Geist fonts** (Sans and Mono) loaded via `next/font/google`
+```bash
+# Development
+npm run dev         # Start development server on http://localhost:3000
 
-## Project Structure
+# Production
+npm run build       # Create production build
+npm run start       # Start production server
 
-```
-app/
-├── layout.tsx       # Root layout with font configuration and dark mode
-├── page.tsx         # Home page component
-└── globals.css      # Tailwind imports, CSS variables for theming
+# Code Quality
+npm run lint        # Run ESLint
 ```
 
-## Key Configuration Details
+## Architecture
 
-- **Path alias**: `@/*` maps to project root (configured in tsconfig.json)
-- **Dark mode**: CSS variables in `globals.css` with `prefers-color-scheme` media query
-- **ESLint**: Uses `eslint-config-next` with TypeScript and Core Web Vitals presets
-- **Font variables**: `--font-geist-sans` and `--font-geist-mono` exposed via Tailwind theme
+- **Framework**: Next.js 15.4.6 with App Router
+- **Structure**: All application code lives in `src/app/`
+- **Styling**: Tailwind CSS 4.x (no custom config file - uses defaults)
+- **TypeScript**: Configured with path aliases (`@/*` → `./src/*`)
+
+## Key Files
+
+- `src/app/layout.tsx` - Root layout with Geist font setup
+- `src/app/page.tsx` - Home page component
+- `src/app/globals.css` - Global styles and Tailwind directives
+
+## Development Notes
+
+- No test framework is currently set up
+- Uses npm as package manager (package-lock.json present)
+- ESLint configured with Next.js defaults
+- Supports both light and dark modes via Tailwind
+
+## Testing Strategy
+
+- Use Playwright MCP for UI testing
+- Save screenshots in `/memory/screenshots` directory

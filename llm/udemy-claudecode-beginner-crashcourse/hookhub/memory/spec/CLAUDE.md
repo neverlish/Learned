@@ -1,158 +1,295 @@
-# HookHub MVP Specification
+# HookHub - Product Specification
 
 ## Project Overview
 
-**HookHub** is a showcase platform for discovering and browsing open-source Claude hooks (MCP servers). The MCP (Model Context Protocol) ecosystem enables community-built servers that connect Claude to GitHub, databases, filesystems, and 200+ other tools.
+**HookHub** is a community-driven platform for discovering, browsing, and sharing open-source Claude Code hooks. It serves as a centralized repository where developers can find pre-built hooks to enhance their Claude Code workflows, improve productivity, and implement best practices.
 
-**Goal**: Create a clean, minimal showcase site for Claude hooks
-**Scope**: MVP - Display only, no user submissions, no authentication, no search/filtering
-**Target Audience**: Developers looking to discover useful Claude hooks
+### Vision
+To become the go-to resource for Claude Code users seeking hook implementations, fostering a collaborative ecosystem where developers share their custom hooks and workflows.
+
+### Target Audience
+- Claude Code users looking for ready-to-use hooks
+- Developers wanting to share their hook implementations
+- Teams seeking standardized Claude Code workflows
+- Users new to Claude Code hooks wanting to learn from examples
+
+## MVP Scope
+
+### In Scope (MVP)
+- **Display-only functionality** - Browse and view existing hooks
+- **Grid-based hook gallery** - Visual presentation of available hooks
+- **Basic categorization** - Organize hooks by type/purpose
+- **GitHub integration** - Link to source repositories
+- **Search functionality** - Find hooks by name or description
+- **Responsive design** - Works on desktop and mobile devices
+
+### Out of Scope (MVP)
+- User authentication/accounts
+- Hook submission forms
+- Rating/review system
+- Comments/discussions
+- Hook testing/validation
+- Direct installation features
+- User profiles
+- Analytics/usage tracking
 
 ## Data Model
 
-### Hook Schema
+### Hook Entity
 ```typescript
 interface Hook {
-  id: string;              // Unique identifier (e.g., "github-mcp-server")
-  name: string;            // Display name (e.g., "GitHub MCP Server")
-  category: string;        // Category (e.g., "Development Tools", "Database", "API")
-  description: string;     // Short description (1-2 sentences)
-  repoUrl: string;         // Link to GitHub repository
-  stars?: number;          // Optional: GitHub star count (future)
-  author?: string;         // Optional: Repository owner/author (future)
-  tags?: string[];         // Optional: Additional tags (future)
+  id: string;                    // Unique identifier
+  name: string;                   // Display name (e.g., "Multi-Agent Observer")
+  category: HookCategory;         // Category enum
+  description: string;            // Brief description (max 200 chars)
+  githubUrl: string;             // Full GitHub repository URL
+  author: string;                // GitHub username/organization
+  stars?: number;                // GitHub stars (cached)
+  language: string;              // Primary language (Python, JS, etc.)
+  hookTypes: HookType[];         // Types of hooks implemented
+  lastUpdated?: Date;            // Last repository update
+  featured?: boolean;            // Admin-curated featured status
+}
+
+enum HookCategory {
+  MONITORING = "Monitoring & Observability",
+  SECURITY = "Security & Validation",
+  WORKFLOW = "Workflow Automation",
+  TESTING = "Testing & Quality",
+  INTEGRATION = "External Integration",
+  UTILITY = "Utilities & Helpers",
+  LEARNING = "Learning & Examples",
+  TEAM = "Team Collaboration"
+}
+
+enum HookType {
+  PRE_TOOL_USE = "PreToolUse",
+  POST_TOOL_USE = "PostToolUse",
+  USER_PROMPT_SUBMIT = "UserPromptSubmit",
+  NOTIFICATION = "Notification",
+  STOP = "Stop",
+  SUBAGENT_STOP = "SubagentStop",
+  SUBAGENT_START = "SubagentStart",
+  SUBAGENT_STREAM = "SubagentStream"
 }
 ```
 
-### Category Color Mapping
-| Category | Color |
-|----------|-------|
-| Development Tools | Blue |
-| Database | Green |
-| API | Purple |
-| Automation | Orange |
-| Documentation | Gray |
-| Context Management | Pink |
-
-## UI/UX Specifications
+## UI/UX Requirements
 
 ### Main Page Layout
-- **Header**: Logo/brand name "HookHub" + tagline "Discover Claude Hooks"
-- **Hero Section**: Brief description of what Claude hooks are
-- **Grid Display**: Responsive grid of hook cards
-- **Footer**: Simple footer with credits
 
-### Hook Card Design
-Each hook card displays:
-1. **Hook Name** - Bold, prominent
-2. **Category Badge** - Small, color-coded by category
-3. **Description** - 2-3 lines max
-4. **Repository Link** - External link icon + "View Repository" button
+#### Header
+- **Logo/Title**: "HookHub" with tagline "Discover Claude Code Hooks"
+- **Search Bar**: Prominent search functionality
+- **Category Filter**: Dropdown or tag-based filtering
+- **View Toggle**: Grid/List view options (future enhancement)
 
-### Responsive Grid
-- **Desktop**: 3 columns (`lg:grid-cols-3`)
-- **Tablet**: 2 columns (`md:grid-cols-2`)
-- **Mobile**: 1 column (`grid-cols-1`)
+#### Hero Section
+- Brief explanation of what Claude Code hooks are
+- Quick start guide link
+- "Browse All Hooks" CTA button
 
-### Styling Approach
-- Follow existing dark mode patterns in `globals.css`
-- Use Tailwind CSS v4 utility classes
-- Card hover effects: subtle elevation/scale
-- Consistent spacing: `gap-6` between grid items
-- Card padding: `p-6`
+#### Hook Grid
+- **Card Layout**: 
+  - 3-4 columns on desktop
+  - 2 columns on tablet
+  - 1 column on mobile
+- **Card Components**:
+  - Hook name (prominent)
+  - Category badge (color-coded)
+  - Description (truncated to 2 lines)
+  - Author/Organization
+  - GitHub stars count
+  - Language badge
+  - Hook types (as small tags)
+  - "View on GitHub" button
 
-## File Structure
+#### Filter Sidebar (Desktop) / Filter Modal (Mobile)
+- Category checkboxes
+- Hook type selection
+- Language filter
+- Sort options (stars, recent, alphabetical)
+
+### Design Principles
+- **Clean & Minimal**: Focus on content, reduce visual clutter
+- **Fast Loading**: Optimize for quick browsing
+- **Accessible**: WCAG 2.1 AA compliance
+- **Responsive**: Mobile-first approach
+- **Dark Mode Support**: Toggle for light/dark themes
+
+## Technical Architecture
+
+### Frontend Stack (Recommended)
 ```
-app/
-├── layout.tsx           # Root layout with metadata
-├── page.tsx             # Home page with hooks grid
-├── globals.css          # Tailwind imports, dark mode styles
-└── hooks/
-    ├── types.ts         # TypeScript interfaces
-    └── data.ts          # Hook data array
-components/
-└── hook-card.tsx        # Reusable hook card component
-memory/
-└── spec.md              # This specification file
+- Framework: Next.js 14+ (App Router)
+- Language: TypeScript
+- Styling: TailwindCSS
+- UI Components: shadcn/ui
+- Icons: Lucide React
+- State Management: Zustand (if needed)
 ```
 
-## MVP Scope - Included
+### Data Source (MVP)
+```
+- Static JSON file with curated hooks
+- GitHub API for live stats (cached)
+- No backend required for MVP
+```
 
-- Display hooks in responsive grid
-- Hook cards with name, category, description, repo link
-- Dark mode support (already in place)
-- Responsive design (mobile/tablet/desktop)
-- 15 sample hooks to populate the grid
-- Clean, minimal design
-- External links with proper attributes
+### Deployment
+```
+- Platform: Vercel (optimal for Next.js)
+- CDN: Vercel Edge Network
+- Analytics: Vercel Analytics (basic)
+```
 
-## Out of Scope (Future Iterations)
+## User Stories
 
-- Search functionality
-- Filtering by category
-- Sorting options
+### Essential User Stories (MVP)
+
+1. **Browse All Hooks**
+   - As a user, I want to see all available hooks in a grid layout
+   - Acceptance: Display at least 20 curated hooks
+
+2. **Search Hooks**
+   - As a user, I want to search hooks by name or description
+   - Acceptance: Real-time search with highlighting
+
+3. **Filter by Category**
+   - As a user, I want to filter hooks by category
+   - Acceptance: Multi-select category filtering
+
+4. **View Hook Details**
+   - As a user, I want to see detailed information about a hook
+   - Acceptance: Expand card or modal with full details
+
+5. **Visit GitHub Repository**
+   - As a user, I want to access the hook's source code
+   - Acceptance: Direct link to GitHub repo
+
+6. **Mobile Browsing**
+   - As a mobile user, I want to browse hooks on my phone
+   - Acceptance: Responsive design with touch-friendly interface
+
+## Initial Hook Collection
+
+### Featured Hooks to Include (MVP)
+Based on research, these popular repositories should be featured:
+
+1. **claude-code-hooks-mastery** (disler)
+   - Category: Workflow Automation
+   - Complete hook lifecycle implementation
+
+2. **claude-code-hooks-multi-agent-observability** (disler)
+   - Category: Monitoring & Observability
+   - Real-time agent tracking
+
+3. **cchooks** (GowayLee)
+   - Category: Utilities & Helpers
+   - Lightweight Python SDK
+
+4. **claude-code-hooks-sdk** (beyondcode)
+   - Category: Utilities & Helpers
+   - Laravel-inspired PHP SDK
+
+5. **claude-hub** (claude-did-this)
+   - Category: External Integration
+   - GitHub webhook service
+
+## Implementation Phases
+
+### Phase 1: MVP (Week 1-2)
+- Static site with curated hooks
+- Basic search and filtering
+- Responsive grid layout
+- Deploy to Vercel
+
+### Phase 2: Enhancement (Week 3-4)
+- GitHub API integration for live stats
+- Advanced filtering options
+- Hook detail pages
+- SEO optimization
+
+### Phase 3: Community Features (Future)
 - User submissions
-- Authentication
-- Hook submission form
-- Star count display
-- Detailed hook pages
-- Comments/ratings
+- Rating system
+- Comments/discussions
+- Hook validation
 
-## Sample Hooks Data
+## Success Metrics
 
-Initial hook candidates:
-1. GitHub MCP Server - Official GitHub integration
-2. Claude Code MCP - One-shot mode automation
-3. Claude MCP Community - Documentation hub
-4. Claude Server - Context management
-5. PostgreSQL MCP Server - Database queries
-6. Filesystem MCP Server - File operations
-7. Slack MCP Server - Team communication
-8. Google Maps MCP Server - Location services
-9. Puppeteer MCP Server - Browser automation
-10. Brave Search MCP Server - Web search
-11. SQLite MCP Server - Database management
-12. Memory MCP Server - Persistent context
-13. GitHub Issues MCP Server - Issue tracking
-14. Fetch MCP Server - HTTP requests
-15. AWS MCP Server - Cloud services
+### MVP Success Criteria
+- [ ] Display 20+ curated hooks
+- [ ] Search functionality works
+- [ ] Category filtering works
+- [ ] Mobile responsive
+- [ ] All GitHub links functional
+- [ ] Page loads under 2 seconds
+- [ ] Deployed and accessible
 
-## Technical Stack
+## Future Considerations
 
-- **Next.js 16** with App Router
-- **React 19** with TypeScript 5
-- **Tailwind CSS v4** with PostCSS
-- **Geist fonts** (Sans and Mono)
+### Post-MVP Features
+1. **Hook Submission Portal**: Allow community submissions
+2. **Interactive Preview**: Code snippets with syntax highlighting
+3. **Installation Guide**: Step-by-step setup instructions
+4. **Compatibility Matrix**: Claude Code version compatibility
+5. **Hook Playground**: Test hooks in sandbox environment
+6. **API Access**: Programmatic access to hook database
+7. **Hook Collections**: Curated bundles for specific workflows
+8. **Documentation Hub**: Comprehensive hook development guides
 
-## Development Commands
+### Monetization Options (Long-term)
+- Premium hooks marketplace
+- Enterprise hook collections
+- Sponsored featured placements
+- Hook development services
 
-```bash
-npm run dev    # Start development server (http://localhost:3000)
-npm run build  # Build for production
-npm start      # Start production server
-npm run lint   # Run ESLint
+## Technical Decisions
+
+### Why These Choices?
+
+**Next.js + TypeScript**: 
+- Excellent SEO capabilities
+- Strong typing for maintainability
+- Great developer experience
+- Vercel integration
+
+**TailwindCSS + shadcn/ui**:
+- Rapid UI development
+- Consistent design system
+- Accessible components
+- Community standard
+
+**Static JSON (MVP)**:
+- No backend complexity
+- Fast performance
+- Easy updates via Git
+- Cost-effective
+
+## Appendix
+
+### Sample Hook Data Structure
+```json
+{
+  "hooks": [
+    {
+      "id": "claude-code-hooks-mastery",
+      "name": "Claude Code Hooks Mastery",
+      "category": "WORKFLOW",
+      "description": "Complete hook lifecycle implementation with deterministic control over Claude Code's behavior",
+      "githubUrl": "https://github.com/disler/claude-code-hooks-mastery",
+      "author": "disler",
+      "stars": 234,
+      "language": "Python",
+      "hookTypes": ["PRE_TOOL_USE", "POST_TOOL_USE", "USER_PROMPT_SUBMIT"],
+      "featured": true
+    }
+  ]
+}
 ```
 
-## Verification Checklist
-
-- [ ] All hooks display in grid layout
-- [ ] Cards show name, category, description, repo link
-- [ ] Responsive layout (1/2/3 columns)
-- [ ] External links open in new tabs
-- [ ] Dark mode displays properly
-- [ ] No console errors
-- [ ] TypeScript compiles without errors
-- [ ] Semantic HTML structure
-- [ ] Proper heading hierarchy
-- [ ] Keyboard navigation works
-- [ ] Sufficient color contrast
-
-## Future Enhancements
-
-1. Add category filtering
-2. Implement search functionality
-3. Add hook submission form
-4. Include GitHub API integration for live star counts
-5. Create individual hook detail pages
-6. Add user authentication and submissions
-7. Implement rating/comment system
+### References
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/hooks)
+- [Awesome Claude Code](https://github.com/hesreallyhim/awesome-claude-code)
+- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
