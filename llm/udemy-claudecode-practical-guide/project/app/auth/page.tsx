@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { signInSchema, signUpSchema } from "@/lib/schemas";
 
 export default function AuthPage() {
 	const searchParams = useSearchParams();
@@ -23,24 +24,47 @@ export default function AuthPage() {
 
 		try {
 			if (isLogin) {
+				// Validate input
+				const result = signInSchema.safeParse({ email, password });
+				if (!result.success) {
+					setError(result.error.errors[0].message);
+					return;
+				}
+
 				await authClient.signIn.email(
 					{ email, password, callbackURL: "/dashboard" },
 					{
 						onError: (ctx) => {
-							setError(ctx.error.message);
+							// Sanitize error message - don't expose internal details
+							setError("Invalid email or password");
 						},
 					},
 				);
 			} else {
+				// Validate input
+				const result = signUpSchema.safeParse({ email, password, name });
+				if (!result.success) {
+					setError(result.error.errors[0].message);
+					return;
+				}
+
 				await authClient.signUp.email(
 					{ email, password, name, callbackURL: "/dashboard" },
 					{
 						onError: (ctx) => {
-							setError(ctx.error.message);
+							// Sanitize error message - check for common errors
+							const msg = ctx.error.message.toLowerCase();
+							if (msg.includes("email") || msg.includes("user")) {
+								setError("An account with this email already exists");
+							} else {
+								setError("Failed to create account. Please try again.");
+							}
 						},
 					},
 				);
 			}
+		} catch {
+			setError("An unexpected error occurred. Please try again.");
 		} finally {
 			setLoading(false);
 		}
@@ -48,9 +72,11 @@ export default function AuthPage() {
 
 	return (
 		<div className="flex min-h-screen items-center justify-center">
-			<main className="w-full max-w-md space-y-8 rounded-lg border bg-card p-8 shadow-lg">
+			<main className="w-full max-w-md space-y-8 rounded-lg border border-border bg-card p-8 shadow-lg">
 				<div className="text-center">
-					<h1 className="text-2xl font-bold">{isLogin ? "Welcome Back" : "Create Account"}</h1>
+					<h1 className="text-2xl font-bold text-foreground">
+						{isLogin ? "Welcome Back" : "Create Account"}
+					</h1>
 					<p className="mt-2 text-muted-foreground">
 						{isLogin ? "Sign in to your account" : "Sign up to get started"}
 					</p>
@@ -59,7 +85,7 @@ export default function AuthPage() {
 				<form onSubmit={handleSubmit} className="space-y-4">
 					{!isLogin && (
 						<div>
-							<label htmlFor="name" className="mb-1 block text-sm font-medium">
+							<label htmlFor="name" className="mb-1 block text-sm font-medium text-foreground">
 								Name
 							</label>
 							<input
@@ -70,12 +96,13 @@ export default function AuthPage() {
 								placeholder="Your name"
 								className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 								required
+								maxLength={100}
 							/>
 						</div>
 					)}
 
 					<div>
-						<label htmlFor="email" className="mb-1 block text-sm font-medium">
+						<label htmlFor="email" className="mb-1 block text-sm font-medium text-foreground">
 							Email
 						</label>
 						<input
@@ -86,11 +113,12 @@ export default function AuthPage() {
 							placeholder="you@example.com"
 							className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 							required
+							autoComplete="email"
 						/>
 					</div>
 
 					<div>
-						<label htmlFor="password" className="mb-1 block text-sm font-medium">
+						<label htmlFor="password" className="mb-1 block text-sm font-medium text-foreground">
 							Password
 						</label>
 						<input
@@ -102,6 +130,7 @@ export default function AuthPage() {
 							className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 							required
 							minLength={8}
+							autoComplete={isLogin ? "current-password" : "new-password"}
 						/>
 					</div>
 
