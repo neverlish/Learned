@@ -1,22 +1,37 @@
-import { Database } from "bun:sqlite";
-
 const DB_PATH = process.env.DB_PATH || "data/app.db";
 
-let db: Database;
+let db: unknown;
+let dbModule: any = null;
 
-export function getDb(): Database {
+function getDbModule() {
+	if (!dbModule) {
+		dbModule = require("bun:sqlite");
+	}
+	return dbModule;
+}
+
+export function getDb(): unknown {
 	if (!db) {
+		const { Database } = getDbModule();
 		db = new Database(DB_PATH);
 		// Enable WAL mode for better concurrency
-		db.exec("PRAGMA journal_mode = WAL;");
-		db.exec("PRAGMA foreign_keys = ON;");
-		initializeTables(db);
+		(db as any).exec("PRAGMA journal_mode = WAL;");
+		(db as any).exec("PRAGMA foreign_keys = ON;");
+		initializeTables(db as any);
 	}
 	return db;
 }
 
-function initializeTables(database: Database): void {
-	// Better-auth tables
+interface Database {
+	exec(sql: string): void;
+	prepare(sql: string): {
+		all(...params: unknown[]): unknown[];
+		get(...params: unknown[]): unknown | undefined;
+		run(...params: unknown[]): void;
+	};
+}
+
+function initializeTables(database: any): void {
 	database.exec(`
 		CREATE TABLE IF NOT EXISTS user (
 			id TEXT PRIMARY KEY,
@@ -85,21 +100,21 @@ function initializeTables(database: Database): void {
 }
 
 export function query<T = unknown>(sql: string, params?: unknown[]): T[] {
-	const database = getDb();
+	const database = getDb() as Database;
 	const statement = database.prepare(sql);
 	const results = statement.all(...(params || []));
 	return results as T[];
 }
 
 export function get<T = unknown>(sql: string, params?: unknown[]): T | undefined {
-	const database = getDb();
+	const database = getDb() as Database;
 	const statement = database.prepare(sql);
 	const result = statement.get(...(params || []));
 	return result as T | undefined;
 }
 
 export function run(sql: string, params?: unknown[]): void {
-	const database = getDb();
+	const database = getDb() as Database;
 	const statement = database.prepare(sql);
 	statement.run(...(params || []));
 }

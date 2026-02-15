@@ -27,10 +27,7 @@ export default function AuthPage() {
 					{ email, password, callbackURL: "/dashboard" },
 					{
 						onError: (ctx) => {
-							setError(ctx.error.message || "Sign in failed");
-						},
-						onSuccess: () => {
-							router.push("/dashboard");
+							setError(ctx.error.message);
 						},
 					},
 				);
@@ -39,10 +36,7 @@ export default function AuthPage() {
 					{ email, password, name, callbackURL: "/dashboard" },
 					{
 						onError: (ctx) => {
-							setError(ctx.error.message || "Sign up failed");
-						},
-						onSuccess: () => {
-							router.push("/dashboard");
+							setError(ctx.error.message);
 						},
 					},
 				);
@@ -50,10 +44,6 @@ export default function AuthPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
-
-	const toggleMode = () => {
-		router.push(isLogin ? "/auth?mode=signup" : "/auth?mode=login");
 	};
 
 	return (
@@ -78,7 +68,7 @@ export default function AuthPage() {
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 								placeholder="Your name"
-								className="w-full rounded-md border px-3 py-2"
+								className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 								required
 							/>
 						</div>
@@ -94,7 +84,7 @@ export default function AuthPage() {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder="you@example.com"
-							className="w-full rounded-md border px-3 py-2"
+							className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 							required
 						/>
 					</div>
@@ -109,7 +99,7 @@ export default function AuthPage() {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							placeholder="••••••••"
-							className="w-full rounded-md border px-3 py-2"
+							className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
 							required
 							minLength={8}
 						/>
@@ -133,7 +123,7 @@ export default function AuthPage() {
 				<div className="text-center text-sm">
 					<button
 						type="button"
-						onClick={toggleMode}
+						onClick={() => router.push(isLogin ? "/auth?mode=signup" : "/auth?mode=login")}
 						className="text-primary hover:underline"
 					>
 						{isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}

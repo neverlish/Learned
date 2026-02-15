@@ -53,4 +53,120 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* Ensure border color respects the theme */
+.border-b {
+  border-color: var(--border);
+}
+
+/* Card background utility */
+.bg-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+/* Muted foreground for secondary text */
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+/* Destructive color utility */
+.text-destructive {
+  color: var(--destructive);
+}
+
+/* Border utilities */
+.border-border {
+  border-color: var(--border);
+}
+
+/* Input utilities */
+.border-input {
+  border-color: var(--input);
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+ 	outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--muted-foreground);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror code {
+  background-color: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875em;
+}
+
+.ProseMirror pre {
+  background-color: var(--muted);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.ProseMirror pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror li {
+ 	margin: 0.25rem 0;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid var(--border);
+ 	margin: 1.5rem 0;
+}
+
+.ProseMirror p {
+ 	margin: 0.5rem 0;
+}
+
+.ProseMirror > *:first-child {
+  margin-top: 0;
+}
+
+.ProseMirror > *:last-child {
+  margin-bottom: 0;
 }
