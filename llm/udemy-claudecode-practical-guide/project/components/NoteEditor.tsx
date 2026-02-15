@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Code from "@tiptap/extension-code";
 import CodeBlock from "@tiptap/extension-code-block";
 import type { Content } from "@tiptap/react";
+import { useEffect } from "react";
 
 interface NoteEditorProps {
 	initialContent?: Content;
@@ -47,17 +48,31 @@ export default function NoteEditor({ initialContent, onChange }: NoteEditorProps
 			Code,
 			CodeBlock,
 		],
-		content: initialContent,
+		content: initialContent || { type: "doc", content: [] },
 		onUpdate: ({ editor }) => {
 			onChange?.(editor.getJSON());
 		},
 		editorProps: {
 			attributes: {
-				class:
-					"prose prose-sm max-w-none focus:outline-none min-h-[400px] px-4 py-3",
+				class: "focus:outline-none min-h-[400px] px-4 py-3",
 			},
 		},
 	});
+
+	// Update editor content when initialContent changes externally
+	useEffect(() => {
+		if (editor && initialContent) {
+			// Small delay to ensure editor is ready
+			const timeout = setTimeout(() => {
+				const currentJSON = editor.getJSON();
+				// Only update if content is meaningfully different
+				if (JSON.stringify(currentJSON) !== JSON.stringify(initialContent)) {
+					editor.commands.setContent(initialContent, false);
+				}
+			}, 0);
+			return () => clearTimeout(timeout);
+		}
+	}, [editor, initialContent]);
 
 	if (!editor) {
 		return null;

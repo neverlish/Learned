@@ -12,6 +12,12 @@ interface NoteEditorWrapperProps {
 	publicSlug: string | null;
 }
 
+// Type for TipTap JSON content
+type TipTapContent = {
+	type: string;
+	content?: unknown[];
+} | null;
+
 export default function NoteEditorWrapper({
 	noteId,
 	initialTitle,
@@ -21,7 +27,9 @@ export default function NoteEditorWrapper({
 }: NoteEditorWrapperProps) {
 	const router = useRouter();
 	const [title, setTitle] = useState(initialTitle);
-	const [content, setContent] = useState(initialContent);
+	const [content, setContent] = useState<TipTapContent>(
+		(initialContent || { type: "doc", content: [] }) as TipTapContent,
+	);
 	const [isPublicState, setIsPublicState] = useState(isPublic);
 	const [saving, setSaving] = useState(false);
 	const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -148,7 +156,8 @@ export default function NoteEditorWrapper({
 
 			{/* TipTap Editor */}
 			<NoteEditor
-				initialContent={content}
+				key={noteId}
+				initialContent={content || { type: "doc", content: [] }}
 				onChange={(newContent) => setContent(newContent)}
 			/>
 
@@ -181,10 +190,17 @@ export default function NoteEditorWrapper({
 					</button>
 					<button
 						type="button"
+						onClick={() => router.push(`/notes/${noteId}`)}
+						className="rounded-md border border-border bg-card px-4 py-2 font-medium text-foreground hover:bg-muted"
+					>
+						Done
+					</button>
+					<button
+						type="button"
 						onClick={deleteNote}
 						className="rounded-md bg-destructive px-4 py-2 font-medium text-destructive-foreground hover:bg-destructive/90"
 					>
-						Delete Note
+						Delete
 					</button>
 				</div>
 			</div>

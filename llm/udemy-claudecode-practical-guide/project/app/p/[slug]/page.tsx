@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getNoteByPublicSlug } from "@/lib/notes";
-import EditorContent from "@/components/EditorContent";
+import TipTapRenderer from "@/components/TipTapRenderer";
 
 interface PublicNotePageProps {
 	params: Promise<{ slug: string }>;
@@ -33,7 +33,7 @@ export default async function PublicNotePage({ params }: PublicNotePageProps) {
 			<main className="mx-auto max-w-4xl px-4 py-8">
 				<article className="rounded-lg border border-border bg-card p-8">
 					<h1 className="mb-6 text-3xl font-bold text-foreground">{note.title}</h1>
-					<EditorContent content={content} />
+					<TipTapRenderer content={content} />
 					<div className="mt-8 text-sm text-muted-foreground">
 						Public note shared via NoteApp
 					</div>

@@ -11,7 +11,7 @@ export default async function Dashboard() {
 		"use server";
 		const userSession = await requireSession();
 		const note = await createNote(userSession.user.id, {});
-		redirect(`/notes/${note.id}`);
+		redirect(`/notes/${note.id}/edit`);
 	}
 
 	return (
