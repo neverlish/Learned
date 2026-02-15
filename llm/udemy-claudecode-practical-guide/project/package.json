@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "oxfmt"
   },
   "dependencies": {
     "@tiptap/pm": "^3.19.0",
@@ -27,6 +28,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "oxfmt": "^0.32.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

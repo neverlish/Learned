@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -89,7 +89,7 @@ body {
 
 /* TipTap Editor Styles */
 .ProseMirror {
- 	outline: none;
+  outline: none;
   min-height: 400px;
 }
 

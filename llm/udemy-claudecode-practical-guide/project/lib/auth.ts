@@ -1,10 +1,10 @@
-import { betterAuth } from "better-auth";
-import { getDb } from "./db";
+import { betterAuth } from 'better-auth';
+import { getDb } from './db';
 
 export const auth = betterAuth({
-	database: getDb(),
-	emailAndPassword: {
-		enabled: true,
-		requireEmailVerification: false,
-	},
+  database: getDb(),
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: false,
+  },
 });
