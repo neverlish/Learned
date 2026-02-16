@@ -1,4 +1,3 @@
-import json
 import sys
 import os
 import sqlite3
@@ -6,11 +5,42 @@ import sqlite3
 # Run "uv sync" to install the below packages
 from pypdf import PdfReader
 from dotenv import load_dotenv
-import requests
+from openai import OpenAI
+from pydantic import BaseModel, Field
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI()
+
+
+class Vendor(BaseModel):
+    name: str = Field(...,
+                      description="The name of the vendor or company issuing the invoice.")
+    address: str = Field(..., description="The address of the vendor.")
+    taxId: str = Field(...,
+                       description="The tax identification number of the vendor.")
+
+
+class Customer(BaseModel):
+    name: str = Field(..., description="The name of the customer or client.")
+    address: str = Field(..., description="The address of the customer.")
+    taxId: str = Field(...,
+                       description="The tax identification number of the customer.")
+
+
+class Invoice(BaseModel):
+    vendor: Vendor = Field(...,
+                           description="Details of the vendor issuing the invoice.")
+    customer: Customer = Field(...,
+                               description="Details of the customer receiving the invoice.")
+    invoiceNumber: str = Field(...,
+                               description="Unique identifier for the invoice.")
+    date: str = Field(..., description="Date when the invoice was issued.")
+    totalAmount: float = Field(...,
+                               description="Total amount due on the invoice.")
+    tax: float = Field(...,
+                       description="Total tax amount applied to the invoice.")
 
 
 def setup_database():
@@ -67,7 +97,7 @@ def get_pdf_content(pdf_path: str) -> str:
     return text
 
 
-def extract_invoice_details(pdf_content: str) -> dict:
+def extract_invoice_details(pdf_content: str) -> Invoice:
     prompt = f"""
     You are an expert data extractor who excels at analyzing invoices.
 
@@ -80,90 +110,13 @@ def extract_invoice_details(pdf_content: str) -> dict:
 
     Return your response as a JSON object without any extra text or explanation.
 """
-    response = requests.post(
-        "https://api.openai.com/v1/responses",
-        json={
-            "model": "gpt-4o-mini",
-            "input": prompt,
-            "text": {
-                "format": {
-                    "name": "invoice",
-                    "type": "json_schema",
-                    "schema": {
-                            "type": "object",
-                            "properties": {
-                                "vendor": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {
-                                            "type": "string",
-                                            "description": "The name of the vendor or company issuing the invoice."
-                                        },
-                                        "address": {
-                                            "type": "string",
-                                            "description": "The address of the vendor."
-                                        },
-                                        "taxId": {
-                                            "type": "string",
-                                            "description": "The tax identification number of the vendor."
-                                        }
-                                    },
-                                    "additionalProperties": False,
-                                    "required": ["name", "address", "taxId"]
-                                },
-                                "customer": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {
-                                            "type": "string",
-                                            "description": "The name of the customer or client."
-                                        },
-                                        "address": {
-                                            "type": "string",
-                                            "description": "The address of the customer."
-                                        },
-                                        "taxId": {
-                                            "type": "string",
-                                            "description": "The tax identification number of the customer."
-                                        }
-                                    },
-                                    "additionalProperties": False,
-                                    "required": ["name", "address", "taxId"]
-                                },
-                                "invoiceNumber": {
-                                    "type": "string",
-                                    "description": "The unique identifier for the invoice."
-                                },
-                                "date": {
-                                    "type": "string",
-                                    "description": "The date when the invoice was issued."
-                                },
-                                "totalAmount": {
-                                    "type": "number",
-                                    "description": "The total amount due on the invoice."
-                                },
-                                "tax": {
-                                    "type": "number",
-                                    "description": "The total tax amount applied to the invoice."
-                                },
-                            },
-                        "additionalProperties": False,
-                        "required": ["vendor", "customer", "invoiceNumber", "date", "totalAmount", "tax"],
-                    },
-                    "strict": True
-                },
-            }
-        },
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
-        }
+    response = client.responses.parse(
+        model="gpt-4o-mini",
+        input=prompt,
+        text_format=Invoice,
     )
 
-    response.raise_for_status()
-    received_json = response.json().get("output", [{}])[0].get(
-        "content", [{}])[0].get("text", "{}")
-    return json.loads(received_json)
+    return response.output_parsed
 
 
 def main():
@@ -199,10 +152,10 @@ def main():
         print(f"Processing {pdf_file}...")
         try:
             pdf_content = get_pdf_content(pdf_file)
-            invoice_details = extract_invoice_details(pdf_content)
-            insert_invoice_data(conn, invoice_details)
+            invoice = extract_invoice_details(pdf_content)
+            insert_invoice_data(conn, invoice.model_dump())
             print("Extracted Invoice Details:")
-            print(invoice_details)
+            print(invoice.model_dump())
             print("---------")
         except Exception as e:
             print(f"An error occurred while processing {pdf_file}: {e}")
