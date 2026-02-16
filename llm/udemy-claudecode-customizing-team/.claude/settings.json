@@ -1,13 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Read(**/*)"
+      "Read(**/*)",
+      "Edit(*.py)",
+      "Bash(streamlit run*)",
+      "Bash(pip install*)"
     ],
     "ask": [
-      "Edit(CLAUDE.md)"
+      "Edit(CLAUDE.md)",
+      "Bash(git*)"
     ],
     "deny": [
-      "Edit(requirements.txt)"
+      "Edit(requirements.txt)",
+      "Bash(rm -rf*)",
+      "Bash(*API_KEY*)",
+      "Edit(.env)"
     ],
     "defaultMode": "plan"
   }
