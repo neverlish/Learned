@@ -1,0 +1,5 @@
+- AI workflows vs AI agents: definition and differences
+  - AI workflows: Workflows that use AI (LLMs) in one or more steps
+  - AI agents: Autonomous programs that use AI to plan steps and execute them with help of provided tools
+- AI workflows & agents unlock brand-new use-cases like automating content creation
+- Human-in-the-loop is important though since LLMs can mess up and hallucinate
