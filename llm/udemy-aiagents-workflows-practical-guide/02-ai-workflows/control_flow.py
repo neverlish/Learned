@@ -4,6 +4,7 @@ import os
 import concurrent.futures
 
 # Run "uv sync" to install the below packages
+import requests
 from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel, Field
@@ -19,37 +20,46 @@ def load_file(path: str) -> str:
         sys.exit(1)
 
     print("Loading file:", path)
-    with open(path, 'r', encoding='utf-8') as file:
+    with open(path, "r", encoding="utf-8") as file:
         return file.read()
 
 
 def save_file(path: str, content: str) -> None:
     print("Saving file:", path)
-    with open(path, 'w', encoding='utf-8') as file:
+    with open(path, "w", encoding="utf-8") as file:
         file.write(content)
 
 
-def generate_article_draft(outline: str, existing_draft: str | None = None, feedback: str | None = None) -> str:
-    print("Generating article draft...")
-    example_posts_path = "example_posts"
-
-    if not os.path.exists(example_posts_path):
-        raise FileNotFoundError(
-            f"The directory '{example_posts_path}' does not exist.")
+def load_and_format_example_posts(
+    path: str, allowed_extensions: list[str], required: bool = False
+) -> str:
+    """Loads and formats example posts from a directory."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"The directory '{path}' does not exist.")
 
     example_posts = []
-    for filename in os.listdir(example_posts_path):
-        if filename.lower().endswith(".md") or filename.lower().endswith(".mdx"):
-            with open(os.path.join(example_posts_path, filename), 'r', encoding='utf-8') as file:
+    for filename in os.listdir(path):
+        if any(filename.lower().endswith(ext) for ext in allowed_extensions):
+            with open(os.path.join(path, filename), "r", encoding="utf-8") as file:
                 example_posts.append(file.read())
 
-    if not example_posts:
+    if required and not example_posts:
         raise ValueError(
-            "No example blog posts found in the 'example_posts' directory.")
+            f"No example posts with extensions {allowed_extensions} found in the '{path}' directory."
+        )
 
-    example_posts_str = "\n\n".join(
+    return "\n\n".join(
         f"<example-post-{i+1}>\n{post}\n</example-post-{i+1}>"
         for i, post in enumerate(example_posts)
+    )
+
+
+def generate_article_draft(
+    outline: str, existing_draft: str | None = None, feedback: str | None = None
+) -> str:
+    print("Generating article draft...")
+    example_posts_str = load_and_format_example_posts(
+        "example_posts", [".md", ".mdx"], required=True
     )
 
     prompt = f"""
@@ -72,7 +82,9 @@ def generate_article_draft(outline: str, existing_draft: str | None = None, feed
             """
 
     if existing_draft and feedback:
-        example_posts_str += f"\n\n<existing-draft>\n{existing_draft}\n</existing-draft>"
+        example_posts_str += (
+            f"\n\n<existing-draft>\n{existing_draft}\n</existing-draft>"
+        )
         example_posts_str += f"\n\n<feedback>\n{feedback}\n</feedback>"
 
         prompt = f"""
@@ -118,13 +130,10 @@ def generate_article_draft(outline: str, existing_draft: str | None = None, feed
                     The blog post should be structured, informative, and easy to read.
 
                     If the user provides an existing draft, use it in conjunction with the provided outline and feedback to create an improved draft.
-                """
+                """,
             },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+            {"role": "user", "content": prompt},
+        ],
     )
 
     generated_text = response.output_text
@@ -139,7 +148,8 @@ def generate_article_draft(outline: str, existing_draft: str | None = None, feed
 
 class Evaluation(BaseModel):
     needs_improvement: bool = Field(
-        description="Whether the draft needs to be improved")
+        description="Whether the draft needs to be improved"
+    )
     feedback: str = Field(description="Feedback on how to improve the draft")
 
 
@@ -160,7 +170,7 @@ def evaluate_article_draft(draft: str) -> Evaluation:
                     - Is the draft structured and well-organized?
                     - Is the draft written in a clear, concise, and engaging style?
                     - Is the draft written in a way that is easy to understand for both technical and non-technical readers?
-                """
+                """,
             },
             {
                 "role": "user",
@@ -171,10 +181,10 @@ def evaluate_article_draft(draft: str) -> Evaluation:
                     </draft>
 
                     Return the feedback as JSON, indicating whether the draft needs to be improved and why.
-                """
-            }
+                """,
+            },
         ],
-        text_format=Evaluation
+        text_format=Evaluation,
     )
 
     return response.output_parsed
@@ -188,7 +198,7 @@ def generate_thumbnail(article: str) -> bytes:
         prompt=f"Generate a thumbnail for the following blog post: {article}",
         n=1,
         output_format="jpeg",
-        size="1536x1024"
+        size="1536x1024",
     )
 
     image_bytes = base64.b64decode(response.data[0].b64_json)
@@ -198,26 +208,11 @@ def generate_thumbnail(article: str) -> bytes:
 def generate_linkedin_post(article: str) -> str:
     print("Generating LinkedIn post...")
 
-    example_posts_path = "example_linkedin_posts"
-
-    if not os.path.exists(example_posts_path):
-        raise FileNotFoundError(
-            f"The directory '{example_posts_path}' does not exist.")
-
-    example_posts = []
-
-    for filename in os.listdir(example_posts_path):
-        if filename.lower().endswith(".txt"):
-            with open(os.path.join(example_posts_path, filename), 'r', encoding='utf-8') as file:
-                example_posts.append(file.read())
-
-    example_posts_str = "\n\n".join(
-        f"<example-post-{i+1}>\n{post}\n</example-post-{i+1}>"
-        for i, post in enumerate(example_posts)
+    example_posts_str = load_and_format_example_posts(
+        "example_linkedin_posts", [".txt"]
     )
 
     response = client.responses.create(
-
         model="gpt-4o",
         input=[
             {
@@ -225,10 +220,9 @@ def generate_linkedin_post(article: str) -> str:
                 "content": """
                     You are an expert LinkedIn post generator.
                     Your job is to generate a LinkedIn post for a blog post.
-                    The blog post is in raw markdown format.
                     The LinkedIn post should be a single post that captures the essence of the blog post.
                     It should be informative and engaging.
-                """
+                """,
             },
             {
                 "role": "user",
@@ -245,12 +239,32 @@ def generate_linkedin_post(article: str) -> str:
 
                     Use the language, tone, style and way of writing from the example posts to generate your LinkedIn post.
                     DON'T use the content from those example posts!
-                """
-            }
-        ]
+                """,
+            },
+        ],
     )
 
     return response.output_text
+
+
+def send_slack_notification(message: str) -> None:
+    print("Sending Slack notification...")
+    response = requests.post(
+        "https://slack.com/api/chat.postMessage",
+        json={"channel": "C092YQF30BC", "text": message},
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {os.environ.get('SLACK_ACCESS_TOKEN')}",
+        },
+    )
+
+    response.raise_for_status()
+    data = response.json()
+
+    if data.get("ok"):
+        print("Slack notification sent successfully.")
+    else:
+        raise Exception(f"Failed to send Slack notification: {data.get('error')}")
 
 
 def main():
@@ -269,7 +283,7 @@ def main():
         blog_post_draft = generate_article_draft(
             outline,
             existing_draft=blog_post_draft,
-            feedback=evaluation.feedback if evaluation else None
+            feedback=evaluation.feedback if evaluation else None,
         )
         print("Generated blog post draft:")
         print(blog_post_draft)
@@ -281,7 +295,9 @@ def main():
         print("Your feedback on the article:")
         print("--------------------------------")
         print("Hit ENTER to accept the evaluation results without any changes.")
-        print("Type 'accept' to accept the article as is (and overwrite any suggested changes).")
+        print(
+            "Type 'accept' to accept the article as is (and overwrite any suggested changes)."
+        )
         print("Otherwise enter your feedback to improve the article.")
         print("--------------------------------")
         user_feedback = input("Your feedback: ")
@@ -294,13 +310,14 @@ def main():
 
         cycles += 1
 
-        if not evaluation.needs_improvement or (cycles > 3 and not user_feedback.strip()):
+        if not evaluation.needs_improvement or (
+            cycles > 3 and not user_feedback.strip()
+        ):
             break
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         future_thumbnail = executor.submit(generate_thumbnail, blog_post_draft)
-        future_linkedin = executor.submit(
-            generate_linkedin_post, blog_post_draft)
+        future_linkedin = executor.submit(generate_linkedin_post, blog_post_draft)
 
         linkedin_post = future_linkedin.result()
         thumbnail_image = future_thumbnail.result()
@@ -317,6 +334,8 @@ def main():
     output_file = outline_file.replace(".txt", "_draft.md")
     save_file(output_file, blog_post_draft)
     print(f"Blog post draft saved to '{output_file}'.")
+
+    send_slack_notification(f"New blog post draft generated!")
 
 
 if __name__ == "__main__":
