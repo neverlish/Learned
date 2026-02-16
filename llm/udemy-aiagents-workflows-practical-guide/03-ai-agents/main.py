@@ -1,3 +1,5 @@
+import json
+
 # Run "uv sync" to install the below packages
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -15,55 +17,86 @@ def get_temperature(city: str) -> float:
     return 20.0
 
 
+available_functions = {
+    "get_temperature": get_temperature,
+}
+
+tools = [
+    {
+        "type": "function",
+        "name": "get_temperature",
+        "description": "Get current temperature for a given location.",
+        "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "description": "City for which to get the temperature."
+                    }
+                },
+            "additionalProperties": False,
+            "required": ["city"],
+        }
+
+    }
+]
+
+
+def execute_tool_call(tool_call) -> str | float:
+    """
+    Executes a tool call and returns the output.
+    """
+    fn_name = tool_call.name
+    fn_args = json.loads(tool_call.arguments)
+
+    if fn_name in available_functions:
+        function_to_call = available_functions[fn_name]
+        try:
+            return function_to_call(**fn_args)
+        except Exception as e:
+            return f"Error calling {fn_name}: {e}"
+
+    return f"Unknown tool: {fn_name}"
+
+
 def main():
-    user_input = input("Your question: ")
-    prompt = f"""
-You are a helpful assistant. Answer the user's question in a friendly way.
+    messages = [
+        {"role": "developer", "content": "You are a helpful assistant. Answer the user's question in a friendly way."}
+    ]
 
-You can also use tools if you feel like they help you provide a better answer:
-    - get_temperature(city: str) -> float: Get the current temperature for a given city.
+    while True:
+        user_input = input("Your question (type 'exit' to end the conversation): ")
+        if user_input == "exit":
+            break
 
-If you want to use one of these tools, you should output the tool name and its arguments in the following format:
-    tool_name: arg1, arg2, ...
-For example:
-    get_temperature: New York
-
-With that in mind, answer the user's question: 
-<user-question>
-{user_input}
-</user-question>
-
-If you request a tool, please output ONLY the tool call (as described above) and nothing else.
-"""
-    response = client.responses.create(
-        model="gpt-4o",
-        input=prompt,
-    )
-    reply = response.output_text
-
-    if reply.startswith("get_temperature:"):
-        arg = reply.split(":", 1)[1].strip()
-        temperature = get_temperature(arg)
-        prompt = f"""
-You are a helpful assistant. Answer the user's question in a friendly way.
-
-Here's the user's question:
-<user-question>
-{user_input}
-</user-question>
-
-You requested to use the get_temperature tool for the city "{arg}".
-Here's the result of using that tool:
-The current temperature in {arg} is {temperature}°C.
-        """
+        messages.append({"role": "user", "content": user_input})
         response = client.responses.create(
-            model="gpt-4o",
-            input=prompt,
+            model='gpt-4o',
+            input=messages,
+            tools=tools,
         )
-        reply = response.output_text
-        print(reply)
-    else:
-        print(reply)
+
+        output = response.output[0]
+        messages.append(output) # add to chat history to keep track of the conversation
+
+        if output.type != "function_call":
+            print(response.output_text)
+            continue
+
+        tool_output = execute_tool_call(output)
+        messages.append({
+            "type": "function_call_output",
+            "call_id": output.call_id,
+            "output": str(tool_output),
+        })
+
+        response = client.responses.create(
+            model='gpt-4o',
+            input=messages,
+        )
+        print(response.output_text)
+    
+    print(messages)
 
 
 if __name__ == "__main__":
