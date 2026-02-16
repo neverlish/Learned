@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**/*)"
+    ],
+    "ask": [
+      "Edit(CLAUDE.md)"
+    ],
+    "deny": [
+      "Edit(requirements.txt)"
+    ],
+    "defaultMode": "plan"
+  }
+}
