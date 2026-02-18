@@ -1,0 +1,63 @@
+<table>
+    <thead>
+        <tr>
+            <th class="center-text">Original News</th>
+            <th class="center-text">Written Article</th>
+            <th class="center-text">Status</th>
+            <th class="center-text">Error</th>
+            <th class="center-text">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let article of articles">
+            <td>{{ article.question }}</td>
+            <td [ngClass]="{ 'highlight-edit': editingArticleId === article.thread_id }">
+                <div *ngIf="editingArticleId !== article.thread_id">
+                    {{ article.answer }}
+                </div>
+                <div *ngIf="editingArticleId === article.thread_id">
+                    <textarea [(ngModel)]="newAnswer" rows="3"></textarea>
+                </div>
+            </td>
+            <td>
+                <span class="status-badge"
+                    [ngClass]="{ confirmed: article.confirmed, 'not-confirmed': !article.confirmed }">
+                    {{ article.confirmed ? 'Confirmed' : 'Not Confirmed' }}
+                </span>
+            </td>
+            <td>
+                <span class="error-badge" [ngClass]="{ 'error-true': article.error, 'error-false': !article.error }">
+                    {{ article.error ? 'Error Occurred' : 'No Error' }}
+                </span>
+            </td>
+            <td>
+                <div *ngIf="editingArticleId !== article.thread_id">
+                    <ng-container *ngIf="!article.confirmed">
+                        <button class="btn-confirm" (click)="confirmArticle(article.thread_id)">
+                            Confirm
+                        </button>
+                        <button class="btn-edit" (click)="startEditing(article.thread_id, article.answer)">
+                            Edit
+                        </button>
+                    </ng-container>
+                    <button class="btn-delete" (click)="deleteArticle(article.thread_id)">
+                        Delete
+                    </button>
+                </div>
+                <div *ngIf="editingArticleId === article.thread_id">
+                    <button class="btn-save" (click)="saveEditedArticle(article.thread_id)">
+                        Save
+                    </button>
+                    <button class="btn-cancel" (click)="cancelEditing()">Cancel</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="admin-header">
+    <button class="btn-logout" (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+    </button>
+</div>
