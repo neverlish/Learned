@@ -4,6 +4,7 @@ mod get_routes;
 mod post_routes;
 mod header;
 mod response;
+mod status_code;
 
 use axum::{
     Router,
@@ -17,4 +18,5 @@ pub fn api_router() -> Router {
         .nest("/post", post_routes::router())
         .nest("/header", header::router())
         .nest("/response", response::router())
+        .nest("/status-code", status_code::router())
 }
