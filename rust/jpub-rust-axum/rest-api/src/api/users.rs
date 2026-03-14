@@ -13,7 +13,7 @@ use sea_orm::{
 
 use crate::{
     entities::users::{ActiveModel,Column, Entity, Model},
-    utils::app_error::AppError,
+    utils::{app_error::AppError, hash::hash_password},
 };
 
 pub async fn get_users(
@@ -70,10 +70,12 @@ pub async fn post_user(
         ));
     }
 
+    let hashed_password = hash_password(&user.password.unwrap())?;
+
     let new_user = ActiveModel {
         id: ActiveValue::NotSet,
         username: ActiveValue::Set(user.username.unwrap()),
-        password: ActiveValue::Set(user.password.unwrap()),
+        password: ActiveValue::Set(hashed_password),
     };
 
     match new_user.insert(&conn).await {

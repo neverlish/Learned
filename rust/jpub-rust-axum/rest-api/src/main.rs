@@ -11,8 +11,9 @@ mod db;
 mod api;
 
 use axum::{
-    routing::get,
+    routing::{get, post},
     Router,
+    middleware,
 };
 
 use db::init_db;
@@ -39,6 +40,10 @@ use api::category::{
 
 use api::text::text;
 
+use api::auth::login;
+
+use utils::jwt::authenticate;
+
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
@@ -56,7 +61,6 @@ async fn main() {
         .route(
             "/users", 
             get(get_users)
-                .post(post_user)
                 .put(put_user)
                 .delete(delete_user)
         )
@@ -77,6 +81,9 @@ async fn main() {
             "/text",
             get(text)
         )
+        .route_layer(middleware::from_fn(authenticate))
+        .route("/auth/login", post(login))
+        .route("/auth/signup", post(post_user))
         .with_state(conn)
         .layer(TimeoutLayer::new(Duration::from_millis(1000)))
         .layer(TraceLayer::new_for_http())
