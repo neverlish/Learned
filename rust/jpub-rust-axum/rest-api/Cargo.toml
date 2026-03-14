@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+axum = { version = "0.7.3", features = ["json", "macros"] }
+tokio = { version = "1.35.1", features = ["full"] }
+sea-orm = { version = "1.1.2", features = [ "sqlx-postgres", "runtime-tokio-native-tls", "macros" ] }
+serde_json = "1.0.108"
+serde = "1.0.193"
+dotenvy = "0.15.7"
