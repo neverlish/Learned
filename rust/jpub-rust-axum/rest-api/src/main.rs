@@ -3,6 +3,7 @@ use tower_http::timeout::TimeoutLayer;
 use tower_http::trace::TraceLayer;
 use tracing::info;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
+use tower_http::compression::CompressionLayer;
 
 mod entities;
 mod utils;
@@ -35,6 +36,8 @@ use api::category::{
     post_category,
     delete_category,
 };
+
+use api::text::text;
 
 #[tokio::main]
 async fn main() {
@@ -70,9 +73,14 @@ async fn main() {
                 .put(put_product)
                 .delete(delete_product)
         )
+        .route(
+            "/text",
+            get(text)
+        )
         .with_state(conn)
         .layer(TimeoutLayer::new(Duration::from_millis(1000)))
-        .layer(TraceLayer::new_for_http());
+        .layer(TraceLayer::new_for_http())
+        .layer(CompressionLayer::new());
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
