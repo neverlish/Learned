@@ -33,7 +33,9 @@ async fn main() {
         broadcast_tx: Arc::new(Mutex::new(tx)),
     };
     let app = Router::new()
-        .route("/ws", get(websocket_handler)).with_state(app);
+        .route("/ws", get(websocket_handler))
+        .route_layer(middleware::from_fn(authenticate))
+        .with_state(app);
     
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
@@ -79,5 +81,21 @@ async fn recv_broadcast(
         if client_tx.lock().await.send(msg).await.is_err() {
             return;
         }
+    }
+}
+
+async fn authenticate(
+    headers: HeaderMap,
+    request: Request<Body>,
+    next: Next
+) -> Result<Response, StatusCode> {
+    if headers
+        .get("Authorization")   
+        .map(|value| value == "Bearer token")
+        .unwrap_or(false)
+    {
+        Ok(next.run(request).await)
+    } else {
+        Err(StatusCode::UNAUTHORIZED)
     }
 }
