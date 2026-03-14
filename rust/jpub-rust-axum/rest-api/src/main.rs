@@ -1,3 +1,6 @@
+use std::time::Duration;
+use tower_http::timeout::TimeoutLayer;
+
 mod entities;
 mod utils;
 mod db;
@@ -57,7 +60,8 @@ async fn main() {
                 .put(put_product)
                 .delete(delete_product)
         )
-        .with_state(conn);
+        .with_state(conn)
+        .layer(TimeoutLayer::new(Duration::from_millis(1000)));
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
