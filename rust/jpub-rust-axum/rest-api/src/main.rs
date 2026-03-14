@@ -1,5 +1,8 @@
 use std::time::Duration;
 use tower_http::timeout::TimeoutLayer;
+use tower_http::trace::TraceLayer;
+use tracing::info;
+use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
 mod entities;
 mod utils;
@@ -37,8 +40,15 @@ use api::category::{
 async fn main() {
     dotenvy::dotenv().ok();
 
+    tracing_subscriber::registry()
+        .with(fmt::layer())
+        .with(EnvFilter::from_default_env())
+        .init();
+
+    info!("Connecting to DB...");
     let conn = init_db().await;
     
+    info!("Starting server...");
     let app = Router::new()
         .route(
             "/users", 
@@ -61,7 +71,8 @@ async fn main() {
                 .delete(delete_product)
         )
         .with_state(conn)
-        .layer(TimeoutLayer::new(Duration::from_millis(1000)));
+        .layer(TimeoutLayer::new(Duration::from_millis(1000)))
+        .layer(TraceLayer::new_for_http());
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
