@@ -1,55 +1,21 @@
 mod entities;
+mod utils;
 mod db;
-
-
-use std::collections::HashMap;
+mod api;
 
 use axum::{
-    extract::{Query, State},
     routing::get,
-    Json,
     Router,
-};
-
-use sea_orm::{
-    ColumnTrait,
-    Condition,
-    DatabaseConnection,
-    EntityTrait,
-    QueryFilter,
-};
-
-use entities::users::{
-    Column,
-    Entity,
-    Model,
 };
 
 use db::init_db;
 
-async fn get_user(
-    State(conn): State<DatabaseConnection>,
-    Query(params): Query<HashMap<String, String>>
-) -> Json<Model> {
-    let mut condition = Condition::any();
-
-    if let Some(id) = params.get("id") {
-        condition = condition.add(Column::Id.eq(id.parse::<i32>().unwrap()));
-    }
-
-    if let Some(username) = params.get("username") {
-        condition = condition.add(Column::Username.contains(username));
-    }
-
-    let user = Entity::find()
-        .filter(condition)
-        .one(&conn)
-        .await
-        .unwrap()
-        .unwrap();
-
-    Json(user)
-}
+use api::users::{
+    get_users,
+    post_user,
+    put_user,
+    delete_user,
+};
 
 #[tokio::main]
 async fn main() {
@@ -58,7 +24,13 @@ async fn main() {
     let conn = init_db().await;
     
     let app = Router::new()
-        .route("/users", get(get_user))
+        .route(
+            "/users", 
+            get(get_users)
+                .post(post_user)
+                .put(put_user)
+                .delete(delete_user)
+        )
         .with_state(conn);
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
