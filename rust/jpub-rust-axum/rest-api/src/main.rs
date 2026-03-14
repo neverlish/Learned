@@ -17,6 +17,19 @@ use api::users::{
     delete_user,
 };
 
+use api::product::{
+    get_product,
+    post_product,
+    put_product,
+    delete_product,
+};
+
+use api::category::{
+    get_category,
+    post_category,
+    delete_category,
+};
+
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
@@ -30,6 +43,19 @@ async fn main() {
                 .post(post_user)
                 .put(put_user)
                 .delete(delete_user)
+        )
+        .route(
+            "/category",
+            get(get_category)
+                .post(post_category)
+                .delete(delete_category)
+        )
+        .route(
+            "/product",
+            get(get_product)
+                .post(post_product)
+                .put(put_product)
+                .delete(delete_product)
         )
         .with_state(conn);
 
