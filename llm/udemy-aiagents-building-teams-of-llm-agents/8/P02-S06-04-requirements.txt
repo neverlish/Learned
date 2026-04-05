@@ -1,0 +1,3 @@
+streamlit
+pyautogen
+st-paywall==0.1.8
