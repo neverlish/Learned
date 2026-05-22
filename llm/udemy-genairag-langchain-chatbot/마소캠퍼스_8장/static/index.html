@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RAG Chatbot</h1>
+        <div class="url-input-container">
+            <input type="text" id="url-input" placeholder="Enter website URL">
+            <button onclick="processURL()">Process URL</button>
+        </div>
+        <div id="chat-container"></div>
+        <div class="query-input-container">
+            <input type="text" id="query-input" placeholder="Ask a question">
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
