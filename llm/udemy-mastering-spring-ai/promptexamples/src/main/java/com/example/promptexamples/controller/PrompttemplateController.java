@@ -1,9 +1,6 @@
 package com.example.promptexamples.controller;
 
-import com.example.promptexamples.dto.AIResponse;
-import com.example.promptexamples.dto.ConceptRequest;
-import com.example.promptexamples.dto.ExplainRequest;
-import com.example.promptexamples.dto.ListRequest;
+import com.example.promptexamples.dto.*;
 import com.example.promptexamples.service.PromptTemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +44,18 @@ public class PrompttemplateController {
                 request.concept(),
                 request.level(),
                 request.includeExamples()
+        );
+
+        return ResponseEntity.ok(new AIResponse(response));
+    }
+
+    @PostMapping("/generate-json")
+    public ResponseEntity<AIResponse> generateJsonResponse(@RequestBody JsonGenerationRequest request) {
+        String response = promptTemplateService.generateJsonResponse(
+                request.name(),
+                request.role(),
+                request.department(),
+                request.level()
         );
 
         return ResponseEntity.ok(new AIResponse(response));

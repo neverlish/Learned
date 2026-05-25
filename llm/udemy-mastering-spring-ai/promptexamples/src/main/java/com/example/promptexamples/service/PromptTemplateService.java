@@ -3,6 +3,7 @@ package com.example.promptexamples.service;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.template.st.StTemplateRenderer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,39 @@ public class PromptTemplateService {
         ));
 
         return chatClient.prompt(prompt).call().content();
+    }
+
+    public String generateJsonResponse(String name, String role, String department, String level) {
+        String template = """
+            Generate a JSON response for a user profile:
+            {
+                "name": "<n>",
+                "role": "<r>",
+                "department": "<dept>",
+                "level": "<lv>",
+                "skills": ["<skill1>", "<skill2>", "<skill3>"]
+            }
+            Return ONLY valid JSON.
+            """;
+
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+                .renderer(StTemplateRenderer.builder()
+                        .startDelimiterToken('<')
+                        .endDelimiterToken('>')
+                        .build())
+                .template(template)
+                .build();
+
+        String renderedPrompt = promptTemplate.render(Map.of(
+                "n", name,
+                "r", role,
+                "dept", department,
+                "lv", level,
+                "skill1", "Java",
+                "skill2", "Spring Boot",
+                "skill3", "Microservices"
+        ));
+
+        return chatClient.prompt(renderedPrompt).call().content();
     }
 }
