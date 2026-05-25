@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RAG Document Q&amp;A</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📄 RAG Document Q&amp;A</h1>
+        <p class="subtitle">Upload documents and ask questions powered by OpenAI + Redis Vector Search</p>
+    </header>
+
+    <!-- Already-indexed documents panel -->
+    <div class="card indexed-card" th:if="${hasDocuments}">
+        <h2>✅ Indexed Documents</h2>
+        <p class="hint">These documents are already in the vector store — you can ask questions right away.</p>
+        <table class="indexed-table">
+            <thead><tr><th>File</th><th>Chunks</th><th>Indexed At</th></tr></thead>
+            <tbody>
+            <tr th:each="doc : ${indexedDocs}">
+                <td th:text="${doc.fileName}"></td>
+                <td th:text="${doc.chunks}"></td>
+                <td th:text="${doc.indexedAt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Ask a Question — shown prominently when docs exist -->
+    <div class="card ask-card" th:if="${hasDocuments}">
+        <h2>💬 Ask a Question</h2>
+        <form method="post" th:action="@{/ask}">
+            <div class="input-group">
+                <textarea name="question" id="questionInput"
+                          placeholder="Ask anything about your indexed documents..."
+                          rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Ask Question 🔍</button>
+        </form>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="card" id="upload-section">
+        <h2 th:text="${hasDocuments} ? '📤 Upload Another Document' : '📤 Upload Document'">📤 Upload Document</h2>
+        <p class="hint">Supported formats: <strong>PDF, TXT, DOCX</strong></p>
+        <div class="upload-area" id="uploadArea">
+            <span class="upload-icon">☁️</span>
+            <p>Drag &amp; drop your file here or click to browse</p>
+            <input type="file" id="fileInput" accept=".pdf,.txt,.docx" style="display:none"/>
+            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">Choose File</button>
+        </div>
+        <div id="fileNameDisplay" class="file-name" style="display:none"></div>
+        <button class="btn btn-primary" id="uploadBtn" onclick="uploadFile()" style="display:none">Upload &amp; Index</button>
+        <div id="uploadStatus" class="status" style="display:none"></div>
+    </div>
+
+    <!-- Ask a Question — shown below upload when no docs exist yet -->
+    <div class="card" id="ask-section" th:unless="${hasDocuments}">
+        <h2>💬 Ask a Question</h2>
+        <p class="hint">Upload a document above first, then ask questions about it.</p>
+        <form method="post" th:action="@{/ask}">
+            <div class="input-group">
+                <textarea name="question" id="questionInputNoDoc"
+                          placeholder="Ask anything about your uploaded documents..."
+                          rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Ask Question 🔍</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="card error-card">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    fileInput.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            fileNameDisplay.textContent = '📎 ' + this.files[0].name;
+            fileNameDisplay.style.display = 'block';
+            uploadBtn.style.display = 'inline-block';
+        }
+    });
+
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('drag-over');
+    });
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            fileNameDisplay.textContent = '📎 ' + files[0].name;
+            fileNameDisplay.style.display = 'block';
+            uploadBtn.style.display = 'inline-block';
+        }
+    });
+
+    async function uploadFile() {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const statusDiv = document.getElementById('uploadStatus');
+        statusDiv.className = 'status loading';
+        statusDiv.textContent = '⏳ Uploading and indexing document...';
+        statusDiv.style.display = 'block';
+        uploadBtn.disabled = true;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('/upload', {method: 'POST', body: formData});
+            const result = await response.json();
+            if (result.success) {
+                statusDiv.className = 'status success';
+                statusDiv.textContent = '✅ ' + result.message;
+                // Reload page after short delay so the indexed-docs panel appears
+                setTimeout(() => window.location.reload(), 1500);
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ ' + result.message;
+                uploadBtn.disabled = false;
+            }
+        } catch (err) {
+            statusDiv.className = 'status error';
+            statusDiv.textContent = '❌ Upload failed: ' + err.message;
+            uploadBtn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
+

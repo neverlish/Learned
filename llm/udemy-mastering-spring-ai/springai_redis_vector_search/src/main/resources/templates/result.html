@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Answer - RAG Document Q&amp;A</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📄 RAG Document Q&amp;A</h1>
+        <p class="subtitle">Powered by OpenAI + Redis Vector Search</p>
+    </header>
+
+    <!-- Indexed documents reminder -->
+    <div class="card indexed-card" th:if="${hasDocuments}">
+        <h2>✅ Indexed Documents</h2>
+        <table class="indexed-table">
+            <thead><tr><th>File</th><th>Chunks</th><th>Indexed At</th></tr></thead>
+            <tbody>
+            <tr th:each="doc : ${indexedDocs}">
+                <td th:text="${doc.fileName}"></td>
+                <td th:text="${doc.chunks}"></td>
+                <td th:text="${doc.indexedAt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Inline Ask Another Question form — no navigation needed -->
+    <div class="card ask-card">
+        <h2>💬 Ask Another Question</h2>
+        <form method="post" th:action="@{/ask}">
+            <div class="input-group">
+                <textarea name="question" id="questionInput"
+                          placeholder="Ask anything about your indexed documents..."
+                          rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Ask Question 🔍</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="card error-card">
+        <p th:text="${error}"></p>
+        <a class="btn btn-secondary" th:href="@{/}">← Back</a>
+    </div>
+
+    <div th:if="${response}" class="result-wrapper">
+
+        <!-- Question -->
+        <div class="card question-card">
+            <h2>❓ Your Question</h2>
+            <p class="question-text" th:text="${response.question}"></p>
+        </div>
+
+        <!-- Answer -->
+        <div class="card answer-card">
+            <h2>💡 Answer</h2>
+            <div class="answer-text" th:text="${response.answer}"></div>
+        </div>
+
+        <!-- Context Chunks -->
+        <div class="card context-card" th:if="${not #lists.isEmpty(response.contextChunks)}">
+            <h2>🔍 Retrieved Context Chunks</h2>
+            <p class="hint">These document excerpts were used to generate the answer:</p>
+            <div class="chunks-list">
+                <div class="chunk" th:each="chunk, iterStat : ${response.contextChunks}">
+                    <div class="chunk-header">
+                        <span class="chunk-number" th:text="'Chunk #' + ${iterStat.count}"></span>
+                        <span class="chunk-source" th:text="'📎 ' + ${chunk.source}"></span>
+                        <span class="chunk-score" th:text="'Score: ' + ${#numbers.formatDecimal(chunk.score, 1, 4)}"></span>
+                    </div>
+                    <div class="chunk-content" th:text="${chunk.content}"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
+
