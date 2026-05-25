@@ -2,6 +2,7 @@ package org.example.chatmodel001.service;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.metadata.ChatResponseMetadata;
+import org.springframework.ai.chat.metadata.Usage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,28 @@ public class ChatClientService {
         }
 
         return text;
+    }
+
+    public String usageStatistics(String userInput) {
+        ChatResponse chatResponse = chatClient.prompt()
+                .user(userInput)
+                .call()
+                .chatResponse();
+
+        Usage usage = chatResponse.getMetadata().getUsage();
+
+        if (usage != null) {
+            System.out.println("Usage Object: " + usage.getClass().getSimpleName());
+            System.out.println("Prompt Tokens Used: " + usage.getPromptTokens());
+            System.out.println("Completion Tokens Used: " + usage.getCompletionTokens());
+            System.out.println("Total Tokens Used: " + usage.getTotalTokens());
+            return "Prompt Tokens : " + usage.getPromptTokens() +
+                    ", Completion Tokens: " + usage.getCompletionTokens() +
+                    ", Total Tokens: " + usage.getTotalTokens();
+        } else {
+            System.out.println("Usage information is not available in the response metadata");
+            return "Usage information is not available";
+        }
     }
 
 

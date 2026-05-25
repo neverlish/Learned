@@ -15,4 +15,10 @@ public class AppController {
     public String ask(@PathVariable String userInput) {
         return chatClientService.getGenerationAndMetadata(userInput);
     }
+
+    @GetMapping("/usagestatictics/{userInput}")
+    public String usageStatistics(@PathVariable String userInput) {
+        System.out.println("Received request for usage statistics with userInput: " + userInput);
+        return chatClientService.usageStatistics(userInput);
+    }
 }
