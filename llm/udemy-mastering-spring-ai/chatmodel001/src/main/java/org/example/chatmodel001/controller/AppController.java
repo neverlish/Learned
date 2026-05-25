@@ -13,6 +13,6 @@ public class AppController {
 
     @GetMapping("/ask/{userInput}")
     public String ask(@PathVariable String userInput) {
-        return chatClientService.askQuestion(userInput);
+        return chatClientService.getGenerationAndMetadata(userInput);
     }
 }
