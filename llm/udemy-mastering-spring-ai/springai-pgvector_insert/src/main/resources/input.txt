@@ -1,0 +1,100 @@
+1. Laptop - High-performance gaming laptop with the latest graphics card.
+2. Smartphone - Slim smartphone with a long-lasting battery.
+3. Headphones - Wireless, noise-cancelling headphones for immersive sound.
+4. Smartwatch - Advanced smartwatch with fitness tracking features.
+5. Tablet - Lightweight tablet with a 10-inch display and fast processor.
+6. Bluetooth Speaker - Portable speaker with powerful bass and clear sound.
+7. Monitor - 27-inch 4K monitor with ultra-thin bezels.
+8. Camera - Professional DSLR camera with high-resolution image capture.
+9. Drone - Compact drone with 4K video recording and GPS.
+10. Printer - All-in-one printer with wireless connectivity.
+11. Keyboard - Mechanical keyboard with customizable RGB lighting.
+12. Mouse - Ergonomic wireless mouse with adjustable DPI.
+13. Graphics Card - High-performance GPU for gaming and 3D rendering.
+14. External Hard Drive - 2TB portable external drive with fast transfer speeds.
+15. Webcam - HD webcam with wide-angle lens and built-in microphone.
+16. Router - Dual-band Wi-Fi router with high-speed internet support.
+17. Power Bank - 10000mAh power bank with fast charging capability.
+18. Projector - Portable projector with Full HD resolution.
+19. Fitness Tracker - Waterproof fitness tracker with heart rate monitoring.
+20. VR Headset - Virtual reality headset with motion tracking.
+21. eReader - Lightweight eReader with anti-glare screen and long battery life.
+22. USB-C Hub - Multi-port USB-C hub with HDMI and Ethernet support.
+23. Gaming Chair - Ergonomic gaming chair with adjustable armrests and lumbar support.
+24. Smart Thermostat - Energy-saving smart thermostat with app control.
+25. Smart Lock - Secure smart lock with keyless entry and voice control.
+26. Security Camera - Wireless security camera with motion detection.
+27. Robot Vacuum - Self-charging robot vacuum with smart mapping.
+28. Coffee Maker - Programmable coffee maker with a built-in grinder.
+29. Electric Kettle - Fast-boiling electric kettle with temperature control.
+30. Blender - High-power blender with multiple speed settings.
+31. Air Purifier - HEPA air purifier with adjustable fan speeds.
+32. Microwave - Compact microwave with pre-programmed settings.
+33. Electric Toothbrush - Rechargeable electric toothbrush with multiple brushing modes.
+34. Hair Dryer - Professional-grade hair dryer with ionic technology.
+35. Smart Light Bulb - Energy-efficient smart bulb with voice control.
+36. Washing Machine - Front-load washing machine with eco-friendly settings.
+37. Refrigerator - French-door refrigerator with built-in water dispenser.
+38. Dishwasher - Quiet dishwasher with adjustable racks and a sanitizing cycle.
+39. Oven - Self-cleaning convection oven with smart control.
+40. Vacuum Cleaner - Lightweight vacuum cleaner with strong suction.
+41. Air Conditioner - Energy-efficient portable air conditioner with remote control.
+42. Dehumidifier - Large-capacity dehumidifier for removing excess moisture.
+43. Heater - Compact space heater with adjustable thermostat and timer.
+44. Ceiling Fan - Energy-saving ceiling fan with remote control.
+45. Grill - Gas grill with multiple burners and a temperature gauge.
+46. Lawn Mower - Cordless electric lawn mower with a powerful motor.
+47. Chainsaw - Battery-powered chainsaw with a durable blade.
+48. Leaf Blower - High-velocity cordless leaf blower for yard cleanup.
+49. Pressure Washer - High-power pressure washer for outdoor cleaning.
+50. Electric Drill - Cordless drill with multiple speed settings.
+51. Tool Set - Comprehensive tool set with a variety of hand tools.
+52. Workbench - Sturdy workbench with adjustable height and storage drawers.
+53. Bike - Lightweight mountain bike with disc brakes and suspension.
+54. Treadmill - Folding treadmill with multiple speed settings and heart rate monitoring.
+55. Exercise Bike - Stationary bike with resistance settings and a digital display.
+56. Dumbbells - Adjustable dumbbells with a compact storage rack.
+57. Yoga Mat - Non-slip yoga mat with extra cushioning for comfort.
+58. Camping Tent - Waterproof camping tent with space for four people.
+59. Sleeping Bag - Lightweight, insulated sleeping bag for cold weather.
+60. Hiking Boots - Durable waterproof hiking boots with cushioned insoles.
+61. Kayak - Inflatable kayak with paddle and air pump included.
+62. Fishing Rod - Carbon fiber fishing rod with high sensitivity.
+63. Cooler - Large cooler with wheels and extended ice retention.
+64. Backpack - Hiking backpack with hydration system and multiple compartments.
+65. Travel Pillow - Memory foam travel pillow with washable cover.
+66. Suitcase - Hard-shell suitcase with 360-degree spinner wheels.
+67. Electric Scooter - Foldable electric scooter with long battery life.
+68. Hoverboard - Self-balancing hoverboard with Bluetooth speakers.
+69. Skateboard - Durable skateboard with high-grip wheels.
+70. Roller Skates - Adjustable inline skates with a comfortable fit.
+71. Electric Bike - Folding electric bike with pedal assist and throttle.
+72. Helmet - Lightweight cycling helmet with ventilation holes.
+73. Sunglasses - Polarized sunglasses with UV protection.
+74. Smart Glasses - Augmented reality smart glasses with a built-in camera.
+75. Electric Shaver - Rechargeable electric shaver with multiple trimming attachments.
+76. Hair Clipper - Cordless hair clipper with precision blades and guards.
+77. Massage Gun - Handheld massage gun with adjustable speeds and attachments.
+78. Infrared Thermometer - Contactless infrared thermometer with fast reading.
+79. Blood Pressure Monitor - Portable blood pressure monitor with a large display.
+80. Glucometer - Blood glucose meter with test strips and memory storage.
+81. Pulse Oximeter - Fingertip pulse oximeter for measuring oxygen saturation.
+82. Humidifier - Ultrasonic cool mist humidifier with adjustable settings.
+83. Baby Monitor - Video baby monitor with night vision and two-way audio.
+84. Stroller - Lightweight stroller with an adjustable canopy and storage basket.
+85. Car Seat - Convertible car seat with a five-point harness system.
+86. Playpen - Foldable playpen with breathable mesh sides for baby safety.
+87. High Chair - Adjustable high chair with a removable tray and seat pad.
+88. Bottle Warmer - Fast bottle warmer with an automatic shut-off feature.
+89. Diaper Bag - Spacious diaper bag with multiple compartments and a changing pad.
+90. Breast Pump - Electric breast pump with multiple suction levels.
+91. Toys - Educational wooden toys for early development and learning.
+92. Puzzle - 1000-piece jigsaw puzzle with a scenic landscape design.
+93. Board Game - Strategy board game for family game night.
+94. RC Car - Remote-controlled car with all-terrain wheels and a rechargeable battery.
+95. Lego Set - Advanced Lego set with over 2000 pieces for creative building.
+96. Action Figure - Poseable action figure with interchangeable accessories.
+97. Dollhouse - Wooden dollhouse with furniture and detailed rooms.
+98. Train Set - Electric train set with tracks, cars, and realistic sound effects.
+99. Building Blocks - Colorful building blocks for hours of creative fun.
+100. Puzzle Cube - 3x3 puzzle cube for brain-teasing challenges.
