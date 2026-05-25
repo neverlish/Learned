@@ -1,0 +1,20 @@
+{"title": "The Catcher in the Rye", "description": "A novel by J.D. Salinger about teenage rebellion and isolation."}
+{"title": "Pride and Prejudice", "description": "A classic novel by Jane Austen that critiques the British class system through romance."}
+{"title": "Moby-Dick", "description": "Herman Melville's epic tale of obsession and revenge on the high seas."}
+{"title": "The Lord of the Rings", "description": "J.R.R. Tolkien's fantasy epic about the battle between good and evil in Middle-earth."}
+{"title": "Brave New World", "description": "A dystopian novel by Aldous Huxley exploring a future society driven by technology and control."}
+{"title": "The Hobbit", "description": "A fantasy novel by J.R.R. Tolkien that follows Bilbo Baggins on his journey to reclaim a treasure."}
+{"title": "Crime and Punishment", "description": "Fyodor Dostoevsky's novel exploring morality, guilt, and redemption through the story of a man who commits murder."}
+{"title": "The Brothers Karamazov", "description": "A philosophical novel by Fyodor Dostoevsky about faith, family, and moral dilemmas."}
+{"title": "War and Peace", "description": "Leo Tolstoy's historical novel set against the backdrop of the Napoleonic Wars."}
+{"title": "The Grapes of Wrath", "description": "John Steinbeck's story of hardship and survival during the Great Depression."}
+{"title": "One Hundred Years of Solitude", "description": "Gabriel García Márquez's magical realist novel chronicling the Buendía family over generations."}
+{"title": "The Picture of Dorian Gray", "description": "Oscar Wilde's tale of vanity, corruption, and immortality."}
+{"title": "Anna Karenina", "description": "Leo Tolstoy's tragic love story set against the Russian aristocracy."}
+{"title": "Frankenstein", "description": "Mary Shelley's iconic novel about a scientist's dangerous quest to create life."}
+{"title": "The Adventures of Huckleberry Finn", "description": "Mark Twain's novel about a boy's journey down the Mississippi River in search of freedom."}
+{"title": "Jane Eyre", "description": "Charlotte Brontë's story of a young woman's resilience, independence, and love."}
+{"title": "Wuthering Heights", "description": "Emily Brontë's tale of passion, revenge, and the destructive nature of love."}
+{"title": "The Odyssey", "description": "Homer's epic poem about Odysseus's long journey home after the Trojan War."}
+{"title": "Les Misérables", "description": "Victor Hugo's sweeping novel about justice, love, and redemption in 19th-century France."}
+{"title": "Don Quixote", "description": "Miguel de Cervantes's story of a man who sets out to revive chivalry in the world."}
