@@ -1,0 +1,100 @@
+1. The Great Gatsby - A classic novel by F. Scott Fitzgerald about wealth and society.
+2. To Kill a Mockingbird - A novel highlighting racial injustice in the American South.
+3. 1984 - A dystopian story of totalitarianism by George Orwell.
+4. Pride and Prejudice - A romantic novel exploring love and class in 19th century England.
+5. Moby Dick - An epic tale of obsession and revenge in the pursuit of a white whale.
+6. War and Peace - A historical novel depicting Russian society during the Napoleonic Wars.
+7. The Catcher in the Rye - A novel about teenage alienation and rebellion against society.
+8. The Lord of the Rings - A high-fantasy epic of good versus evil by J.R.R. Tolkien.
+9. Ulysses - A modernist novel detailing a day in the life of Leopold Bloom.
+10. Brave New World - A dystopian novel by Aldous Huxley about a futuristic, controlled society.
+11. The Odyssey - A Greek epic poem about the journey of Odysseus.
+12. Crime and Punishment - A novel exploring guilt and redemption in 19th century Russia.
+13. The Hobbit - A fantasy adventure about a hobbit's journey to reclaim a lost treasure.
+14. Anna Karenina - A tragic love story set in the upper class of Russian society.
+15. Frankenstein - A Gothic novel about a scientist who creates a living being.
+16. Dracula - A Gothic horror novel about the infamous vampire Count Dracula.
+17. Don Quixote - A Spanish novel about a man who becomes a self-appointed knight-errant.
+18. The Brothers Karamazov - A philosophical novel about faith, doubt, and family.
+19. Wuthering Heights - A tragic love story set on the Yorkshire moors.
+20. Jane Eyre - A novel about the life and struggles of an orphaned governess.
+21. Les Misérables - A French novel about justice, redemption, and love.
+22. The Divine Comedy - An epic poem that takes readers on a journey through Hell, Purgatory, and Heaven.
+23. The Iliad - A Greek epic poem about the Trojan War.
+24. Fahrenheit 451 - A dystopian novel about a future where books are banned and burned.
+25. The Old Man and the Sea - A story about an aging fisherman’s struggle to catch a giant marlin.
+26. A Tale of Two Cities - A historical novel set during the French Revolution.
+27. The Picture of Dorian Gray - A novel about a man who remains young while his portrait ages.
+28. The Grapes of Wrath - A novel about the hardships of migrant farmers during the Great Depression.
+29. The Metamorphosis - A novella about a man who wakes up transformed into a giant insect.
+30. Great Expectations - A novel about an orphan's journey to self-discovery and wealth.
+31. Little Women - A coming-of-age story about four sisters growing up during the Civil War.
+32. The Scarlet Letter - A novel about sin, guilt, and redemption in Puritan New England.
+33. The Sound and the Fury - A modernist novel about the decline of a Southern family.
+34. Heart of Darkness - A novella exploring the horrors of colonialism in Africa.
+35. The Trial - A novel about a man who is arrested and prosecuted by a mysterious legal system.
+36. Madame Bovary - A novel about a woman’s pursuit of passion and escape from provincial life.
+37. The Sun Also Rises - A novel about a group of expatriates traveling in post-World War I Europe.
+38. The Stranger - A novel about existentialism and absurdity in 20th-century life.
+39. Catch-22 - A satirical novel about the absurdities of war and bureaucracy.
+40. The Bell Jar - A semi-autobiographical novel about a young woman's mental breakdown.
+41. Slaughterhouse-Five - A novel that blends science fiction with an anti-war message.
+42. One Hundred Years of Solitude - A magical realism novel about the rise and fall of a family.
+43. East of Eden - A novel about family dynamics and the struggle between good and evil.
+44. The Alchemist - A philosophical novel about a boy's quest to find treasure and discover his destiny.
+45. The Kite Runner - A novel about friendship, betrayal, and redemption in Afghanistan.
+46. Life of Pi - A novel about a boy stranded on a lifeboat with a Bengal tiger.
+47. The Road - A post-apocalyptic novel about a father and son's journey through a desolate world.
+48. Beloved - A novel about a former slave haunted by her past and her dead daughter.
+49. The Catcher in the Rye - A novel about teenage rebellion and alienation in 1950s America.
+50. Brave New World - A dystopian novel about a futuristic society controlled by technology and drugs.
+51. Lord of the Flies - A novel about a group of boys stranded on a desert island and their descent into savagery.
+52. The Handmaid's Tale - A dystopian novel about a totalitarian regime that oppresses women.
+53. Animal Farm - A political allegory about a group of farm animals who overthrow their human owner.
+54. The Secret Garden - A children's novel about a girl who discovers a hidden garden.
+55. The Jungle Book - A collection of stories about a boy raised by wolves in the jungle.
+56. Charlie and the Chocolate Factory - A children's novel about a boy who wins a tour of a magical chocolate factory.
+57. The Chronicles of Narnia - A series of fantasy novels about a magical world called Narnia.
+58. Harry Potter and the Philosopher's Stone - A fantasy novel about a young wizard discovering his powers.
+59. Alice's Adventures in Wonderland - A children's novel about a girl who falls into a magical world.
+60. Peter Pan - A children's novel about a boy who never grows up.
+61. Treasure Island - A novel about a boy's adventure to find buried treasure.
+62. Gulliver's Travels - A satirical novel about a man’s travels to strange lands.
+63. Robinson Crusoe - A novel about a man stranded on a desert island.
+64. Moby-Dick - A novel about a sea captain’s obsessive quest to hunt a great white whale.
+65. Around the World in Eighty Days - A novel about a man who attempts to travel around the world in 80 days.
+66. Journey to the Center of the Earth - A novel about an expedition to the Earth’s core.
+67. Twenty Thousand Leagues Under the Sea - A novel about a submarine voyage under the sea.
+68. The Time Machine - A science fiction novel about a man who travels to the distant future.
+69. The War of the Worlds - A science fiction novel about a Martian invasion of Earth.
+70. The Invisible Man - A science fiction novel about a man who becomes invisible.
+71. Dracula - A Gothic horror novel about a vampire’s attempt to move to England.
+72. Frankenstein - A Gothic novel about a scientist who creates a living being.
+73. Dr. Jekyll and Mr. Hyde - A novella about a man with a split personality.
+74. The Phantom of the Opera - A Gothic novel about a disfigured man who lives under an opera house.
+75. The Hunchback of Notre-Dame - A novel about a deformed man who lives in a cathedral.
+76. The Count of Monte Cristo - A novel about a man seeking revenge after being falsely imprisoned.
+77. Les Misérables - A novel about justice, love, and redemption in 19th century France.
+78. A Christmas Carol - A novella about a miser’s transformation after being visited by ghosts.
+79. Oliver Twist - A novel about an orphan boy's adventures in London.
+80. David Copperfield - A novel about a young boy’s journey from poverty to success.
+81. The Three Musketeers - A historical novel about the adventures of three French musketeers.
+82. The Man in the Iron Mask - A novel about a mysterious prisoner held in the Bastille.
+83. Ivanhoe - A historical novel about a knight's quest for justice in medieval England.
+84. The Last of the Mohicans - A historical novel set during the French and Indian War.
+85. Gone with the Wind - A novel about a woman’s survival during the American Civil War.
+86. Little Women - A coming-of-age novel about four sisters growing up during the American Civil War.
+87. The Scarlet Letter - A novel about a woman who is shunned for committing adultery in Puritan New England.
+88. The Call of the Wild - A novel about a domesticated dog’s return to the wild.
+89. White Fang - A novel about a wild wolfdog’s struggle for survival.
+90. The Red Badge of Courage - A novel about a young soldier's experience during the American Civil War.
+91. The Grapes of Wrath - A novel about a family's struggles during the Great Depression.
+92. Of Mice and Men - A novel about two displaced ranch workers during the Great Depression.
+93. East of Eden - A novel about two families and the nature of good and evil.
+94. The Pearl - A novella about a poor fisherman who finds a valuable pearl.
+95. Cannery Row - A novel about the lives of people living on a street in Monterey, California.
+96. The Old Man and the Sea - A novella about an aging fisherman’s struggle to catch a giant marlin.
+97. For Whom the Bell Tolls - A novel about an American fighting in the Spanish Civil War.
+98. The Sun Also Rises - A novel about a group of expatriates traveling in post-World War I Europe.
+99. A Farewell to Arms - A novel about an American ambulance driver in World War I.
+100. The Catcher in the Rye - A novel
