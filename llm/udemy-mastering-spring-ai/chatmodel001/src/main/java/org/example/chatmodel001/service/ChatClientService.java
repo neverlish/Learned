@@ -5,8 +5,11 @@ import org.springframework.ai.chat.metadata.ChatResponseMetadata;
 import org.springframework.ai.chat.metadata.Usage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -82,6 +85,36 @@ public class ChatClientService {
             System.out.println("Usage information is not available in the response metadata");
             return "Usage information is not available";
         }
+    }
+
+    public String multipleVariations() {
+        System.out.println("Multiple Variations");
+        ChatResponse chatResponse = chatClient.prompt()
+                .options(OpenAiChatOptions.builder()
+                        .maxTokens(100)
+                        .N(3)
+                        .temperature(0.9)
+                        .build())
+                .user("Suggest a creative name for a clud-based task management app")
+                .call()
+                .chatResponse();
+
+        List<Generation> generations = chatResponse.getResults();
+
+        for (int i = 0; i < generations.size(); i++) {
+            Generation gen = generations.get(i);
+            String text = gen.getOutput().getText();
+            String finishReason = gen.getMetadata().getFinishReason();
+
+            System.out.println("--------------------");
+            System.out.println("Option " + (i+1) + ":");
+            System.out.println("--------------------");
+            System.out.println(text);
+            System.out.println("Finish Reason: " + finishReason);
+            System.out.println();
+        }
+
+        return "Multiple Variations print on console";
     }
 
 

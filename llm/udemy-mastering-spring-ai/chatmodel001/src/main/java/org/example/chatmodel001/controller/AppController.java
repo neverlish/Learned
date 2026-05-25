@@ -21,4 +21,9 @@ public class AppController {
         System.out.println("Received request for usage statistics with userInput: " + userInput);
         return chatClientService.usageStatistics(userInput);
     }
+
+    @GetMapping("/multipleVariations")
+    public String testMultipleVariations() {
+        return chatClientService.multipleVariations();
+    }
 }
