@@ -26,4 +26,17 @@ public class PromptTemplateService {
 
         return chatClient.prompt(prompt).call().content();
     }
+
+    public String generateList(String count, String type, String topic) {
+        String template = "List {count} {type} for {topic}. Provide brief description";
+
+        PromptTemplate promptTemplate = new PromptTemplate(template);
+        Prompt prompt = promptTemplate.create(Map.of(
+            "count", count,
+            "type", type,
+            "topic", topic
+        ));
+
+        return chatClient.prompt(prompt).call().content();
+    }
 }

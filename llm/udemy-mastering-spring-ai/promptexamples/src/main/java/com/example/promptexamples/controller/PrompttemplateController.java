@@ -2,6 +2,7 @@ package com.example.promptexamples.controller;
 
 import com.example.promptexamples.dto.AIResponse;
 import com.example.promptexamples.dto.ExplainRequest;
+import com.example.promptexamples.dto.ListRequest;
 import com.example.promptexamples.service.PromptTemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,17 @@ public class PrompttemplateController {
         String response = promptTemplateService.explainTopic(
             request.topic(),
             request.level()
+        );
+
+        return ResponseEntity.ok(new AIResponse(response));
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<AIResponse> generateList(@RequestBody ListRequest request) {
+        String response = promptTemplateService.generateList(
+                request.count(),
+                request.type(),
+                request.topic()
         );
 
         return ResponseEntity.ok(new AIResponse(response));
