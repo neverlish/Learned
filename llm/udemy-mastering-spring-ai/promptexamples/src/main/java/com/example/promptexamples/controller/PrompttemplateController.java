@@ -1,6 +1,7 @@
 package com.example.promptexamples.controller;
 
 import com.example.promptexamples.dto.AIResponse;
+import com.example.promptexamples.dto.ConceptRequest;
 import com.example.promptexamples.dto.ExplainRequest;
 import com.example.promptexamples.dto.ListRequest;
 import com.example.promptexamples.service.PromptTemplateService;
@@ -35,6 +36,17 @@ public class PrompttemplateController {
                 request.count(),
                 request.type(),
                 request.topic()
+        );
+
+        return ResponseEntity.ok(new AIResponse(response));
+    }
+
+    @PostMapping("/explain-concept")
+    public ResponseEntity<AIResponse> explainConcept(@RequestBody ConceptRequest request) {
+        String response = promptTemplateService.explainConceptFromFile(
+                request.concept(),
+                request.level(),
+                request.includeExamples()
         );
 
         return ResponseEntity.ok(new AIResponse(response));
