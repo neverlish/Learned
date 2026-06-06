@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "description": "High-quality noise-cancelling wireless headphones with long battery life."
+  },
+  {
+    "id": 2,
+    "name": "Smartphone",
+    "description": "Latest model smartphone with advanced camera features and a powerful processor."
+  },
+  {
+    "id": 3,
+    "name": "Laptop",
+    "description": "Lightweight laptop with a 15-inch display, fast performance, and extended battery."
+  },
+  {
+    "id": 4,
+    "name": "Smartwatch",
+    "description": "Water-resistant smartwatch with fitness tracking and notification features."
+  },
+  {
+    "id": 5,
+    "name": "Bluetooth Speaker",
+    "description": "Portable Bluetooth speaker with deep bass and 12-hour playtime."
+  },
+  {
+    "id": 6,
+    "name": "4K TV",
+    "description": "55-inch 4K Ultra HD TV with HDR support and built-in streaming apps."
+  },
+  {
+    "id": 7,
+    "name": "Gaming Console",
+    "description": "Next-generation gaming console with high-performance graphics and fast load times."
+  },
+  {
+    "id": 8,
+    "name": "Digital Camera",
+    "description": "Mirrorless digital camera with 24.2 megapixels and 4K video recording."
+  },
+  {
+    "id": 9,
+    "name": "Drone",
+    "description": "Compact drone with 4K camera, GPS navigation, and 30-minute flight time."
+  },
+  {
+    "id": 10,
+    "name": "Fitness Tracker",
+    "description": "Wearable fitness tracker with heart rate monitor and sleep tracking."
+  }
+]
