@@ -1,0 +1,14 @@
+spring:
+  ai:
+    vectorstore:
+      milvus:
+        client:
+          host: "34.66.190.138"
+          port: 19530
+          username: "root"
+          password: "milvus"
+        databaseName: "default"
+        collectionName: "vector_store"
+        embeddingDimension: 1536
+        indexType: IVF_FLAT
+        metricType: COSINE
