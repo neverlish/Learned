@@ -1,0 +1,11 @@
+spring:
+  ai:
+    vectorstore:
+      opensearch:
+        uris: https://localhost:9200
+        username: admin
+        password: strongPass123#
+        indexName: spring-ai-document-index
+        mappingJson: { "properties": { "embedding": { "type": "knn_vector", "dimension": 1536 } } }
+        initialize-schema: true
+
