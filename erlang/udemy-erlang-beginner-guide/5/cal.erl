@@ -1,7 +1,7 @@
 -module(cal).
 
 %% API
--export([leap/1]).
+-export([leap/1, day/2]).
 
 leap(Year) ->
   if 
@@ -9,4 +9,21 @@ leap(Year) ->
     Year rem 100 == 0 -> non_leap;
     Year rem 4 == 0 -> leap;
     true -> non_leap
+  end.
+
+day(Month, Year) ->
+  Leap = leap(Year),
+  case Month of
+    jan -> 31;
+    feb -> if Leap == leap -> 29; true -> 28 end;
+    mar -> 31;
+    apr -> 30;
+    may -> 31;
+    jun -> 30;
+    jul -> 31;
+    aug -> 31;
+    sep -> 30;
+    oct -> 31;
+    nov -> 30;
+    dec -> 31
   end.
