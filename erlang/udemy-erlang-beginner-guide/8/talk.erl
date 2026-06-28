@@ -1,28 +1,29 @@
 -module(talk).
 
 %% API
--export([run/0, alice/0, bob/2]).
+-export([run/0, alice/0, bob/1]).
 
 alice() ->
   receive
-    {message, PId} ->
+    message ->
       io:fwrite("Alice got a message\n"),
-      PId ! message,
+      bob ! message,
       alice();
     finished -> io:fwrite("Alice is finished\n")
   end
   .
 
-bob(0, PId) ->
-  PId ! finished,
+bob(0) ->
+  alice ! finished,
   io:fwrite("Bob is finished\n");
-bob(N, PId) ->
-  PId ! {message, self()},
+bob(N) ->
+  alice ! message,
   receive
     message -> io:fwrite("Bob got a message\n")
   end,
-  bob(N - 1, PId).
+  bob(N - 1).
 
 run() ->
-  PId = spawn(talk, alice, []),
-  spawn(talk, bob, [3, PId]).
+  register(alice, spawn(talk, alice, [])),
+  register(bob, spawn(talk, bob, [3])).
+  
