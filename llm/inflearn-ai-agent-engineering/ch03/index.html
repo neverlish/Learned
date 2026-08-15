@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실시간 음성 AI 에이전트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b46c1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .status.disconnected {
+            background: #fee;
+            color: #c33;
+        }
+
+        .status.connected {
+            background: #efe;
+            color: #3c3;
+        }
+
+        .status.listening {
+            background: #fef3cd;
+            color: #856404;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #connectBtn {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        #connectBtn:hover:not(:disabled) {
+            background: #7c3aed;
+        }
+
+        #disconnectBtn {
+            background: #a855f7;
+            color: white;
+        }
+
+        #disconnectBtn:hover:not(:disabled) {
+            background: #9333ea;
+        }
+
+        .info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info ul {
+            list-style-position: inside;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .visualizer {
+            width: 100%;
+            height: 100px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visualizer canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .listening-indicator {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>AI와 실시간 음성 대화</h1>
+        <p class="subtitle">OpenAI Realtime API 데모</p>
+
+        <div id="status" class="status disconnected">
+            연결되지 않음
+        </div>
+
+        <div class="visualizer">
+            <canvas id="visualizer"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="connectBtn">연결 시작</button>
+            <button id="disconnectBtn" disabled>연결 종료</button>
+        </div>
+
+        <div class="info">
+            <h3>📌 사용 방법</h3>
+            <ul>
+                <li>연결 시작 버튼을 클릭하세요</li>
+                <li>마이크 권한을 허용하세요</li>
+                <li>AI와 자유롭게 대화하세요</li>
+                <li>AI가 말하는 중에도 말을 걸 수 있습니다</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let audioContext = null;
+        let mediaStream = null;
+        let audioWorkletNode = null;
+        let audioQueue = [];
+        let isPlaying = false;
+
+        const statusEl = document.getElementById('status');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const visualizerCanvas = document.getElementById('visualizer');
+        const visualizerCtx = visualizerCanvas.getContext('2d');
+        const TARGET_SAMPLE_RATE = 24000; // OpenAI Realtime용 타겟 샘플레이트
+
+        // Canvas 크기 설정
+        visualizerCanvas.width = visualizerCanvas.offsetWidth;
+        visualizerCanvas.height = visualizerCanvas.offsetHeight;
+
+        connectBtn.addEventListener('click', connect);
+        disconnectBtn.addEventListener('click', disconnect);
+
+        async function connect() {
+            try {
+                updateStatus('연결 중...', 'listening');
+                connectBtn.disabled = true;
+
+                // AudioContext 초기화 (브라우저 기본 샘플레이트 사용)
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                // 마이크 스트림 가져오기
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        channelCount: 1,
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+
+                // WebSocket 연결
+                ws = new WebSocket('ws://localhost:5050/voice');
+
+                ws.onopen = () => {
+                    updateStatus('연결됨 - 대화를 시작하세요', 'connected');
+                    disconnectBtn.disabled = false;
+                    startAudioCapture();
+                    drawVisualizer();
+                };
+
+                ws.onmessage = async (event) => {
+                    const data = JSON.parse(event.data);
+                    if (data.audio) {
+                        await playAudio(data.audio);
+                    }
+                    if (data.error) {
+                        console.error('OpenAI Realtime API 오류:', data.error);
+                        updateStatus('API 오류: ' + data.error, 'disconnected');
+                    }
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket 에러:', error);
+                    updateStatus('연결 오류 발생', 'disconnected');
+                };
+
+                ws.onclose = () => {
+                    updateStatus('연결 종료됨', 'disconnected');
+                    cleanup();
+                };
+
+            } catch (error) {
+                console.error('연결 실패:', error);
+                updateStatus('연결 실패: ' + error.message, 'disconnected');
+                connectBtn.disabled = false;
+            }
+        }
+
+        async function startAudioCapture() {
+            const source = audioContext.createMediaStreamSource(mediaStream);
+            const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+            source.connect(processor);
+            processor.connect(audioContext.destination);
+
+            processor.onaudioprocess = (e) => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    const inputData = e.inputBuffer.getChannelData(0);
+                    // AudioContext 샘플레이트에서 TARGET_SAMPLE_RATE(24kHz)로 다운샘플링
+                    const resampled = resampleToTargetRate(
+                        inputData,
+                        audioContext.sampleRate,
+                        TARGET_SAMPLE_RATE
+                    );
+                    const pcm16 = float32ToPCM16(resampled);
+                    const base64Audio = arrayBufferToBase64(pcm16.buffer);
+
+                    ws.send(JSON.stringify({
+                        audio: base64Audio
+                    }));
+                }
+            };
+
+
+            audioWorkletNode = processor;
+        }
+        function resampleToTargetRate(audioData, sourceSampleRate, targetSampleRate) {
+            if (sourceSampleRate === targetSampleRate) {
+                return audioData;
+            }
+
+            const ratio = sourceSampleRate / targetSampleRate;
+            const newLength = Math.round(audioData.length / ratio);
+            const result = new Float32Array(newLength);
+
+            for (let i = 0; i < newLength; i++) {
+                const srcIndex = i * ratio;
+                const srcIndexFloor = Math.floor(srcIndex);
+                const srcIndexCeil = Math.min(srcIndexFloor + 1, audioData.length - 1);
+                const fraction = srcIndex - srcIndexFloor;
+
+                // 선형 보간
+                result[i] =
+                    audioData[srcIndexFloor] * (1 - fraction) +
+                    audioData[srcIndexCeil] * fraction;
+            }
+
+            return result;
+        }
+
+        function float32ToPCM16(float32Array) {
+            const pcm16 = new Int16Array(float32Array.length);
+            for (let i = 0; i < float32Array.length; i++) {
+                const s = Math.max(-1, Math.min(1, float32Array[i]));
+                pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+            }
+            return pcm16;
+        }
+
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        async function playAudio(base64Audio) {
+            const binaryString = atob(base64Audio);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const pcm16 = new Int16Array(bytes.buffer);
+            const float32 = new Float32Array(pcm16.length);
+            for (let i = 0; i < pcm16.length; i++) {
+                float32[i] = pcm16[i] / (pcm16[i] < 0 ? 0x8000 : 0x7FFF);
+            }
+
+            audioQueue.push(float32);
+
+            if (!isPlaying) {
+                playQueue();
+            }
+        }
+
+        async function playQueue() {
+            if (audioQueue.length === 0) {
+                isPlaying = false;
+                return;
+            }
+
+            isPlaying = true;
+            const float32 = audioQueue.shift();
+
+            // 16kHz PCM 데이터를 버퍼로 생성 (브라우저가 자동 리샘플링)
+            // 24kHz PCM 데이터를 버퍼로 생성 (브라우저가 자동 리샘플링)
+            const audioBuffer = audioContext.createBuffer(
+                1,
+                float32.length,
+                TARGET_SAMPLE_RATE
+            );
+            audioBuffer.getChannelData(0).set(float32);
+
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+
+            source.onended = () => {
+                playQueue();
+            };
+
+            source.start();
+
+        }
+
+        function drawVisualizer() {
+            if (!audioContext) return;
+
+            const draw = () => {
+                if (!audioContext) return;
+
+                visualizerCtx.fillStyle = '#f0f0f0';
+                visualizerCtx.fillRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+
+                // 간단한 파형 시각화
+                const gradient = visualizerCtx.createLinearGradient(0, 0, visualizerCanvas.width, 0);
+                gradient.addColorStop(0, '#8b5cf6');
+                gradient.addColorStop(1, '#6b46c1');
+
+                visualizerCtx.fillStyle = gradient;
+
+                const barCount = 50;
+                const barWidth = visualizerCanvas.width / barCount;
+
+                for (let i = 0; i < barCount; i++) {
+                    const height = Math.random() * (isPlaying ? 80 : 20) + 10;
+                    const x = i * barWidth;
+                    const y = (visualizerCanvas.height - height) / 2;
+
+                    visualizerCtx.fillRect(x, y, barWidth - 2, height);
+                }
+
+                requestAnimationFrame(draw);
+            };
+
+            draw();
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+            cleanup();
+        }
+
+        function cleanup() {
+            if (audioWorkletNode) {
+                audioWorkletNode.disconnect();
+                audioWorkletNode = null;
+            }
+
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            audioQueue = [];
+            isPlaying = false;
+            connectBtn.disabled = false;
+            disconnectBtn.disabled = true;
+        }
+
+        function updateStatus(message, state) {
+            statusEl.textContent = message;
+            statusEl.className = `status ${state}`;
+
+            if (state === 'connected' || state === 'listening') {
+                statusEl.classList.add('listening-indicator');
+            } else {
+                statusEl.classList.remove('listening-indicator');
+            }
+        }
+    </script>
+</body>
+
+</html>
