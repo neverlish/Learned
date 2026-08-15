@@ -21,6 +21,9 @@ fastapi = ">=0.112,<0.113"
 python-dotenv = "1.0.1"
 bs4 = "0.0.2"
 wikipedia = "1.4.0"
+pypdf = "5.0.1"
+sentence-transformers = "3.2.0"
+tavily-python = "0.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
