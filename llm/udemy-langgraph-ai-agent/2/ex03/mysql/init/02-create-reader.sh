@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" <<EOSQL
+CREATE USER IF NOT EXISTS 'mcp_user'@'%' IDENTIFIED BY '${MCP_READER_PASSWORD}';
+GRANT SELECT ON \`${MYSQL_DATABASE}\`.* TO 'mcp_user'@'%';
+FLUSH PRIVILEGES;
+EOSQL

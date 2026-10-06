@@ -1,0 +1,4 @@
+git clone https://github.com/benborla/mcp-server-mysql.git
+cd mcp-server-mysql
+npm install
+npm run build

@@ -5,3 +5,4 @@ langgraph==1.2.12
 langchain-community==0.4.2
 wikipedia==1.4.0
 yfinance==1.7.0
+langchain-mcp-adapters==0.3.2
