@@ -1,0 +1,10 @@
+python-dotenv==1.2.4
+langchain==1.4.3
+langchain-openai==1.6.7
+langgraph==1.2.12
+langchain-community==0.4.2
+wikipedia==1.4.0
+yfinance==1.7.0
+langchain-mcp-adapters==0.3.2
+sentence-transformers==6.1.0
+scikit-learn==1.9.1

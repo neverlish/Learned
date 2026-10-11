@@ -1,0 +1,27 @@
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    image: agent-demo-mysql:local
+    container_name: agent-demo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: agent_demo
+      MYSQL_USER: user01
+      MYSQL_PASSWORD: ${MYSQL_WRITER_PASSWORD}
+      MCP_READER_PASSWORD: ${MCP_READER_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./app00.sql:/docker-entrypoint-initdb.d/01-app00.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mysql_data:
