@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'empty_service_client = tutorial_service.empty_service_client:main',
+            'tiago_move_server = tutorial_service.tiago_move_server:main', # 추가!
         ],
     },
 )
