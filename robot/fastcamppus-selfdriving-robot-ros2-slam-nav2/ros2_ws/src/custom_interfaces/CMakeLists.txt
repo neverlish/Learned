@@ -28,7 +28,8 @@ endif()
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/RobotStatus.msg"
-  "srv/MoveRobot.srv" # 추가!
+  "srv/MoveRobot.srv"
+  "action/RotateAbsolute.action" # 추가!
 )
 
 ament_package()

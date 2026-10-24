@@ -1,0 +1,6 @@
+float32 theta
+---
+float32 delta
+bool success # 추가
+---
+float32 remaining

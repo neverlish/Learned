@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.action import ActionServer
 from rclpy.node import Node
-from turtlesim.action import RotateAbsolute
+from custom_interfaces.action import RotateAbsolute
 from geometry_msgs.msg import Twist
 import time
 
@@ -65,6 +65,7 @@ class RotateActionServer(Node):
         goal_handle.succeed()
         result = RotateAbsolute.Result()
         result.delta = angle_diff
+        result.success = True
 
         self.get_logger().info('Goal achieved with delta: %f' % result.delta)
         return result
