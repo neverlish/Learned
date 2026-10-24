@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'timer_node = my_package.timer:main',
         ],
     },
 )
