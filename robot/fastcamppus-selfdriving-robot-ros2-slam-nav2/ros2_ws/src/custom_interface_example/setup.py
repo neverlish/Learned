@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'robot_status_publisher = custom_interface_example.robot_status_publisher:main',
+            'movement_server = custom_interface_example.movement_server:main', # 추가!
         ],
     },
 )
