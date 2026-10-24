@@ -38,6 +38,14 @@ cb
 
 `cb` 별칭은 `src/`와 `.ros2/tiago_public/src/`에 있는 패키지를 함께 빌드합니다.
 
+## 새 ROS 2 패키지 만들기
+
+Compose의 작업 디렉터리는 패키지 저장소 루트입니다. `ros2 pkg create`는 기본적으로 현재 디렉터리에 패키지 폴더를 만들기 때문에, `src/`에 만들려면 대상 디렉터리를 지정합니다.
+
+```bash
+sudo docker compose run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && ros2 pkg create --build-type ament_python --destination-directory src my_package --dependencies rclpy'
+```
+
 ## 호스트 터미널에서 공개 시뮬레이션 실행
 
 컨테이너 셸을 직접 열 필요는 없습니다. 저장소 루트에서 첫 번째 호스트 터미널로 시뮬레이션을 시작합니다.
