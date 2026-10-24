@@ -1,0 +1,50 @@
+FROM osrf/ros:humble-desktop-full-jammy
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    python3-argcomplete \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    python3-vcstool \
+    ros-humble-rmw-cyclonedds-cpp \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd --gid ${USER_GID} ros \
+    && useradd --uid ${USER_UID} --gid ${USER_GID} --create-home --shell /bin/bash ros \
+    && mkdir -p /home/ros/ros2_ws \
+    && chown -R ros:ros /home/ros
+
+USER ros
+ENV HOME=/home/ros
+WORKDIR /home/ros/ros2_ws
+
+RUN printf '%s\n' \
+    'source /opt/ros/humble/setup.bash' \
+    'if [ -f ~/ros2_ws/install/local_setup.bash ]; then source ~/ros2_ws/install/local_setup.bash; fi' \
+    'if [ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ]; then source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash; fi' \
+    'if [ -f /usr/share/vcstool-completion/vcs.bash ]; then source /usr/share/vcstool-completion/vcs.bash; fi' \
+    'if [ -f /usr/share/colcon_cd/function/colcon_cd.sh ]; then source /usr/share/colcon_cd/function/colcon_cd.sh; export _colcon_cd_root=~/ros2_ws; fi' \
+    'eval "$(register-python-argcomplete3 ros2)"' \
+    'eval "$(register-python-argcomplete3 colcon)"' \
+    'alias cw="cd ~/ros2_ws"' \
+    'alias cs="cd ~/ros2_ws/src"' \
+    'alias ccd="colcon_cd"' \
+    'alias cb="cd ~/ros2_ws && colcon build --symlink-install"' \
+    'alias cbs="colcon build --symlink-install"' \
+    'alias cbp="colcon build --symlink-install --packages-select"' \
+    'alias cbu="colcon build --symlink-install --packages-up-to"' \
+    'alias ct="colcon test"' \
+    'alias ctp="colcon test --packages-select"' \
+    'alias ctr="colcon test-result"' \
+    'alias tl="ros2 topic list"' \
+    'alias te="ros2 topic echo"' \
+    'alias nl="ros2 node list"' \
+    'alias di="rosdep install --from-paths src -y --ignore-src --os=ubuntu:jammy"' \
+    >> /home/ros/.bashrc
+
+CMD ["bash"]

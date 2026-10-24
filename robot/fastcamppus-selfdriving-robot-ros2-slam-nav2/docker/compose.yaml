@@ -1,0 +1,20 @@
+services:
+  humble:
+    build:
+      context: .
+      args:
+        USER_UID: 1000
+        USER_GID: 1000
+    image: tiago-humble-dev:local
+    container_name: tiago-humble-dev
+    user: ros
+    network_mode: host
+    stdin_open: true
+    tty: true
+    environment:
+      RMW_IMPLEMENTATION: ${RMW_IMPLEMENTATION:-rmw_fastrtps_cpp}
+      RCUTILS_CONSOLE_OUTPUT_FORMAT: "[{severity}]: {message}"
+      RCUTILS_COLORIZED_OUTPUT: "1"
+    volumes:
+      - .:/home/ros/ros2_ws
+    working_dir: /home/ros/ros2_ws
