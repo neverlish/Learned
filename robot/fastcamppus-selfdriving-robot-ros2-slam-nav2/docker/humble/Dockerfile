@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-vcstool \
     ros-humble-rmw-cyclonedds-cpp \
     ros-humble-teleop-twist-keyboard \
+    ros-humble-turtlesim \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /tmp/tiago_public_ws/src \

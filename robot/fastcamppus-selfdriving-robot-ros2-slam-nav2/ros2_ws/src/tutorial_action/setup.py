@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'play_motion_client = tutorial_action.play_motion_client:main',
+            'rotate_server = tutorial_action.rotate_server:main',
         ],
     },
 )

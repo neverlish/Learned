@@ -17,7 +17,7 @@
 sudo docker compose build
 ```
 
-이미지에는 Humble, Gazebo Classic, TIAGo 시스템 의존성, Cyclone DDS, `teleop_twist_keyboard`가 포함됩니다.
+이미지에는 Humble, Gazebo Classic, TIAGo 시스템 의존성, Cyclone DDS, `teleop_twist_keyboard`, `turtlesim`이 포함됩니다.
 
 ## TIAGo 작업 공간 가져오기 및 빌드
 
