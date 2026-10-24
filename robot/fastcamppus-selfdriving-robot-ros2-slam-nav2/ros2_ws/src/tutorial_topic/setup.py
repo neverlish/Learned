@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'move_publisher = tutorial_topic.move_publisher:main',
             'lidar_subscriber = tutorial_topic.lidar_subscriber:main',
+            'continuous_wall_finder = tutorial_topic.continuous_wall_finder:main',
         ],
     },
 )
