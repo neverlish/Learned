@@ -12,7 +12,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-rosdep \
     python3-vcstool \
     ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-teleop-twist-keyboard \
     && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /tmp/tiago_public_ws/src \
+    && vcs import --input https://raw.githubusercontent.com/pal-robotics/tiago_tutorials/humble-devel/tiago_public.repos /tmp/tiago_public_ws/src \
+    && git clone --depth 1 --branch foxy-devel https://github.com/pal-robotics/backward_ros.git /tmp/tiago_public_ws/src/backward_ros \
+    && apt-get update \
+    && rosdep update \
+    && rosdep install --from-paths /tmp/tiago_public_ws/src --ignore-src --rosdistro humble -y \
+    && rm -rf /tmp/tiago_public_ws /root/.ros/rosdep /var/lib/apt/lists/*
 
 RUN groupadd --gid ${USER_GID} ros \
     && useradd --uid ${USER_UID} --gid ${USER_GID} --create-home --shell /bin/bash ros \
@@ -22,6 +31,8 @@ RUN groupadd --gid ${USER_GID} ros \
 USER ros
 ENV HOME=/home/ros
 WORKDIR /home/ros/ros2_ws
+
+RUN rosdep update
 
 RUN printf '%s\n' \
     'source /opt/ros/humble/setup.bash' \
@@ -34,17 +45,17 @@ RUN printf '%s\n' \
     'alias cw="cd ~/ros2_ws"' \
     'alias cs="cd ~/ros2_ws/src"' \
     'alias ccd="colcon_cd"' \
-    'alias cb="cd ~/ros2_ws && colcon build --symlink-install"' \
-    'alias cbs="colcon build --symlink-install"' \
-    'alias cbp="colcon build --symlink-install --packages-select"' \
-    'alias cbu="colcon build --symlink-install --packages-up-to"' \
+    'alias cb="cd ~/ros2_ws && colcon build --symlink-install --base-paths src .ros2/tiago_public/src"' \
+    'alias cbs="colcon build --symlink-install --base-paths src .ros2/tiago_public/src"' \
+    'alias cbp="colcon build --symlink-install --base-paths src .ros2/tiago_public/src --packages-select"' \
+    'alias cbu="colcon build --symlink-install --base-paths src .ros2/tiago_public/src --packages-up-to"' \
     'alias ct="colcon test"' \
     'alias ctp="colcon test --packages-select"' \
     'alias ctr="colcon test-result"' \
     'alias tl="ros2 topic list"' \
     'alias te="ros2 topic echo"' \
     'alias nl="ros2 node list"' \
-    'alias di="rosdep install --from-paths src -y --ignore-src --os=ubuntu:jammy"' \
+    'alias di="rosdep install --from-paths src .ros2/tiago_public/src -y --ignore-src --os=ubuntu:jammy"' \
     >> /home/ros/.bashrc
 
 CMD ["bash"]

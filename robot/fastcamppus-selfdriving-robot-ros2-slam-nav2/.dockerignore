@@ -1,4 +1,7 @@
 build/
 install/
 log/
+.ros2/
+.devcontainer/
 .git/
+**/.git
