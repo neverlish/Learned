@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'move_publisher = tutorial_topic.move_publisher:main',
+            'lidar_subscriber = tutorial_topic.lidar_subscriber:main',
         ],
     },
 )
