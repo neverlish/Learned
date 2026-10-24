@@ -59,4 +59,15 @@ RUN printf '%s\n' \
     'alias di="rosdep install --from-paths src .ros2/tiago_public/src -y --ignore-src --os=ubuntu:jammy"' \
     >> /home/ros/.bashrc
 
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pip \
+    ros-humble-pmb2-simulation \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --no-cache-dir transforms3d
+
+USER ros
+
 CMD ["bash"]
