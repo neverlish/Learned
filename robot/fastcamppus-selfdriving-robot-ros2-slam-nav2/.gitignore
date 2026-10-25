@@ -15,7 +15,6 @@ nav2_ws/src/aws-robomaker-bookstore-world
 nav2_ws/src/neuronbot2/neuronbot2_bringup
 nav2_ws/src/neuronbot2/neuronbot2_description
 nav2_ws/src/neuronbot2/neuronbot2_gazebo/models
-nav2_ws/src/neuronbot2/neuronbot2_nav
 nav2_ws/src/neuronbot2/neuronbot2_slam
 nav2_ws/src/neuronbot2/neuronbot2_tools
 nav2_ws/src/neuronbot2/readme_resource
