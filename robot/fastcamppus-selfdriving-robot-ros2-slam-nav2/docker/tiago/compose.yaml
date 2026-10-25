@@ -1,7 +1,8 @@
 services:
   humble:
     build:
-      context: .
+      context: ../..
+      dockerfile: docker/tiago/Dockerfile
       args:
         USER_UID: 1000
         USER_GID: 1000
@@ -20,16 +21,18 @@ services:
       __GLX_VENDOR_LIBRARY_NAME: nvidia
       RCUTILS_CONSOLE_OUTPUT_FORMAT: "[{severity}]: {message}"
       RCUTILS_COLORIZED_OUTPUT: "1"
+      GAZEBO_RESOURCE_PATH: /usr/share/gazebo-11
       DISPLAY: ${DISPLAY:-:0}
       XAUTHORITY: /tmp/.Xauthority
       QT_X11_NO_MITSHM: "1"
     volumes:
-      - .:/home/ros/ros2_ws
+      - ../../ros2_ws:/home/ros/ros2_ws
+      - ../../.ros2:/home/ros/ros2_ws/.ros2
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /run/user/1000/gdm/Xauthority:/tmp/.Xauthority:ro
-    working_dir: /home/ros/ros2_ws
     devices:
       - /dev/dri:/dev/dri
     group_add:
       - "44"
       - "992"
+    working_dir: /home/ros/ros2_ws

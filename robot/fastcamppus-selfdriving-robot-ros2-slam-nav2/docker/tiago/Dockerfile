@@ -64,6 +64,9 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     ros-humble-pmb2-simulation \
+    ros-humble-rviz-visual-tools \
+    ros-humble-rviz-satellite \
+    ros-humble-rqt-tf-tree \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --no-cache-dir transforms3d
