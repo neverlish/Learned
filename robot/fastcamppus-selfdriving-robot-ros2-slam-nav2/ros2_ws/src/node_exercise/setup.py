@@ -25,6 +25,9 @@ setup(
     entry_points={
         'console_scripts': [
             'problem_node = node_exercise.problem:main',
+            'solution1_node = node_exercise.solution1:main',
+            'solution2_node = node_exercise.solution2:main',
+            'callback_groups_example = node_exercise.callback_groups_example:main',
         ],
     },
 )
