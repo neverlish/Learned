@@ -41,10 +41,10 @@ amcl:
 
     # Initial Pose
     set_initial_pose: True
-    initial_pose.x: 0.0
-    initial_pose.y: 0.0
+    initial_pose.x: 5.0
+    initial_pose.y: 5.0
     initial_pose.z: 0.0
-    initial_pose.yaw: 0.0
+    initial_pose.yaw: -3.141592
 
 amcl_map_client:
   ros__parameters:

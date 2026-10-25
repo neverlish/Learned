@@ -11,7 +11,7 @@
 
 ## 이미지 빌드 및 소스 가져오기
 
-이미지 빌드 과정에서 강의에 나온 시스템 패키지와 NeuronBot2 저장소의 rosdep 의존성을 설치합니다.
+이미지 빌드 과정에서 강의에 나온 시스템 패키지와 NeuronBot2 저장소의 rosdep 의존성, `tf_transformations`를 설치합니다. apt 패키지 이름은 `ros-humble-tf-transformations`이고 ROS 패키지 의존성 이름은 `tf_transformations`입니다.
 
 ```bash
 sudo docker compose -f docker/neuronbot2/compose.yaml build
