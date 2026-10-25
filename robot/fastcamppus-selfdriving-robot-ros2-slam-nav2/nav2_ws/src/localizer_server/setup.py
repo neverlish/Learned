@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'init_pose = localizer_server.init_robot:main',
+            'global_localization = localizer_server.global_localization:main',
         ],
     },
 )
