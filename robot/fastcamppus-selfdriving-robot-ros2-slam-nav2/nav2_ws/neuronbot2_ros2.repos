@@ -1,0 +1,17 @@
+repositories:
+  neuronbot2:
+    type: git
+    url: https://github.com/Adlink-ROS/neuronbot2.git
+    version: humble
+  rplidar_ros:
+    type: git
+    url: https://github.com/Adlink-ROS/rplidar_ros.git
+    version: humble
+  serial:
+    type: git
+    url: https://github.com/Adlink-ROS/serial.git
+    version: foxy-devel
+  slam_gmapping:
+    type: git
+    url: https://github.com/Adlink-ROS/slam_gmapping
+    version: foxy-devel
