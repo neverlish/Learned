@@ -1,0 +1,68 @@
+{
+  "session_id": "73176573-c15a-4822-9e23-31011025f179",
+  "title": "민수 학습 상담",
+  "summary": "",
+  "messages": [
+    {
+      "role": "user",
+      "content": "민수의 다음 수업 일정을 알려줘."
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_s9hcgcBttWU0G5GsBNmbiKsQ",
+          "function": {
+            "arguments": "{\"student_name\":\"민수\"}",
+            "name": "check_schedule"
+          },
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_s9hcgcBttWU0G5GsBNmbiKsQ",
+      "content": "{\"success\": true, \"student_name\": \"민수\", \"schedule\": \"화요일 오후 네 시\", \"message\": \"민수의 다음 수업은 화요일 오후 네 시입니다.\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "민수의 다음 수업은 화요일 오후 네 시입니다."
+    },
+    {
+      "role": "user",
+      "content": "그 내용을 상담 메모에 저장해 줘. 메모에는 다음 상담에서 오답 노트 제출 여부를 확인한다고 적어줘."
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_LwhzCC7VrRgQnAdU4ZSbvc5h",
+          "function": {
+            "arguments": "{\"student_name\":\"민수\",\"note\":\"다음 상담에서 오답 노트 제출 여부를 확인할 예정.\"}",
+            "name": "save_counseling_note"
+          },
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_LwhzCC7VrRgQnAdU4ZSbvc5h",
+      "content": "{\"success\": true, \"student_name\": \"민수\", \"message\": \"민수의 상담 메모를 저장했습니다.\", \"file\": \"/home/momo7/projects/ai-1-agent-framework/data/counseling_notes/민수.txt\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "민수의 상담 메모를 저장했어요.  \n다음 상담에서 오답 노트 제출 여부를 확인할 예정입니다."
+    }
+  ],
+  "usage": {
+    "total_prompt_tokens": 1617,
+    "total_completion_tokens": 108,
+    "total_tokens": 1725,
+    "last_prompt_tokens": 531
+  },
+  "user_turn_count": 2
+}
