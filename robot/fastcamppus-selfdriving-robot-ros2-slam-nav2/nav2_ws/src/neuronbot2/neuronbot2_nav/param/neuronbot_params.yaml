@@ -314,8 +314,11 @@ smoother_server:
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
       tolerance: 1.0e-10
-      max_its: 1000
       do_refinement: True
+      refinement_num: 2
+      max_its: 1000
+      w_data: 0.2
+      w_smooth: 0.3
 
 behavior_server:
   ros__parameters:
