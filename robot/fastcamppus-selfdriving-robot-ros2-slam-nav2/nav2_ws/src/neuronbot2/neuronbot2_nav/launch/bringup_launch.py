@@ -34,7 +34,7 @@ def generate_launch_description():
     my_param_dir = os.path.join(my_nav_dir, 'param')
     my_param_file = 'neuronbot_params.yaml'
     my_map_dir = os.path.join(my_nav_dir, 'map')
-    my_map_file = 'mememan.yaml'
+    my_map_file = 'bookstore.yaml'
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
@@ -114,7 +114,7 @@ def generate_launch_description():
 
     declare_open_rviz_cmd = DeclareLaunchArgument(
         'open_rviz',
-        default_value='false',
+        default_value='true',
         description='Launch Rviz?')
 
     # Specify the actions
