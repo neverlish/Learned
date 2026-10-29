@@ -23,6 +23,22 @@ sudo docker compose -f docker/neuronbot2/compose.yaml build
 sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'cd ~/nav2_ws && wget -O neuronbot2_ros2.repos https://raw.githubusercontent.com/Adlink-ROS/neuronbot2_ros2.repos/humble/neuronbot2_ros2.repos && mkdir -p src && vcs import src < neuronbot2_ros2.repos && rosdep update && rosdep install --from-paths src --ignore-src -r -y --rosdistro humble && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release'
 ```
 
+## 간단한 CMake 패키지 빌드
+
+`nav2_ws/src/simple_bt_example/`은 `ament_cmake` 패키지입니다. 이 폴더는 Compose가 연결한 호스트의 `nav2_ws/src/`에 있으므로, 컨테이너 안에서 다음처럼 선택 빌드할 수 있습니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && cd ~/nav2_ws && colcon build --symlink-install --packages-select simple_bt_example --cmake-args -DCMAKE_BUILD_TYPE=Release'
+```
+
+컨테이너는 매번 새로 실행되므로, 빌드 후 다른 명령에서도 패키지를 사용하려면 설치 환경을 다시 source 합니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && source ~/nav2_ws/install/local_setup.bash && ros2 pkg prefix simple_bt_example'
+```
+
+새 패키지 디렉터리를 생성하는 명령은 같은 컨테이너에서 `cd ~/nav2_ws/src && ros2 pkg create --build-type ament_cmake simple_bt_example` 형태로 실행합니다. 현재 패키지 디렉터리가 이미 있으므로 다시 생성할 필요는 없습니다.
+
 ## 시뮬레이션 실행 및 조작
 
 시뮬레이션을 실행합니다.
