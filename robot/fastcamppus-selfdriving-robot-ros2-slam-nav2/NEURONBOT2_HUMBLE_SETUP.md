@@ -39,6 +39,20 @@ sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc '
 
 새 패키지 디렉터리를 생성하는 명령은 같은 컨테이너에서 `cd ~/nav2_ws/src && ros2 pkg create --build-type ament_cmake simple_bt_example` 형태로 실행합니다. 현재 패키지 디렉터리가 이미 있으므로 다시 생성할 필요는 없습니다.
 
+## TurtleBot3 멀티 로봇 패키지 빌드
+
+`nav2_ws/src/tb3_multi_sim/` 소스의 의존성을 설치하고 필요한 패키지만 빌드합니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm --user root humble bash -lc 'source /opt/ros/humble/setup.bash && apt-get update && cd ~/nav2_ws && rosdep install --from-paths src/tb3_multi_sim/turtlebot3_multi_robot -y --ignore-src --os=ubuntu:jammy && colcon build --symlink-install --packages-select turtlebot3 turtlebot3_description turtlebot3_msgs turtlebot3_gazebo turtlebot3_multi_robot --cmake-args -DCMAKE_BUILD_TYPE=Release && chown -R 1000:1000 build install log'
+```
+
+Compose 컨테이너는 매번 새로 실행되므로, 이후 컨테이너에서 해당 오버레이를 사용할 때는 ROS 기본 환경과 워크스페이스 환경을 모두 source 합니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && source ~/nav2_ws/install/local_setup.bash && ros2 pkg list | grep "^turtlebot3"'
+```
+
 ## 시뮬레이션 실행 및 조작
 
 시뮬레이션을 실행합니다.
