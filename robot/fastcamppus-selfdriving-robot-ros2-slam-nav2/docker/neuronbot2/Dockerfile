@@ -40,6 +40,8 @@ RUN python3 -m pip install --no-cache-dir transforms3d
 
 RUN apt-get update && apt-get install -y --no-install-recommends ros-humble-tf-transformations ros-humble-bcr-bot ros-humble-rtabmap ros-humble-rtabmap-slam ros-humble-rtabmap-ros ros-humble-joint-state-publisher && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y --no-install-recommends ros-humble-nav2-simple-commander && rm -rf /var/lib/apt/lists/*
+
 USER ros
 ENV HOME=/home/ros
 WORKDIR /home/ros/nav2_ws

@@ -17,6 +17,21 @@
 sudo docker compose -f docker/neuronbot2/compose.yaml build
 ```
 
+`nav2_simple_commander` Python 모듈은 Docker 이미지에 `ros-humble-nav2-simple-commander`로 설치합니다. Dockerfile을 수정한 뒤 이미지를 다시 빌드하면 모든 컨테이너에서 사용할 수 있습니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml build humble
+```
+
+## Nav2 Python 패키지 생성 및 빌드
+
+`nav2_ws/src/nav2_programming/`은 `rclpy`, `geometry_msgs`, `nav2_simple_commander` 의존성을 선언한 `ament_python` 패키지입니다. 생성과 선택 빌드는 컨테이너에서 다음처럼 실행합니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && cd ~/nav2_ws/src && ros2 pkg create --build-type ament_python nav2_programming --dependencies rclpy geometry_msgs nav2_simple_commander'
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && cd ~/nav2_ws && colcon build --symlink-install --packages-select nav2_programming'
+```
+
 호스트의 `nav2_ws/`가 컨테이너의 `~/nav2_ws/`로 연결되므로 저장소 루트에서 다음을 실행해 저장소를 가져오고 빌드합니다.
 
 ```bash
