@@ -25,9 +25,9 @@ def generate_launch_description():
     y_pose = LaunchConfiguration('y_pose', default='0.0')
     
     world = os.path.join(
-        get_package_share_directory('aws_robomaker_bookstore_world'),
+        get_package_share_directory('neuronbot2_gazebo'),
         'worlds',
-        'bookstore.world'
+        'mememan_world.model'
     )
 
     gzserver_cmd = IncludeLaunchDescription(
