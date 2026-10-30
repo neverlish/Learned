@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'navigate_to_pose = nav2_programming.navigate_to_pose:main',
+            'navigate_through_poses = nav2_programming.navigate_through_poses:main',
         ],
     },
 )
