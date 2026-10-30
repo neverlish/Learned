@@ -1,0 +1,37 @@
+services:
+  humble:
+    build:
+      context: ../..
+      dockerfile: docker/neuronbot2/Dockerfile
+      args:
+        USER_UID: 1000
+        USER_GID: 1000
+    image: neuronbot2-humble-dev:local
+    container_name: neuronbot2-humble-dev
+    user: ros
+    gpus: all
+    network_mode: host
+    stdin_open: true
+    tty: true
+    environment:
+      RMW_IMPLEMENTATION: ${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: graphics,utility,compute
+      __NV_PRIME_RENDER_OFFLOAD: "1"
+      __GLX_VENDOR_LIBRARY_NAME: nvidia
+      RCUTILS_CONSOLE_OUTPUT_FORMAT: "[{severity}]: {message}"
+      RCUTILS_COLORIZED_OUTPUT: "1"
+      GAZEBO_RESOURCE_PATH: /usr/share/gazebo-11
+      DISPLAY: ${DISPLAY:-:0}
+      XAUTHORITY: /tmp/.Xauthority
+      QT_X11_NO_MITSHM: "1"
+    volumes:
+      - ../../nav2_ws:/home/ros/nav2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /run/user/1000/gdm/Xauthority:/tmp/.Xauthority:ro
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - "44"
+      - "992"
+    working_dir: /home/ros/nav2_ws

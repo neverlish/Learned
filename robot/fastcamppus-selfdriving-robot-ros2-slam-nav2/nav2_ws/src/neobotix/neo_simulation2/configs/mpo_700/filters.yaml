@@ -1,0 +1,26 @@
+costmap_filter_info_server:
+  ros__parameters:
+    use_sim_time: true
+    filter_info_topic: "/costmap_filter_info"
+    # For Keepout Zones
+    #type: 0
+    #mask_topic: "/keepout_filter_mask"
+    #base: 0.0
+    #multiplier: 1.0
+    # For Speed Limits
+    type: 1
+    mask_topic: "/speed_filter_mask"
+    base: 100.0
+    multiplier: -1.0
+
+filter_mask_server:
+  ros__parameters:
+    use_sim_time: true
+    frame_id: "map"
+    # For Keepout Zones
+    #topic_name: "/keepout_filter_mask"
+    #yaml_filename: "/home/fastcampus/nav2_ws/src/neobotix/neo_simulation2/maps/aws_keepout.yaml"
+    # For Speed Limits
+    topic_name: "/speed_filter_mask"
+    # navigation_neo.launch.py replaces this with the installed package-share path.
+    yaml_filename: "aws_keepout.yaml"

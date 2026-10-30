@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo">
+
+    <xacro:macro name="gazebo_lidar_sensor" params="
+      sensor_name 
+      link_name 
+      update_rate 
+      min_range 
+      max_range 
+      horizontal_samples 
+      min_angle 
+      max_angle 
+      noise_mean 
+      noise_stddev
+      topic_name
+      visualize='false'
+      ">
+
+        <gazebo reference="${link_name}">
+          <sensor name="${sensor_name}" type="ray">
+            <always_on>true</always_on>
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>${visualize}</visualize>
+            <update_rate>${update_rate}</update_rate>
+            <ray>
+              <scan>
+                <horizontal>
+                  <samples>${horizontal_samples}</samples>
+                  <resolution>1</resolution>
+                  <min_angle>${min_angle}</min_angle>
+                  <max_angle>${max_angle}</max_angle>
+                </horizontal>
+              </scan>
+              <range>
+                <min>${min_range}</min>
+                <max>${max_range}</max>
+                <resolution>0.05</resolution>
+              </range>
+              <noise>
+                <type>gaussian</type>
+                <!-- Noise parameters based on published spec for Hokuyo laser
+                    achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+                    stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+                    reading. -->
+                <mean>${noise_mean}</mean>
+                <stddev>${noise_stddev}</stddev>
+              </noise>
+            </ray>
+            <plugin filename="libgazebo_ros_ray_sensor.so" name="${sensor_name}_plugin">
+              <ros>
+                <argument>~/out:=${topic_name}</argument>
+              </ros>
+              <output_type>sensor_msgs/LaserScan</output_type>
+              <frame_name>${link_name}</frame_name>
+            </plugin>
+          </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

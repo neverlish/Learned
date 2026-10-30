@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo">
+
+    <!--Gazebo Object Controller Macro-->
+    <xacro:macro name="gazebo_object_controller" params="
+        odom_update_rate 
+        controller_update_rate
+        odom_frame
+        base_frame
+        covariance_yaw
+        ">
+
+        <gazebo>
+            <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+                <commandTopic>cmd_vel</commandTopic>
+                <odometryTopic>odom</odometryTopic>
+                <robotNamespace><remapping>/tf:=tf</remapping></robotNamespace>
+                <ros>    <remapping>/tf:=tf</remapping>    </ros>
+    
+                <!-- Set odom publish rate -->
+                <odometryRate>${odom_update_rate}</odometryRate>
+    
+                <!-- Set control loop update rate -->
+                <publish_rate>${controller_update_rate}</publish_rate>
+    
+                <!-- Set if odom required -->
+                <publish_odom>true</publish_odom>
+                <publish_odom_tf>true</publish_odom_tf>
+    
+                <!-- Frame IDs -->
+                <odometryFrame>${odom_frame}</odometryFrame>
+                <robotBaseFrame>${base_frame}</robotBaseFrame>
+    
+                <!-- Set odom covariance -->
+                <covariance_x>0.0001</covariance_x>
+                <covariance_y>0.0001</covariance_y>
+                <covariance_yaw>${covariance_yaw}</covariance_yaw>
+            </plugin>  
+        </gazebo>
+    </xacro:macro>
+      
+</robot>

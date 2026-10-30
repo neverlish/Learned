@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_500">
+
+    <link name="base_footprint"/>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <!-- <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="15"/> -->
+        <joint_properties damping="1" friction="1"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint>
+
+    <link name="base_link">
+        <inertial>
+            <mass value="64"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="2.8" ixy="0.0" ixz="0.0" iyy="2.8" iyz="0.0" izz="2.8"/>
+        </inertial>
+        <visual>
+            <origin rpy="-1.571 0 1.571" xyz="0. 0. 0"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/robots/mpo_500/meshes/MPO-500-BODY.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.571 0 1.571" xyz="0. 0. 0"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/robots/mpo_500/meshes/MPO-500-BODY.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Sensors -->
+    <joint name="lidar_1_joint" type="fixed">
+        <axis xyz="0 1 0"/>
+        <origin rpy="0 0 0" xyz="0.442 0 0.372"/>
+        <parent link="base_link"/>
+        <child link="lidar_1_link"/>
+    </joint>
+
+    <link name="lidar_1_link" type="laser">
+        <inertial>
+            <mass value="0.0001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57 0 0" xyz="0 0 -0.06"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-MICROSCAN3.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="0 0 -0.06"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-MICROSCAN3.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lidar_2_joint" type="fixed">
+        <axis xyz="0 1 0"/>
+        <origin rpy="0 0 3.14" xyz="-0.442 0 0.372"/>
+        <parent link="base_link"/>
+        <child link="lidar_2_link"/>
+    </joint>
+
+    <link name="lidar_2_link" type="laser">
+        <inertial>
+            <mass value="0.0001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57 0 0" xyz="0 0 -0.06"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-MICROSCAN3.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="0 0 -0.06"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-MICROSCAN3.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Import wheel macros -->
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_500/urdf/macro/mpo_500_wheel_macro.xacro"/>
+
+    <!-- Omni Wheels-->
+    <xacro:mpo_500_omni_wheel 
+        wheel_prefix="mpo_500_omni_wheel_front_left"
+        parent_link="base_link" 
+        wheel_joint_type="${ODM_joint_type}"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="0.25 0.28 0.13"/>
+    </xacro:mpo_500_omni_wheel>
+
+    <xacro:mpo_500_omni_wheel 
+        wheel_prefix="mpo_500_omni_wheel_front_right" 
+        parent_link="base_link" 
+        wheel_joint_type="${ODM_joint_type}"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 3.14" xyz="0.25 -0.28 0.13"/>
+    </xacro:mpo_500_omni_wheel>
+
+    <xacro:mpo_500_omni_wheel 
+        wheel_prefix="mpo_500_omni_wheel_back_left" 
+        parent_link="base_link"
+        wheel_joint_type="${ODM_joint_type}"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="-0.25 0.28 0.13"/>
+    </xacro:mpo_500_omni_wheel>
+
+    <xacro:mpo_500_omni_wheel
+        wheel_prefix="mpo_500_omni_wheel_back_right"
+        parent_link="base_link" 
+        wheel_joint_type="${ODM_joint_type}"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 3.14" xyz="-0.25 -0.28 0.13"/>
+    </xacro:mpo_500_omni_wheel>
+
+</robot>

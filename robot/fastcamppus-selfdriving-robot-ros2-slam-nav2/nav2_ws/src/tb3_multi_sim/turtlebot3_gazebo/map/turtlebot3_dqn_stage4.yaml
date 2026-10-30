@@ -1,0 +1,7 @@
+image: /home/shyam/turtlebot3_dqn_stage4.pgm
+mode: trinary
+resolution: 0.05
+origin: [-2.71, -2.75, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.25

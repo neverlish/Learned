@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_500">
+
+    <!--WHEEL MACRO-->
+    <xacro:macro name="mpo_500_omni_wheel" params="
+        wheel_prefix 
+        parent_link
+        *origin
+        wheel_joint_type
+        has_limits
+        model_scale
+        ">
+
+        <!--wheel link-->
+        <link name="${wheel_prefix}_link" type="wheel">
+            <inertial>
+                <mass value="2.2"/>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://neo_simulation2/robots/mpo_500/meshes/MPO-500-WHEEL.dae" scale="${model_scale}"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="0 1.57 1.57" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.117"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <!--wheel joint-->
+        <joint name="${wheel_prefix}_joint" type="${wheel_joint_type}">
+            <xacro:insert_block name="origin"/>
+            <xacro:if value="${has_limits}">
+                <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="15"/>
+            </xacro:if>
+            <axis xyz="0 1 0"/>
+            <joint_properties damping="1.0" friction="1"/>
+            <parent link="${parent_link}"/>
+            <child link="${wheel_prefix}_link"/>
+        </joint>
+    </xacro:macro>
+
+   </robot>
+
+
+   

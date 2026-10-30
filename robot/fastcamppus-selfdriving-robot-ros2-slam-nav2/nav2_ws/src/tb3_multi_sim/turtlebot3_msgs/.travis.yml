@@ -1,0 +1,26 @@
+services:
+  - docker
+
+language:
+  - none
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    recipients:
+      - pyo@robotis.com
+      - thlim@robotis.com
+
+branches:
+  only:
+    - ros2
+    - ros2-devel
+    - dashing-devel
+
+install:
+  - git clone --quiet --depth 1 https://github.com/ROBOTIS-GIT/ros2ci.git .ros2ci
+
+matrix:
+  include:
+    - script: .ros2ci/travis.bash dashing

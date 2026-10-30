@@ -1,0 +1,14 @@
+build/
+install/
+log/
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+.ros2/
+nav2_ws/src/
+nav2_ws/build/
+nav2_ws/install/
+nav2_ws/log/
+.devcontainer/
+.git/
+**/.git

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo">
+
+    <!--WHEEL MACRO-->
+    <xacro:macro name="cabinet" params="
+        neo_robot_name
+        parent_link
+        inertial_rpy
+        visual_rpy
+        collision_rpy
+        *origin
+        model_scale
+        ">
+
+        <joint name="cabinet_joint" type="fixed">
+            <xacro:insert_block name="origin"/>
+            <joint_properties damping="1" friction="1"/>
+            <parent link="${parent_link}"/>
+            <child link="cabinet_link"/>
+        </joint>
+
+        <link name="cabinet_link">
+            <inertial>
+                <mass value="10"/>
+                <origin rpy="${inertial_rpy}" xyz="0 0 0"/>
+                <inertia ixx="0.457072" ixy="0.0" ixz="0.0" iyy="0.23616" iyz="0.0" izz="0.686"/>
+            </inertial>
+            <visual>
+                <origin rpy="${visual_rpy}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://neo_simulation2/robots/${neo_robot_name}/meshes/cabin.dae" scale="${model_scale}"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="${collision_rpy}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://neo_simulation2/robots/mpo_700/meshes/cabin.dae" scale="${model_scale}"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+   </robot>

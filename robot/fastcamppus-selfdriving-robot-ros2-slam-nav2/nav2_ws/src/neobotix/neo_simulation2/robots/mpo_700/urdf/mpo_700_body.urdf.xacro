@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_700">
+
+    <link name="base_footprint"/>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <axis xyz="0 0 -1"/>
+        <!-- <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="15"/> -->
+        <joint_properties damping="1" friction="1"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint>
+
+    <link name="base_link">
+        <inertial>
+            <mass value="140"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="7.8" ixy="0.0" ixz="0" iyy="7.8" iyz="0.0" izz="7.8"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 -1.571" xyz="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/robots/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 -1.571" xyz="0. 0. 0."/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/robots/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Sensors -->
+    <joint name="lidar_1_joint" type="fixed">
+        <axis xyz="0 1 0"/>
+        <origin rpy="3.14 0 0.79" xyz="0.338 0.288 0.223"/>
+        <parent link="base_link"/>
+        <child link="lidar_1_link"/>
+    </joint>
+
+    <link name="lidar_1_link" type="laser">
+        <inertial>
+            <mass value="1.2"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.11042056" ixy="0.0" ixz="0.0" iyy="0.11042056" iyz="0.0" izz="0.11042056"/>
+        </inertial>
+        <visual>
+            <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="lidar_2_joint" type="fixed">
+        <axis xyz="0 1 0"/>
+        <origin rpy="3.14 0 3.93" xyz="-0.338 -0.288 0.223"/>
+        <parent link="base_link"/>
+        <child link="lidar_2_link"/>
+    </joint>
+
+    <link name="lidar_2_link" type="laser">
+        <inertial>
+            <mass value="0.001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+            <geometry>
+                <mesh filename="package://neo_simulation2/components/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Import wheel macros -->
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_700/urdf/macro/mpo_700_wheel_macro.xacro"/>
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_700/urdf/macro/mpo_700_caster_wheel_macro.xacro"/>
+
+    <!-- Caster wheels -->
+    <xacro:mpo_700_caster_wheel 
+        caster_prefix="mpo_700_caster_front_left" 
+        caster_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 0"
+        parent_link="base_link"
+        caster_inertial_value="0.27258101"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="0.24 0.18 0.22"/>
+    </xacro:mpo_700_caster_wheel>
+
+    <xacro:mpo_700_caster_wheel 
+        caster_prefix="mpo_700_caster_front_right" 
+        caster_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        parent_link="base_link"
+        caster_inertial_value="0.27258101"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="0.24 -0.18 0.22"/>
+    </xacro:mpo_700_caster_wheel>
+
+    <xacro:mpo_700_caster_wheel 
+        caster_prefix="mpo_700_caster_back_left" 
+        caster_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 0"
+        parent_link="base_link"
+        caster_inertial_value="0.27258101"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="-0.24 0.18 0.22"/>
+    </xacro:mpo_700_caster_wheel>
+
+    <xacro:mpo_700_caster_wheel 
+        caster_prefix="mpo_700_caster_back_right" 
+        caster_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        parent_link="base_link"
+        caster_inertial_value="0.27258101"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="-0.24 -0.18 0.22"/>
+    </xacro:mpo_700_caster_wheel>
+    
+    <!-- NOTE: All wheels have limits-->
+    <xacro:mpo_700_wheel 
+        wheel_prefix="mpo_700_wheel_front_left"
+        parent_prefix="mpo_700_caster_front_left" 
+        wheel_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="0.0 0.045 -0.12"/>
+    </xacro:mpo_700_wheel>
+
+    <xacro:mpo_700_wheel 
+        wheel_prefix="mpo_700_wheel_front_right" 
+        parent_prefix="mpo_700_caster_front_right" 
+        wheel_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 3.14" xyz="0.0 -0.045 -0.12"/>
+    </xacro:mpo_700_wheel>
+
+    <xacro:mpo_700_wheel 
+        wheel_prefix="mpo_700_wheel_back_left" 
+        parent_prefix="mpo_700_caster_back_left"
+        wheel_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 0" xyz="0.0 0.045 -0.12"/>
+    </xacro:mpo_700_wheel>
+
+    <xacro:mpo_700_wheel
+        wheel_prefix="mpo_700_wheel_back_right"
+        parent_prefix="mpo_700_caster_back_right" 
+        wheel_joint_type="${ODM_joint_type}"
+        link_origin_rpy="0 0 3.14"
+        has_limits="true"
+        model_scale="0.001 0.001 0.001"
+        >
+        <origin rpy="0 0 3.14" xyz="0.0 -0.045 -0.12"/>
+    </xacro:mpo_700_wheel>
+
+    <!-- Import docking adapter -->
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_700/urdf/macro/docking_adapter.xacro"/>
+
+    <xacro:docking_adapter name="docking_adapter" parent="base_link">
+        <origin xyz="-0.300 0 0.320" rpy="0 0 -1.57" />
+    </xacro:docking_adapter>
+
+</robot>
