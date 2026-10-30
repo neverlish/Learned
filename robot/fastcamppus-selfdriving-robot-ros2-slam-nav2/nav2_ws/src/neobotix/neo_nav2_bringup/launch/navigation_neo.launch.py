@@ -33,13 +33,16 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
+    filter_mask_params_file = LaunchConfiguration('filter_mask_params_file')
     use_multi_robots = LaunchConfiguration('use_multi_robots')
 
     lifecycle_nodes = ['controller_server',
                        'planner_server',
                        'behavior_server',
                        'bt_navigator',
-                       'waypoint_follower']
+                       'waypoint_follower',
+                       'filter_mask_server',
+                       'costmap_filter_info_server']
 
     remappings = [('/tf', 'tf'),
                   ('/tf_static', 'tf_static')]
@@ -48,10 +51,23 @@ def generate_launch_description():
         'use_sim_time': use_sim_time,
         'autostart': autostart}
 
+    filter_mask_param_rewrites = {
+        **param_substitutions,
+        'yaml_filename': os.path.join(
+            get_package_share_directory('neo_simulation2'),
+            'maps',
+            'aws_keepout.yaml')}
+
     configured_params = RewrittenYaml(
             source_file=params_file,
             root_key=namespace,
             param_rewrites=param_substitutions,
+            convert_types=True)
+
+    filter_mask_params = RewrittenYaml(
+            source_file=filter_mask_params_file,
+            root_key=namespace,
+            param_rewrites=filter_mask_param_rewrites,
             convert_types=True)
 
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -77,9 +93,29 @@ def generate_launch_description():
         'use_multi_robots', default_value='False',
         description='A flag to remove the remappings')
 
+    declare_filter_mask_params_file_cmd = DeclareLaunchArgument(
+        'filter_mask_params_file',
+        default_value=os.path.join(
+            get_package_share_directory('neo_simulation2'),
+            'configs/mpo_700/filters.yaml'))
+
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(['not ', use_multi_robots])),
         actions=[
+            Node(
+                package='nav2_map_server',
+                executable='map_server',
+                name='filter_mask_server',
+                output='screen',
+                parameters=[filter_mask_params],
+                remappings=remappings),
+            Node(
+                package='nav2_map_server',
+                executable='costmap_filter_info_server',
+                name='costmap_filter_info_server',
+                output='screen',
+                parameters=[filter_mask_params],
+                remappings=remappings),
             Node(
                 package='nav2_controller',
                 executable='controller_server',
@@ -177,6 +213,7 @@ def generate_launch_description():
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_multi_robots_cmd)
+    ld.add_action(declare_filter_mask_params_file_cmd)
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
