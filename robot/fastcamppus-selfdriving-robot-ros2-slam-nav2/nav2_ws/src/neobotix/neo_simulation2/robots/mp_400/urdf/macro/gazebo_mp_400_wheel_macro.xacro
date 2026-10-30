@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_400">
+
+    <!--Gazebo Wheel Macro-->
+    <xacro:macro name="gazebo_mp_400_fixed_wheel" params="
+        wheel_prefix 
+        kp
+        kd
+        mu1
+        mu2
+        gravity
+        minDepth
+        implicitSpringDamper
+    ">
+
+        <gazebo reference="${wheel_prefix}_link">
+            <kp>${kp}</kp>
+            <kd>${kd}</kd>
+            <mu1>${mu1}</mu1>
+            <mu2>${mu2}</mu2>
+            <gravity>${gravity}</gravity>
+            <minDepth>${minDepth}</minDepth>
+            <implicitSpringDamper>${implicitSpringDamper}</implicitSpringDamper>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

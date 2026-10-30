@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!-- This is the main URDF file for mpo_500-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_500">
+
+    <!--set use_gazebo = false for implementation on real robot-->
+    <xacro:arg name="use_gazebo" default="true"/>
+
+    <!--set arm name to include the arm in the simulation-->
+    <xacro:arg name="arm_type" default=""/>
+
+    <!-- Arm properties-->
+    <xacro:property name="arm" value="$(arg arm_type)"/>
+    <xacro:property name="use_arm" value="false"/>
+
+    <!-- OmniDriveModule(ODM) joint type for both wheels and casters -->
+    <xacro:property name="ODM_joint_type" value="revolute"/>
+
+    <!-- When there is an arm mounted, the joints of the wheels needs 
+    to be of fixed type. The reason being, both the drive modules and 
+    the arm cannot publish joint states simultenously. Thus we omit
+    the visualization of the drives. Issue will be fixed, when we switch
+    to ROS 2 control. -->
+    <xacro:unless value="${arm == ''}">
+      <xacro:property name="ODM_joint_type" value="fixed"/>
+    </xacro:unless>
+
+    <!-- import main body description -->
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_500/urdf/mpo_500_body.urdf.xacro"/>
+ 
+    <!-- If Simulation is used -->
+    <xacro:if value="$(arg use_gazebo)">
+        <xacro:include filename="$(find neo_simulation2)/robots/mpo_500/urdf/mpo_500_gazebo.urdf.xacro"/>
+    </xacro:if>
+
+    <!-- Check if one of the arms is used -->
+    <xacro:if value="${arm == 'ur5' or arm == 'ur10' or arm == 'ur5e' or arm == 'ur10e' or arm == 'ec66' or arm == 'cs66'}">
+        <xacro:property name="use_arm" value="true"/>
+    </xacro:if>
+
+    <!-- If Arm is used -->
+    <xacro:if value="${use_arm}">
+        <!-- cabinet -->
+        <xacro:include filename="$(find neo_simulation2)/components/common_macro/mpo_cabinet_macro.xacro"/>
+        <xacro:cabinet
+            neo_robot_name="mpo_500"
+            parent_link="base_link"
+            model_scale="0.001 0.001 0.001"
+            inertial_rpy="0 0 0"
+            visual_rpy="0 0 -1.5708"
+            collision_rpy="0 0 0"
+        >
+            <origin rpy="0 0 0" xyz="0.072 0 0.386"/>
+        </xacro:cabinet>
+
+        <!-- Universal Robotics Arm-->
+        <xacro:if value="${arm == 'ur5' or arm == 'ur10' or arm == 'ur5e' or arm == 'ur10e'}">
+            <xacro:include filename="$(find neo_simulation2)/components/arm/ur_arm.urdf.xacro"/>
+        </xacro:if>
+
+        <!-- Elite Arm -->
+        <xacro:if value="${arm == 'ec66' or arm == 'cs66'}">
+            <xacro:include filename="$(find neo_simulation2)/components/arm/elite_arm.urdf.xacro"/>
+        </xacro:if>
+
+    </xacro:if>
+</robot>
+
+

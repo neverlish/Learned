@@ -1,0 +1,7 @@
+<library path="neo_local_planner2">
+  <class type="neo_local_planner2::NeoLocalPlanner" base_class_type="nav2_core::Controller">
+    <description>
+      Emprical local planner based on pure-pursuit
+    </description>
+  </class>
+</library>

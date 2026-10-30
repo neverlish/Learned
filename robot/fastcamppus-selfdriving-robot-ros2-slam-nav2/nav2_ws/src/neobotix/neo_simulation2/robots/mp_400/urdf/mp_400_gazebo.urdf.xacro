@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_400">
+
+    <!-- Include macros -->
+    <xacro:include filename="$(find neo_simulation2)/components/common_macro/gazebo_lidar_macro.xacro" />
+    <xacro:include filename="$(find neo_simulation2)/components/common_macro/gazebo_diff_drive_plugin_macro.xacro" />
+    <xacro:include filename="$(find neo_simulation2)/robots/mp_400/urdf/macro/gazebo_mp_400_caster_wheel_macro.xacro" />
+    <xacro:include filename="$(find neo_simulation2)/robots/mp_400/urdf/macro/gazebo_mp_400_wheel_macro.xacro" />
+
+    <!-- Properties -->
+    <xacro:property name="lidar_1_update_rate" value="100" />
+    <xacro:property name="diff_drive_plugin_update_rate" value="100" />
+
+    <gazebo reference="base_link">
+        <kp>10000.0</kp>
+        <kd>10.0</kd>
+        <mu1>1.5</mu1>
+        <mu2>1.5</mu2>
+        <fdir1>.1 0 0</fdir1>
+        <maxVel>10.0</maxVel>
+        <minDepth>0.0005</minDepth>
+    </gazebo>
+  
+    <!--Differential Drive and Joint States Publisher Plugin-->
+    <xacro:gazebo_diff_drive_plugin
+        joint_prefix="mp_400_fixed_wheel"
+        update_rate="${diff_drive_plugin_update_rate}"
+        wheel_separation="0.529"
+        wheel_diameter="0.15" 
+        command_topic="cmd_vel"
+        odometry_topic="odom"
+        odom_frame="odom"
+        base_frame="base_footprint"
+        max_wheel_torque="1000"
+        max_acceleration="20.0"
+    />
+
+    <!--Lidar Sensors-->
+    <xacro:gazebo_lidar_sensor
+        sensor_name="lidar_1_sensor"
+        link_name="lidar_1_link"
+        update_rate="${lidar_1_update_rate}"
+        min_range="0.10"
+        max_range="30.0"
+        horizontal_samples="720"
+        min_angle="-1.48"
+        max_angle="1.48"
+        noise_mean="0.0"
+        noise_stddev="0.01"
+        topic_name="scan"
+        visualize="true"
+    />
+
+    <!--Caster Wheels-->
+    <xacro:gazebo_mp_400_caster_wheel
+        wheel_prefix="mp_400_caster_wheel_front_left"
+        kp="10000.0" 
+        kd="10.0" 
+        mu1="0.5" 
+        mu2="0.2" 
+        fdir1=".5 0 0" 
+        maxVel="3.0" 
+        minDepth="0.00"
+        implicitSpringDamper="3"
+    />
+
+    <xacro:gazebo_mp_400_caster_wheel
+        wheel_prefix="mp_400_caster_wheel_back_left"
+        kp="10000.0" 
+        kd="10.0" 
+        mu1="0.5" 
+        mu2="0.2" 
+        fdir1=".5 0 0" 
+        maxVel="3.0" 
+        minDepth="0.00"
+        implicitSpringDamper="3"
+    />
+    <xacro:gazebo_mp_400_caster_wheel
+        wheel_prefix="mp_400_caster_wheel_front_right"
+        kp="10000.0" 
+        kd="10.0" 
+        mu1="0.5" 
+        mu2="0.2" 
+        fdir1=".5 0 0" 
+        maxVel="3.0" 
+        minDepth="0.00"
+        implicitSpringDamper="3"
+    />
+
+    <xacro:gazebo_mp_400_caster_wheel
+        wheel_prefix="mp_400_caster_wheel_back_right"
+        kp="10000.0" 
+        kd="10.0" 
+        mu1="0.5" 
+        mu2="0.2" 
+        fdir1=".5 0 0" 
+        maxVel="3.0" 
+        minDepth="0.00"
+        implicitSpringDamper="3"
+    />
+
+    <!--Wheels-->
+    <xacro:gazebo_mp_400_fixed_wheel
+        wheel_prefix="mp_400_fixed_wheel_left"
+        kp="100000.0" 
+        kd="50.0" 
+        mu1="100" 
+        mu2="100" 
+        gravity="1" 
+        minDepth="0.00"
+        implicitSpringDamper="1"
+    />
+
+    <xacro:gazebo_mp_400_fixed_wheel
+        wheel_prefix="mp_400_fixed_wheel_right"
+        kp="100000.0" 
+        kd="50.0" 
+        mu1="100" 
+        mu2="100"
+        gravity="1" 
+        minDepth="0.00"
+        implicitSpringDamper="1"
+    />
+
+</robot>

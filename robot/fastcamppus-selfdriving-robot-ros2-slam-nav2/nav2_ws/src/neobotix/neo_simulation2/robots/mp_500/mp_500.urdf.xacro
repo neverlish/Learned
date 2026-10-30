@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- This is the main URDF file for mp_500-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_500">
+
+    <!--set use_gazebo = false for implementation on real robot-->
+    <xacro:arg name="use_gazebo" default="true"/>
+
+    <!-- import main body description -->
+    <xacro:include filename="$(find neo_simulation2)/robots/mp_500/urdf/mp_500_body.urdf.xacro"/>
+ 
+    <!-- If Simulation is used -->
+    <xacro:if value="$(arg use_gazebo)">
+        <xacro:include filename="$(find neo_simulation2)/robots/mp_500/urdf/mp_500_gazebo.urdf.xacro"/>
+    </xacro:if>
+
+</robot>
+
+

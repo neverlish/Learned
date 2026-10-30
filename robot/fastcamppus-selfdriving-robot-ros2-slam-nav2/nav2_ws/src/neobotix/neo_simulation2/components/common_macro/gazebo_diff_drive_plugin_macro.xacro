@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_500">
+
+    <!--Gazebo Diff Drive and Joint States Publisher plugin Macro-->
+    <xacro:macro name="gazebo_diff_drive_plugin" params="
+        update_rate
+        joint_prefix
+        wheel_separation
+        wheel_diameter
+        command_topic
+        odometry_topic 
+        odom_frame
+        base_frame
+        max_wheel_torque
+        max_acceleration
+        ">
+
+        <gazebo>
+            <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+                <!-- Replace camelCase elements with camel_case ones -->
+                <update_rate>${update_rate}</update_rate>
+                <left_joint>${joint_prefix}_left_joint</left_joint>
+                <right_joint>${joint_prefix}_right_joint</right_joint>
+                <wheel_separation>${wheel_separation}</wheel_separation>
+                <wheel_diameter>${wheel_diameter}</wheel_diameter>
+                <publish_odom>true</publish_odom>
+                <publish_odom_tf>true</publish_odom_tf>
+                <publish_wheel_tf>true</publish_wheel_tf>
+                <command_topic>${command_topic}</command_topic>
+
+                <odometry_topic>${odometry_topic}</odometry_topic>
+                <odometry_frame>${odom_frame}</odometry_frame>
+                <robot_base_frame>${base_frame}</robot_base_frame>
+
+                <!-- wheelTorque and wheelAcceleration now have max_ prefix -->
+                <max_wheel_torque>${max_wheel_torque}</max_wheel_torque>
+                <max_acceleration>${max_acceleration}</max_acceleration>
+            </plugin>
+
+            <plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
+                <joint_name>${joint_prefix}_left_joint</joint_name>
+                <joint_name>${joint_prefix}_right_joint</joint_name>
+            </plugin>
+
+        </gazebo>
+    </xacro:macro>
+      
+</robot>

@@ -53,6 +53,23 @@ Compose 컨테이너는 매번 새로 실행되므로, 이후 컨테이너에서
 sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble bash -lc 'source /opt/ros/humble/setup.bash && source ~/nav2_ws/install/local_setup.bash && ros2 pkg list | grep "^turtlebot3"'
 ```
 
+## Neobotix Nav2 패키지 빌드
+
+Neobotix 저장소를 Humble 브랜치로 가져오고 `neo_simulation2`는 지정 커밋으로 고정합니다. apt 의존성 설치와 전체 워크스페이스 빌드는 컨테이너 root로 수행하며, 빌드 산출물과 소스의 소유권을 호스트 사용자(UID/GID 1000)로 돌립니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm --user root humble bash -lc 'source /opt/ros/humble/setup.bash && apt-get update && apt-get install -y ros-${ROS_DISTRO}-navigation2 ros-${ROS_DISTRO}-nav2-* && mkdir -p ~/nav2_ws/src/neobotix && cd ~/nav2_ws/src/neobotix && git clone https://github.com/neobotix/neo_msgs2.git && git clone --branch ${ROS_DISTRO} https://github.com/neobotix/neo_local_planner2.git && git clone --branch ${ROS_DISTRO} https://github.com/neobotix/neo_localization2.git && git clone --branch ${ROS_DISTRO} https://github.com/neobotix/neo_nav2_bringup.git && git clone --branch ${ROS_DISTRO} https://github.com/neobotix/neo_simulation2.git && cd neo_simulation2 && git checkout e2b39b7917b4becf69d5ece0a0129dc9188c309a && cd ~/nav2_ws && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release && chown -R 1000:1000 build install log src/neobotix'
+```
+
+빌드한 오버레이를 사용할 때는 컨테이너 셸을 열고 두 환경을 source 합니다.
+
+```bash
+sudo docker compose -f docker/neuronbot2/compose.yaml run --rm humble
+# 컨테이너 셸 안에서 실행
+source /opt/ros/humble/setup.bash
+source ~/nav2_ws/install/local_setup.bash
+```
+
 ## 시뮬레이션 실행 및 조작
 
 시뮬레이션을 실행합니다.

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_500">
+
+    <!-- Include macros -->
+    <xacro:include filename="$(find neo_simulation2)/components/common_macro/gazebo_lidar_macro.xacro" />
+    <xacro:include filename="$(find neo_simulation2)/components/common_macro/gazebo_object_controller_macro.xacro" />
+    <xacro:include filename="$(find neo_simulation2)/robots/mpo_500/urdf/macro/gazebo_mpo_500_wheel_macro.xacro" />
+    
+    <!-- Properties -->
+    <xacro:property name="lidar_1_update_rate" value="100" />
+    <xacro:property name="lidar_2_update_rate" value="100" />
+    <xacro:property name="controller_update_rate" value="100" />
+    <xacro:property name="odom_update_rate" value="100" />
+
+    <!--Object Controller-->
+    <xacro:gazebo_object_controller 
+        odom_update_rate="${odom_update_rate}" 
+        controller_update_rate="${controller_update_rate}"
+        odom_frame="odom"
+        base_frame="base_link"
+        covariance_yaw="0.01"
+    />
+
+    <!--Lidar Sensors-->
+    <xacro:gazebo_lidar_sensor
+        sensor_name="lidar_1_sensor"
+        link_name="lidar_1_link"
+        update_rate="${lidar_1_update_rate}"
+        min_range="0.10"
+        max_range="30.0"
+        horizontal_samples="720"
+        min_angle="-1.48"
+        max_angle="1.48"
+        noise_mean="0.0"
+        noise_stddev="0.01"
+        topic_name="scan"
+        visualize="true"
+    />
+    <xacro:gazebo_lidar_sensor
+        sensor_name="lidar_2_sensor"
+        link_name="lidar_2_link"
+        update_rate="${lidar_2_update_rate}"
+        min_range="0.10"
+        max_range="30.0"
+        horizontal_samples="720"
+        min_angle="-1.48"
+        max_angle="1.48"
+        noise_mean="0.0"
+        noise_stddev="0.01"
+        topic_name="scan2"
+        visualize="true"
+    />
+
+    <!--Wheels-->
+    <xacro:gazebo_mpo_500_wheel
+        wheel_prefix="mpo_500_omni_wheel_front_right" 
+        />
+    <xacro:gazebo_mpo_500_wheel
+        wheel_prefix="mpo_500_omni_wheel_back_right" 
+        />
+    <xacro:gazebo_mpo_500_wheel
+        wheel_prefix="mpo_500_omni_wheel_front_left" 
+        />
+    <xacro:gazebo_mpo_500_wheel
+        wheel_prefix="mpo_500_omni_wheel_back_left" 
+        />
+      
+</robot>

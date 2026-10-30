@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_500">
+
+    <!--Gazebo Wheel Macro-->
+    <xacro:macro name="gazebo_mp_500_caster_wheel" params="
+        wheel_prefix 
+        kp
+        kd
+        mu1
+        mu2
+        fdir1
+        maxVel
+        minDepth
+    ">
+
+        <gazebo reference="${wheel_prefix}_link">
+            <kp>${kp}</kp>
+            <kd>${kd}</kd>
+            <mu1>${mu1}</mu1>
+            <mu2>${mu2}</mu2>
+            <fdir1>${fdir1}</fdir1>
+            <maxVel>${maxVel}</maxVel>
+            <minDepth>${minDepth}</minDepth>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

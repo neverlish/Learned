@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mp_400">
+
+    <!--WHEEL MACRO-->
+    <xacro:macro name="mp_400_fixed_wheel" params="
+        wheel_prefix 
+        parent_link
+        *origin
+        meshname
+        wheel_joint_type
+        visual_origin_rpy
+        model_scale
+        ">
+
+        <!--wheel link-->
+        <link name="${wheel_prefix}_link" type="wheel">
+            <inertial>
+                <mass value="1.82362"/>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <inertia ixx="0.00399743171" ixy="0.00000004464" ixz="-0.00000002245" iyy="0.00399741733" iyz="-0.00000000164" izz="0.00739239692"/>
+            </inertial>
+            <visual>
+                <origin rpy="${visual_origin_rpy}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://neo_simulation2/robots/mp_400/meshes/${meshname}.dae" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.0765"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <!--wheel joint-->
+        <joint name="${wheel_prefix}_joint" type="${wheel_joint_type}">
+            <xacro:insert_block name="origin"/>
+            <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/>
+            <axis xyz="-1 0 0"/>
+            <joint_properties damping="0" friction="0.0"/>
+            <parent link="${parent_link}"/>
+            <child link="${wheel_prefix}_link"/>
+        </joint>
+    </xacro:macro>
+
+   </robot>
+
+
+   

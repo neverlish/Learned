@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>neo_nav2_bringup</name>
+  <version>1.0.1</version>
+  <description>ROS-2 navigation bringup packages for neobotix robots</description>
+  <maintainer email="padmanabhan@neobotix.de">Pradheep Padmanabhan</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  
+  <depend>navigation2</depend>
+  <depend>nav2_common</depend>
+  <depend>slam_toolbox</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
