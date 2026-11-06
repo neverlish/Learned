@@ -1,0 +1,5 @@
+오늘 수업 메모
+CommandTool은 명령어형 도구의 공통 부모입니다.
+Pwd, Ls, Cat은 CommandTool을 상속합니다.
+Echo는 file_path와 content를 따로 받습니다.
+TestRunner는 test_directory를 받아 테스트를 실행합니다.
